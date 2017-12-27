@@ -16,7 +16,9 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
     @IBOutlet var cornerPoints: UILabel!
     @IBOutlet var showPoints: UILabel!
     @IBAction func likebuttonpressed(_ sender: AnyObject) {
-        UIApplication.shared.openURL(URL(string: "http://www.facebook.com/Stage-Ballz-1245764198880305/")!)
+        if let url = URL(string: "http://www.facebook.com/Stage-Ballz-1245764198880305/") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     @IBAction func goToShop(_ sender: AnyObject) {
@@ -87,7 +89,7 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
                 
                 // Get the default leaderboard ID
                 localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
-                    if error != nil { print(error)
+                    if let err = error { print(err.localizedDescription)
                     } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
                 })
                 
@@ -95,7 +97,9 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
                 // 3. Game center is not enabled on the users device
                 self.gcEnabled = false
                 print("Local player could not be authenticated!")
-                print(error)
+                if let err = error {
+                    print(err.localizedDescription)
+                }
             }
         }
     }

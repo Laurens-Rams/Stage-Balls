@@ -16,38 +16,54 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     @IBOutlet var menuBtn: UIButton!
     @IBOutlet var moneyLabel: UILabel!
     
-    var playerScore: Int = 0
-    
-    var scene: Scene2!
+    var scene: GameScene!
     var skView: SKView!
+    
+    var game: Game!
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startGame()
-        
+        setupGame()
     }
     
-    func startGame() {
-        scene = Scene2(size: view.frame.size)
-        scene.gameoverdelegate = self
+    func setupGame() {
+        createGame()
+        setupScene()
+        setupUI()
+        addPlayedGame()
+    }
+    
+    func createGame() {
+        game = Game()
+    }
+    
+    func setupScene() {
+        scene = GameScene(size: view.frame.size)
+        scene.gameOverDelegate = self
         scene.scoreKeeper = self
         skView = view as! SKView
         skView.showsFPS = false
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
+    }
+    
+    func setupUI() {
         menuBtn.isEnabled = true
         moneyLabel.text = scoreFormatter(score: DataManager.main.money)
-        DataManager.main.addPlayed()
     }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
+    
+    func addPlayedGame() {
+         DataManager.main.addPlayed()
     }
     
     func increaseScore(byValue: Int) {
-        playerScore = playerScore + byValue
-        scoreLabel.text = scoreFormatter(score: playerScore)
+        game.increaseScore(byValue: byValue)
+        scoreLabel.text = scoreFormatter(score: game.score)
     }
     
     func scoreFormatter(score: Int) -> String {
@@ -58,65 +74,48 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func restartGame() {
-        startGame()
+        setupGame()
+    }
+    
+    func pauseGame() {
+        scene.isPaused = true
+        scene.ballTimer?.invalidate()
+        let pauseView = PauseView.instanceFromNib() as! PauseView
+        pauseView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        pauseView.delegate = self
+        self.view.addSubview(pauseView)
     }
     
     func unpauseGame() {
         scene.isPaused = false
         scene.startTimer()
     }
+
     func gameover() {
+        // save the score and add money
+        DataManager.main.saveHighScore(newScore: game.score)
+        DataManager.main.addMoney(amount: game.score)
         
-        DataManager.main.saveHighScore(newScore: playerScore)
-        DataManager.main.addMoney(amount: playerScore)
-        
-        let  GamveVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId") as! GameOver
-        
-        GamveVC.endingScore = playerScore
-        
-        present(GamveVC, animated: false, completion: nil)
-        
+        // create and present the game over view controller
+        let gameVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId") as! GameOver
+        gameVC.endingScore = game.score
+        present(gameVC, animated: false, completion: nil)
     }
-    // implement zour "show the alt start" function in this class
     
     func showaltmenu() {
         restartGame()
         scene.isPaused = true
-        let storyboard = UIStoryboard(name: "Main", bundle: nil) // get a reference to storyboard
+        // get a reference to storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        // create an instance of the alt view controller
         let altVC = storyboard.instantiateViewController(withIdentifier: "menu") as! AlternativStart
+        // set the delegate to this object
         altVC.delegate = self
+        // present the view controller
         present(altVC, animated: false, completion: nil)
-
-        
     }
     
     @IBAction func menuAction(_ sender: Any) {
-        scene.isPaused = true
-        scene.ballTimer?.invalidate()
-        let pauseView = PauseView.instanceFromNib() as! PauseView
-        pauseView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        pauseView.delegate = self
-        // UIView.animate()
-        self.view.addSubview(pauseView)
+        pauseGame()
     }
-    
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        let middle = view.frame.width / 2
-//        if let touch = touches.first {
-//            let touchX = touch.location(in: view).x
-//            if touchX < middle {
-//                // do somkething counterclockwise
-//                print("LEFT SIDE")
-//            }
-//            else {
-//                // do something clockwise
-//                print("RIGHT SIDE")
-//            }
-//        }
-//    }
-//    
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        
-//    }
 }
