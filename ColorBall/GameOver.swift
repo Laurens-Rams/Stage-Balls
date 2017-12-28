@@ -5,6 +5,7 @@ import GameplayKit
 import GameKit
 import GoogleMobileAds
 
+//Command
 class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
     
     @IBOutlet var playedLabel: UILabel!
