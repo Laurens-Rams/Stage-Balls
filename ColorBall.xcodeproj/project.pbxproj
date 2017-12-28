@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BF61F202333008C04DB /* GameScoreDelegate.swift */; };
-		0D245BFC1F202DE2008C04DB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Models.swift */; };
+		0D245BFC1F202DE2008C04DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Item.swift */; };
 		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
 		0D4AEB411F19285400568F11 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB401F19285400568F11 /* GameOver.swift */; };
 		0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB461F19641500568F11 /* AlternativStart.swift */; };
@@ -30,6 +30,10 @@
 		A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A13F12721EF703F700A34B16 /* LaunchScreen.storyboard */; };
 		A13F127F1EF703F700A34B16 /* ColorBallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F127E1EF703F700A34B16 /* ColorBallTests.swift */; };
 		A15E83E61FF466AB00359FC8 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83E51FF466AB00359FC8 /* Game.swift */; };
+		A15E83EC1FF46C2200359FC8 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83EB1FF46C2200359FC8 /* Money.swift */; };
+		A15E83EE1FF46C5B00359FC8 /* HighScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83ED1FF46C5B00359FC8 /* HighScore.swift */; };
+		A15E83F01FF46C7800359FC8 /* Played.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83EF1FF46C7800359FC8 /* Played.swift */; };
+		A15E83F21FF46C9D00359FC8 /* CustomImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F11FF46C9D00359FC8 /* CustomImage.swift */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
@@ -58,7 +62,7 @@
 		0D245BF41F2019AF008C04DB /* Monopoly Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Monopoly Bold.ttf"; sourceTree = "<group>"; };
 		0D245BF51F2019AF008C04DB /* Monopoly Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Monopoly Regular.ttf"; sourceTree = "<group>"; };
 		0D245BF61F202333008C04DB /* GameScoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreDelegate.swift; sourceTree = "<group>"; };
-		0D245BFB1F202DE2008C04DB /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		0D245BFB1F202DE2008C04DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		0D4AEB401F19285400568F11 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
@@ -89,6 +93,10 @@
 		A13F12851EF703F700A34B16 /* ColorBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A13F128B1EF703F700A34B16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A15E83E51FF466AB00359FC8 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		A15E83EB1FF46C2200359FC8 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		A15E83ED1FF46C5B00359FC8 /* HighScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScore.swift; sourceTree = "<group>"; };
+		A15E83EF1FF46C7800359FC8 /* Played.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Played.swift; sourceTree = "<group>"; };
+		A15E83F11FF46C9D00359FC8 /* CustomImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImage.swift; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
@@ -128,7 +136,11 @@
 		0D245BFA1F202DD2008C04DB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0D245BFB1F202DE2008C04DB /* Models.swift */,
+				A15E83F11FF46C9D00359FC8 /* CustomImage.swift */,
+				A15E83ED1FF46C5B00359FC8 /* HighScore.swift */,
+				0D245BFB1F202DE2008C04DB /* Item.swift */,
+				A15E83EB1FF46C2200359FC8 /* Money.swift */,
+				A15E83EF1FF46C7800359FC8 /* Played.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -186,34 +198,21 @@
 		A13F12621EF703F700A34B16 /* ColorBall */ = {
 			isa = PBXGroup;
 			children = (
-				0DC020061F2035A6009A76F9 /* Singletons */,
-				0DC020041F203116009A76F9 /* Podfile */,
+				A15E83F31FF46CF500359FC8 /* Assets */,
+				A15E83F61FF46D9800359FC8 /* Frameworks */,
+				A15E83EA1FF46BFC00359FC8 /* GameObjects */,
 				0D245BFA1F202DD2008C04DB /* Models */,
-				0D245BF41F2019AF008C04DB /* Monopoly Bold.ttf */,
-				0D245BF51F2019AF008C04DB /* Monopoly Regular.ttf */,
+				A15E83F41FF46D5200359FC8 /* Protocols */,
+				A15E83E81FF46BAE00359FC8 /* Scenes */,
+				0DC020061F2035A6009A76F9 /* Singletons */,
+				A15E83F51FF46D8400359FC8 /* Storyboards */,
+				A15E83E91FF46BC400359FC8 /* Views */,
+				A15E83E71FF46B9600359FC8 /* ViewControllers */,
+				0DC020041F203116009A76F9 /* Podfile */,
 				0DC48F2F1F1D388900F1EA0B /* GoogleService-Info.plist */,
-				0DC48F2D1F1D386400F1EA0B /* GoogleMobileAds.framework */,
 				A13F12631EF703F700A34B16 /* AppDelegate.swift */,
-				A13F12691EF703F700A34B16 /* GameScene-Old.swift */,
-				A13F126B1EF703F700A34B16 /* GameViewController.swift */,
-				A13F126D1EF703F700A34B16 /* Main.storyboard */,
 				A13F12701EF703F700A34B16 /* Assets.xcassets */,
-				A13F12721EF703F700A34B16 /* LaunchScreen.storyboard */,
 				A13F12751EF703F700A34B16 /* Info.plist */,
-				0D81DD861F16C63100712F49 /* StartViewController.swift */,
-				A1FD9EF91F18240500EEF8C5 /* Planet.swift */,
-				0D4AEB3E1F19068900568F11 /* StartScene.swift */,
-				0D4AEB401F19285400568F11 /* GameOver.swift */,
-				0D4AEB461F19641500568F11 /* AlternativStart.swift */,
-				A1AF062E1F19AEB100811992 /* PauseView.xib */,
-				A1AF06301F19AECE00811992 /* PauseView.swift */,
-				A188BC121F1AA75E008313DF /* GameScene.swift */,
-				0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */,
-				0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */,
-				0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */,
-				0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */,
-				0D245BF61F202333008C04DB /* GameScoreDelegate.swift */,
-				A15E83E51FF466AB00359FC8 /* Game.swift */,
 			);
 			path = ColorBall;
 			sourceTree = "<group>";
@@ -233,6 +232,83 @@
 				A13F128B1EF703F700A34B16 /* Info.plist */,
 			);
 			path = ColorBallUITests;
+			sourceTree = "<group>";
+		};
+		A15E83E71FF46B9600359FC8 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0D4AEB461F19641500568F11 /* AlternativStart.swift */,
+				0D4AEB401F19285400568F11 /* GameOver.swift */,
+				A13F126B1EF703F700A34B16 /* GameViewController.swift */,
+				0D81DD861F16C63100712F49 /* StartViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A15E83E81FF46BAE00359FC8 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				A188BC121F1AA75E008313DF /* GameScene.swift */,
+				0D4AEB3E1F19068900568F11 /* StartScene.swift */,
+				A13F12691EF703F700A34B16 /* GameScene-Old.swift */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		A15E83E91FF46BC400359FC8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A1AF062E1F19AEB100811992 /* PauseView.xib */,
+				A1AF06301F19AECE00811992 /* PauseView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A15E83EA1FF46BFC00359FC8 /* GameObjects */ = {
+			isa = PBXGroup;
+			children = (
+				A15E83E51FF466AB00359FC8 /* Game.swift */,
+				0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */,
+				0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */,
+				A1FD9EF91F18240500EEF8C5 /* Planet.swift */,
+				0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */,
+			);
+			name = GameObjects;
+			sourceTree = "<group>";
+		};
+		A15E83F31FF46CF500359FC8 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				0D245BF41F2019AF008C04DB /* Monopoly Bold.ttf */,
+				0D245BF51F2019AF008C04DB /* Monopoly Regular.ttf */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		A15E83F41FF46D5200359FC8 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				0D245BF61F202333008C04DB /* GameScoreDelegate.swift */,
+				0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		A15E83F51FF46D8400359FC8 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				A13F126D1EF703F700A34B16 /* Main.storyboard */,
+				A13F12721EF703F700A34B16 /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		A15E83F61FF46D9800359FC8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0DC48F2D1F1D386400F1EA0B /* GoogleMobileAds.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -435,15 +511,19 @@
 				A15E83E61FF466AB00359FC8 /* Game.swift in Sources */,
 				0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */,
 				A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */,
+				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
 				0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */,
-				0D245BFC1F202DE2008C04DB /* Models.swift in Sources */,
+				0D245BFC1F202DE2008C04DB /* Item.swift in Sources */,
 				0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */,
 				A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */,
 				0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */,
 				0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */,
 				A13F12641EF703F700A34B16 /* AppDelegate.swift in Sources */,
+				A15E83F21FF46C9D00359FC8 /* CustomImage.swift in Sources */,
+				A15E83EC1FF46C2200359FC8 /* Money.swift in Sources */,
+				A15E83EE1FF46C5B00359FC8 /* HighScore.swift in Sources */,
 				A1AF06311F19AECE00811992 /* PauseView.swift in Sources */,
 				0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */,
 				0DC48F321F1D7C7D00F1EA0B /* SmallBall.swift in Sources */,

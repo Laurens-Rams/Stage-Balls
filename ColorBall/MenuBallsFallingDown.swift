@@ -9,8 +9,6 @@
 import Foundation
 import SpriteKit
 
-class MenuBall: SKSpriteNode{
+class MenuBall: SKSpriteNode {
     var hasCollited = false
-    
-
 }
