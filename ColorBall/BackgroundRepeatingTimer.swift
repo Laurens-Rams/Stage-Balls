@@ -20,8 +20,8 @@ class BackgroundRepeatingTimer {
     private lazy var _timer: DispatchSourceTimer = {
         let t = DispatchSource.makeTimerSource()
         // 6 hours (6 * 60 min * 60 seconds = 21600 seconds)
-        let interval = DispatchTimeInterval.seconds(5)
-        let deadline = DispatchTime.now() + 5
+        let interval = DispatchTimeInterval.seconds(Int(Settings.PRESENT_INTERVAL))
+        let deadline = DispatchTime.now() + Settings.PRESENT_INTERVAL
 
         t.scheduleRepeating(deadline: deadline, interval: interval)
         t.setEventHandler(handler: { [weak self] in

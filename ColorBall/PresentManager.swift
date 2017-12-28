@@ -16,7 +16,7 @@ class PresentManager {
     
     private var _timer:  BackgroundRepeatingTimer!
     private var _defaults: UserDefaults!
-    private var _maxInterval: Double = 5
+    private var _maxInterval: Double = Settings.PRESENT_INTERVAL
     
     private init() {
         _timer = BackgroundRepeatingTimer()
