@@ -10,8 +10,8 @@ import Foundation
 import RealmSwift
 
 class Item: Object {
-    dynamic var id: Int = 0
-    dynamic var using: Bool = false
+    @objc var id: Int = 0
+    @objc var using: Bool = false
     
     override static func primaryKey() -> String? {
         return "id"

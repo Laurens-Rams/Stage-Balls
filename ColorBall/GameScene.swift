@@ -452,7 +452,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /**
      Add a new ball to the array and to the game scene.
      */
-    func addBall() {
+    @objc func addBall() {
         hardness = hardness + 0.1
         
         let newBall = makeBall()

@@ -10,8 +10,8 @@ import Foundation
 import RealmSwift
 
 class Money: Object {
-    dynamic var id: Int = 1
-    dynamic var value: Int = 0
+    @objc var id: Int = 1
+    @objc var value: Int = 0
     
     override static func primaryKey() -> String? {
         return "id"

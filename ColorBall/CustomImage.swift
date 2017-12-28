@@ -10,8 +10,8 @@ import Foundation
 import RealmSwift
 
 class CustomImage: Object {
-    dynamic var id: Int = 0
-    dynamic var filePath: String = ""
+    @objc var id: Int = 0
+    @objc var filePath: String = ""
     
     override static func primaryKey() -> String? {
         return "id"

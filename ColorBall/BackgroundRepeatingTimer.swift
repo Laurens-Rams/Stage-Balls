@@ -23,7 +23,7 @@ class BackgroundRepeatingTimer {
         let interval = DispatchTimeInterval.seconds(Int(Settings.PRESENT_INTERVAL))
         let deadline = DispatchTime.now() + Settings.PRESENT_INTERVAL
 
-        t.scheduleRepeating(deadline: deadline, interval: interval)
+        t.schedule(deadline: deadline, repeating: interval)
         t.setEventHandler(handler: { [weak self] in
             self?.eventHandler?()
         })
