@@ -227,10 +227,6 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    }
-    
-    
-    
     // MARK: class methods
     
     func randomInteger() -> Int {
@@ -241,6 +237,8 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
     func randomImageName(imageNumber: Int) -> String {
         return "Icon-\(imageNumber)"
     }
+}
+
     
     
 

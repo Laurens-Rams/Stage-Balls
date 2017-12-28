@@ -9,6 +9,8 @@
 import Foundation
 import RealmSwift
 
+// TODO: save the high score (properly?)
+
 class DataManager {
     static let main = DataManager()
 

@@ -330,12 +330,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - ball: The topmost ball in the chain.
      */
     func zapBalls(ball: SmallBall) {
+        if let first = ball.inContactWith.first {
+            let ballCoords = first.position
+            let skullBall = makeSkullBall()
+            skullBall.position = ballCoords
+            balls.append(skullBall)
+            addChild(skullBall)
+        }
+
         for contactedBall in ball.inContactWith {
             if let position = balls.index(of: contactedBall) {
+                print(position)
                 balls.remove(at: position)
                 contactedBall.physicsBody = nil
             }
         }
+        
+        game.decrementBallType(type: ball.type, byNumber: 4)
+        print(game.reds)
+        print(game.yellows)
+        print(game.pinks)
+        print(game.blues)
 
         self.removeChildren(in: ball.inContactWith)
 
@@ -394,7 +409,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.yellowBall
         ]
         
-        let rando = index < 4 ? index + 1 : randomInteger()
+        let rando = index < 4 ? index + 1 : randomInteger(upperBound: nil)
+        
+        let ballType = BallType(rawValue: rando)!
+        
+        game.incrementBallType(type: ballType)
+        
         let ballImage = randomImageName(imageNumber: rando)
         
         let newBall = StartingSmallBall(imageNamed: ballImage)
@@ -411,6 +431,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.usesPreciseCollisionDetection = true
         body.isDynamic = false
         newBall.physicsBody = body
+        newBall.type = ballType
         
         return newBall
     }
@@ -428,7 +449,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.yellowBall
         ]
         
-        let rando = randomInteger()
+        var rando = randomInteger(upperBound: nil)
+        var ballType = BallType(rawValue: rando)!
+        
+        while (game.getCountForType(type: ballType) == 0) {
+            rando = randomInteger(upperBound: nil)
+            ballType = BallType(rawValue: rando)!
+        }
+        
+        game.incrementBallType(type: ballType)
+        
         let ballImage = randomImageName(imageNumber: rando)
         
         let newBall = SmallBall(imageNamed: ballImage)
@@ -445,6 +475,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.usesPreciseCollisionDetection = true
         
         newBall.physicsBody = body
+        newBall.type = ballType
+        
+        return newBall
+    }
+    
+    /**
+     Create a small ball to drop from the top.
+     - returns: A new SmallBall object.
+     */
+    func makeSkullBall() -> SkullBall {
+        let newBall = SkullBall(imageNamed: "skull")
+        
+        newBall.size = CGSize(width: game.smallDiameter, height: game.smallDiameter)
+        
+        let body = SKPhysicsBody(circleOfRadius: 21.0)
+        body.categoryBitMask = PhysicsCategory.skullBall
+        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
+        body.restitution = 0
+        body.allowsRotation = true
+        
+        body.usesPreciseCollisionDetection = true
+        
+        newBall.physicsBody = body
+        
+        newBall.type = BallType.skull
+        
+        game.incrementBallType(type: .skull)
         
         return newBall
     }
@@ -471,10 +528,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: utilities
     
     /**
-     Generate a random integer between 0 and 4.
+     Generate a random integer between 1 and 4.
+     - parameters:
+     - upperBound: Optional max.
      - returns: A number.
      */
-    func randomInteger() -> Int {
+    func randomInteger(upperBound: Int?) -> Int {
+        if let bound = upperBound {
+             return Int(arc4random_uniform(UInt32(bound)) + UInt32(1))
+        }
         return Int(arc4random_uniform(4) + UInt32(1))
     }
     

@@ -9,6 +9,10 @@
 import Foundation
 import SpriteKit
 
+enum BallType: Int {
+    case blue = 1, pink, red, yellow, skull
+}
+
 class SmallBall: SKSpriteNode {
     var x: CGFloat = 0
     var y: CGFloat = 0
@@ -20,11 +24,17 @@ class SmallBall: SKSpriteNode {
     var startDistance: CGFloat = 0
     var startRads: CGFloat = 0
     var inContactWith = [SmallBall]()
+    // non-optional type
+    var type: BallType!
 }
 
 class StartingSmallBall: SmallBall {
     var startingPos: CGPoint = CGPoint(x: 0, y: 0)
     var insidePos: CGPoint = CGPoint(x: 0, y: 0)
+}
+
+class SkullBall: SmallBall {
+    
 }
 
 struct PhysicsCategory {
@@ -33,6 +43,7 @@ struct PhysicsCategory {
     static let pinkBall: UInt32 = 0b0011
     static let redBall: UInt32 = 0b0100
     static let yellowBall: UInt32 = 0b0101
+    static let skullBall: UInt32 = 0b1000
     
     static func returnCategory(num: Int) -> UInt32 {
         switch (num) {
@@ -44,6 +55,8 @@ struct PhysicsCategory {
             return redBall
         case 4:
             return yellowBall
+        case 5:
+            return skullBall
         default:
             return blueBall
         }
