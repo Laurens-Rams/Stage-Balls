@@ -19,8 +19,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     var scene: GameScene!
     var skView: SKView!
     
-    var game: Game!
-    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -31,14 +29,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setupGame() {
-        createGame()
         setupScene()
         setupUI()
         addPlayedGame()
-    }
-    
-    func createGame() {
-        game = Game()
     }
     
     func setupScene() {
@@ -62,8 +55,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func increaseScore(byValue: Int) {
-        game.increaseScore(byValue: byValue)
-        scoreLabel.text = scoreFormatter(score: game.score)
+        scene.game.increaseScore(byValue: byValue)
+        scoreLabel.text = scoreFormatter(score: scene.game.score)
     }
     
     func scoreFormatter(score: Int) -> String {
@@ -93,12 +86,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func gameover() {
         // save the score and add money
-        DataManager.main.saveHighScore(newScore: game.score)
-        DataManager.main.addMoney(amount: game.score)
+        DataManager.main.saveHighScore(newScore: scene.game.score)
+        DataManager.main.addMoney(amount: scene.game.score)
         
         // create and present the game over view controller
         let gameVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId") as! GameOver
-        gameVC.endingScore = game.score
+        gameVC.endingScore = scene.game.score
         present(gameVC, animated: false, completion: nil)
     }
     

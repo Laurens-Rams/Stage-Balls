@@ -14,22 +14,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: class properties
     
+    var game: Game!
+    
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
-    
-    // game score
-    var score: Int = 0
     
     // direction of rotation
     var direction: CGFloat = -1.0
     
     // ball settings
-    let diameter = CGFloat(200.0)
-    let radius = CGFloat(100.0)
-    let smallDiameter = CGFloat(42)
     var hardness: Float = 0.0
-    // for how often they are added
-    var ballInterval = TimeInterval(2.0)
     
     // ball arrays
     var balls = [SmallBall]()
@@ -75,6 +69,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        // create a game object for the new game scene
+        game = Game()
+
         isPaused = false
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
@@ -85,7 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startY = CGFloat((size.height / 2.5))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
-        Circle.size = CGSize(width: diameter, height: diameter)
+        Circle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
         
         
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))
@@ -220,7 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Start the repeating timer for adding a new ball to the scene.
      */
     func startTimer() {
-        ballTimer = Timer.scheduledTimer(timeInterval: ballInterval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
+        ballTimer = Timer.scheduledTimer(timeInterval: game.ballInterval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
         allowToMove = true
     }
     
@@ -352,14 +349,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func moveAlongVector(ballA: SmallBall, ballB: SKSpriteNode) {
         let dist = distanceBetween(pointA: ballA.position, pointB: ballB.position)
-        let v = smallDiameter - dist
+        let v = game.smallDiameter - dist
         let vect = CGVector(dx: (ballA.position.x - ballB.position.x) * v / dist, dy: (ballA.position.y - ballB.position.y) * v / dist)
         ballA.position = CGPoint(x: ballA.position.x + vect.dx, y: ballB.position.y + vect.dy)
     }
     
     func checkDistance(ballA: SmallBall, ballB: SKSpriteNode) -> Bool {
         let distance = distanceBetween(pointA: ballA.position, pointB: ballB.position)
-        if distance < smallDiameter {
+        if distance < game.smallDiameter {
             return false
         }
         return true
@@ -402,7 +399,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let newBall = StartingSmallBall(imageNamed: ballImage)
         
-        newBall.size = CGSize(width: smallDiameter, height: smallDiameter)
+        newBall.size = CGSize(width: game.smallDiameter, height: game.smallDiameter)
         
         let body = SKPhysicsBody(circleOfRadius: 21.0)
         body.categoryBitMask = categories[rando]
@@ -436,7 +433,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let newBall = SmallBall(imageNamed: ballImage)
         
-        newBall.size = CGSize(width: smallDiameter, height: smallDiameter)
+        newBall.size = CGSize(width: game.smallDiameter, height: game.smallDiameter)
         
         let body = SKPhysicsBody(circleOfRadius: 21.0)
         body.categoryBitMask = categories[rando]

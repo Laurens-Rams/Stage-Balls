@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 /**
  For creating a Game object. Use to manage current game values, track the current score and level, etc. Should be instantiated or re-instantiated for each game played.
@@ -20,7 +21,16 @@ class Game {
     // game level
     private var _level: Int = 1
     
-    // MARK: public properties/getters
+    // starting player circle diameter
+    private var _playerDiameter: CGFloat = 200.0
+    
+    // starting small ball diameter
+    private var _smallDiameter: CGFloat = 42.0
+    
+    // starting value for how often balls are added
+    private var _ballInterval = TimeInterval(2.0)
+    
+    // MARK: properties' public getters
     
     /**
      The current game score (read-only getter).
@@ -37,6 +47,42 @@ class Game {
     var level: Int {
         get {
             return _level
+        }
+    }
+    
+    /**
+     Diameter of the player circle (read-only getter).
+     */
+    var playerDiameter: CGFloat {
+        get {
+            return _playerDiameter
+        }
+    }
+    
+    /**
+     Radius of the player circle (read-only getter).
+     */
+    var radius: CGFloat {
+        get {
+            return _playerDiameter / 2.0
+        }
+    }
+    
+    /**
+     Time interval for dropping new balls (read-only getter).
+     */
+    var ballInterval: Double {
+        get {
+            return _ballInterval
+        }
+    }
+    
+    /**
+     Diameter of the player circle (read-only getter).
+     */
+    var smallDiameter: CGFloat {
+        get {
+            return _smallDiameter
         }
     }
     
