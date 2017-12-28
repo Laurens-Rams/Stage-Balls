@@ -10,8 +10,8 @@ import Foundation
 import RealmSwift
 
 class DataManager {
-    
     static let main = DataManager()
+
     private var _realm: Realm!
     
     private var _highScore: Int = 0
@@ -127,5 +127,5 @@ class DataManager {
             return _played
         }
     }
-    
 }
+

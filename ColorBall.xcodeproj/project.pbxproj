@@ -34,6 +34,8 @@
 		A15E83EE1FF46C5B00359FC8 /* HighScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83ED1FF46C5B00359FC8 /* HighScore.swift */; };
 		A15E83F01FF46C7800359FC8 /* Played.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83EF1FF46C7800359FC8 /* Played.swift */; };
 		A15E83F21FF46C9D00359FC8 /* CustomImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F11FF46C9D00359FC8 /* CustomImage.swift */; };
+		A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F71FF4702E00359FC8 /* PresentManager.swift */; };
+		A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
@@ -97,6 +99,8 @@
 		A15E83ED1FF46C5B00359FC8 /* HighScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScore.swift; sourceTree = "<group>"; };
 		A15E83EF1FF46C7800359FC8 /* Played.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Played.swift; sourceTree = "<group>"; };
 		A15E83F11FF46C9D00359FC8 /* CustomImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImage.swift; sourceTree = "<group>"; };
+		A15E83F71FF4702E00359FC8 /* PresentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentManager.swift; sourceTree = "<group>"; };
+		A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRepeatingTimer.swift; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
@@ -160,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				0DC020071F2035B3009A76F9 /* DataManager.swift */,
+				A15E83F71FF4702E00359FC8 /* PresentManager.swift */,
 			);
 			name = Singletons;
 			sourceTree = "<group>";
@@ -200,8 +205,8 @@
 			children = (
 				A15E83F31FF46CF500359FC8 /* Assets */,
 				A15E83F61FF46D9800359FC8 /* Frameworks */,
-				A15E83EA1FF46BFC00359FC8 /* GameObjects */,
 				0D245BFA1F202DD2008C04DB /* Models */,
+				A15E83EA1FF46BFC00359FC8 /* Objects */,
 				A15E83F41FF46D5200359FC8 /* Protocols */,
 				A15E83E81FF46BAE00359FC8 /* Scenes */,
 				0DC020061F2035A6009A76F9 /* Singletons */,
@@ -264,7 +269,7 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		A15E83EA1FF46BFC00359FC8 /* GameObjects */ = {
+		A15E83EA1FF46BFC00359FC8 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
 				A15E83E51FF466AB00359FC8 /* Game.swift */,
@@ -272,8 +277,9 @@
 				0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */,
 				A1FD9EF91F18240500EEF8C5 /* Planet.swift */,
 				0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */,
+				A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */,
 			);
-			name = GameObjects;
+			name = Objects;
 			sourceTree = "<group>";
 		};
 		A15E83F31FF46CF500359FC8 /* Assets */ = {
@@ -385,6 +391,9 @@
 						DevelopmentTeam = B9452FEMTF;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
 							com.apple.GameCenter = {
 								enabled = 1;
 							};
@@ -514,7 +523,9 @@
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
+				A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */,
 				0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */,
+				A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */,
 				0D245BFC1F202DE2008C04DB /* Item.swift in Sources */,
 				0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */,
 				A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */,

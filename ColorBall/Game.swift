@@ -8,21 +8,32 @@
 
 import Foundation
 
+/**
+ For creating a Game object. Use to manage current game values, track the current score and level, etc. Should be instantiated or re-instantiated for each game played.
+ */
 class Game {
+    // MARK: private properties
+    
     // game score
     private var _score: Int = 0
     
     // game level
     private var _level: Int = 1
     
-    // score (read only)
+    // MARK: public properties/getters
+    
+    /**
+     The current game score (read-only getter).
+     */
     var score: Int {
         get {
             return _score
         }
     }
     
-    // level (read only)
+    /**
+     The current game level (read-only getter).
+     */
     var level: Int {
         get {
             return _level
