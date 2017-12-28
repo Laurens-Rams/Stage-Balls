@@ -3,7 +3,7 @@
 //  ColorBallTests
 //
 //  Created by Emily Kolar on 6/18/17.
-//  Copyright © 2017 Emily Kolar. All rights reserved.
+//  Copyright © 2017 Laurens-Art Ramsenthaler. All rights reserved.
 //
 
 import XCTest

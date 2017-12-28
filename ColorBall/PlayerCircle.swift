@@ -3,7 +3,7 @@
 //  ColorBall
 //
 //  Created by Laurens-Art Ramsenthaler on 18.07.17.
-//  Copyright © 2017 Emily Kolar. All rights reserved.
+//  Copyright © 2017 Laurens-Art Ramsenthaler. All rights reserved.
 //
 
 import Foundation
