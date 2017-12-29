@@ -193,6 +193,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newBall = makeStartBall(index: i)
             newBall.startingPos = CGPoint(x: size.width / 2, y: Circle.position.y)
             newBall.position = newBall.startingPos
+            newBall.zPosition = Circle.zPosition - 1
             addChild(newBall)
             startBalls.append(newBall)
             let startRads = (incrementRads * CGFloat(i) - (incrementRads / 4))
