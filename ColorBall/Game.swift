@@ -11,8 +11,8 @@ import CoreGraphics
 
 /* TODO:
 
- - Snap balls to columns (fix extreme air hovering)
- - Increment game levels after each row (more stages)
+ - Snap balls to columns (fix extreme air hovering) (1/2 done)
+ - Increment game levels after each row (more stages)s
  - Make changes to balls, speed, etc for each level
  - Getting items/presents every 6 hours (the timer is done, we just to make the items)
  - Backgrounds
@@ -29,7 +29,7 @@ class Game {
     private var _score: Int = 0
     
     // game level
-    private var _level: Int = 1
+    private var _stage: Int = 1
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = 200.0
@@ -40,6 +40,9 @@ class Game {
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(2.0)
     
+    // keep track of extra chance
+    private var _extraChance = 1
+    
     // counts for each type of physics category on the screen
     private var _blues = 0
     private var _pinks = 0
@@ -47,6 +50,8 @@ class Game {
     private var _yellows = 0
     
     // MARK: properties' public getters
+    
+    let numberOfStartingBalls = 2
     
     /**
      Number of blues in game (read-only getter).
@@ -94,11 +99,11 @@ class Game {
     }
     
     /**
-     The current game level (read-only getter).
+     The current game stage (read-only getter).
      */
-    var level: Int {
+    var stage: Int {
         get {
-            return _level
+            return _stage
         }
     }
     
@@ -139,10 +144,20 @@ class Game {
     }
     
     /**
+     One extra chance to beat the level. (read-only getter).
+     */
+    var extraChance: Int {
+        get {
+            return _extraChance
+        }
+    }
+    
+    /**
      Increment the game level by 1.
      */
-    func increaseLevel() {
-        _level += 1
+    func increaseStage() {
+        _stage += 1
+        print("increased stage to \(_stage)")
     }
     
     /**
@@ -152,6 +167,18 @@ class Game {
      */
     func increaseScore(byValue: Int) {
         _score += byValue
+    }
+    
+    /**
+     Increment the score by an integer value.
+     - returns: Whether we successfully used the extra chance.
+     */
+    func useExtraChance() -> Bool {
+        if _extraChance >= 1 {
+            _extraChance = 0
+            return true
+        }
+        return false
     }
     
     /**

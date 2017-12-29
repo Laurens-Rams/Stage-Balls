@@ -13,4 +13,5 @@ protocol StartGameDelegate {
     func unpauseGame()
     func showaltmenu()
     func gameover()
+    func handleNextStage()
 }

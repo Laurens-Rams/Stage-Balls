@@ -33,7 +33,7 @@ class StartingSmallBall: SmallBall {
     var insidePos: CGPoint = CGPoint(x: 0, y: 0)
 }
 
-class SkullBall: SmallBall {
+class SkullBall: StartingSmallBall {
     
 }
 

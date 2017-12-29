@@ -19,12 +19,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     var scene: GameScene!
     var skView: SKView!
     
+    var game: Game!
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        game = Game()
         setupGame()
     }
     
@@ -36,12 +39,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func setupScene() {
         scene = GameScene(size: view.frame.size)
-        scene.gameOverDelegate = self
+        scene.gameDelegate = self
         scene.scoreKeeper = self
         skView = view as! SKView
         skView.showsFPS = false
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
+        scene.game = game
         skView.presentScene(scene)
     }
     
@@ -93,6 +97,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let gameVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId") as! GameOver
         gameVC.endingScore = scene.game.score
         present(gameVC, animated: false, completion: nil)
+    }
+    
+    func handleNextStage() {
+        restartGame()
+        game.increaseStage()
+        scene.game = game
     }
     
     func showaltmenu() {

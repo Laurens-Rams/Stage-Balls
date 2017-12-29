@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // delegates
     var scoreKeeper: GameScoreDelegate?
-    var gameOverDelegate: StartGameDelegate?
+    var gameDelegate: StartGameDelegate?
     
     // MARK: lifecycle methods and overrides
     
@@ -69,9 +69,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-        // create a game object for the new game scene
-        game = Game()
-
         isPaused = false
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
@@ -94,16 +91,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setupBalls()
         addChild(Circle)
-        //timer sets when the first ball should fall
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.85, repeats: false, block: {timer in
-            for i in 0..<15 {
-                self.getBallValues(ball: self.startBalls[i])
-                self.balls.append(self.startBalls[i])
-            }
-            self.startTimer()
-            self.addBall()
-            
-        })
+        
+        setupFirstFallTimer()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -181,11 +170,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     /**
+     Set the timer for dropping the first ball.
+     */
+    func setupFirstFallTimer() {
+        //timer sets when the first ball should fall
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.85, repeats: false, block: {timer in
+            for i in 0..<self.game.numberOfStartingBalls {
+                self.getBallValues(ball: self.startBalls[i])
+                self.balls.append(self.startBalls[i])
+            }
+            self.startTimer()
+            self.addBall()
+        })
+    }
+    
+    /**
      Setup the level's starting balls.
      */
     func setupBalls() {
         let incrementRads = degreesToRad(angle: (360 / 15))
-        for i in 0..<15 {
+        for i in 0..<game.numberOfStartingBalls {
             let newBall = makeStartBall(index: i)
             newBall.startingPos = CGPoint(x: size.width / 2, y: Circle.position.y)
             newBall.position = newBall.startingPos
@@ -204,6 +208,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     /**
+     Teardown the stage.
+     */
+    func cleanupBalls() {
+        for i in 0..<balls.count {
+            if let skullBall = balls[i] as? StartingSmallBall {
+                let isLast = (i == balls.count - 1)
+                let action = getReverseAnimation(ball: skullBall)
+                skullBall.run(action) {
+                    skullBall.removeFromParent()
+                    if isLast {
+                        self.removeChildren(in: self.balls)
+                        self.removeChildren(in: self.startBalls)
+                        self.balls.removeAll()
+                        self.startBalls.removeAll()
+                        self.gameDelegate?.handleNextStage()
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
      Animate a ball from the inside of the large circle, outward.
      - parameters:
         - ball: A StartingSmallBall object.
@@ -214,12 +240,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     /**
+     Animate a ball from the outside of the large circle, inward.
+     - parameters:
+     - ball: A StartingSmallBall object.
+     - returns: The SKAction to reverse animate the ball.
+     */
+    func getReverseAnimation(ball: StartingSmallBall) -> SKAction {
+        return SKAction.move(to: ball.startingPos, duration: 1.2)
+    }
+    
+    /**
      Start the repeating timer for adding a new ball to the scene.
      */
     func startTimer() {
-        ballTimer = Timer.scheduledTimer(timeInterval: game.ballInterval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
+        if ballTimer == nil {
+            ballTimer = Timer.scheduledTimer(timeInterval: game.ballInterval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
+        } else {
+            
+        }
         allowToMove = true
     }
+
     
     /**
      Start a timer for allowing a ball to fall downward.
@@ -278,10 +319,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         zapBalls(ball: ball)
                         return
                     }
-                    let dist = distanceBetween(pointA: ball.position, pointB: (secondBody.node?.position)!)
-                    let v = 42 - dist
-                    let vect = CGVector(dx: (ball.position.x - ball2.position.x) * v / dist, dy: (ball.position.y - ball2.position.y) * v / dist)
-                    ball.position = CGPoint(x: ball.position.x, y: ball.position.y + vect.dy)
+//                    let dist = distanceBetween(pointA: ball.position, pointB: (secondBody.node?.position)!)
+//                    let v = 42 - dist
+//                    let vect = CGVector(dx: (ball.position.x - ball2.position.x) * v / dist, dy: (ball.position.y - ball2.position.y) * v / dist)
+//                    ball.position = CGPoint(x: ball.position.x, y: ball.position.y + vect.dy)
+                    let newPos = getIdealBallPosition(fromBall: ball2)
+                    print(newPos)
+                    ball.position = newPos
                     getBallValues(ball: ball)
                 }
                 increaseScore(byValue: 1)
@@ -298,10 +342,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                        zapBalls(ball: ball)
                         return
                     }
-                    let dist = distanceBetween(pointA: ball.position, pointB: (firstBody.node?.position)!)
-                    let v = 42 - dist
-                    let vect = CGVector(dx: (ball.position.x - ball2.position.x) * v / dist, dy: (ball.position.y - ball2.position.y) * v / dist)
-                    ball.position = CGPoint(x: ball.position.x, y: ball.position.y + vect.dy)
+//                    let dist = distanceBetween(pointA: ball.position, pointB: (firstBody.node?.position)!)
+//                    let v = 42 - dist
+//                    let vect = CGVector(dx: (ball.position.x - ball2.position.x) * v / dist, dy: (ball.position.y - ball2.position.y) * v / dist)
+//                    ball.position = CGPoint(x: ball.position.x, y: ball.position.y + vect.dy)
+                    ball.position = getIdealBallPosition(fromBall: ball2)
+                    print(ball.position)
                     getBallValues(ball: ball)
                 }
                 increaseScore(byValue: 1)
@@ -311,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
             self.isPaused = true
             self.ballTimer?.invalidate()
-            gameOverDelegate?.gameover()
+            gameDelegate?.gameover()
         }
     }
     
@@ -330,15 +376,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - ball: The topmost ball in the chain.
      */
     func zapBalls(ball: SmallBall) {
-        if let first = ball.inContactWith.first {
-            let ballCoords = first.position
-            let skullBall = makeSkullBall()
-            skullBall.position = ballCoords
-            balls.append(skullBall)
-            addChild(skullBall)
-        }
-
         for contactedBall in ball.inContactWith {
+            if let starter = contactedBall as? StartingSmallBall {
+                let ballCoords = starter.position
+                let skullBall = makeSkullBall()
+                skullBall.startingPos = starter.startingPos
+                skullBall.position = ballCoords
+                balls.append(skullBall)
+                addChild(skullBall)
+            }
             if let position = balls.index(of: contactedBall) {
                 print(position)
                 balls.remove(at: position)
@@ -436,6 +482,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return newBall
     }
     
+    func checkIfOnlySkulls() -> Bool {
+        var onlySkulls = true
+        for ball in balls {
+            if ball.type != BallType.skull {
+                onlySkulls = false
+                break
+            }
+        }
+        return onlySkulls
+    }
+    
     /**
      Create a small ball to drop from the top.
      - returns: A new SmallBall object.
@@ -507,22 +564,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     /**
-     Add a new ball to the array and to the game scene.
+     Add a new ball to the array and to the game scene if we can.
      */
     @objc func addBall() {
-        hardness = hardness + 0.1
-        
-        let newBall = makeBall()
-        
-        newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
-        
-        newBall.inLine = true
-        
-        addChild(newBall)
-        
-        startFallTimer(ball: newBall)
-        
-        balls.append(newBall)
+        if checkIfOnlySkulls() {
+            cleanupBalls()
+        } else {
+            hardness = hardness + 0.1
+            
+            let newBall = makeBall()
+            
+            newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
+            
+            newBall.inLine = true
+            
+            addChild(newBall)
+            
+            startFallTimer(ball: newBall)
+            
+            balls.append(newBall)
+        }
+    }
+    
+    func handleNextStage() {
+        cleanupBalls()
     }
     
     // MARK: utilities
@@ -577,6 +642,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func distanceBetween(pointA: CGPoint, pointB: CGPoint) -> CGFloat {
         return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2))
+    }
+    
+    /**
+     Get the ideal position for a ball, based on the ball that it just hit.
+     - parameters:
+     - fromBall: SmallBall that was hit.
+     - returns: CGPoint to snap the newest ball to.
+     */
+    func getIdealBallPosition(fromBall ball: SmallBall) -> CGPoint {
+        let xPos = size.width / 2
+        let yPos = ball.position.y + game.smallDiameter
+        return CGPoint(x: xPos, y: yPos)
     }
     
     // []  |
