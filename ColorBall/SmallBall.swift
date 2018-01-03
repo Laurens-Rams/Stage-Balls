@@ -10,10 +10,10 @@ import Foundation
 import SpriteKit
 
 enum BallColor: Int {
-    case blue = 1, pink, red, yellow, skull
+    case pink = 0, yellow, blue, red, skull
 }
 
-class SmallBall: SKSpriteNode {
+class SmallBall: SKShapeNode {
     var x: CGFloat = 0
     var y: CGFloat = 0
     var inLine: Bool = false

@@ -57,9 +57,28 @@ class Game {
     private var _reds = 0
     private var _yellows = 0
     
+
+    var ballColors: [UIColor] = [
+        UIColor(red: 0.978, green: 0.458, blue: 0.51, alpha: 1.0),
+        UIColor(red: 0.882, green: 0.694, blue: 0.235, alpha: 1.0),
+        UIColor(red: 0.302, green: 0.6, blue: 0.886, alpha: 1.0),
+        UIColor(red: 0.235, green: 0.549, blue: 0.548, alpha: 1.0)
+    ]
+//    let pinkColor = [0.978, 0.458, 0.51]
+//    let yellowColor = [0.882, 0.694, 0.235]
+//    let blueColor = [0.302, 0.6, ]
+//    let greenColor = []
+//
+//    var ballColors: [UIColor] {
+//        get {
+//
+//        }
+//    }
+    
     // add colors to the array to add background colors
     // we can also change how this works so it automatically creates them
     private var _backgroundColors: [UIColor] = [
+        UIColor.white,
         UIColor.blue,
         UIColor.red,
         UIColor.blue,

@@ -18,6 +18,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     var scene: GameScene!
     var skView: SKView!
+    var camera: SKCameraNode!
     
     var game: Game!
     
@@ -28,11 +29,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         game = Game()
+        camera = SKCameraNode()
         setupGame()
     }
     
     func setupGame() {
         setupScene()
+        setupCamera()
         setupUI()
         addPlayedGame()
     }
@@ -47,6 +50,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scene.scaleMode = .resizeFill
         scene.game = game
         skView.presentScene(scene)
+    }
+    
+    func setupCamera() {
+        camera.position = CGPoint(x: scene.size.width / 2, y: scene.size.height / 2)
+        scene.addChild(camera)
+        scene.camera = camera
     }
     
     func setupUI() {

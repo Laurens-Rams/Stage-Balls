@@ -392,34 +392,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newPos = getIdealBallPosition(fromBall: stuckBall)
             newBall.position = newPos
             getBallValues(ball: newBall)
-            // save the normal textures of each ball
-            // ball that's already stuck:
-            let stuckBallTexture = stuckBall.texture
-            // ball that just fell:
-            let newBallTexture = newBall.texture
-            // the red texture to apply
-            let redTexture = SKTexture(image: #imageLiteral(resourceName: "redBall"))
-            stuckBall.texture = redTexture
-            newBall.texture = redTexture
-            // whether we've blinked back once yet
-            var blinked = false
+            
+            // total length of each color action
+            let totalTime = 0.5
+            // fade to red actions
+            let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
+            // fade back to original color actions
+            let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
+            
+            // create the camera zoom action
+            let zoomInAction = getZoomAction(scaleFactor: 0.5, totalTime: totalTime)
+            let zoomOutAction = getZoomAction(scaleFactor: 2.0, totalTime: totalTime)
+
+            // run the actions as a sequence on each node
+            newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
+            camera?.run(SKAction.sequence([zoomInAction, zoomOutAction]))
+
             // start the timer
-            let _ = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { t in
-                // if we've blinked back once already
-                if blinked {
-                    stuckBall.texture = redTexture
-                    newBall.texture = redTexture
-                    t.invalidate()
-                    self.handleGameOver()
-                } else {
-                    // reapply the original textures
-                    stuckBall.texture = stuckBallTexture
-                    newBall.texture = newBallTexture
-                    blinked = true
-                }
+            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { t in
+                self.handleGameOver()
             })
             // TODO: zoom to contact point
         }
+    }
+    
+    func getZoomAction(scaleFactor: CGFloat, totalTime: Double) -> SKAction {
+        return SKAction.scale(by: scaleFactor, duration: totalTime)
+    }
+    
+    func getShakeActionForNode(startPosition: CGPoint, endPosition: CGFloat, totalTime: Double) -> SKAction {
+        return SKAction.customAction(withDuration: totalTime, actionBlock: { node, time in
+            // do stuff with the position here
+        })
+    }
+    
+    func getColorChangeActionForNode(originalColor: UIColor, endColor: UIColor, totalTime: Double) -> SKAction {
+        // return a new action to run on the node
+        return SKAction.customAction(withDuration: totalTime, actionBlock: { node, time in
+            // get the total difference between starting color and ending color for each of RGB
+            let fraction = time / CGFloat(totalTime)
+            if let red = originalColor.rgb()?.red, let green = originalColor.rgb()?.green, let blue = originalColor.rgb()?.blue, let node = node as? SKShapeNode {
+                // for the time elapsed, get the value for the current difference amount, in each color value
+                let red3 = CGFloat.lerp(a: red, b: (endColor.rgb()?.red)!, fraction: fraction)
+                let green3 = CGFloat.lerp(a: green, b: (endColor.rgb()?.green)!, fraction: fraction)
+                let blue3 = CGFloat.lerp(a: blue, b: (endColor.rgb()?.blue)!, fraction: fraction)
+                let transitionColor = UIColor.init(red: red3, green: green3, blue: blue3, alpha: 1.0)
+                node.fillColor = transitionColor
+            }
+            // example: starting red 60, ending red 200, total difference 140, time elapsed is 1second, we should be at 60 + 140/2 for red
+        })
     }
     
     func handleGameOver() {
@@ -518,20 +539,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.yellowBall
         ]
         
-        let rando = index < 4 ? index + 1 : randomInteger(upperBound: nil)
+        // generate a random integer betweeb 0 and 3
+        let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
         
-        let ballColor = BallColor(rawValue: rando)!
+        // use the random integer to get a ball type and a ball color
+        let ballType = BallColor(rawValue: rando)!
+        let ballColor = game.ballColors[rando]
         
-        game.incrementBallType(type: ballColor)
+        game.incrementBallType(type: ballType)
         
-        let ballImage = randomImageName(imageNumber: rando)
-        
-        let newBall = StartingSmallBall(imageNamed: ballImage)
-        
-        newBall.size = CGSize(width: game.smallDiameter, height: game.smallDiameter)
-        
+        let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
+        // set the fill color to our random color
+        newBall.fillColor = ballColor
+        // don't fill the outline
+        newBall.lineWidth = 0.0
+
         let body = SKPhysicsBody(circleOfRadius: 21.0)
-        body.categoryBitMask = categories[rando]
+        // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
+        body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
         body.restitution = 0
         categories.remove(at: rando)
@@ -540,7 +565,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.usesPreciseCollisionDetection = true
         body.isDynamic = false
         newBall.physicsBody = body
-        newBall.colorType = ballColor
+        newBall.colorType = ballType
         
         return newBall
     }
@@ -579,14 +604,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         game.incrementBallType(type: ballType)
         
-        let ballImage = randomImageName(imageNumber: rando)
-        
-        let newBall = SmallBall(imageNamed: ballImage)
-        
-        newBall.size = CGSize(width: game.smallDiameter, height: game.smallDiameter)
+        let ballColor = game.ballColors[rando]
+
+        let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
+        newBall.fillColor = ballColor
+        newBall.lineWidth = 0.0
         
         let body = SKPhysicsBody(circleOfRadius: 21.0)
-        body.categoryBitMask = categories[rando]
+        // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
+        body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
         body.restitution = 0
         categories.remove(at: rando)
@@ -605,10 +631,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - returns: A new SmallBall object.
      */
     func makeSkullBall() -> SkullBall {
-        let newBall = SkullBall(imageNamed: "skull")
-        
-        newBall.size = CGSize(width: game.smallDiameter, height: game.smallDiameter)
-        
+        let newBall = SkullBall(circleOfRadius: game.smallDiameter / 2)
+        newBall.fillColor = UIColor.black
+        newBall.lineWidth = 0.0
+
         let body = SKPhysicsBody(circleOfRadius: 21.0)
         body.categoryBitMask = PhysicsCategory.skullBall
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
@@ -656,7 +682,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: utilities
     
     /**
-     Generate a random integer between 1 and 4.
+     Generate a random integer between 0 and 3.
      - parameters:
      - upperBound: Optional max.
      - returns: A number.

@@ -40,6 +40,7 @@
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
+		A1EEAF3C1FFD1D730027A93B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EEAF3B1FFD1D730027A93B /* Extensions.swift */; };
 		A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FD9EF91F18240500EEF8C5 /* Planet.swift */; };
 		ADA7739F8D9A56A75A08C3D2 /* Pods_ColorBall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F4C1CA45F72F2EFF3838654 /* Pods_ColorBall.framework */; };
 /* End PBXBuildFile section */
@@ -106,6 +107,7 @@
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
+		A1EEAF3B1FFD1D730027A93B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A1FD9EF91F18240500EEF8C5 /* Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		B187BD7DA662D08450920679 /* Pods-ColorBall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorBall.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall.release.xcconfig"; sourceTree = "<group>"; };
 		D72C616257F8C36CA8679B81 /* Pods-ColorBall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorBall.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall.debug.xcconfig"; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				A1FD9EF91F18240500EEF8C5 /* Planet.swift */,
 				0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */,
 				A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */,
+				A1EEAF3B1FFD1D730027A93B /* Extensions.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -549,6 +552,7 @@
 				A13F12641EF703F700A34B16 /* AppDelegate.swift in Sources */,
 				A15E83F21FF46C9D00359FC8 /* CustomImage.swift in Sources */,
 				A15E83EC1FF46C2200359FC8 /* Money.swift in Sources */,
+				A1EEAF3C1FFD1D730027A93B /* Extensions.swift in Sources */,
 				A15E83EE1FF46C5B00359FC8 /* HighScore.swift in Sources */,
 				A1AF06311F19AECE00811992 /* PauseView.swift in Sources */,
 				0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */,
