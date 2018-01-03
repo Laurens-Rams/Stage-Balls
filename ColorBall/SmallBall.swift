@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-enum BallType: Int {
+enum BallColor: Int {
     case blue = 1, pink, red, yellow, skull
 }
 
@@ -25,16 +25,22 @@ class SmallBall: SKSpriteNode {
     var startRads: CGFloat = 0
     var inContactWith = [SmallBall]()
     // non-optional type
-    var type: BallType!
+    var colorType: BallColor!
+    var isStarter: Bool {
+        return false
+    }
 }
 
 class StartingSmallBall: SmallBall {
+    override var isStarter: Bool {
+        return true
+    }
     var startingPos: CGPoint = CGPoint(x: 0, y: 0)
     var insidePos: CGPoint = CGPoint(x: 0, y: 0)
 }
 
 class SkullBall: StartingSmallBall {
-    
+
 }
 
 struct PhysicsCategory {

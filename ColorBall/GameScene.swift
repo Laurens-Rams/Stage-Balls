@@ -188,7 +188,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Setup the level's starting balls.
      */
     func setupBalls() {
-        print(game.numberStartingBalls)
         let incrementRads = degreesToRad(angle: (360 / CGFloat(game.numberStartingBalls)))
         for i in 0..<game.numberStartingBalls {
             let newBall = makeStartBall(index: i)
@@ -198,11 +197,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(newBall)
             startBalls.append(newBall)
             let startRads = (game.stage % 2 == 0) ? (incrementRads * CGFloat(i + 1)) : (incrementRads * CGFloat(i + 1)) - (incrementRads / 4)
-            print(startRads)
             let newX = (100 + (game.smallDiameter / 2)) * cos(startRads) + Circle.position.x
             let newY = (100 + (game.smallDiameter / 2)) * sin(startRads) + Circle.position.y
-            print(newX)
-            print(newY)
             newBall.startRads =  startRads * -1
             newBall.insidePos = CGPoint(x: newX, y: newY)
             newBall.startDistance =  100 + (game.smallDiameter / 2)
@@ -260,8 +256,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startTimer() {
         if ballTimer == nil {
             let interval = game.ballInterval * game.speedMultiplier
-            print("ball timers:")
-            print(interval)
             ballTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
         } else {
             
@@ -278,8 +272,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         let interval = 1.0 * game.speedMultiplier
-        print("fall timer:")
-        print(interval)
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             
@@ -311,31 +303,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if firstBody.categoryBitMask == PhysicsCategory.circleBall || secondBody.categoryBitMask == PhysicsCategory.circleBall {
-            if let ball = secondBody.node as? SmallBall {
-                print("contact between circle and ball")
-                getBallValues(ball: ball)
-                increaseScore(byValue: 1)
-                return
-            }
+            handleLargeCollisionWith(smallBody: secondBody)
+            return
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
                 print("small ball contact")
                 if let ball = firstBody.node as? SmallBall {
                     let ball2 = secondBody.node as! SmallBall
-                    for i in 0..<ball2.inContactWith.count {
-                        ball.inContactWith.append(ball2.inContactWith[i])
-                    }
+                    ball.inContactWith.append(contentsOf: ball2.inContactWith)
                     ball.inContactWith.append(ball2)
+                    ball2.inContactWith.removeAll()
                     if ball.inContactWith.count >= 3 {
                         zapBalls(ball: ball)
                         return
                     }
-//                    let dist = distanceBetween(pointA: ball.position, pointB: (secondBody.node?.position)!)
-//                    let v = 42 - dist
-//                    let vect = CGVector(dx: (ball.position.x - ball2.position.x) * v / dist, dy: (ball.position.y - ball2.position.y) * v / dist)
-//                    ball.position = CGPoint(x: ball.position.x, y: ball.position.y + vect.dy)
                     let newPos = getIdealBallPosition(fromBall: ball2)
-                    print(newPos)
                     ball.position = newPos
                     getBallValues(ball: ball)
                 }
@@ -344,32 +326,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("contact between small balls")
                 if let ball = secondBody.node as? SmallBall {
                     let ball2 = firstBody.node as! SmallBall
-                    for i in 0..<ball2.inContactWith.count {
-                        ball.inContactWith.append(ball2.inContactWith[i])
-                        
-                    }
+                    ball.inContactWith.append(contentsOf: ball2.inContactWith)
                     ball.inContactWith.append(ball2)
+                    ball2.inContactWith.removeAll()
                     if ball.inContactWith.count >= 3 {
                        zapBalls(ball: ball)
                         return
                     }
-//                    let dist = distanceBetween(pointA: ball.position, pointB: (firstBody.node?.position)!)
-//                    let v = 42 - dist
-//                    let vect = CGVector(dx: (ball.position.x - ball2.position.x) * v / dist, dy: (ball.position.y - ball2.position.y) * v / dist)
-//                    ball.position = CGPoint(x: ball.position.x, y: ball.position.y + vect.dy)
                     ball.position = getIdealBallPosition(fromBall: ball2)
-                    print(ball.position)
                     getBallValues(ball: ball)
                 }
                 increaseScore(byValue: 1)
             }
             return
-            
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
-            self.isPaused = true
-            self.ballTimer?.invalidate()
-            gameDelegate?.gameover()
+            if let _ = firstBody.node as? StartingSmallBall, let _ = secondBody.node as? SkullBall {
+              print("contact between starter ball and skull")
+            } else if let _ = secondBody.node as? StartingSmallBall, let _ = firstBody.node as? SkullBall {
+                print("contact between starter ball and skull")
+            } else {
+                self.isPaused = true
+                self.ballTimer?.invalidate()
+                gameDelegate?.gameover()
+            }
         }
+    }
+    
+    func handleLargeCollisionWith(smallBody body: SKPhysicsBody) {
+        if let ball = body.node as? SkullBall {
+            print("contact between circle and skull ball")
+            ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 4)
+            getBallValues(ball: ball)
+        } else if let ball = body.node as? SmallBall {
+            print("contact between circle and small ball")
+            getBallValues(ball: ball)
+            increaseScore(byValue: 1)
+        }
+    }
+    
+    func handleCollision(firstBody: SKPhysicsBody, secondBody: SKPhysicsBody) {
+        if let ball = firstBody.node as? SmallBall {
+            let ball2 = secondBody.node as! SmallBall
+            ball.inContactWith.append(contentsOf: ball2.inContactWith)
+            ball.inContactWith.append(ball2)
+            ball2.inContactWith.removeAll()
+            if ball.inContactWith.count >= 3 {
+                zapBalls(ball: ball)
+                return
+            }
+            let newPos = getIdealBallPosition(fromBall: ball2)
+            ball.position = newPos
+            getBallValues(ball: ball)
+        }
+        increaseScore(byValue: 1)
     }
     
     /**
@@ -395,19 +404,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 skullBall.position = ballCoords
                 balls.append(skullBall)
                 addChild(skullBall)
+                
             }
             if let position = balls.index(of: contactedBall) {
-                print(position)
                 balls.remove(at: position)
                 contactedBall.physicsBody = nil
             }
         }
         
-        game.decrementBallType(type: ball.type, byNumber: 4)
-        print(game.reds)
-        print(game.yellows)
-        print(game.pinks)
-        print(game.blues)
+        game.decrementBallType(type: ball.colorType, byNumber: 4)
 
         self.removeChildren(in: ball.inContactWith)
 
@@ -438,6 +443,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if ball.stuck {
             return
         }
+        ball.stuck = true
         if ball.startDistance == 0 {
             ball.startDistance = ball.position.y - Circle.position.y
         }
@@ -447,7 +453,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.startRads = Circle.zRotation - degreesToRad(angle: 90.0)
         }
         // balls.append(ball)
-        ball.stuck = true
         ball.physicsBody?.isDynamic = false
     }
     
@@ -468,9 +473,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let rando = index < 4 ? index + 1 : randomInteger(upperBound: nil)
         
-        let ballType = BallType(rawValue: rando)!
+        let ballColor = BallColor(rawValue: rando)!
         
-        game.incrementBallType(type: ballType)
+        game.incrementBallType(type: ballColor)
         
         let ballImage = randomImageName(imageNumber: rando)
         
@@ -488,7 +493,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.usesPreciseCollisionDetection = true
         body.isDynamic = false
         newBall.physicsBody = body
-        newBall.type = ballType
+        newBall.colorType = ballColor
         
         return newBall
     }
@@ -496,7 +501,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkIfOnlySkulls() -> Bool {
         var onlySkulls = true
         for ball in balls {
-            if ball.type != BallType.skull {
+            if ball.colorType != BallColor.skull {
                 onlySkulls = false
                 break
             }
@@ -518,11 +523,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ]
         
         var rando = randomInteger(upperBound: nil)
-        var ballType = BallType(rawValue: rando)!
+        var ballType = BallColor(rawValue: rando)!
         
         while (game.getCountForType(type: ballType) == 0) {
             rando = randomInteger(upperBound: nil)
-            ballType = BallType(rawValue: rando)!
+            ballType = BallColor(rawValue: rando)!
         }
         
         game.incrementBallType(type: ballType)
@@ -543,7 +548,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.usesPreciseCollisionDetection = true
         
         newBall.physicsBody = body
-        newBall.type = ballType
+        newBall.colorType = ballType
         
         return newBall
     }
@@ -567,7 +572,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         newBall.physicsBody = body
         
-        newBall.type = BallType.skull
+        newBall.colorType = BallColor.skull
         
         game.incrementBallType(type: .skull)
         

@@ -16,6 +16,8 @@ import UIKit
  - Getting items/presents every 6 hours (the timer is done, we just to make the items)
  - Backgrounds
  
+ // TODO (Emily)
+ 
  */
 
 /**
@@ -28,7 +30,7 @@ class Game {
     private var _score: Int = 0
     
     // game level
-    private var _stage: Int = 10
+    private var _stage: Int = 1
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = 200.0
@@ -245,7 +247,7 @@ class Game {
      - parameters:
      - type: What type of ball to increment.
      */
-    func incrementBallType(type: BallType) {
+    func incrementBallType(type: BallColor) {
         switch (type) {
             case .red:
                 _reds += 1
@@ -269,7 +271,7 @@ class Game {
      - type: What type of ball to increment.
      - byNumber: How many to subtract.
      */
-    func decrementBallType(type: BallType, byNumber: Int) {
+    func decrementBallType(type: BallColor, byNumber: Int) {
         switch (type) {
             case .red:
                 _reds -= byNumber
@@ -293,7 +295,7 @@ class Game {
      - type: The ball type to count.
      - returns: The number of balls of that type.
      */
-    func getCountForType(type: BallType) -> Int {
+    func getCountForType(type: BallColor) -> Int {
         switch (type) {
             case .red:
                 return reds
