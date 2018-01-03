@@ -392,7 +392,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newPos = getIdealBallPosition(fromBall: stuckBall)
             newBall.position = newPos
             getBallValues(ball: newBall)
+            // save the normal textures of each ball
+            // ball that's already stuck:
+            let stuckBallTexture = stuckBall.texture
+            // ball that just fell:
+            let newBallTexture = newBall.texture
+            // the red texture to apply
+            let redTexture = SKTexture(image: #imageLiteral(resourceName: "redBall"))
+            stuckBall.texture = redTexture
+            newBall.texture = redTexture
+            // whether we've blinked back once yet
+            var blinked = false
+            // start the timer
+            let _ = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { t in
+                // if we've blinked back once already
+                if blinked {
+                    stuckBall.texture = redTexture
+                    newBall.texture = redTexture
+                    t.invalidate()
+                    self.handleGameOver()
+                } else {
+                    // reapply the original textures
+                    stuckBall.texture = stuckBallTexture
+                    newBall.texture = newBallTexture
+                    blinked = true
+                }
+            })
+            // TODO: zoom to contact point
         }
+    }
+    
+    func handleGameOver() {
         isPaused = true
         ballTimer?.invalidate()
         gameDelegate?.gameover()
