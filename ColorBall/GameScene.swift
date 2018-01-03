@@ -73,7 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
-        backgroundColor = .white
+        backgroundColor = game.backgroundColor
         
         let startX = CGFloat((size.width / 2))
         let startY = CGFloat((size.height / 2.5))
@@ -156,7 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !ball.stuck {
                     // if the ball isn't stuck to any other balls yet
                     newX = ball.position.x
-                    newY = ball.position.y - 4
+                    newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
                 } else {
                     // if the ball is stuck to another ball already
                     newX = ball.startDistance * cos(Circle.zRotation - ball.startRads) + Circle.position.x
@@ -175,7 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
         let _ = Timer.scheduledTimer(withTimeInterval: 1.85, repeats: false, block: {timer in
-            for i in 0..<self.game.numberOfStartingBalls {
+            for i in 0..<self.game.numberStartingBalls {
                 self.getBallValues(ball: self.startBalls[i])
                 self.balls.append(self.startBalls[i])
             }
@@ -188,20 +188,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Setup the level's starting balls.
      */
     func setupBalls() {
-        let incrementRads = degreesToRad(angle: (360 / 15))
-        for i in 0..<game.numberOfStartingBalls {
+        print(game.numberStartingBalls)
+        let incrementRads = degreesToRad(angle: (360 / CGFloat(game.numberStartingBalls)))
+        for i in 0..<game.numberStartingBalls {
             let newBall = makeStartBall(index: i)
             newBall.startingPos = CGPoint(x: size.width / 2, y: Circle.position.y)
             newBall.position = newBall.startingPos
             newBall.zPosition = Circle.zPosition - 1
             addChild(newBall)
             startBalls.append(newBall)
-            let startRads = (incrementRads * CGFloat(i) - (incrementRads / 4))
-            let newX = 121 * cos(startRads) + Circle.position.x
-            let newY = 121 * sin(startRads) + Circle.position.y
+            let startRads = (game.stage % 2 == 0) ? (incrementRads * CGFloat(i + 1)) : (incrementRads * CGFloat(i + 1)) - (incrementRads / 4)
+            print(startRads)
+            let newX = (100 + (game.smallDiameter / 2)) * cos(startRads) + Circle.position.x
+            let newY = (100 + (game.smallDiameter / 2)) * sin(startRads) + Circle.position.y
+            print(newX)
+            print(newY)
             newBall.startRads =  startRads * -1
             newBall.insidePos = CGPoint(x: newX, y: newY)
-            newBall.startDistance = 121
+            newBall.startDistance =  100 + (game.smallDiameter / 2)
         }
         for i in 0..<startBalls.count {
             animateBall(ball: startBalls[i])
@@ -255,7 +259,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func startTimer() {
         if ballTimer == nil {
-            ballTimer = Timer.scheduledTimer(timeInterval: game.ballInterval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
+            let interval = game.ballInterval * game.speedMultiplier
+            print("ball timers:")
+            print(interval)
+            ballTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
         } else {
             
         }
@@ -270,7 +277,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
-        fallTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {
+        let interval = 1.0 * game.speedMultiplier
+        print("fall timer:")
+        print(interval)
+        fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             
             ball.inLine = false
@@ -280,7 +290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func getCircleValues() {
         if !canMove {
             Circle.lastTickPosition = Circle.zRotation
-            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / 15) * direction)
+            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(game.numberStartingBalls)) * direction)
             canMove = true
         }
     }
@@ -379,7 +389,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func zapBalls(ball: SmallBall) {
         for contactedBall in ball.inContactWith {
             if let starter = contactedBall as? StartingSmallBall {
-                let ballCoords = starter.position
+                let ballCoords = CGPoint(x: starter.position.x, y: starter.position.y)
                 let skullBall = makeSkullBall()
                 skullBall.startingPos = starter.startingPos
                 skullBall.position = ballCoords

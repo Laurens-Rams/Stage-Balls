@@ -8,12 +8,11 @@
 
 import Foundation
 import CoreGraphics
+import UIKit
 
 /* TODO:
 
  - Snap balls to columns (fix extreme air hovering) (1/2 done)
- - Increment game levels after each row (more stages)s
- - Make changes to balls, speed, etc for each level
  - Getting items/presents every 6 hours (the timer is done, we just to make the items)
  - Backgrounds
  
@@ -29,7 +28,7 @@ class Game {
     private var _score: Int = 0
     
     // game level
-    private var _stage: Int = 1
+    private var _stage: Int = 10
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = 200.0
@@ -37,8 +36,15 @@ class Game {
     // starting small ball diameter
     private var _smallDiameter: CGFloat = 42.0
     
+    // multiplier for speeds
+    // this is the amount by which the time decreases on each stage
+    private var _speedMultiplier: Double = 0.02
+    
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(2.0)
+    
+    // number of balls on starting row
+    private var _numberStartingBalls = 15
     
     // keep track of extra chance
     private var _extraChance = 1
@@ -49,9 +55,24 @@ class Game {
     private var _reds = 0
     private var _yellows = 0
     
-    // MARK: properties' public getters
+    // add colors to the array to add background colors
+    // we can also change how this works so it automatically creates them
+    private var _backgroundColors: [UIColor] = [
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red
+    ]
     
-    let numberOfStartingBalls = 2
+    // MARK: properties' public getters
     
     /**
      Number of blues in game (read-only getter).
@@ -126,6 +147,34 @@ class Game {
     }
     
     /**
+     Number of starting balls (read-only getter).
+     */
+    var numberStartingBalls: Int {
+        get {
+            let amountToAdd = _stage - 1
+            return _numberStartingBalls + amountToAdd
+        }
+    }
+    
+    /**
+     Multiplier for ball speeds (read-only getter).
+     */
+    var speedMultiplier: Double {
+        get {
+            return 1.0 - (Double(_stage - 1) * _speedMultiplier)
+        }
+    }
+    
+    /**
+     Multiplier for ball falling speed ("gravity") (read-only getter).
+     */
+    var gravityMultiplier: Double {
+        get {
+            return Double(_stage - 1) * _speedMultiplier
+        }
+    }
+    
+    /**
      Time interval for dropping new balls (read-only getter).
      */
     var ballInterval: Double {
@@ -139,7 +188,8 @@ class Game {
      */
     var smallDiameter: CGFloat {
         get {
-            return _smallDiameter
+            let amountToShrink = CGFloat((_stage - 1) * 2)
+            return _smallDiameter - amountToShrink
         }
     }
     
@@ -149,6 +199,15 @@ class Game {
     var extraChance: Int {
         get {
             return _extraChance
+        }
+    }
+    
+    /**
+     The current background color (read-only getter).
+     */
+    var backgroundColor: UIColor {
+        get {
+            return _backgroundColors[_stage - 1]
         }
     }
     
