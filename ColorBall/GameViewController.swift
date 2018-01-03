@@ -100,9 +100,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func handleNextStage() {
-        restartGame()
         game.increaseStage()
-        scene.game = game
+        restartGame()
     }
     
     func showaltmenu() {

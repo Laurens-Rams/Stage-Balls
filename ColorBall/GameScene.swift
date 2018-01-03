@@ -175,9 +175,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
         let _ = Timer.scheduledTimer(withTimeInterval: 1.85, repeats: false, block: {timer in
-            for i in 0..<self.game.numberStartingBalls {
-                self.getBallValues(ball: self.startBalls[i])
-                self.balls.append(self.startBalls[i])
+            for ball in self.startBalls {
+                self.getBallValues(ball: ball)
+                self.balls.append(ball)
             }
             self.startTimer()
             self.addBall()
@@ -202,7 +202,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             startBalls.append(newBall)
 
             // on odd-numbered stages, we have to tweak the starting radians slightly
-            let startRads = (game.stage % 2 == 0) ? (incrementRads * CGFloat(i + 1)) : (incrementRads * CGFloat(i + 1)) - (incrementRads / 4)
+            let startRads = (game.stage % 2 == 0) ? (incrementRads * CGFloat(i + 1)) : (incrementRads * CGFloat(i + 1)) + (incrementRads / 4)
             let newX = (100 + (game.smallDiameter / 2)) * cos(startRads) + Circle.position.x
             let newY = (100 + (game.smallDiameter / 2)) * sin(startRads) + Circle.position.y
 
