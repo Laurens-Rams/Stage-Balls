@@ -81,7 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Circle.position = startpos
         Circle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
         
-        
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))
         body.categoryBitMask = PhysicsCategory.circleBall
         body.allowsRotation = true
@@ -101,15 +100,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if(allowToMove == true){
             isTouching = true
             let middle = (view?.frame.width)! / 2
+
             if let touch = touches.first {
                 let touchX = touch.location(in: view).x
+
                 if touchX < middle {
                     direction = 1
-                    
-                }
-                else if touchX > middle {
+                } else if touchX > middle {
                     direction = -1
                 }
+
                 getCircleValues()
             }
         }
@@ -188,17 +188,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Setup the level's starting balls.
      */
     func setupBalls() {
+        // the radians to separate each starting ball by, when placing around the ring
         let incrementRads = degreesToRad(angle: (360 / CGFloat(game.numberStartingBalls)))
+
         for i in 0..<game.numberStartingBalls {
             let newBall = makeStartBall(index: i)
+
             newBall.startingPos = CGPoint(x: size.width / 2, y: Circle.position.y)
             newBall.position = newBall.startingPos
             newBall.zPosition = Circle.zPosition - 1
+
             addChild(newBall)
             startBalls.append(newBall)
+
+            // on odd-numbered stages, we have to tweak the starting radians slightly
             let startRads = (game.stage % 2 == 0) ? (incrementRads * CGFloat(i + 1)) : (incrementRads * CGFloat(i + 1)) - (incrementRads / 4)
             let newX = (100 + (game.smallDiameter / 2)) * cos(startRads) + Circle.position.x
             let newY = (100 + (game.smallDiameter / 2)) * sin(startRads) + Circle.position.y
+
             newBall.startRads =  startRads * -1
             newBall.insidePos = CGPoint(x: newX, y: newY)
             newBall.startDistance =  100 + (game.smallDiameter / 2)
@@ -303,70 +310,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if firstBody.categoryBitMask == PhysicsCategory.circleBall || secondBody.categoryBitMask == PhysicsCategory.circleBall {
-            handleLargeCollisionWith(smallBody: secondBody)
-            return
+            handleLargeCollisionWith(newBody: secondBody)
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
-                print("small ball contact")
-                if let ball = firstBody.node as? SmallBall {
-                    let ball2 = secondBody.node as! SmallBall
-                    ball.inContactWith.append(contentsOf: ball2.inContactWith)
-                    ball.inContactWith.append(ball2)
-                    ball2.inContactWith.removeAll()
-                    if ball.inContactWith.count >= 3 {
-                        zapBalls(ball: ball)
-                        return
-                    }
-                    let newPos = getIdealBallPosition(fromBall: ball2)
-                    ball.position = newPos
-                    getBallValues(ball: ball)
-                }
-                increaseScore(byValue: 1)
+                handleSameColorCollision(newBody: firstBody, stuckBody: secondBody)
             } else if secondBody.isDynamic == true {
-                print("contact between small balls")
-                if let ball = secondBody.node as? SmallBall {
-                    let ball2 = firstBody.node as! SmallBall
-                    ball.inContactWith.append(contentsOf: ball2.inContactWith)
-                    ball.inContactWith.append(ball2)
-                    ball2.inContactWith.removeAll()
-                    if ball.inContactWith.count >= 3 {
-                       zapBalls(ball: ball)
-                        return
-                    }
-                    ball.position = getIdealBallPosition(fromBall: ball2)
-                    getBallValues(ball: ball)
-                }
-                increaseScore(byValue: 1)
+                handleSameColorCollision(newBody: secondBody, stuckBody: firstBody)
             }
-            return
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
             if let _ = firstBody.node as? StartingSmallBall, let _ = secondBody.node as? SkullBall {
               print("contact between starter ball and skull")
             } else if let _ = secondBody.node as? StartingSmallBall, let _ = firstBody.node as? SkullBall {
                 print("contact between starter ball and skull")
             } else {
-                self.isPaused = true
-                self.ballTimer?.invalidate()
-                gameDelegate?.gameover()
+                if firstBody.isDynamic == true {
+                    handleDifferentColorCollision(newBody: firstBody, stuckBody: secondBody)
+                } else if secondBody.isDynamic == true {
+                    handleDifferentColorCollision(newBody: secondBody, stuckBody: firstBody)
+                }
             }
         }
     }
     
-    func handleLargeCollisionWith(smallBody body: SKPhysicsBody) {
-        if let ball = body.node as? SkullBall {
+    /**
+     Handle a collision between the large circle and a small ball.
+     - parameters:
+        - newBody: The dynamic body (dynamic body has a larger category bitmask, but represents a small ball).
+     */
+    func handleLargeCollisionWith(newBody: SKPhysicsBody) {
+        if let ball = newBody.node as? SkullBall {
             print("contact between circle and skull ball")
-            ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 4)
+            // add 3 points to the skull's y position
+            ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 3)
             getBallValues(ball: ball)
-        } else if let ball = body.node as? SmallBall {
+        } else if let ball = newBody.node as? SmallBall {
             print("contact between circle and small ball")
             getBallValues(ball: ball)
             increaseScore(byValue: 1)
         }
     }
     
-    func handleCollision(firstBody: SKPhysicsBody, secondBody: SKPhysicsBody) {
-        if let ball = firstBody.node as? SmallBall {
-            let ball2 = secondBody.node as! SmallBall
+    /**
+     Handle a collision between two small balls of the same color.
+     - parameters:
+        - newBody: The dynamic body.
+        - stuckBody: The non-dynamic body.
+     */
+    func handleSameColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
+        print("contact between two same color balls")
+        if let ball = newBody.node as? SmallBall {
+            increaseScore(byValue: 1)
+
+            let ball2 = stuckBody.node as! SmallBall
             ball.inContactWith.append(contentsOf: ball2.inContactWith)
             ball.inContactWith.append(ball2)
             ball2.inContactWith.removeAll()
@@ -374,11 +369,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 zapBalls(ball: ball)
                 return
             }
+
             let newPos = getIdealBallPosition(fromBall: ball2)
             ball.position = newPos
             getBallValues(ball: ball)
         }
-        increaseScore(byValue: 1)
+    }
+    
+    /**
+     Handle a collision between two small balls of differing colors.
+     - parameters:
+        - newBody: The dynamic body.
+        - stuckBody: The non-dynamic body.
+     */
+    func handleDifferentColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
+        print("contact between two different color balls")
+        if let stuckBall = stuckBody.node as? SmallBall, let newBall = newBody.node as? SmallBall {
+            let newPos = getIdealBallPosition(fromBall: stuckBall)
+            newBall.position = newPos
+            getBallValues(ball: newBall)
+        }
+        isPaused = true
+        ballTimer?.invalidate()
+        gameDelegate?.gameover()
     }
     
     /**
@@ -404,8 +417,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 skullBall.position = ballCoords
                 balls.append(skullBall)
                 addChild(skullBall)
-                
             }
+
             if let position = balls.index(of: contactedBall) {
                 balls.remove(at: position)
                 contactedBall.physicsBody = nil
@@ -414,13 +427,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         game.decrementBallType(type: ball.colorType, byNumber: 4)
 
-        self.removeChildren(in: ball.inContactWith)
+        removeChildren(in: ball.inContactWith)
 
         if let position = balls.index(of: ball) {
             balls.remove(at: position)
         }
 
-        self.removeChildren(in: [ball])
+        removeChildren(in: [ball])
         increaseScore(byValue: 2)
     }
     
