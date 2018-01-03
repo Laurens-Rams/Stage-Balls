@@ -202,7 +202,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             startBalls.append(newBall)
 
             // on odd-numbered stages, we have to tweak the starting radians slightly
-            let startRads = (game.stage % 2 == 0) ? (incrementRads * CGFloat(i + 1)) : (incrementRads * CGFloat(i + 1)) + (incrementRads / 4)
+            let startRads = (game.stage % 2 == 0) ? (incrementRads * CGFloat(i + 1)) : (incrementRads * CGFloat(i + 1)) - (incrementRads / 4)
             let newX = (100 + (game.smallDiameter / 2)) * cos(startRads) + Circle.position.x
             let newY = (100 + (game.smallDiameter / 2)) * sin(startRads) + Circle.position.y
 
@@ -362,15 +362,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             increaseScore(byValue: 1)
 
             let ball2 = stuckBody.node as! SmallBall
+
             ball.inContactWith.append(contentsOf: ball2.inContactWith)
             ball.inContactWith.append(ball2)
+
+            // save the ideal (snapped) x,y position before we empty ball2's inContactWith
+            let newPos = getIdealBallPosition(fromBall: ball2)
+            
             ball2.inContactWith.removeAll()
             if ball.inContactWith.count >= 3 {
                 zapBalls(ball: ball)
                 return
             }
 
-            let newPos = getIdealBallPosition(fromBall: ball2)
             ball.position = newPos
             getBallValues(ball: ball)
         }
@@ -410,9 +414,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func zapBalls(ball: SmallBall) {
         for contactedBall in ball.inContactWith {
-            if let starter = contactedBall as? StartingSmallBall {
-                let ballCoords = CGPoint(x: starter.position.x, y: starter.position.y)
+            if let starter = contactedBall as? StartingSmallBall, starter.isStarter == true {
                 let skullBall = makeSkullBall()
+                let ballCoords = getIdealSkullPosition(fromBall: starter)
                 skullBall.startingPos = starter.startingPos
                 skullBall.position = ballCoords
                 balls.append(skullBall)
@@ -676,12 +680,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /**
      Get the ideal position for a ball, based on the ball that it just hit.
      - parameters:
-     - fromBall: SmallBall that was hit.
+        - fromBall: SmallBall that was hit.
      - returns: CGPoint to snap the newest ball to.
      */
     func getIdealBallPosition(fromBall ball: SmallBall) -> CGPoint {
         let xPos = size.width / 2
-        let yPos = ball.position.y + game.smallDiameter
+        let rowMultiplier = CGFloat(ball.inContactWith.count) + 1.5
+        let yPos = Circle.position.y + (game.playerDiameter / 2) + (game.smallDiameter * rowMultiplier)
+        return CGPoint(x: xPos, y: yPos)
+    }
+    
+    /**
+     Get the ideal position for a ball, based on the ball that it just hit.
+     - parameters:
+     - fromBall: SmallBall that was hit.
+     - returns: CGPoint to snap the newest ball to.
+     */
+    func getIdealSkullPosition(fromBall ball: SmallBall) -> CGPoint {
+        let xPos = size.width / 2
+        let rowMultiplier = CGFloat(ball.inContactWith.count) + 0.5
+        let yPos = Circle.position.y + (game.playerDiameter / 2) + (game.smallDiameter * rowMultiplier)
         return CGPoint(x: xPos, y: yPos)
     }
     
