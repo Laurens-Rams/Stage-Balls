@@ -66,6 +66,19 @@ class Game {
     // we can also change how this works so it automatically creates them
     private var _backgroundColors: [UIColor] = [
         UIColor.white,
+        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
+        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 255/255, blue: 236/255, alpha: 1.0),
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red,
+        UIColor.blue,
+        UIColor.red,
+        UIColor.white,
         UIColor.blue,
         UIColor.red,
         UIColor.blue,
@@ -77,7 +90,6 @@ class Game {
         UIColor.blue,
         UIColor.red,
         UIColor.blue,
-        UIColor.red
     ]
     
     // MARK: properties' public getters
@@ -196,7 +208,7 @@ class Game {
      */
     var smallDiameter: CGFloat {
         get {
-            let amountToShrink = CGFloat((_stage - 1) * 2)
+            let amountToShrink = CGFloat((_stage - 1) * 3/2)
             return _smallDiameter - amountToShrink
         }
     }

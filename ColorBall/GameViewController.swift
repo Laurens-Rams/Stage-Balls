@@ -107,6 +107,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         gameVC.endingScore = scene.game.score
         present(gameVC, animated: false, completion: nil)
     }
+    func gameoverdesign() {
+        scoreLabel.font = scoreLabel.font.withSize(0.0)
+    }
     
     func handleNextStage() {
         game.increaseStage()

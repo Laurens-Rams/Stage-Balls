@@ -36,6 +36,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate {
         return String(score)
     }
     
+    
     @IBOutlet var scoreLabel: UILabel!
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled

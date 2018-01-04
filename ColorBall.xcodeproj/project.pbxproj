@@ -12,6 +12,7 @@
 		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
 		0D4AEB411F19285400568F11 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB401F19285400568F11 /* GameOver.swift */; };
 		0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB461F19641500568F11 /* AlternativStart.swift */; };
+		0D76E1151FFEC6AD00A61281 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0D76E1141FFEC6AD00A61281 /* Oregon-Regular.otf */; };
 		0D81DD871F16C63100712F49 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D81DD861F16C63100712F49 /* StartViewController.swift */; };
 		0D81DD8A1F17190900712F49 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D81DD891F17190900712F49 /* GameKit.framework */; };
 		0DC020051F203116009A76F9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0DC020041F203116009A76F9 /* Podfile */; };
@@ -70,6 +71,7 @@
 		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		0D4AEB401F19285400568F11 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
+		0D76E1141FFEC6AD00A61281 /* Oregon-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Oregon-Regular.otf"; path = "../../Oregon-Regular.otf"; sourceTree = "<group>"; };
 		0D81DD861F16C63100712F49 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		0D81DD891F17190900712F49 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		0DC020041F203116009A76F9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 		A15E83F31FF46CF500359FC8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				0D76E1141FFEC6AD00A61281 /* Oregon-Regular.otf */,
 				0D245BF41F2019AF008C04DB /* Monopoly Bold.ttf */,
 				0D245BF51F2019AF008C04DB /* Monopoly Regular.ttf */,
 			);
@@ -394,7 +397,7 @@
 				TargetAttributes = {
 					A13F125F1EF703F700A34B16 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = B9452FEMTF;
+						DevelopmentTeam = 6NYLE5AU4Y;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -450,6 +453,7 @@
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
 				A13F126F1EF703F700A34B16 /* Main.storyboard in Resources */,
 				A13F12711EF703F700A34B16 /* Assets.xcassets in Resources */,
+				0D76E1151FFEC6AD00A61281 /* Oregon-Regular.otf in Resources */,
 				A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */,
 				A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */,
 				0DC48F301F1D388900F1EA0B /* GoogleService-Info.plist in Resources */,
@@ -488,7 +492,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		2A130D5ACB1996E70AA0A7DA /* [CP] Embed Pods Frameworks */ = {
@@ -710,7 +714,7 @@
 			baseConfigurationReference = D72C616257F8C36CA8679B81 /* Pods-ColorBall.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = B9452FEMTF;
+				DEVELOPMENT_TEAM = 6NYLE5AU4Y;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",
@@ -730,7 +734,7 @@
 			baseConfigurationReference = B187BD7DA662D08450920679 /* Pods-ColorBall.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = B9452FEMTF;
+				DEVELOPMENT_TEAM = 6NYLE5AU4Y;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",

@@ -9,6 +9,10 @@
 import Foundation
 import Darwin
 import SpriteKit
+//TODOS:
+// - after gameover frozing movements
+// - higher stage than 20
+// - image balls on high stage
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -412,7 +416,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newPos = getIdealBallPosition(fromBall: stuckBall)
             newBall.position = newPos
             getBallValues(ball: newBall)
-            
+            gameDelegate?.gameoverdesign()
             // total length of each color action
             let totalTime = 0.5
             // fade to red actions
@@ -423,25 +427,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // create the camera zoom action
             let cameraStart = camera!.position
             let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + 121.0)
-            let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.9, totalTime: 0.2)
+            let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
             
-            let shakeLeft = getMoveAction(moveX: -30.0, moveY: 0.0, totalTime: 0.2)
-            let shakeRight = getMoveAction(moveX: 30.0, moveY: 0.0, totalTime: 0.2)
+            let shakeLeft = getMoveAction(moveX: -25.0, moveY: 0.0, totalTime: 0.1)
+            let shakeRight = getMoveAction(moveX: 25.0, moveY: 0.0, totalTime: 0.1)
             
             camera?.run(SKAction.sequence([
-                offsetZoom,
                 shakeLeft,
                 shakeRight,
                 shakeRight,
                 shakeLeft,
-                offsetZoom.reversed()
+                shakeLeft,
+                shakeRight,
+                shakeRight,
+                shakeLeft,
+                offsetZoom
             ]))
             
             // run the actions as a sequence on each node
             newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
 
             // start the timer
-            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { t in
+            let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
                 self.handleGameOver()
             })
         }
