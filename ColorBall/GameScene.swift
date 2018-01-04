@@ -401,19 +401,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
             
             // create the camera zoom action
-            let zoomInAction = getZoomAction(scaleFactor: 0.5, totalTime: totalTime)
-            let zoomOutAction = getZoomAction(scaleFactor: 2.0, totalTime: totalTime)
-
+            let cameraStart = camera!.position
+            let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + 121.0)
+            let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.9, totalTime: 0.2)
+            
+            let shakeLeft = getMoveAction(moveX: -30.0, moveY: 0.0, totalTime: 0.2)
+            let shakeRight = getMoveAction(moveX: 30.0, moveY: 0.0, totalTime: 0.2)
+            
+            camera?.run(SKAction.sequence([
+                offsetZoom,
+                shakeLeft,
+                shakeRight,
+                shakeRight,
+                shakeLeft,
+                offsetZoom.reversed()
+            ]))
+            
             // run the actions as a sequence on each node
             newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
-            camera?.run(SKAction.sequence([zoomInAction, zoomOutAction]))
 
             // start the timer
-            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { t in
+            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { t in
                 self.handleGameOver()
             })
             // TODO: zoom to contact point
         }
+    }
+    
+    func getMoveAction(moveX: CGFloat, moveY: CGFloat, totalTime: Double) -> SKAction {
+        return SKAction.moveBy(x: moveX, y: moveY, duration: totalTime)
+    }
+    
+    func getOffsetZoomAnimation(startingPoint: CGPoint, endingPoint: CGPoint, scaleFactor: CGFloat, totalTime: Double) -> SKAction {
+        return SKAction.customAction(withDuration: totalTime, actionBlock: { node, time in
+            // get the ratio of elapsed time
+            let fraction = time / CGFloat(totalTime)
+            // get the ideal values for the node's next position
+            let newX = CGFloat.lerp(a: startingPoint.x, b: endingPoint.x, fraction: fraction)
+            let newY = CGFloat.lerp(a: startingPoint.y, b: endingPoint.y, fraction: fraction)
+            // set the node the the next position
+            node.position = CGPoint(x: newX, y: newY)
+            // also lerp the zoom at the same time
+            if let node = node as? SKCameraNode {
+                let newScale = CGFloat.lerp(a: 1.0, b: scaleFactor, fraction: fraction)
+                node.setScale(newScale)
+            }
+        })
     }
     
     func getZoomAction(scaleFactor: CGFloat, totalTime: Double) -> SKAction {
