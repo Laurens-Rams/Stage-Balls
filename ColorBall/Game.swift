@@ -12,10 +12,13 @@ import UIKit
 
 /* TODO:
 
- - Snap balls to columns (fix extreme air hovering) (1/2 done)
  - Getting items/presents every 6 hours (the timer is done, we just to make the items)
  
  
+ EMILY TODO:
+ - The equation for creating new balls that fit evenly around the circle when moving to a new stage
+ - Snap balls to columns "grid" so they can't stick on the sides
+
  */
 
 /**
