@@ -319,13 +319,13 @@ class Game {
     func getCountForType(type: BallColor) -> Int {
         switch (type) {
             case .red:
-                return reds
+                return _reds
             case .blue:
-                return blues
+                return _blues
             case .pink:
-                return pinks
+                return _pinks
             case .yellow:
-                return yellows
+                return _yellows
             default: return 0
         }
     }
