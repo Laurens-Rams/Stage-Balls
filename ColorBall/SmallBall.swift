@@ -9,8 +9,26 @@
 import Foundation
 import SpriteKit
 
+// EMILY TODO:
+// - outline a game ball superclass SKNode, which we can implement together
+
 enum BallColor: Int {
     case pink = 0, yellow, blue, red, skull
+    
+    func asColor() -> UIColor {
+        switch (self) {
+            case .pink:
+                return UIColor(red: 0.978, green: 0.458, blue: 0.51, alpha: 1.0)
+            case .yellow:
+                return UIColor(red: 0.882, green: 0.694, blue: 0.235, alpha: 1.0)
+            case .blue:
+                return UIColor(red: 0.302, green: 0.6, blue: 0.886, alpha: 1.0)
+            case .red:
+                return UIColor(red: 0.235, green: 0.549, blue: 0.548, alpha: 1.0)
+            default:
+                return UIColor.black
+        }
+    }
 }
 
 class SmallBall: SKShapeNode {
@@ -52,7 +70,7 @@ class SkullBall: SKSpriteNode {
     var startRads: CGFloat = 0
     var inContactWith = [SmallBall]()
     // non-optional type
-    var colorType: BallColor!
+    var colorType: BallColor = BallColor.skull
     var isStarter: Bool = true
     var startingPos: CGPoint = CGPoint(x: 0, y: 0)
     var insidePos: CGPoint = CGPoint(x: 0, y: 0)

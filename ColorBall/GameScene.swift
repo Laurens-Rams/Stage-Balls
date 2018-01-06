@@ -411,9 +411,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - stuckBody: The non-dynamic body.
      */
     func handleDifferentColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
-        print("contact between two different color balls")
-        if let stuckBall = stuckBody.node as? SmallBall, let newBall = newBody.node as? SmallBall {
-            let newPos = getIdealBallPosition(fromBall: stuckBall)
+        // TODO: combine handling here
+        if let stuckBall = stuckBody.node as? SkullBall, let newBall = newBody.node as? SmallBall {
+            print("contact between SKULL and small")
+            let newPos = getIdealBallPosition(fromSkull: stuckBall)
             newBall.position = newPos
             getBallValues(ball: newBall)
             gameDelegate?.gameoverdesign()
@@ -451,6 +452,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
                 self.handleGameOver()
             })
+        } else if let stuckBall = stuckBody.node as? SmallBall, let newBall = newBody.node as? SmallBall {
+            let newPos = getIdealBallPosition(fromBall: stuckBall)
+            newBall.position = newPos
+            getBallValues(ball: newBall)
+            gameDelegate?.gameoverdesign()
+            // total length of each color action
+            let totalTime = 0.5
+            // fade to red actions
+            let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
+            // fade back to original color actions
+            let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
+            
+            // create the camera zoom action
+            let cameraStart = camera!.position
+            let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + 121.0)
+            let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
+            
+            let shakeLeft = getMoveAction(moveX: -25.0, moveY: 0.0, totalTime: 0.1)
+            let shakeRight = getMoveAction(moveX: 25.0, moveY: 0.0, totalTime: 0.1)
+            
+            camera?.run(SKAction.sequence([
+                shakeLeft,
+                shakeRight,
+                shakeRight,
+                shakeLeft,
+                shakeLeft,
+                shakeRight,
+                shakeRight,
+                shakeLeft,
+                offsetZoom
+                ]))
+            
+            // run the actions as a sequence on each node
+            newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
+            
+            // start the timer
+            let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
+                self.handleGameOver()
+            })
+        } else {
+            print("no cast was made")
         }
     }
     
@@ -617,12 +659,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ]
         
         // generate a random integer betweeb 0 and 3
-        let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
+        let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: 4) - 1
         
         // use the random integer to get a ball type and a ball color
         let ballType = BallColor(rawValue: rando)!
-        let ballColor = game.ballColors[rando]
-        
+        let ballColor = ballType.asColor()
+
         game.incrementBallType(type: ballType)
         
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
@@ -671,7 +713,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.yellowBall
         ]
         
-        var rando = randomInteger(upperBound: nil)
+        var rando = randomInteger(upperBound: 3)
         var ballType = BallColor(rawValue: rando)!
         
         while (game.getCountForType(type: ballType) == 0) {
@@ -681,7 +723,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         game.incrementBallType(type: ballType)
         
-        let ballColor = game.ballColors[rando]
+        let ballColor = ballType.asColor()
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
         newBall.fillColor = ballColor
@@ -815,6 +857,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - returns: CGPoint to snap the newest ball to.
      */
     func getIdealBallPosition(fromBall ball: SmallBall) -> CGPoint {
+        let xPos = size.width / 2
+        let rowMultiplier = CGFloat(ball.inContactWith.count) + 1.5
+        let yPos = Circle.position.y + (game.playerDiameter / 2) + (game.smallDiameter * rowMultiplier)
+        return CGPoint(x: xPos, y: yPos)
+    }
+    
+    /**
+     Get the ideal position for a ball, based on the ball that it just hit.
+     - parameters:
+     - fromBall: SmallBall that was hit.
+     - returns: CGPoint to snap the newest ball to.
+     */
+    func getIdealBallPosition(fromSkull ball: SkullBall) -> CGPoint {
         let xPos = size.width / 2
         let rowMultiplier = CGFloat(ball.inContactWith.count) + 1.5
         let yPos = Circle.position.y + (game.playerDiameter / 2) + (game.smallDiameter * rowMultiplier)
