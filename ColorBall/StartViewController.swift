@@ -14,7 +14,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate {
     override func viewDidLoad() {
         authenticateLocalPlayer()
         super.viewDidLoad()
-        let scene = StartScene(size: view.bounds.size)
+        let scene = MenuScene(size: view.bounds.size)
         let skView = view as! SKView
         skView.showsFPS = false
         skView.showsNodeCount = false

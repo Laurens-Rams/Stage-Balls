@@ -23,6 +23,8 @@
 		0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */; };
 		0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */; };
 		0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */; };
+		A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC1E3200116F600A70204 /* StartupViewController.swift */; };
+		A12CC1E62001175500A70204 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC1E52001175500A70204 /* MenuScene.swift */; };
 		A13F12641EF703F700A34B16 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F12631EF703F700A34B16 /* AppDelegate.swift */; };
 		A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F12691EF703F700A34B16 /* GameScene-Old.swift */; };
 		A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F126B1EF703F700A34B16 /* GameViewController.swift */; };
@@ -85,6 +87,8 @@
 		0F4C1CA45F72F2EFF3838654 /* Pods_ColorBall.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBall.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0A081C405A0F97EC6B2F5A /* Pods_ColorBallTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBallTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		589E72D0A762311BB94178FE /* Pods_ColorBallUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBallUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A12CC1E3200116F600A70204 /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
+		A12CC1E52001175500A70204 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		A13F12601EF703F700A34B16 /* ColorBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A13F12631EF703F700A34B16 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A13F12691EF703F700A34B16 /* GameScene-Old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene-Old.swift"; sourceTree = "<group>"; };
@@ -253,6 +257,7 @@
 				0D4AEB401F19285400568F11 /* GameOver.swift */,
 				A13F126B1EF703F700A34B16 /* GameViewController.swift */,
 				0D81DD861F16C63100712F49 /* StartViewController.swift */,
+				A12CC1E3200116F600A70204 /* StartupViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 				A188BC121F1AA75E008313DF /* GameScene.swift */,
 				0D4AEB3E1F19068900568F11 /* StartScene.swift */,
 				A13F12691EF703F700A34B16 /* GameScene-Old.swift */,
+				A12CC1E52001175500A70204 /* MenuScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -541,6 +547,7 @@
 				A15E83E61FF466AB00359FC8 /* Game.swift in Sources */,
 				0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */,
 				A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */,
+				A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */,
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
@@ -553,6 +560,7 @@
 				A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */,
 				0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */,
 				0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */,
+				A12CC1E62001175500A70204 /* MenuScene.swift in Sources */,
 				A13F12641EF703F700A34B16 /* AppDelegate.swift in Sources */,
 				A15E83F21FF46C9D00359FC8 /* CustomImage.swift in Sources */,
 				A15E83EC1FF46C2200359FC8 /* Money.swift in Sources */,

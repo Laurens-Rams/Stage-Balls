@@ -55,16 +55,8 @@
                                 <rect key="frame" x="51" y="107" width="274" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Wr-Ua-RX6">
-                                <rect key="frame" x="84" y="303" width="200" height="200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="play"/>
-                                <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="4nC-Xo-Yah"/>
-                                </connections>
-                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.93079790608020296" green="0.93079790608020296" blue="0.93079790608020296" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
                         <outlet property="moneyLabel" destination="pzw-jC-duo" id="r97-ey-kip"/>
@@ -624,7 +616,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="sEx-Nx-Xsa"/>
-        <segue reference="izG-YF-Caq"/>
-        <segue reference="CKo-b7-kxI"/>
+        <segue reference="2jW-D4-E7Q"/>
+        <segue reference="WDa-8q-kGP"/>
     </inferredMetricsTieBreakers>
 </document>
