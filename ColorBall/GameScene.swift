@@ -302,6 +302,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
+        // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
         let interval = 1.0 * game.speedMultiplier
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in

@@ -61,6 +61,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func setupUI() {
         menuBtn.isEnabled = true
         moneyLabel.text = scoreFormatter(score: DataManager.main.money)
+        
     }
     
     func addPlayedGame() {
@@ -70,6 +71,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func increaseScore(byValue: Int) {
         scene.game.increaseScore(byValue: byValue)
         scoreLabel.text = scoreFormatter(score: scene.game.score)
+        // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
+        if scene.game.score < 100 {
+            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 124)
+        } else if scene.game.score < 1000 {
+            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 95.0)
+        }
     }
     
     func scoreFormatter(score: Int) -> String {

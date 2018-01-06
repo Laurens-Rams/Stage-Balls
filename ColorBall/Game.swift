@@ -37,8 +37,13 @@ class Game {
     private var _smallDiameter: CGFloat = 42.0
     
     // multiplier for speeds
-    // this is the amount by which the time decreases on each stage
+    // this controls the frequency of things falling
+    // how often things fall
     private var _speedMultiplier: Double = 0.02
+    
+    // multiplier for gravity
+    // this is the multiplied amount by which things fall faster
+    private var _gravityMultiplier: Double = 0.02
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(2.0)
@@ -190,7 +195,7 @@ class Game {
      */
     var gravityMultiplier: Double {
         get {
-            return Double(_stage - 1) * _speedMultiplier
+            return Double(_stage - 1) * _gravityMultiplier
         }
     }
     
