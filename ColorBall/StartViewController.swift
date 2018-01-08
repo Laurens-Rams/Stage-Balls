@@ -4,17 +4,20 @@ import SpriteKit
 import GameplayKit
 import GameKit
 
-class StartViewController: UIViewController, GKGameCenterControllerDelegate {
+class StartViewController: UIViewController, GKGameCenterControllerDelegate, StartSceneDelegate {
     
 
     @IBOutlet var moneyLabel: UILabel!
     
     var audioPlayer = AVAudioPlayer()
     
+    var scene: MenuScene!
+    
     override func viewDidLoad() {
         authenticateLocalPlayer()
         super.viewDidLoad()
-        let scene = MenuScene(size: view.bounds.size)
+        scene = MenuScene(size: view.bounds.size)
+        scene.del = self
         let skView = view as! SKView
         skView.showsFPS = false
         skView.showsNodeCount = false
@@ -101,6 +104,12 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
+    func launchGameViewController() {
+        let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as! GameViewController
+        scene.isPaused = true
+        present(gameVC, animated: true, completion: nil)
+    }
+    
     @IBAction func volumeONOFF(_ sender: AnyObject) {
         tonANAUS = tonANAUS + 2
         if(tonANAUS == 2){
@@ -111,5 +120,14 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate {
         }
     }
     
+    // start scene delegate protocol methods
+    
+    func launchGame() {
+        launchGameViewController()
+    }
+    
+    func launchShop() {
+        // launch the shop
+    }
 
 }

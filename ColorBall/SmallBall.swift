@@ -74,6 +74,7 @@ class StartMenuBall: SKSpriteNode {
     var isStarter: Bool = true
     var startingPos: CGPoint = CGPoint(x: 0, y: 0)
     var insidePos: CGPoint = CGPoint(x: 0, y: 0)
+    var optionType: MenuOptionType = MenuOptionType.gameCenter
 }
 
 struct PhysicsCategory {

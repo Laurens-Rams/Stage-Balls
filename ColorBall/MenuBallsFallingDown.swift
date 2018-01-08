@@ -9,6 +9,11 @@
 import Foundation
 import SpriteKit
 
+enum MenuOptionType: Int {
+    case gameCenter = 0, volume, shop, presents, rate, like, start
+}
+
 class MenuBall: SKSpriteNode {
     var hasCollited = false
+    var type: MenuOptionType = MenuOptionType.gameCenter
 }

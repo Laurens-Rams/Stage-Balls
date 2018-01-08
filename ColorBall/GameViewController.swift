@@ -100,8 +100,19 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func unpauseGame() {
-        scene.isPaused = false
-        scene.startTimer()
+        scoreLabel.textColor = UIColor.red
+        var countdown = 3
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
+            countdown -= 1
+            self.scoreLabel.text = String(countdown)
+            if countdown == -1 {
+                timer.invalidate()
+                self.scene.startTimer()
+                self.scene.isPaused = false
+                self.scoreLabel.textColor = UIColor.white
+                self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.score)
+            }
+        })
     }
 
     func gameover() {

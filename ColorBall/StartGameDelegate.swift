@@ -16,3 +16,9 @@ protocol StartGameDelegate {
     func handleNextStage()
     func gameoverdesign()
 }
+
+protocol StartSceneDelegate {
+    func launchGame()
+    func launchShop()
+}
+

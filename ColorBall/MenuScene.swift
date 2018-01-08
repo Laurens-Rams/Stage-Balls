@@ -25,6 +25,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     
+    // delegate to handle "button" clicks (on nodes)
+    var del: StartSceneDelegate?
+    
     // direction of rotation
     var direction: CGFloat = -1.0
     
@@ -87,6 +90,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
         Circle.size = CGSize(width: 200.0, height: 200.0)
+        Circle.name = "Player"
         
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))
         body.categoryBitMask = PhysicsCategory.circleBall
@@ -101,29 +105,52 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isTouching {
-            return
-        } else if allowToMove == true {
-            isTouching = true
-            let middle = (view?.frame.width)! / 2
-            
-            if let touch = touches.first {
-                let touchX = touch.location(in: view).x
-                
-                if touchX < middle {
-                    direction = 1
-                } else if touchX > middle {
-                    direction = -1
-                }
-                
-                getCircleValues()
-            }
-        }
         
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        isTouching = false
+        if let touch = touches.first {
+            print("touch")
+   
+            if let node = nodes(at: touch.location(in: self)).first {
+                if node.name == "Player" {
+                    print("start ball")
+                    handleMenuClick(option: .start)
+                } else if let menuNode = node as? StartMenuBall {
+                    handleMenuClick(option: menuNode.optionType)
+                }
+            }
+        }
+    }
+    
+    func handleMenuClick(option: MenuOptionType) {
+        switch option {
+        case .gameCenter:
+            print("game center")
+            break
+        case .like:
+            print("like")
+            break
+        case .presents:
+            print("presents")
+            break
+        case .shop:
+            // showing a view controller
+            // use a StartSceneDelegate method
+            del?.launchShop()
+            print("shop")
+            break
+        case .volume:
+            print("volume")
+            break
+        case .rate:
+            print("rate")
+            break
+        case .start:
+            print("start")
+            del?.launchGame()
+            break
+        }
     }
     
     // MARK: custom update, animation, and movement methods
@@ -298,8 +325,10 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
      */
     func makeBall() -> StartMenuBall {
         let image = randomImageName(imageNumber: index + 1)
+        let optionType = MenuOptionType(rawValue: index)!
         
         let newBall = StartMenuBall(imageNamed: image)
+        newBall.optionType = optionType
         
         newBall.size = CGSize(width: 42.0, height: 42.0)
 

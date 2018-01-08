@@ -9,9 +9,8 @@
 import Foundation
 import Darwin
 import SpriteKit
+
 //TODOS:
-// - after gameover frozing movements
-// - higher stage than 20
 // - image balls on high stage
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -285,12 +284,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Start the repeating timer for adding a new ball to the scene.
      */
     func startTimer() {
-        if ballTimer == nil {
-            let interval = game.ballInterval * game.speedMultiplier
-            ballTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
-        } else {
-            
-        }
+        let interval = game.ballInterval * game.speedMultiplier
+        print(interval)
+        ballTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
         allowToMove = true
     }
 

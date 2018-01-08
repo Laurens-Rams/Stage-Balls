@@ -12,9 +12,9 @@ import UIKit
 
 /* TODO:
 
- - Snap balls to columns (fix extreme air hovering) (1/2 done)
  - Getting items/presents every 6 hours (the timer is done, we just to make the items)
  - Add more colorssss!
+ - pause falling in background
  
  */
 
