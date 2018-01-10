@@ -55,6 +55,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreKeeper: GameScoreDelegate?
     var gameDelegate: StartGameDelegate?
     
+    let skullTexture = SKTexture(image: #imageLiteral(resourceName: "skull"))
+    
     // MARK: lifecycle methods and overrides
     
     // main update function (game loop)
@@ -423,7 +425,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // create the camera zoom action
             let cameraStart = camera!.position
-            let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + 121.0)
+            let crashY = (game.playerDiameter / 2.0) + (game.smallDiameter / 2.0)
+            let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + crashY)
             let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
             
             let shakeLeft = getMoveAction(moveX: -25.0, moveY: 0.0, totalTime: 0.1)
@@ -564,38 +567,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     // TODO: dry-up this code
-    func getBallValues(ball: SKNode) {
-        if let ball = ball as? SmallBall {
-            if ball.stuck {
-                return
-            }
-            ball.stuck = true
-            if ball.startDistance == 0 {
-                ball.startDistance = ball.position.y - Circle.position.y
-            }
-            // let angle = atan2(ball.position.y - Circle.position.y,
-            //ball.position.x - Circle.position.x)
-            if ball.startRads == 0 {
-                ball.startRads = Circle.zRotation - degreesToRad(angle: 90.0)
-            }
-            // balls.append(ball)
-            ball.physicsBody?.isDynamic = false
-        } else if let ball = ball as? SkullBall {
-            if ball.stuck {
-                return
-            }
-            ball.stuck = true
-            if ball.startDistance == 0 {
-                ball.startDistance = ball.position.y - Circle.position.y
-            }
-            // let angle = atan2(ball.position.y - Circle.position.y,
-            //ball.position.x - Circle.position.x)
-            if ball.startRads == 0 {
-                ball.startRads = Circle.zRotation - degreesToRad(angle: 90.0)
-            }
-            // balls.append(ball)
-            ball.physicsBody?.isDynamic = false
+    func getBallValues(ball: SmallBall) {
+        if ball.stuck {
+            return
         }
+        ball.stuck = true
+        if ball.startDistance == 0 {
+            ball.startDistance = ball.position.y - Circle.position.y
+        }
+        // let angle = atan2(ball.position.y - Circle.position.y,
+        //ball.position.x - Circle.position.x)
+        if ball.startRads == 0 {
+            ball.startRads = Circle.zRotation - degreesToRad(angle: 90.0)
+        }
+        // balls.append(ball)
+        ball.physicsBody?.isDynamic = false
     }
     
     /**
@@ -628,7 +614,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // don't fill the outline
         newBall.lineWidth = 0.0
 
-        let body = SKPhysicsBody(circleOfRadius: 21.0)
+        let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
@@ -684,7 +670,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.fillColor = ballColor
         newBall.lineWidth = 0.0
         
-        let body = SKPhysicsBody(circleOfRadius: 21.0)
+        let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
@@ -705,11 +691,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - returns: A new SmallBall object.
      */
     func makeSkullBall() -> SkullBall {
-        let newBall = SkullBall(imageNamed: "skull")
+        let newBall = SkullBall(circleOfRadius: game.smallDiameter / 2)
         
-        newBall.size = CGSize(width: game.smallDiameter, height: game.smallDiameter)
+        newBall.fillColor = UIColor.white
+        newBall.lineWidth = 0.0
+        newBall.fillTexture = skullTexture
+        
+        newBall.colorType = .skull
 
-        let body = SKPhysicsBody(circleOfRadius: 21.0)
+        let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         body.categoryBitMask = PhysicsCategory.skullBall
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
         body.restitution = 0
