@@ -59,7 +59,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
         localPlayer.authenticateHandler = {(ViewController, error) -> Void in
             if((ViewController) != nil) {
                 // 1. Show login if player is not logged in
-                self.present(ViewController!, animated: true, completion: nil)
+                self.present(ViewController!, animated: false, completion: nil)
             } else if (localPlayer.isAuthenticated) {
                 // 2. Player is already authenticated & logged in, load game center
                 self.gcEnabled = true
@@ -97,7 +97,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards
         gcVC.leaderboardIdentifier = LEADERBOARD_ID
-        present(gcVC, animated: true, completion: nil)
+        present(gcVC, animated: false, completion: nil)
     }
     
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
@@ -107,7 +107,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
     func launchGameViewController() {
         let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as! GameViewController
         scene.isPaused = true
-        present(gameVC, animated: true, completion: nil)
+        present(gameVC, animated: false, completion: nil)
     }
     
     @IBAction func volumeONOFF(_ sender: AnyObject) {

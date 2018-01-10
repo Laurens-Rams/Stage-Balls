@@ -83,7 +83,7 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
         localPlayer.authenticateHandler = {(ViewController, error) -> Void in
             if((ViewController) != nil) {
                 // 1. Show login if player is not logged in
-                self.present(ViewController!, animated: true, completion: nil)
+                self.present(ViewController!, animated: false, completion: nil)
             } else if (localPlayer.isAuthenticated) {
                 // 2. Player is already authenticated & logged in, load game center
                 self.gcEnabled = true

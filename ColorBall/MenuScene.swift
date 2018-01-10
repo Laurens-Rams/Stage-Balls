@@ -24,6 +24,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
+    let CircleImage = PlayerCircle(imageNamed: "play")
     
     // delegate to handle "button" clicks (on nodes)
     var del: StartSceneDelegate?
@@ -80,6 +81,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        backgroundColor = .white
         isPaused = false
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
@@ -89,8 +91,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         let startY = CGFloat((size.height / 2.5))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
+        CircleImage.position = startpos
         Circle.size = CGSize(width: 200.0, height: 200.0)
+        CircleImage.size = CGSize(width: 200.0, height: 200.0)
         Circle.name = "Player"
+        CircleImage.name = "playButton"
         
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))
         body.categoryBitMask = PhysicsCategory.circleBall
@@ -100,6 +105,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         Circle.physicsBody = body
         
         addChild(Circle)
+        addChild(CircleImage)
         
         self.addBall()
     }
@@ -113,7 +119,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             print("touch")
    
             if let node = nodes(at: touch.location(in: self)).first {
-                if node.name == "Player" {
+                if node.name == "playButton" {
                     print("start ball")
                     handleMenuClick(option: .start)
                 } else if let menuNode = node as? StartMenuBall {
@@ -130,6 +136,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             break
         case .like:
             print("like")
+    
             break
         case .presents:
             print("presents")
@@ -330,9 +337,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         let newBall = StartMenuBall(imageNamed: image)
         newBall.optionType = optionType
         
-        newBall.size = CGSize(width: 42.0, height: 42.0)
+        newBall.size = CGSize(width: 50.0, height: 50.0)
 
-        let body = SKPhysicsBody(circleOfRadius: 21.0)
+        let body = SKPhysicsBody(circleOfRadius: 40.0)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = PhysicsCategory.blueBall
         body.contactTestBitMask = PhysicsCategory.circleBall
