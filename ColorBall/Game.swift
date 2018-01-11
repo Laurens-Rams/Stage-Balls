@@ -64,13 +64,15 @@ class Game {
     private var _pinks = 0
     private var _reds = 0
     private var _yellows = 0
+    private var _greens = 0
     private var _skulls = 0
     
     var ballColors: [UIColor] = [
         UIColor(red: 0.978, green: 0.458, blue: 0.51, alpha: 1.0),
         UIColor(red: 0.882, green: 0.694, blue: 0.235, alpha: 1.0),
         UIColor(red: 0.302, green: 0.6, blue: 0.886, alpha: 1.0),
-        UIColor(red: 0.235, green: 0.549, blue: 0.548, alpha: 1.0)
+        UIColor(red: 0.235, green: 0.549, blue: 0.548, alpha: 1.0),
+        UIColor(red: 0.210, green: 0.649, blue: 0.248, alpha: 1.0),
     ]
     
     // add colors to the array to add background colors
@@ -80,27 +82,21 @@ class Game {
         UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
         UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
         UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 255/255, blue: 236/255, alpha: 1.0),
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.white,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.red,
-        UIColor.blue,
+        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
+        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
+        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
+        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
+        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
+        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
     ]
     
     // MARK: properties' public getters
@@ -141,6 +137,15 @@ class Game {
         }
     }
     
+    /**
+     Number of greens in game (read-only getter).
+     */
+    var greens: Int {
+        get {
+            return _greens
+        }
+    }
+
     /**
      Number of skulls in game (read-only getter).
      */
@@ -313,6 +318,9 @@ class Game {
             case .yellow:
                 _yellows += 1
                 break
+            case .green:
+                _greens += 1
+                break
             case .skull:
                 _skulls += 1
         }
@@ -338,6 +346,9 @@ class Game {
             case .yellow:
                 _yellows -= byNumber
                 break
+            case .green:
+                _greens -= byNumber
+                break
             case .skull:
                 _skulls -= byNumber
         }
@@ -359,6 +370,8 @@ class Game {
                 return pinks
             case .yellow:
                 return yellows
+            case .green:
+                return greens
             default: return 0
         }
     }

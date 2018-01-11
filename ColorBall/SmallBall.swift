@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 enum BallColor: Int {
-    case pink = 0, yellow, blue, red, skull
+    case pink = 0, yellow, blue, red, green, skull
 }
 
 class SmallBall: SKShapeNode {
@@ -68,6 +68,7 @@ struct PhysicsCategory {
     static let pinkBall: UInt32 = 0b0011
     static let redBall: UInt32 = 0b0100
     static let yellowBall: UInt32 = 0b0101
+    static let greenBall: UInt32 = 0b1100
     static let skullBall: UInt32 = 0b1000
     
     static func returnCategory(num: Int) -> UInt32 {
@@ -81,6 +82,8 @@ struct PhysicsCategory {
         case 4:
             return yellowBall
         case 5:
+            return greenBall
+        case 6:
             return skullBall
         default:
             return blueBall
