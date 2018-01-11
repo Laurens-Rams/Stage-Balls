@@ -49,7 +49,7 @@ class Slot {
         let newX = self.startDistance * cos(player.zRotation - self.startRads) + player.position.x
         let newY = self.startDistance * sin(player.zRotation - self.startRads) + player.position.y
         self.position = CGPoint(x: newX, y: newY)
-        if let ball = self.ball {
+        if let ball = self.ball, ball.stuck == true {
             ball.position = self.position
         }
     }

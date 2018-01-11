@@ -29,12 +29,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var hardness: Float = 0.0
     
     // ball arrays
-//    var balls = [SmallBall]()
-//    var startBalls = [StartingSmallBall]()
-    var skullBalls = [SkullBall]()
-    
     var fallingBalls = [SmallBall]()
     
+    // available slots around circle
     var slots = [Slot]()
     
     // actions
@@ -187,13 +184,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupSlots() {
         // the radians to separate each starting ball by, when placing around the ring
-//        let incrementRads = degreesToRad(angle: (360 / CGFloat(game.numberStartingBalls)))
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.numberStartingBalls))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
 
         for i in 0..<game.numberStartingBalls {
-//            let startRads = incrementRads * CGFloat(i)
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
             let newY = (startDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
@@ -205,7 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let ball = makeStartBall(index: i)
             ball.stuck = false
             slot.setBall(ball: ball)
-            ball.position = slot.startPosition
+            ball.position = CGPoint(x: size.width / 2, y: Circle.position.y)
             ball.zPosition = Circle.zPosition - 1
             addChild(ball)
 
@@ -254,18 +249,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /**
      Animate a ball from the inside of the large circle, outward.
      - parameters:
-        - ball: A StartingSmallBall object.
-     */
-    func animateBall(ball: StartingSmallBall) {
-        let action = SKAction.move(to: ball.insidePos, duration: 1.2)
-        ball.run(action, completion: {
-            ball.stuck = true
-        })
-    }
-    
-    /**
-     Animate a ball from the inside of the large circle, outward.
-     - parameters:
      - ball: A StartingSmallBall object.
      */
     func animateSlotBall(slot: BaseSlot) {
@@ -284,18 +267,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func getReverseAnimation(ball: SkullBall) -> SKAction {
         return SKAction.move(to: ball.startingPos, duration: 1.2)
     }
-    
-    /**
-     Start the repeating timer for adding a new ball to the scene.
-     */
-    func startTimer() {
-        let interval = game.ballInterval * game.speedMultiplier
-        print(interval)
-        ballTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(addBall), userInfo: nil, repeats: true)
-        allowToMove = true
-    }
-
-    
+ 
     /**
      Start a timer for allowing a ball to fall downward.
      - parameters:
@@ -407,10 +379,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("contact between circle and skull ball")
             // add 3 points to the skull's y position
             ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 3)
-            getBallValues(ball: ball)
         } else if let ball = newBody.node as? SmallBall {
             print("contact between circle and small ball")
-            getBallValues(ball: ball)
             increaseScore(byValue: 1)
         }
     }
@@ -472,6 +442,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func handleDifferentColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
         print("contact between two different color balls")
         if let newBall = newBody.node as? SmallBall {
+            allowToMove = false
+            canMove = false
             newBall.stuck = true
             newBall.physicsBody?.isDynamic = false
             gameDelegate?.gameoverdesign()
@@ -576,40 +548,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreKeeper?.increaseScore(byValue: byValue)
     }
     
-    /**
-     When four balls of the same type have stuck together, zap the whole column.
-     - parameters:
-        - ball: The topmost ball in the chain.
-     */
-    func zapBalls(ball: SmallBall) {
-//        for contactedBall in ball.inContactWith {
-//            if let starter = contactedBall as? StartingSmallBall, starter.isStarter == true {
-//                let skullBall = makeSkullBall()
-//                let ballCoords = getIdealSkullPosition(fromBall: starter)
-//                skullBall.startingPos = starter.startingPos
-//                skullBall.position = ballCoords
-//                skullBalls.append(skullBall)
-//                addChild(skullBall)
-//            }
-//
-//            if let position = balls.index(of: contactedBall) {
-//                balls.remove(at: position)
-//                contactedBall.physicsBody = nil
-//            }
-//        }
-//
-//        game.decrementBallType(type: ball.colorType, byNumber: 4)
-//
-//        removeChildren(in: ball.inContactWith)
-//
-//        if let position = balls.index(of: ball) {
-//            balls.remove(at: position)
-//        }
-//
-//        removeChildren(in: [ball])
-//        increaseScore(byValue: 2)
-    }
-    
     func moveAlongVector(ballA: SmallBall, ballB: SKSpriteNode) {
         let dist = distanceBetween(pointA: ballA.position, pointB: ballB.position)
         let v = game.smallDiameter - dist
@@ -625,24 +563,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return true
     }
 
-    // TODO: dry-up this code
-    func getBallValues(ball: SmallBall) {
-        if ball.stuck {
-            return
-        }
-        ball.stuck = true
-        if ball.startDistance == 0 {
-            ball.startDistance = ball.position.y - Circle.position.y
-        }
-        // let angle = atan2(ball.position.y - Circle.position.y,
-        //ball.position.x - Circle.position.x)
-        if ball.startRads == 0 {
-            ball.startRads = Circle.zRotation - degreesToRad(angle: 90.0)
-        }
-        // balls.append(ball)
-        ball.physicsBody?.isDynamic = false
-    }
-    
     /**
      Create a ball to appear at the beginning of the level.
      - parameters:
@@ -691,17 +611,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.colorType = ballType
         
         return newBall
-    }
-    
-    func checkIfOnlySkulls() -> Bool {
-        var onlySkulls = true
-//        for ball in balls {
-//            if ball.colorType != BallColor.skull {
-//                onlySkulls = false
-//                break
-//            }
-//        }
-        return onlySkulls
     }
     
     /**
@@ -798,24 +707,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             cleanupBalls()
         }
-//        balls.append(newBall)
-//        if checkIfOnlySkulls() {
-//            cleanupBalls()
-//        } else {
-//            hardness = hardness + 0.1
-//
-//            let newBall = makeBall()
-//
-//            newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
-//
-//            newBall.inLine = true
-//
-//            addChild(newBall)
-//
-//            startFallTimer(ball: newBall)
-//
-//            balls.append(newBall)
-//        }
     }
     
     func handleNextStage() {
