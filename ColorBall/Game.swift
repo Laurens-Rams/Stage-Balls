@@ -28,7 +28,7 @@ class Game {
     private var _score: Int = 0
     
     // game level
-    private var _stage: Int = 2
+    private var _stage: Int = 1
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = 200.0
@@ -64,6 +64,7 @@ class Game {
     private var _pinks = 0
     private var _reds = 0
     private var _yellows = 0
+    private var _skulls = 0
     
     var ballColors: [UIColor] = [
         UIColor(red: 0.978, green: 0.458, blue: 0.51, alpha: 1.0),
@@ -137,6 +138,15 @@ class Game {
     var yellows: Int {
         get {
             return _yellows
+        }
+    }
+    
+    /**
+     Number of skulls in game (read-only getter).
+     */
+    var skulls: Int {
+        get {
+            return _skulls
         }
     }
     
@@ -220,7 +230,7 @@ class Game {
         get {
             let circ = CGFloat.pi * _outerDiameter
             let newSmall = circ / CGFloat(numberStartingBalls + (_stage - 1))
-            return floor(newSmall)
+            return newSmall
         }
     }
     
@@ -303,7 +313,8 @@ class Game {
             case .yellow:
                 _yellows += 1
                 break
-            default: break
+            case .skull:
+                _skulls += 1
         }
     }
     
@@ -327,7 +338,8 @@ class Game {
             case .yellow:
                 _yellows -= byNumber
                 break
-            default: break
+            case .skull:
+                _skulls -= byNumber
         }
     }
     

@@ -172,26 +172,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ball.position = CGPoint(x: newX, y: newY)
             }
         }
-//        for ball in skullBalls {
-//            var newX: CGFloat
-//            var newY: CGFloat
-//
-//            if !ball.inLine {
-//                // if the ball isn't waiting in line to fall
-//                if !ball.stuck {
-//                    // if the ball isn't stuck to any other balls yet
-//                    newX = ball.position.x
-//                    newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
-//                } else {
-//                    // if the ball is stuck to another ball already
-//                    newX = ball.startDistance * cos(Circle.zRotation - ball.startRads) + Circle.position.x
-//                    newY = ball.startDistance * sin(Circle.zRotation - ball.startRads) + Circle.position.y
-//                }
-//
-//                // set the new ball position
-//                ball.position = CGPoint(x: newX, y: newY)
-//            }
-//        }
     }
     
     /**
@@ -207,12 +187,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupSlots() {
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: (360 / CGFloat(game.numberStartingBalls)))
+//        let incrementRads = degreesToRad(angle: (360 / CGFloat(game.numberStartingBalls)))
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(game.numberStartingBalls))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
 
         for i in 0..<game.numberStartingBalls {
-            let startRads = incrementRads * CGFloat(i)
+//            let startRads = incrementRads * CGFloat(i)
+            let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
             let newY = (startDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
             let targetPosition = CGPoint(x: newX, y: newY)
@@ -251,20 +233,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Teardown the stage.
      */
     func cleanupBalls() {
-//        for i in 0..<skullBalls.count {
-//            let isLast = (i == balls.count - 1)
-//            let action = getReverseAnimation(ball: skullBalls[i])
-//            skullBalls[i].run(action) {
-//                self.skullBalls[i].removeFromParent()
-//                if isLast {
-//                    self.removeChildren(in: self.balls)
-//                    self.removeChildren(in: self.startBalls)
-//                    self.balls.removeAll()
-//                    self.startBalls.removeAll()
-//                    self.gameDelegate?.handleNextStage()
-//                }
-//            }
-//        }
+        let skulls = slots.filter({ s in
+            return s.containsSkull == true
+        }).flatMap({ s in
+            return (s.ball as? SkullBall)!
+        })
+
+        for i in 0..<skulls.count {
+            let isLast = (i == skulls.count - 1)
+            let action = getReverseAnimation(ball: skulls[i])
+            skulls[i].run(action) {
+                skulls[i].removeFromParent()
+                if isLast {
+                    self.gameDelegate?.handleNextStage()
+                }
+            }
+        }
     }
     
     /**
@@ -373,6 +357,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func getFirstSlotInColumn(num: Int) -> BaseSlot {
+        return slots.first(where: { s in
+            return s.columnNumber == num
+        }) as! BaseSlot
+    }
+    
     func getSlotsInColumn(num: Int) -> [Slot] {
         return slots.filter{ s in
             return s.columnNumber == num
@@ -428,6 +418,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkForZaps(colNumber: Int) {
         let colSlots = getSlotsInColumn(num: colNumber)
         if getFirstOpenSlot(slotList: colSlots) == nil {
+            game.decrementBallType(type: colSlots[0].colorType, byNumber: 4)
             let zapBalls = colSlots.flatMap { s in
                 return s.ball!
             }
@@ -436,7 +427,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             removeChildren(in: zapBalls)
             increaseScore(byValue: 2)
+            addSkull(toColumn: colNumber)
         }
+    }
+    
+    func addSkull(toColumn num: Int) {
+        let skullSlot = getFirstSlotInColumn(num: num)
+        let skullBall = makeSkullBall()
+        skullBall.insidePos = skullSlot.insidePosition
+        skullBall.startingPos = skullSlot.startPosition
+        skullSlot.ball = skullBall
+        skullBall.position = skullSlot.position
+        skullBall.stuck = true
+        skullSlot.containsSkull = true
+        addChild(skullBall)
     }
     
     /**
@@ -662,6 +666,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ballColor = game.ballColors[rando]
         
         game.incrementBallType(type: ballType)
+        print(game.pinks)
+        print(game.blues)
+        print(game.reds)
+        print(game.yellows)
         
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
@@ -709,7 +717,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.yellowBall
         ]
         
-        var rando = randomInteger(upperBound: nil)
+        var rando = randomInteger(upperBound: nil) - 1
         var ballType = BallColor(rawValue: rando)!
         
         while (game.getCountForType(type: ballType) == 0) {
@@ -766,6 +774,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         game.incrementBallType(type: .skull)
         
+        newBall.physicsBody?.isDynamic = false
+        
         return newBall
     }
     
@@ -773,18 +783,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Add a new ball to the array and to the game scene if we can.
      */
     @objc func addBall() {
-        let newBall = makeBall()
-        
-        newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
-        
-        newBall.inLine = true
-        
-        fallingBalls.append(newBall)
-        
-        addChild(newBall)
-        
-        startFallTimer(ball: newBall)
-        
+        if game.skulls < game.numberStartingBalls {
+            let newBall = makeBall()
+            
+            newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
+            
+            newBall.inLine = true
+            
+            fallingBalls.append(newBall)
+            
+            addChild(newBall)
+            
+            startFallTimer(ball: newBall)
+        } else {
+            cleanupBalls()
+        }
 //        balls.append(newBall)
 //        if checkIfOnlySkulls() {
 //            cleanupBalls()
