@@ -32,6 +32,9 @@ class Game {
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = 200.0
+    private var _outerDiameter: CGFloat = 221.0
+    private var _minOuterDiameter: CGFloat = 210.0
+
     
     // starting small ball diameter
     private var _smallDiameter: CGFloat = 42.0
@@ -54,11 +57,14 @@ class Game {
     // keep track of extra chance
     private var _extraChance = 1
     
+    private var _slotsPerColumn = 4
+    
     // counts for each type of physics category on the screen
     private var _blues = 0
     private var _pinks = 0
     private var _reds = 0
     private var _yellows = 0
+    private var _skulls = 0
     
     var ballColors: [UIColor] = [
         UIColor(red: 0.978, green: 0.458, blue: 0.51, alpha: 1.0),
@@ -132,6 +138,15 @@ class Game {
     var yellows: Int {
         get {
             return _yellows
+        }
+    }
+    
+    /**
+     Number of skulls in game (read-only getter).
+     */
+    var skulls: Int {
+        get {
+            return _skulls
         }
     }
     
@@ -213,10 +228,21 @@ class Game {
      */
     var smallDiameter: CGFloat {
         get {
-            let amountToShrink = CGFloat((_stage - 1) * 3/2)
-            return _smallDiameter - amountToShrink
+            let circ = CGFloat.pi * _outerDiameter
+            let newSmall = circ / CGFloat(numberStartingBalls + (_stage - 1))
+            return newSmall
         }
     }
+    
+    /**
+     How high the balls should be able to stack (read-only getter).
+     */
+    var slotsPerColumn: Int {
+        get {
+            return _slotsPerColumn
+        }
+    }
+
     
     /**
      One extra chance to beat the level. (read-only getter).
@@ -241,6 +267,9 @@ class Game {
      */
     func increaseStage() {
         _stage += 1
+        if _outerDiameter > _minOuterDiameter {
+            _outerDiameter -= 2
+        }
         print("increased stage to \(_stage)")
     }
     
@@ -284,7 +313,8 @@ class Game {
             case .yellow:
                 _yellows += 1
                 break
-            default: break
+            case .skull:
+                _skulls += 1
         }
     }
     
@@ -308,7 +338,8 @@ class Game {
             case .yellow:
                 _yellows -= byNumber
                 break
-            default: break
+            case .skull:
+                _skulls -= byNumber
         }
     }
     

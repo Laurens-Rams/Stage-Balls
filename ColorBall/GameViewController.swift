@@ -87,12 +87,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func restartGame() {
+        camera.removeFromParent()
         setupGame()
     }
     
     func pauseGame() {
         scene.isPaused = true
-        scene.ballTimer?.invalidate()
+        scene.fallTimer.invalidate()
         let pauseView = PauseView.instanceFromNib() as! PauseView
         pauseView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         pauseView.delegate = self
@@ -107,8 +108,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             self.scoreLabel.text = String(countdown)
             if countdown == -1 {
                 timer.invalidate()
-                self.scene.startTimer()
+                if self.scene.fallingBalls.count > 0 {
+                    self.scene.startFallTimer(ball: self.scene.fallingBalls[0])
+                }
                 self.scene.isPaused = false
+                self.scene.fallTimer.fire()
                 self.scoreLabel.textColor = UIColor.white
                 self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.score)
             }
@@ -119,6 +123,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         // save the score and add money
         DataManager.main.saveHighScore(newScore: scene.game.score)
         DataManager.main.addMoney(amount: scene.game.score)
+        camera.removeFromParent()
         
         // create and present the game over view controller
         let gameVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId") as! GameOver

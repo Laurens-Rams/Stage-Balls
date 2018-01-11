@@ -40,22 +40,7 @@ class StartingSmallBall: SmallBall {
 }
 
 // TODO: make an interface or protocol for all these properties
-class SkullBall: SKSpriteNode {
-    var x: CGFloat = 0
-    var y: CGFloat = 0
-    var inLine: Bool = false
-    var stuck = false
-    var lastVelocity: CGVector = CGVector(dx: 0, dy: 0)
-    var angularDistance: CGFloat = 0
-    var orbitRadius = CGPoint(x: 0, y: 0)
-    var startDistance: CGFloat = 0
-    var startRads: CGFloat = 0
-    var inContactWith = [SmallBall]()
-    // non-optional type
-    var colorType: BallColor!
-    var isStarter: Bool = true
-    var startingPos: CGPoint = CGPoint(x: 0, y: 0)
-    var insidePos: CGPoint = CGPoint(x: 0, y: 0)
+class SkullBall: StartingSmallBall {
 }
 
 class StartMenuBall: SKSpriteNode {
