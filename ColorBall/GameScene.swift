@@ -453,20 +453,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 let dist = distanceBetween(pointA: point, pointB: slots[i].position)
                 if dist < shortestDistance {
-                    if slots[i].ball == nil {
-                        shortestDistance = dist
-                        closestSlot = slots[i]
-                    } else {
-                        let possibilities = getSlotsInColumn(num: slots[i].columnNumber)
-                        for p in possibilities {
-                            if p.ball == nil {
-                                closestSlot = p
-                                shortestDistance = distanceBetween(pointA: point, pointB: p.position)
-                            }
-                        }
-                    }
+                    shortestDistance = dist
+                    closestSlot = slots[i]
                 }
             }
+        }
+        if closestSlot!.ball != nil {
+            let slotsInColumn = getSlotsInColumn(num: closestSlot!.columnNumber)
+            if let chosen = slotsInColumn.first(where: { s in
+                return s.ball == nil
+            }) {
+                return chosen
+            }
+        
         }
         return closestSlot!
     }
