@@ -33,6 +33,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var startBalls = [StartingSmallBall]()
     var skullBalls = [SkullBall]()
     
+    var fallingBalls = [SmallBall]()
+    
+    var slots = [Slot]()
+    
     // actions
     var rotation: SKAction!
     var runRotation: SKAction!
@@ -71,6 +75,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             updateCircle(dt: dt)
         }
 
+        updateSlots()
         updateBalls(dt: dt)
     }
     
@@ -94,7 +99,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.isDynamic = false
         Circle.physicsBody = body
         
-        setupBalls()
+//        setupBalls()
+        setupSlots()
+
         addChild(Circle)
         
         setupFirstFallTimer()
@@ -147,53 +154,72 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func updateSlots() {
+        for slot in slots {
+            slot.update(player: Circle)
+//            let newX = slot.startDistance * cos(Circle.zRotation - slot.startRads) + Circle.position.x
+//            let newY = slot.startDistance * sin(Circle.zRotation - slot.startRads) + Circle.position.y
+//            slot.position = CGPoint(x: newX, y: newY)
+//            if let ball = slot.ball, ball.stuck == true {
+//                ball.position = slot.position
+//            }
+        }
+    }
+    
     /**
      Update the position of every applicable ball on the screen.
      - parameters:
         - dt: Last calculated delta time
      */
     func updateBalls(dt: CGFloat) {
+        for ball in fallingBalls {
+            if !ball.inLine && !ball.stuck {
+                let newX = ball.position.x
+                let newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
+                ball.position = CGPoint(x: newX, y: newY)
+            }
+        }
         // TODO: COMBINE THESE UPDATE METHODS
-        for ball in balls {
-            var newX: CGFloat
-            var newY: CGFloat
-
-            if !ball.inLine {
-                // if the ball isn't waiting in line to fall
-                if !ball.stuck {
-                    // if the ball isn't stuck to any other balls yet
-                    newX = ball.position.x
-                    newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
-                } else {
-                    // if the ball is stuck to another ball already
-                    newX = ball.startDistance * cos(Circle.zRotation - ball.startRads) + Circle.position.x
-                    newY = ball.startDistance * sin(Circle.zRotation - ball.startRads) + Circle.position.y
-                }
-
-                // set the new ball position
-                ball.position = CGPoint(x: newX, y: newY)
-            }
-        }
-        for ball in skullBalls {
-            var newX: CGFloat
-            var newY: CGFloat
-            
-            if !ball.inLine {
-                // if the ball isn't waiting in line to fall
-                if !ball.stuck {
-                    // if the ball isn't stuck to any other balls yet
-                    newX = ball.position.x
-                    newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
-                } else {
-                    // if the ball is stuck to another ball already
-                    newX = ball.startDistance * cos(Circle.zRotation - ball.startRads) + Circle.position.x
-                    newY = ball.startDistance * sin(Circle.zRotation - ball.startRads) + Circle.position.y
-                }
-                
-                // set the new ball position
-                ball.position = CGPoint(x: newX, y: newY)
-            }
-        }
+//        for ball in balls {
+//            var newX: CGFloat
+//            var newY: CGFloat
+//
+//            if !ball.inLine {
+//                // if the ball isn't waiting in line to fall
+//                if !ball.stuck {
+//                    // if the ball isn't stuck to any other balls yet
+//                    newX = ball.position.x
+//                    newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
+//                } else {
+//                    // if the ball is stuck to another ball already
+//                    newX = ball.startDistance * cos(Circle.zRotation - ball.startRads) + Circle.position.x
+//                    newY = ball.startDistance * sin(Circle.zRotation - ball.startRads) + Circle.position.y
+//                }
+//
+//                // set the new ball position
+//                ball.position = CGPoint(x: newX, y: newY)
+//            }
+//        }
+//        for ball in skullBalls {
+//            var newX: CGFloat
+//            var newY: CGFloat
+//
+//            if !ball.inLine {
+//                // if the ball isn't waiting in line to fall
+//                if !ball.stuck {
+//                    // if the ball isn't stuck to any other balls yet
+//                    newX = ball.position.x
+//                    newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
+//                } else {
+//                    // if the ball is stuck to another ball already
+//                    newX = ball.startDistance * cos(Circle.zRotation - ball.startRads) + Circle.position.x
+//                    newY = ball.startDistance * sin(Circle.zRotation - ball.startRads) + Circle.position.y
+//                }
+//
+//                // set the new ball position
+//                ball.position = CGPoint(x: newX, y: newY)
+//            }
+//        }
     }
     
     /**
@@ -202,13 +228,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
         let _ = Timer.scheduledTimer(withTimeInterval: 1.85, repeats: false, block: {timer in
-            for ball in self.startBalls {
-                self.getBallValues(ball: ball)
-                self.balls.append(ball)
-            }
-            self.startTimer()
+//            for ball in self.startBalls {
+//                self.getBallValues(ball: ball)
+//                self.balls.append(ball)
+//            }
+//            self.startTimer()
             self.addBall()
+            self.allowToMove = true
         })
+    }
+    
+    func setupSlots() {
+        // the radians to separate each starting ball by, when placing around the ring
+        let incrementRads = degreesToRad(angle: (360 / CGFloat(game.numberStartingBalls)))
+        let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
+        let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
+
+        for i in 0..<game.numberStartingBalls {
+            let startRads = incrementRads * CGFloat(i)
+            let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
+            let newY = (startDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
+            let targetPosition = CGPoint(x: newX, y: newY)
+
+            let slot = BaseSlot(position: targetPosition, startPosition: startPosition, insidePosition: targetPosition, startRads: startRads, isStarter: true, distance: startDistance)
+            slot.columnNumber = i
+            
+            let ball = makeStartBall(index: i)
+            ball.stuck = false
+            slot.setBall(ball: ball)
+            ball.position = slot.startPosition
+            ball.zPosition = Circle.zPosition - 1
+            addChild(ball)
+
+            slots.append(slot)
+            
+            for j in 0..<game.slotsPerColumn - 1 {
+                let updatedDistance = startDistance + (game.smallDiameter * CGFloat(j + 1))
+                let slotX = (updatedDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
+                let slotY = (updatedDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
+                let slotPos = CGPoint(x: slotX, y: slotY)
+                let slot = Slot(position: slotPos, startRads: startRads, isStarter: false, distance: updatedDistance)
+                slot.columnNumber = i
+                slots.append(slot)
+            }
+        }
+        
+        for slot in slots {
+            if let slot = slot as? BaseSlot {
+                animateSlotBall(slot: slot)
+            }
+        }
     }
     
     /**
@@ -269,7 +338,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func animateBall(ball: StartingSmallBall) {
         let action = SKAction.move(to: ball.insidePos, duration: 1.2)
-        ball.run(action)
+        ball.run(action, completion: {
+            ball.stuck = true
+        })
+    }
+    
+    /**
+     Animate a ball from the inside of the large circle, outward.
+     - parameters:
+     - ball: A StartingSmallBall object.
+     */
+    func animateSlotBall(slot: BaseSlot) {
+        let action = SKAction.move(to: slot.insidePosition, duration: 1.2)
+        slot.ball!.run(action, completion: {
+            slot.ball!.stuck = true
+        })
     }
     
     /**
@@ -301,7 +384,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 1.0 * game.speedMultiplier
+        let interval = 1.5 * game.speedMultiplier
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             
@@ -355,6 +438,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func getSlotsInColumn(num: Int) -> [Slot] {
+        return slots.filter{ s in
+            return s.columnNumber == num
+        }
+    }
+    
+    func getClosestOpenSlot(toPoint point: CGPoint) -> Slot {
+        var closestSlot: Slot? = nil
+        var shortestDistance: CGFloat = size.width
+        for i in 0..<slots.count {
+            if closestSlot == nil && slots[i].ball == nil {
+                closestSlot = slots[i]
+            } else {
+                let dist = distanceBetween(pointA: point, pointB: slots[i].position)
+                if dist < shortestDistance {
+                    if slots[i].ball == nil {
+                        shortestDistance = dist
+                        closestSlot = slots[i]
+                    } else {
+                        let possibilities = getSlotsInColumn(num: slots[i].columnNumber)
+                        for p in possibilities {
+                            if p.ball == nil {
+                                closestSlot = p
+                                shortestDistance = distanceBetween(pointA: point, pointB: p.position)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return closestSlot!
+    }
+    
     /**
      Handle a collision between the large circle and a small ball.
      - parameters:
@@ -383,23 +499,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("contact between two same color balls")
         if let ball = newBody.node as? SmallBall {
             increaseScore(byValue: 1)
-
-            let ball2 = stuckBody.node as! SmallBall
-
-            ball.inContactWith.append(contentsOf: ball2.inContactWith)
-            ball.inContactWith.append(ball2)
-
-            // save the ideal (snapped) x,y position before we empty ball2's inContactWith
-            let newPos = getIdealBallPosition(fromBall: ball2)
-            
-            ball2.inContactWith.removeAll()
-            if ball.inContactWith.count >= 3 {
-                zapBalls(ball: ball)
-                return
-            }
-
-            ball.position = newPos
-            getBallValues(ball: ball)
+            let slot = getClosestOpenSlot(toPoint: ball.position)
+            ball.position = slot.position
+            slot.ball = ball
+            ball.stuck = true
+            ball.physicsBody?.isDynamic = false
+            addBall()
+//            getBallValues(ball: ball)
         }
     }
     
@@ -412,9 +518,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func handleDifferentColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
         print("contact between two different color balls")
         if let stuckBall = stuckBody.node as? SmallBall, let newBall = newBody.node as? SmallBall {
-            let newPos = getIdealBallPosition(fromBall: stuckBall)
-            newBall.position = newPos
-            getBallValues(ball: newBall)
+//            let newPos = getIdealBallPosition(fromBall: stuckBall)
+//            newBall.position = newPos
+//            getBallValues(ball: newBall)
+            newBall.stuck = true
+            newBall.physicsBody?.isDynamic = false
             gameDelegate?.gameoverdesign()
             // total length of each color action
             let totalTime = 0.5
@@ -718,23 +826,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Add a new ball to the array and to the game scene if we can.
      */
     @objc func addBall() {
-        if checkIfOnlySkulls() {
-            cleanupBalls()
-        } else {
-            hardness = hardness + 0.1
-            
-            let newBall = makeBall()
-            
-            newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
-            
-            newBall.inLine = true
-            
-            addChild(newBall)
-            
-            startFallTimer(ball: newBall)
-            
-            balls.append(newBall)
-        }
+        let newBall = makeBall()
+        
+        newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
+        
+        newBall.inLine = true
+        
+        fallingBalls.append(newBall)
+        
+        addChild(newBall)
+        
+        startFallTimer(ball: newBall)
+        
+        balls.append(newBall)
+//        if checkIfOnlySkulls() {
+//            cleanupBalls()
+//        } else {
+//            hardness = hardness + 0.1
+//
+//            let newBall = makeBall()
+//
+//            newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
+//
+//            newBall.inLine = true
+//
+//            addChild(newBall)
+//
+//            startFallTimer(ball: newBall)
+//
+//            balls.append(newBall)
+//        }
     }
     
     func handleNextStage() {
