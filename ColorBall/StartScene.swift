@@ -100,7 +100,7 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = .white
         
         let startX = CGFloat((size.width / 2))
-        let startY = CGFloat((size.height / 2.5))
+        let startY = CGFloat((size.height / 3))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
         Circle.size = CGSize(width: diameter, height: diameter)
