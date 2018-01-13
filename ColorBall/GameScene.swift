@@ -21,7 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
-    let ring = PlayerCircle(imageNamed: "ring2")
+    let ring = PlayerCircle(imageNamed: "ring")
     
     // direction of rotation
     var direction: CGFloat = -1.0
@@ -189,7 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupSlots() {
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: 360 / CGFloat(16))
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(14))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2) + 2
 
@@ -291,7 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func getCircleValues() {
         if !canMove {
             Circle.lastTickPosition = Circle.zRotation
-            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(16) * direction))
+            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(14) * direction))
             canMove = true
         }
     }
@@ -386,14 +386,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 3)
         } else if let ball = newBody.node as? SmallBall {
             print("contact between circle and small ball")
-            increaseScore(byValue: 1)
+            
         }
     }
     
     func checkForZaps(colNumber: Int) {
         let colSlots = getSlotsInColumn(num: colNumber)
         if getFirstOpenSlot(slotList: colSlots) == nil {
-            game.decrementBallType(type: colSlots[0].colorType, byNumber: game.numberStartingBalls)
+            game.decrementBallType(type: colSlots[0].colorType, byNumber: 8)
             let zapBalls = colSlots.flatMap { s in
                 return s.ball!
             }
@@ -401,7 +401,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 slot.ball = nil
             }
             removeChildren(in: zapBalls)
-            increaseScore(byValue: 1)
+            
             addSkull(toColumn: colNumber)
         }
     }

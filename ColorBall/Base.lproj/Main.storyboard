@@ -67,7 +67,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwH-2j-QtW">
-                                <rect key="frame" x="86" y="38" width="46" height="46"/>
+                                <rect key="frame" x="76" y="38" width="46" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="pause"/>
                                 <connections>
@@ -75,9 +75,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdK-Yg-gdW">
-                                <rect key="frame" x="243" y="38" width="46" height="46"/>
+                                <rect key="frame" x="254" y="38" width="46" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="Icon-3"/>
+                                <state key="normal" backgroundImage="settings"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.92156862745098034" green="0.94509803921568625" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -112,6 +112,13 @@
                                     <segue destination="BV1-FR-VrT" kind="show" animates="NO" id="nQT-cd-lGN"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stage 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
+                                <rect key="frame" x="0.0" y="144" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="47"/>
+                                <color key="textColor" red="0.20781612396240234" green="0.20785865187644958" blue="0.20781344175338745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INO-Ra-MFt">
                                 <rect key="frame" x="0.0" y="362" width="375" height="161"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -119,13 +126,10 @@
                                 <color key="textColor" red="0.97555762079999997" green="0.97884279819999997" blue="0.95674671889999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stage 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
-                                <rect key="frame" x="0.0" y="144" width="375" height="60"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fail" translatesAutoresizingMaskIntoConstraints="NO" id="WgO-L3-3ue">
+                                <rect key="frame" x="121" y="75" width="132" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="47"/>
-                                <color key="textColor" red="1" green="0.72619777919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -558,13 +562,15 @@
         <image name="SHOP" width="354" height="208"/>
         <image name="addpicture" width="387" height="256"/>
         <image name="circle" width="200" height="200"/>
+        <image name="fail" width="321" height="159"/>
         <image name="home" width="177" height="176"/>
         <image name="item-1" width="412" height="274"/>
         <image name="item-2" width="413" height="273"/>
         <image name="item-3" width="412" height="273"/>
         <image name="item-4" width="412" height="273"/>
-        <image name="pause" width="81" height="81"/>
+        <image name="pause" width="104" height="105"/>
         <image name="play" width="247" height="248"/>
+        <image name="settings" width="104" height="105"/>
         <image name="share" width="173" height="169"/>
         <image name="watchVideo" width="362" height="239"/>
     </resources>

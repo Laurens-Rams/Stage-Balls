@@ -84,7 +84,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = .white
         isPaused = false
         //changes gravity spped up !!!not gravity//
-        physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.8)
         physicsWorld.contactDelegate = self
         
         let startX = CGFloat((size.width / 2))
@@ -169,7 +169,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
      */
     func updateCircle(dt: CGFloat) {
         //change animation
-        let increment = (((CGFloat(Double.pi) * 0.25) * direction)) * dt
+        let increment = (((CGFloat(Double.pi) * 0.2) * direction)) * dt
         
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
@@ -208,7 +208,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
      Start the repeating timer for adding a new ball to the scene.
      */
     func startTimer() {
-        let interval = 2.0
+        let interval = 1.5
         ballTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(addBall), userInfo: nil, repeats: false)
     }
     

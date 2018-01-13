@@ -25,7 +25,7 @@ class Game {
     // MARK: private properties
     
     // game score
-    private var _score: Int = 0
+    private var _score = 0
     
     // game level
     private var _stage: Int = 1
@@ -42,22 +42,22 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.075
+    private var _speedMultiplier: Double = 0.000
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.05
+    private var _gravityMultiplier: Double = 0.00
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
     
     // number of balls on starting row
-    private var _numberStartingBalls = 3
+    private var _numberStartingBalls = 2
     
     // keep track of extra chance
     private var _extraChance = 1
     
-    private var _slotsPerColumn = 3
+    private var _slotsPerColumn = 4
     
     // counts for each type of physics category on the screen
     private var _blues = 0
@@ -191,7 +191,8 @@ class Game {
      */
     var score: Int {
         get {
-            return _score
+            let amountToAdd = (_stage + 1) * 3
+            return _score + amountToAdd
         }
     }
     
@@ -315,7 +316,7 @@ class Game {
         - byValue: How much to add to the score.
      */
     func increaseScore(byValue: Int) {
-        _score += byValue
+        _score -= byValue
     }
     
     /**
