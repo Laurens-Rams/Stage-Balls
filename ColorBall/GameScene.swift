@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
+    let ring = PlayerCircle(imageNamed: "ring2")
     
     // direction of rotation
     var direction: CGFloat = -1.0
@@ -89,6 +90,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Circle.position = startpos
         Circle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
         
+        ring.position = CGPoint(x: size.width / 2, y: size.height - 60)
+        ring.size = CGSize(width: 65, height: 65)
+        
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))
         body.categoryBitMask = PhysicsCategory.circleBall
         body.allowsRotation = true
@@ -99,6 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupSlots()
 
         addChild(Circle)
+        addChild(ring)
         
         setupFirstFallTimer()
     }
@@ -176,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.85, repeats: false, block: {timer in
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
             self.addBall()
             self.allowToMove = true
         })
@@ -184,9 +189,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupSlots() {
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: 360 / CGFloat(game.numberStartingBalls))
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(16))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
-        let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
+        let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2) + 2
 
         for i in 0..<game.numberStartingBalls {
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
@@ -286,7 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func getCircleValues() {
         if !canMove {
             Circle.lastTickPosition = Circle.zRotation
-            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(game.numberStartingBalls)) * direction)
+            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(16) * direction))
             canMove = true
         }
     }
@@ -388,7 +393,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkForZaps(colNumber: Int) {
         let colSlots = getSlotsInColumn(num: colNumber)
         if getFirstOpenSlot(slotList: colSlots) == nil {
-            game.decrementBallType(type: colSlots[0].colorType, byNumber: 5)
+            game.decrementBallType(type: colSlots[0].colorType, byNumber: game.numberStartingBalls)
             let zapBalls = colSlots.flatMap { s in
                 return s.ball!
             }
@@ -396,7 +401,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 slot.ball = nil
             }
             removeChildren(in: zapBalls)
-            increaseScore(byValue: 2)
+            increaseScore(byValue: 1)
             addSkull(toColumn: colNumber)
         }
     }
@@ -460,8 +465,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + crashY)
             let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
             
-            let shakeLeft = getMoveAction(moveX: -25.0, moveY: 0.0, totalTime: 0.1)
-            let shakeRight = getMoveAction(moveX: 25.0, moveY: 0.0, totalTime: 0.1)
+            let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.05)
+            let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.05)
+            
             
             camera?.run(SKAction.sequence([
                 shakeLeft,
@@ -472,13 +478,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shakeRight,
                 shakeRight,
                 shakeLeft,
-                offsetZoom
+                
             ]))
             
             // run the actions as a sequence on each node
             newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
 
             // start the timer
+            UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+                self.ring.alpha = 0.0
+            }, completion: nil)
+            
             let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
                 self.handleGameOver()
             })
@@ -534,6 +544,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func handleGameOver() {
+        
         isPaused = true
         ballTimer?.invalidate()
         gameDelegate?.gameover()
@@ -576,10 +587,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.pinkBall,
             PhysicsCategory.redBall,
             PhysicsCategory.yellowBall,
-            PhysicsCategory.greenBall
+            PhysicsCategory.greenBall,
+            PhysicsCategory.orangeBall,
+            PhysicsCategory.purpleBall,
+            PhysicsCategory.greyBall,
         ]
         
-        // generate a random integer betweeb 0 and 3
+        // generate a random integer betweeb 0 and 7
         let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
         
         // use the random integer to get a ball type and a ball color
@@ -587,11 +601,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ballColor = game.ballColors[rando]
         
         game.incrementBallType(type: ballType)
-        print(game.pinks)
+        print("ballcolors", game.ballColors.count, rando)
         print(game.blues)
+        print(game.pinks)
         print(game.reds)
         print(game.yellows)
         print(game.greens)
+        print(game.oranges)
+        print(game.purples)
+        print(game.greys)
         
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
@@ -602,8 +620,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
-        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall
+        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
         body.restitution = 0
+        print("rando:", rando)
         categories.remove(at: rando)
         body.allowsRotation = true
         
@@ -626,9 +645,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.pinkBall,
             PhysicsCategory.redBall,
             PhysicsCategory.yellowBall,
-            PhysicsCategory.greenBall
+            PhysicsCategory.greenBall,
+            PhysicsCategory.orangeBall,
+            PhysicsCategory.purpleBall,
+            PhysicsCategory.greyBall,
         ]
-        
         var rando = randomInteger(upperBound: nil) - 1
         var ballType = BallColor(rawValue: rando)!
         
@@ -648,9 +669,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
-        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall
+        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
         body.restitution = 0
+        print("rando2", rando)
         categories.remove(at: rando)
+        
         body.allowsRotation = true
         
         body.usesPreciseCollisionDetection = true
@@ -676,7 +699,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         body.categoryBitMask = PhysicsCategory.skullBall
-        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.pinkBall | PhysicsCategory.blueBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall
+        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
         body.restitution = 0
         body.allowsRotation = true
         
@@ -698,7 +721,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if game.skulls < game.numberStartingBalls {
             let newBall = makeBall()
             
-            newBall.position = CGPoint(x: size.width / 2, y: size.height - 40)
+            newBall.position = CGPoint(x: size.width / 2, y: size.height - 60)
             
             newBall.inLine = true
             
@@ -728,7 +751,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let bound = upperBound {
              return Int(arc4random_uniform(UInt32(bound)) + UInt32(1))
         }
-        return Int(arc4random_uniform(5) + UInt32(1))
+        return Int(arc4random_uniform(8) + UInt32(1))
     }
     
     /**

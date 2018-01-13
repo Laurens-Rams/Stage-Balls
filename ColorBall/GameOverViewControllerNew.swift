@@ -3,53 +3,35 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import GameKit
-import GoogleMobileAds
 
-//Command
-class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
+class GameOverViewControllerNew: UIViewController, GKGameCenterControllerDelegate, StartSceneDelegate {
     
-    @IBOutlet var playedLabel: UILabel!
     
-    @IBOutlet var startOverBtn: UIButton!
-    @IBOutlet var shopButton: UIButton!
-    
-    @IBOutlet var highScore: UILabel!
-    @IBOutlet var cornerPoints: UILabel!
-    @IBOutlet var showPoints: UILabel!
-    @IBAction func likebuttonpressed(_ sender: AnyObject) {
-        if let url = URL(string: "http://www.facebook.com/Stage-Ballz-1245764198880305/") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    @IBAction func goToShop(_ sender: AnyObject) {
-        let shopVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shop")
-        present(shopVC, animated: false, completion: nil)
-    }
-
-    @IBOutlet var myBannerBottom: GADBannerView!
-    
+    @IBOutlet var moneyLabel: UILabel!
     var endingScore: Int = 0
-    var currentMoney: Int = 0
+    var audioPlayer = AVAudioPlayer()
+    
+    @IBOutlet var showpoints: UILabel!
+    var scene: GameOverScene!
     
     override func viewDidLoad() {
         authenticateLocalPlayer()
+        super.viewDidLoad()
+        scene = GameOverScene(size: view.bounds.size)
+        scene.del = self
+        let skView = view as! SKView
+        skView.showsFPS = false
+        skView.showsNodeCount = false
+        scene.scaleMode = .resizeFill
+        skView.presentScene(scene)
+
+        showpoints.text = scoreFormatter(score: endingScore)
         
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        myBannerBottom.delegate = self
-        myBannerBottom.adUnitID = "ca-app-pub-1616902070996876/2360545943"
-        myBannerBottom.rootViewController = self
-        myBannerBottom.load(request)
-        
-        showPoints.text = scoreFormatter(score: endingScore)
-        playedLabel.text = ("Games Played: ").appending(String(DataManager.main.played))
-        highScore.text = ("Best Score: ").appending(scoreFormatter(score: DataManager.main.highScore))
-        
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
-            self.startOverBtn.isEnabled = true
-        
-        })
+    }
+    
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     func scoreFormatter(score: Int) -> String {
@@ -59,9 +41,6 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
         return String(score)
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
     
     @IBOutlet var scoreLabel: UILabel!
     
@@ -120,11 +99,17 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards
         gcVC.leaderboardIdentifier = LEADERBOARD_ID
-        present(gcVC, animated: true, completion: nil)
+        present(gcVC, animated: false, completion: nil)
     }
     
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    func launchGameViewController() {
+        let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as! GameViewController
+        scene.isPaused = true
+        present(gameVC, animated: false, completion: nil)
     }
     
     @IBAction func volumeONOFF(_ sender: AnyObject) {
@@ -137,31 +122,15 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
         }
     }
     
-    @IBAction func ratePressed(_ sender: AnyObject) {
-        
-        print("works")
-        rateApp(appId: "idfprStageBallz") { success in
-            print("RateApp \(success)")
-        }
+    // start scene delegate protocol methods
+    
+    func launchGame() {
+        launchGameViewController()
     }
     
-    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
-        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
-            completion(false)
-            return
-        }
-        guard #available(iOS 10, *) else {
-            completion(UIApplication.shared.openURL(url))
-            return
-        }
-        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+    func launchShop() {
+        // launch the shop
     }
-    
-    @IBAction func share(_ sender: AnyObject) {
-        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! My best score is 23. Can you beat my score? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = self.view
-        self.present(activityVC, animated: true, completion: nil)
-    }
-    
     
 }
+

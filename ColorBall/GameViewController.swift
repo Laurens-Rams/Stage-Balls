@@ -12,6 +12,8 @@ import GameplayKit
 
 class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate {
     
+    @IBOutlet var settingButton: UIButton!
+    @IBOutlet var pauseButton: UIButton!
     @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var menuBtn: UIButton!
     @IBOutlet var moneyLabel: UILabel!
@@ -60,7 +62,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func setupUI() {
         menuBtn.isEnabled = true
-        moneyLabel.text = scoreFormatter(score: DataManager.main.money)
+        
         
     }
     
@@ -126,12 +128,16 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         camera.removeFromParent()
         
         // create and present the game over view controller
-        let gameVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId") as! GameOver
+        let gameVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as! GameOverViewControllerNew
         gameVC.endingScore = scene.game.score
         present(gameVC, animated: false, completion: nil)
     }
     func gameoverdesign() {
-        scoreLabel.font = scoreLabel.font.withSize(0.0)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+             self.scoreLabel.alpha = 0.0
+            self.pauseButton.alpha = 0.0
+            self.settingButton.alpha = 0.0
+        }, completion: nil)
     }
     
     func handleNextStage() {

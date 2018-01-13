@@ -1,11 +1,10 @@
 //
-//  MenuScene.swift
+//  GameOverScene.swift
 //  ColorBall
 //
-//  Created by Emily Kolar on 1/6/18.
-//  Copyright © 2018 Laurens-Art Ramsenthaler. All rights reserved.
+//  Created by Laurens-Art Ramsenthaler on 13.01.18.
+//  Copyright © 2018 Emily Kolar. All rights reserved.
 //
-
 import Foundation
 import Darwin
 import SpriteKit
@@ -18,14 +17,13 @@ import SpriteKit
  - Menu balls need button press actions
  */
 
-class MenuScene: SKScene, SKPhysicsContactDelegate {
+class GameOverScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: class properties
     
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
-    let CircleImage = PlayerCircle(imageNamed: "play")
-    
+    var slots = [Slot]()
     // delegate to handle "button" clicks (on nodes)
     var del: StartSceneDelegate?
     
@@ -74,9 +72,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         
         dt = 1.0/CGFloat(currentFPS)
         lastUpdateTime = currentTime
-
+        
         updateCircle(dt: dt)
-
+        
         updateBalls(dt: dt)
     }
     
@@ -91,11 +89,8 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         let startY = CGFloat((size.height / 3))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
-        CircleImage.position = startpos
         Circle.size = CGSize(width: 200.0, height: 200.0)
-        CircleImage.size = CGSize(width: 200.0, height: 200.0)
         Circle.name = "Player"
-        CircleImage.name = "playButton"
         
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))
         body.categoryBitMask = PhysicsCategory.circleBall
@@ -105,7 +100,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         Circle.physicsBody = body
         
         addChild(Circle)
-        addChild(CircleImage)
         
         self.addBall()
     }
@@ -117,7 +111,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             print("touch")
-   
+            
             if let node = nodes(at: touch.location(in: self)).first {
                 if node.name == "playButton" {
                     print("start ball")
@@ -136,7 +130,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             break
         case .like:
             print("like")
-    
+            
             break
         case .presents:
             print("presents")
@@ -174,7 +168,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
     }
-
+    
     /**
      Update the position of every applicable ball on the screen.
      - parameters:
@@ -203,7 +197,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-
+    
     /**
      Start the repeating timer for adding a new ball to the scene.
      */
@@ -338,12 +332,12 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         newBall.optionType = optionType
         
         newBall.size = CGSize(width: 50.0, height: 50.0)
-
+        
         let body = SKPhysicsBody(circleOfRadius: 40.0)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = PhysicsCategory.blueBall
         body.contactTestBitMask = PhysicsCategory.circleBall
-
+        
         body.restitution = 0
         body.allowsRotation = true
         
@@ -439,6 +433,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     
     // []  |
 }
+
 
 
 

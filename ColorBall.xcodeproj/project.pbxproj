@@ -14,6 +14,9 @@
 		0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB461F19641500568F11 /* AlternativStart.swift */; };
 		0D81DD871F16C63100712F49 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D81DD861F16C63100712F49 /* StartViewController.swift */; };
 		0D81DD8A1F17190900712F49 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D81DD891F17190900712F49 /* GameKit.framework */; };
+		0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */; };
+		0D94CA82200A53A200D6E3EA /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA81200A53A200D6E3EA /* GameOverScene.swift */; };
+		0D94CA8A200A6ADF00D6E3EA /* Face Off M54.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */; };
 		0DC020051F203116009A76F9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0DC020041F203116009A76F9 /* Podfile */; };
 		0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC020071F2035B3009A76F9 /* DataManager.swift */; };
 		0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */; };
@@ -67,8 +70,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0D245BF41F2019AF008C04DB /* Monopoly Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Monopoly Bold.ttf"; sourceTree = "<group>"; };
-		0D245BF51F2019AF008C04DB /* Monopoly Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Monopoly Regular.ttf"; sourceTree = "<group>"; };
 		0D245BF61F202333008C04DB /* GameScoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreDelegate.swift; sourceTree = "<group>"; };
 		0D245BFB1F202DE2008C04DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
@@ -76,6 +77,9 @@
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
 		0D81DD861F16C63100712F49 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		0D81DD891F17190900712F49 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewControllerNew.swift; sourceTree = "<group>"; };
+		0D94CA81200A53A200D6E3EA /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Face Off M54.ttf"; sourceTree = "<group>"; };
 		0DC020041F203116009A76F9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		0DC020071F2035B3009A76F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartGameDelegate.swift; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 				0D4AEB401F19285400568F11 /* GameOver.swift */,
 				A13F126B1EF703F700A34B16 /* GameViewController.swift */,
 				0D81DD861F16C63100712F49 /* StartViewController.swift */,
+				0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */,
 				A12CC1E3200116F600A70204 /* StartupViewController.swift */,
 			);
 			name = ViewControllers;
@@ -271,6 +276,7 @@
 				0D4AEB3E1F19068900568F11 /* StartScene.swift */,
 				A13F12691EF703F700A34B16 /* GameScene-Old.swift */,
 				A12CC1E52001175500A70204 /* MenuScene.swift */,
+				0D94CA81200A53A200D6E3EA /* GameOverScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -303,8 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */,
-				0D245BF41F2019AF008C04DB /* Monopoly Bold.ttf */,
-				0D245BF51F2019AF008C04DB /* Monopoly Regular.ttf */,
+				0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 			files = (
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
 				A13F126F1EF703F700A34B16 /* Main.storyboard in Resources */,
+				0D94CA8A200A6ADF00D6E3EA /* Face Off M54.ttf in Resources */,
 				A13F12711EF703F700A34B16 /* Assets.xcassets in Resources */,
 				0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */,
 				A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */,
@@ -556,12 +562,14 @@
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
 				A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */,
+				0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */,
 				0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */,
 				A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */,
 				A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */,
 				0D245BFC1F202DE2008C04DB /* Item.swift in Sources */,
 				0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */,
 				A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */,
+				0D94CA82200A53A200D6E3EA /* GameOverScene.swift in Sources */,
 				0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */,
 				0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */,
 				A12CC1E62001175500A70204 /* MenuScene.swift in Sources */,

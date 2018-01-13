@@ -23,7 +23,6 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
-        moneyLabel.text = scoreFormatter(score: DataManager.main.money)
         
     }
 

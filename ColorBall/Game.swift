@@ -31,8 +31,8 @@ class Game {
     private var _stage: Int = 1
     
     // starting player circle diameter
-    private var _playerDiameter: CGFloat = 200.0
-    private var _outerDiameter: CGFloat = 221.0
+    private var _playerDiameter: CGFloat = 200
+    private var _outerDiameter: CGFloat = 221
     private var _minOuterDiameter: CGFloat = 210.0
 
     
@@ -42,22 +42,22 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.02
+    private var _speedMultiplier: Double = 0.075
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.02
+    private var _gravityMultiplier: Double = 0.05
     
     // starting value for how often balls are added
-    private var _ballInterval = TimeInterval(2.0)
+    private var _ballInterval = TimeInterval(1.8)
     
     // number of balls on starting row
-    private var _numberStartingBalls = 15
+    private var _numberStartingBalls = 3
     
     // keep track of extra chance
     private var _extraChance = 1
     
-    private var _slotsPerColumn = 4
+    private var _slotsPerColumn = 3
     
     // counts for each type of physics category on the screen
     private var _blues = 0
@@ -65,14 +65,20 @@ class Game {
     private var _reds = 0
     private var _yellows = 0
     private var _greens = 0
+    private var _purples = 0
+    private var _oranges = 0
+    private var _greys = 0
     private var _skulls = 0
     
     var ballColors: [UIColor] = [
-        UIColor(red: 0.978, green: 0.458, blue: 0.51, alpha: 1.0),
-        UIColor(red: 0.882, green: 0.694, blue: 0.235, alpha: 1.0),
-        UIColor(red: 0.302, green: 0.6, blue: 0.886, alpha: 1.0),
-        UIColor(red: 0.235, green: 0.549, blue: 0.548, alpha: 1.0),
-        UIColor(red: 0.210, green: 0.649, blue: 0.248, alpha: 1.0),
+        UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
+        UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
+        UIColor(red: 63/255, green: 139/255, blue: 138/255, alpha: 1.0),
+        UIColor(red: 223/255, green: 175/255, blue: 71/255, alpha: 1.0),
+        UIColor(red: 124/255, green: 45/255, blue: 243/255, alpha: 1.0),
+        UIColor(red: 117/255, green: 228/255, blue: 179/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 00/255, blue: 00/255, alpha: 1.0),
+        UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
     ]
     
     // add colors to the array to add background colors
@@ -136,7 +142,6 @@ class Game {
             return _yellows
         }
     }
-    
     /**
      Number of greens in game (read-only getter).
      */
@@ -145,6 +150,32 @@ class Game {
             return _greens
         }
     }
+    /**
+     Number of purples in game (read-only getter).
+     */
+    var purples: Int {
+        get {
+            return _purples
+        }
+    }
+    /**
+     Number of oranges in game (read-only getter).
+     */
+    var oranges: Int {
+        get {
+            return _oranges
+        }
+    }
+    
+    /**
+     Number of greys in game (read-only getter).
+     */
+    var greys: Int {
+        get {
+            return _greys
+        }
+    }
+
 
     /**
      Number of skulls in game (read-only getter).
@@ -234,7 +265,7 @@ class Game {
     var smallDiameter: CGFloat {
         get {
             let circ = CGFloat.pi * _outerDiameter
-            let newSmall = circ / CGFloat(numberStartingBalls + (_stage - 1))
+            let newSmall = circ / CGFloat(15 + (_stage - 1))
             return newSmall
         }
     }
@@ -321,6 +352,15 @@ class Game {
             case .green:
                 _greens += 1
                 break
+            case .purple:
+                _purples += 1
+                break
+            case .orange:
+                _oranges += 1
+                break
+            case .grey:
+                _greys += 1
+                break
             case .skull:
                 _skulls += 1
         }
@@ -349,6 +389,15 @@ class Game {
             case .green:
                 _greens -= byNumber
                 break
+            case .purple:
+                _purples -= byNumber
+                break
+            case .orange:
+                _oranges -= byNumber
+                break
+            case .grey:
+                _greys -= byNumber
+                break
             case .skull:
                 _skulls -= byNumber
         }
@@ -372,6 +421,12 @@ class Game {
                 return yellows
             case .green:
                 return greens
+            case .orange:
+                return oranges
+            case .purple:
+                return purples
+            case .grey:
+                return greys
             default: return 0
         }
     }
