@@ -246,6 +246,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 skulls[i].removeFromParent()
                 if isLast {
                     self.gameDelegate?.handleNextStage()
+                    self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
                 }
             }
         }
@@ -725,6 +726,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Add a new ball to the array and to the game scene if we can.
      */
     @objc func addBall() {
+        print(game.skulls, game.numberStartingBalls)
         if game.skulls < game.numberStartingBalls {
             let newBall = makeBall()
             
