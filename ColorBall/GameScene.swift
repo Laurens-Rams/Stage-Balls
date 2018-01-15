@@ -103,7 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupSlots()
 
         addChild(Circle)
-        addChild(ring)
+        
         
         setupFirstFallTimer()
     }

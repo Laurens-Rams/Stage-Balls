@@ -338,14 +338,14 @@ class Game {
      */
     func incrementBallType(type: BallColor) {
         switch (type) {
-            case .red:
-                _reds += 1
-                break
             case .blue:
                 _blues += 1
                 break
             case .pink:
                 _pinks += 1
+                break
+            case .red:
+                _reds += 1
                 break
             case .yellow:
                 _yellows += 1
@@ -375,14 +375,14 @@ class Game {
      */
     func decrementBallType(type: BallColor, byNumber: Int) {
         switch (type) {
-            case .red:
-                _reds -= byNumber
-                break
             case .blue:
                 _blues -= byNumber
                 break
             case .pink:
                 _pinks -= byNumber
+                break
+            case .red:
+                _reds -= byNumber
                 break
             case .yellow:
                 _yellows -= byNumber
@@ -412,12 +412,12 @@ class Game {
      */
     func getCountForType(type: BallColor) -> Int {
         switch (type) {
-            case .red:
-                return reds
             case .blue:
                 return blues
             case .pink:
                 return pinks
+            case .red:
+                return reds
             case .yellow:
                 return yellows
             case .green:
