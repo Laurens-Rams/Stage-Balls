@@ -11,6 +11,17 @@ import SpriteKit
 
 enum BallColor: Int {
     case blue = 0, pink, red, yellow, green, orange, purple, grey, skull
+    
+    func name() -> String {
+        switch self {
+        case .blue:
+            return "blue"
+        case .pink:
+            return "pink"
+        default:
+            return "ball"
+        }
+    }
 }
 
 class SmallBall: SKShapeNode {

@@ -393,7 +393,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkForZaps(colNumber: Int) {
         let colSlots = getSlotsInColumn(num: colNumber)
         if getFirstOpenSlot(slotList: colSlots) == nil {
-            game.decrementBallType(type: colSlots[0].colorType, byNumber: 8)
+            game.decrementBallType(type: colSlots[0].colorType, byNumber: 4)
             let zapBalls = colSlots.flatMap { s in
                 return s.ball!
             }
@@ -594,9 +594,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ]
         
         // generate a random integer betweeb 0 and 7
+        // this bug:
         let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
+
+//        let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
         
-        // use the random integer to get a ball type and a ball color
+        // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: rando)!
         let ballColor = game.ballColors[rando]
         
@@ -650,14 +653,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.purpleBall,
             PhysicsCategory.greyBall,
         ]
+
         var rando = randomInteger(upperBound: nil) - 1
         var ballType = BallColor(rawValue: rando)!
         
         while (game.getCountForType(type: ballType) == 0) {
-            rando = randomInteger(upperBound: nil)
+            rando = randomInteger(upperBound: nil) - 1
             ballType = BallColor(rawValue: rando)!
         }
         
+        print(ballType.name())
+        print(game.pinks)
+        print(game.blues)
         game.incrementBallType(type: ballType)
         
         let ballColor = game.ballColors[rando]
