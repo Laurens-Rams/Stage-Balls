@@ -11,6 +11,7 @@ class GameOverViewControllerNew: UIViewController, GKGameCenterControllerDelegat
     var endingScore: Int = 0
     var audioPlayer = AVAudioPlayer()
     
+    @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     var scene: GameOverScene!
     
@@ -26,6 +27,7 @@ class GameOverViewControllerNew: UIViewController, GKGameCenterControllerDelegat
         skView.presentScene(scene)
 
         showpoints.text = scoreFormatter(score: endingScore)
+        stageLabel.text = stageFormatter(stage: endingScore)
         
     }
     
@@ -39,6 +41,9 @@ class GameOverViewControllerNew: UIViewController, GKGameCenterControllerDelegat
             return "0\(score)"
         }
         return String(score)
+    }
+    func stageFormatter(stage: Int) -> String {
+        return String(stage)
     }
     
     

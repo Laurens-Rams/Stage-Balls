@@ -28,7 +28,7 @@ class Game {
     private var _score = 0
     
     // game level
-    private var _stage: Int = 1
+    private var _stage: Int = 2
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = 200
@@ -37,12 +37,12 @@ class Game {
 
     
     // starting small ball diameter
-    private var _smallDiameter: CGFloat = 42.0
+    private var _smallDiameter: CGFloat = 47.0
     
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.000
+    private var _speedMultiplier: Double = 0.05
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
@@ -191,7 +191,8 @@ class Game {
      */
     var score: Int {
         get {
-            let amountToAdd = (_stage + 1) * 3
+            let amountToAdd = ((_stage + 1) * 3)
+            print("todad", _score)
             return _score + amountToAdd
         }
     }
@@ -265,9 +266,7 @@ class Game {
      */
     var smallDiameter: CGFloat {
         get {
-            let circ = CGFloat.pi * _outerDiameter
-            let newSmall = circ / CGFloat(15 + (_stage - 1))
-            return newSmall
+            return _smallDiameter
         }
     }
     
@@ -304,6 +303,8 @@ class Game {
      */
     func increaseStage() {
         _stage += 1
+        _score = 0
+        // ?
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2
         }

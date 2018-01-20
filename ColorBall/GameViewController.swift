@@ -36,7 +36,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setupGame() {
-        
         setupScene()
         setupCamera()
         setupUI()
@@ -45,7 +44,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func setupScene() {
         let score = game.score
-        scoreLabel.text = "0\(score)"
+        scoreLabel.text = "\(score)"
         scene = GameScene(size: view.frame.size)
         scene.gameDelegate = self
         scene.scoreKeeper = self
@@ -86,7 +85,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func scoreFormatter(score: Int) -> String {
         if score < 10 {
-            return "0\(score)"
+            return "\(score)"
         }
         return String(score)
     }
@@ -108,10 +107,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func unpauseGame() {
         scoreLabel.textColor = UIColor.red
         var countdown = 3
-        self.scoreLabel.text = "0\(countdown)"
+        self.scoreLabel.text = "\(countdown)"
         let _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true, block: { timer in
             countdown -= 1
-            self.scoreLabel.text = "0\(countdown)"
+            self.scoreLabel.text = "\(countdown)"
             if countdown == 0 {
                 timer.invalidate()
                 if self.scene.fallingBalls.count > 0 {

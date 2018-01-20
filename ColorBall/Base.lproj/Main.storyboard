@@ -135,6 +135,7 @@
                     </view>
                     <connections>
                         <outlet property="showpoints" destination="INO-Ra-MFt" id="br0-cs-hji"/>
+                        <outlet property="stageLabel" destination="NCH-hY-IBo" id="yI1-NP-i4d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HbX-SH-3ri" userLabel="First Responder" sceneMemberID="firstResponder"/>
