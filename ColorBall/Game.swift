@@ -28,7 +28,7 @@ class Game {
     private var _score = 0
     
     // game level
-    private var _stage: Int = 2
+    private var _stage: Int = 9
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = 200

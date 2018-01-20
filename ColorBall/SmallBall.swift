@@ -79,11 +79,11 @@ struct PhysicsCategory {
     static let pinkBall: UInt32 = 0b0011
     static let redBall: UInt32 = 0b0100
     static let yellowBall: UInt32 = 0b0101
-    static let greenBall: UInt32 = 0b1100
+    static let greenBall: UInt32 = 0b0110
     static let orangeBall: UInt32 = 0b0111
-    static let purpleBall: UInt32 = 0b1001
-    static let greyBall: UInt32 = 0b1111
-    static let skullBall: UInt32 = 0b1000
+    static let purpleBall: UInt32 = 0b1000
+    static let greyBall: UInt32 = 0b1001
+    static let skullBall: UInt32 = 0b1011
     
     static func returnCategory(num: Int) -> UInt32 {
         switch (num) {

@@ -12,6 +12,8 @@ import SpriteKit
 
 //TODOS:
 // - image balls on high stage
+// - no grey ball (check the yellow vs grey)
+// - right & left press
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -596,7 +598,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // generate a random integer betweeb 0 and 7
         // this bug:
-        let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
+        let rando = index < game.ballColors.count ? index : randomInteger(upperBound: nil) - 1
 
 //        let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
         
