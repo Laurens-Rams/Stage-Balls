@@ -7,6 +7,9 @@ import GoogleMobileAds
 
 //Command
 class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
+    deinit {
+        print("game over view controller deinit")
+    }
     
     @IBOutlet var playedLabel: UILabel!
     

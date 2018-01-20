@@ -7,6 +7,10 @@ import GameKit
 class StartViewController: UIViewController, GKGameCenterControllerDelegate, StartSceneDelegate {
     
 
+    deinit {
+        print("start view controller deinit")
+    }
+
     @IBOutlet var moneyLabel: UILabel!
     
     var audioPlayer = AVAudioPlayer()
@@ -23,7 +27,6 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
-        
     }
 
     

@@ -6,6 +6,10 @@ import GameKit
 
 class AlternativStart: UIViewController, GKGameCenterControllerDelegate {
     
+    deinit {
+        print("alternative start view controller deinit")
+    }
+    
     var delegate: StartGameDelegate?
     
     @IBOutlet var bestScoreLabel: UILabel!

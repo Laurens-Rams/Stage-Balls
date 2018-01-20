@@ -9,6 +9,10 @@
 import UIKit
 
 class StartupViewController: UIViewController {
+    
+    deinit {
+        print("startup view controller deinit")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

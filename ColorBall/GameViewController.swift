@@ -12,6 +12,10 @@ import GameplayKit
 
 class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate {
     
+    deinit {
+        print("game view controller deinit")
+    }
+    
     @IBOutlet var settingButton: UIButton!
     @IBOutlet var pauseButton: UIButton!
     @IBOutlet var scoreLabel: UILabel!
@@ -33,6 +37,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         game = Game()
         camera = SKCameraNode()
         setupGame()
+    }
+    
+    func listenForNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleGameRestartRequest), name: Notification.Name(rawValue: "gameRestartRequested"), object: nil)
+    }
+    
+    @objc func handleGameRestartRequest() {
+        restartGame()
     }
     
     func setupGame() {
@@ -96,6 +108,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func pauseGame() {
+        // TODO: destroy the pause view
         scene.isPaused = true
         scene.fallTimer.invalidate()
         let pauseView = PauseView.instanceFromNib() as! PauseView
@@ -135,6 +148,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         gameVC.endingScore = scene.game.score
         present(gameVC, animated: false, completion: nil)
     }
+
     func gameoverdesign() {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             

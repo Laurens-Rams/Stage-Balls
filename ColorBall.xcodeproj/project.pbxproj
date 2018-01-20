@@ -15,7 +15,7 @@
 		0D81DD871F16C63100712F49 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D81DD861F16C63100712F49 /* StartViewController.swift */; };
 		0D81DD8A1F17190900712F49 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D81DD891F17190900712F49 /* GameKit.framework */; };
 		0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */; };
-		0D94CA82200A53A200D6E3EA /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA81200A53A200D6E3EA /* GameOverScene.swift */; };
+		0D94CA82200A53A200D6E3EA /* GameOverScene-old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */; };
 		0D94CA8A200A6ADF00D6E3EA /* Face Off M54.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */; };
 		0DC020051F203116009A76F9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0DC020041F203116009A76F9 /* Podfile */; };
 		0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC020071F2035B3009A76F9 /* DataManager.swift */; };
@@ -45,6 +45,7 @@
 		A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */; };
 		A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83FB1FF4832C00359FC8 /* Settings.swift */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
+		A1A088312013C0C400A15983 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A088302013C0C400A15983 /* GameOverScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
 		A1EEAF3C1FFD1D730027A93B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EEAF3B1FFD1D730027A93B /* Extensions.swift */; };
@@ -78,7 +79,7 @@
 		0D81DD861F16C63100712F49 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		0D81DD891F17190900712F49 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewControllerNew.swift; sourceTree = "<group>"; };
-		0D94CA81200A53A200D6E3EA /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameOverScene-old.swift"; sourceTree = "<group>"; };
 		0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Face Off M54.ttf"; sourceTree = "<group>"; };
 		0DC020041F203116009A76F9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		0DC020071F2035B3009A76F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -117,6 +118,7 @@
 		A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRepeatingTimer.swift; sourceTree = "<group>"; };
 		A15E83FB1FF4832C00359FC8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		A1A088302013C0C400A15983 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		A1EEAF3B1FFD1D730027A93B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -276,7 +278,8 @@
 				0D4AEB3E1F19068900568F11 /* StartScene.swift */,
 				A13F12691EF703F700A34B16 /* GameScene-Old.swift */,
 				A12CC1E52001175500A70204 /* MenuScene.swift */,
-				0D94CA81200A53A200D6E3EA /* GameOverScene.swift */,
+				0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */,
+				A1A088302013C0C400A15983 /* GameOverScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -564,12 +567,13 @@
 				A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */,
 				0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */,
 				0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */,
+				A1A088312013C0C400A15983 /* GameOverScene.swift in Sources */,
 				A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */,
 				A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */,
 				0D245BFC1F202DE2008C04DB /* Item.swift in Sources */,
 				0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */,
 				A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */,
-				0D94CA82200A53A200D6E3EA /* GameOverScene.swift in Sources */,
+				0D94CA82200A53A200D6E3EA /* GameOverScene-old.swift in Sources */,
 				0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */,
 				0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */,
 				A12CC1E62001175500A70204 /* MenuScene.swift in Sources */,

@@ -167,10 +167,10 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(allowTouches == true){
-            
         
         let middle = (view?.frame.width)! / 2
-        if let touch = touches.first {
+
+            if let touch = touches.first {
             let touchX = touch.location(in: view).x
             isTouching = true
             if touchX < middle && lastDirection < 0 {
@@ -186,6 +186,7 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
             return
         }
     }
+
     func addBall() {
 
         if(ImageCounter < 4){

@@ -10,8 +10,10 @@ import Foundation
 import Darwin
 import SpriteKit
 
-//TODOS:
-// 
+// TODOS:
+// - column snap top ball and/or distance calc points to columns - 1
+// - too many view controllers created?
+// - make interaction animations (particle explosion, etc)
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -500,51 +502,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("contact between two different color balls")
         if let newBall = newBody.node as? SmallBall {
             startGameOverSequence(newBall: newBall)
-//            allowToMove = false
-//            canMove = false
-//            newBall.stuck = true
-//            newBall.physicsBody?.isDynamic = false
-//            gameDelegate?.gameoverdesign()
-//            // total length of each color action
-//            let totalTime = 0.5
-//            // fade to red actions
-//            let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
-//            // fade back to original color actions
-//            let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
-//
-//            // create the camera zoom action
-//            let cameraStart = camera!.position
-//            let crashY = (game.playerDiameter / 2.0) + (game.smallDiameter / 2.0)
-//            let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + crashY)
-//            let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
-//
-//            let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.05)
-//            let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.05)
-//
-//
-//            camera?.run(SKAction.sequence([
-//                shakeLeft,
-//                shakeRight,
-//                shakeRight,
-//                shakeLeft,
-//                shakeLeft,
-//                shakeRight,
-//                shakeRight,
-//                shakeLeft,
-//
-//            ]))
-//
-//            // run the actions as a sequence on each node
-//            newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
-//
-//            // start the timer
-//            UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-//                self.ring.alpha = 0.0
-//            }, completion: nil)
-//
-//            let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
-//                self.handleGameOver()
-//            })
         }
     }
     
@@ -821,37 +778,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     /**
-     Convert degrees to radians.
-     - parameters:
-        - angle: Angle as a CGFloat.
-     - returns: Radians as a CGFloat.
-     */
-    func degreesToRad(angle: CGFloat) -> CGFloat {
-        return angle * (CGFloat(Double.pi) / 180)
-    }
-    
-    /**
-     Convert radians to degrees.
-     - parameters:
-        - angle: Radians as a CGFloat.
-     - returns: Angle as a CGFloat.
-     */
-    func radiansToDeg(angle: CGFloat) -> CGFloat {
-        return angle * (CGFloat(Double.pi) * 180)
-    }
-    
-    /**
-     Get the distance between two points.
-     - parameters:
-        - pointA: First point.
-        - pointB: Second point.
-     - returns: Distance as a CGFloat.
-     */
-    func distanceBetween(pointA: CGPoint, pointB: CGPoint) -> CGFloat {
-        return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2))
-    }
-    
-    /**
      Get the ideal position for a ball, based on the ball that it just hit.
      - parameters:
         - fromBall: SmallBall that was hit.
@@ -878,6 +804,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // []  |
+}
+
+/**
+ Convert degrees to radians.
+ - parameters:
+ - angle: Angle as a CGFloat.
+ - returns: Radians as a CGFloat.
+ */
+func degreesToRad(angle: CGFloat) -> CGFloat {
+    return angle * (CGFloat(Double.pi) / 180)
+}
+
+/**
+ Convert radians to degrees.
+ - parameters:
+ - angle: Radians as a CGFloat.
+ - returns: Angle as a CGFloat.
+ */
+func radiansToDeg(angle: CGFloat) -> CGFloat {
+    return angle * (CGFloat(Double.pi) * 180)
+}
+
+/**
+ Get the distance between two points.
+ - parameters:
+ - pointA: First point.
+ - pointB: Second point.
+ - returns: Distance as a CGFloat.
+ */
+func distanceBetween(pointA: CGPoint, pointB: CGPoint) -> CGFloat {
+    return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2))
 }
 
 
