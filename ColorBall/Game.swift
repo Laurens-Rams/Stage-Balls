@@ -13,8 +13,6 @@ import UIKit
 /* TODO:
 
  - Getting items/presents every 6 hours (the timer is done, we just to make the items)
- - Add more colorssss!
- - pause falling in background
  
  */
 
@@ -104,6 +102,9 @@ class Game {
         UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
         UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
     ]
+
+    // we'll flip this to false later to test the other option
+    var endGameOnCircleCollision = true
     
     // MARK: properties' public getters
     

@@ -11,9 +11,7 @@ import Darwin
 import SpriteKit
 
 //TODOS:
-// - image balls on high stage
-// - no grey ball (check the yellow vs grey)
-// - right & left press
+// 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -115,7 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }else if(allowToMove == true){
             isTouching = true
-            let middle = (view?.frame.width)! / 2
+            let middle = size.width / 2
 
             if let touch = touches.first {
                 let touchX = touch.location(in: view).x
@@ -133,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        isTouching = false
+//        isTouching = false
     }
     
     // MARK: custom update, animation, and movement methods
@@ -154,6 +152,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Circle.distance = 0
             Circle.zRotation = Circle.nextTickPosition
             canMove = false
+            isTouching = false
         }
     }
     
@@ -389,7 +388,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 3)
         } else if let ball = newBody.node as? SmallBall {
             print("contact between circle and small ball")
-            
+            if (game.endGameOnCircleCollision) {
+                startGameOverSequence(newBall: ball)
+            }
         }
     }
     
@@ -441,6 +442,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func startGameOverSequence(newBall: SmallBall) {
+        allowToMove = false
+        canMove = false
+        newBall.stuck = true
+        newBall.physicsBody?.isDynamic = false
+        gameDelegate?.gameoverdesign()
+        // total length of each color action
+        let totalTime = 0.5
+        // fade to red actions
+        let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
+        // fade back to original color actions
+        let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
+        
+        // create the camera zoom action
+        let cameraStart = camera!.position
+        let crashY = (game.playerDiameter / 2.0) + (game.smallDiameter / 2.0)
+        let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + crashY)
+        let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
+        
+        let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.05)
+        let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.05)
+        
+        
+        camera?.run(SKAction.sequence([
+            shakeLeft,
+            shakeRight,
+            shakeRight,
+            shakeLeft,
+            shakeLeft,
+            shakeRight,
+            shakeRight,
+            shakeLeft,
+            
+            ]))
+        
+        // run the actions as a sequence on each node
+        newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
+        
+        // start the timer
+        UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+            self.ring.alpha = 0.0
+        }, completion: nil)
+        
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
+            self.handleGameOver()
+        })
+    }
+    
     /**
      Handle a collision between two small balls of differing colors.
      - parameters:
@@ -450,51 +499,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func handleDifferentColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
         print("contact between two different color balls")
         if let newBall = newBody.node as? SmallBall {
-            allowToMove = false
-            canMove = false
-            newBall.stuck = true
-            newBall.physicsBody?.isDynamic = false
-            gameDelegate?.gameoverdesign()
-            // total length of each color action
-            let totalTime = 0.5
-            // fade to red actions
-            let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
-            // fade back to original color actions
-            let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
-            
-            // create the camera zoom action
-            let cameraStart = camera!.position
-            let crashY = (game.playerDiameter / 2.0) + (game.smallDiameter / 2.0)
-            let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + crashY)
-            let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
-            
-            let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.05)
-            let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.05)
-            
-            
-            camera?.run(SKAction.sequence([
-                shakeLeft,
-                shakeRight,
-                shakeRight,
-                shakeLeft,
-                shakeLeft,
-                shakeRight,
-                shakeRight,
-                shakeLeft,
-                
-            ]))
-            
-            // run the actions as a sequence on each node
-            newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
-
-            // start the timer
-            UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-                self.ring.alpha = 0.0
-            }, completion: nil)
-            
-            let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
-                self.handleGameOver()
-            })
+            startGameOverSequence(newBall: newBall)
+//            allowToMove = false
+//            canMove = false
+//            newBall.stuck = true
+//            newBall.physicsBody?.isDynamic = false
+//            gameDelegate?.gameoverdesign()
+//            // total length of each color action
+//            let totalTime = 0.5
+//            // fade to red actions
+//            let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
+//            // fade back to original color actions
+//            let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
+//
+//            // create the camera zoom action
+//            let cameraStart = camera!.position
+//            let crashY = (game.playerDiameter / 2.0) + (game.smallDiameter / 2.0)
+//            let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + crashY)
+//            let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
+//
+//            let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.05)
+//            let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.05)
+//
+//
+//            camera?.run(SKAction.sequence([
+//                shakeLeft,
+//                shakeRight,
+//                shakeRight,
+//                shakeLeft,
+//                shakeLeft,
+//                shakeRight,
+//                shakeRight,
+//                shakeLeft,
+//
+//            ]))
+//
+//            // run the actions as a sequence on each node
+//            newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
+//
+//            // start the timer
+//            UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+//                self.ring.alpha = 0.0
+//            }, completion: nil)
+//
+//            let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
+//                self.handleGameOver()
+//            })
         }
     }
     
@@ -597,10 +647,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ]
         
         // generate a random integer betweeb 0 and 7
-        // this bug:
         let rando = index < game.ballColors.count ? index : randomInteger(upperBound: nil) - 1
-
-//        let rando = index < game.ballColors.count - 1 ? index : randomInteger(upperBound: nil) - 1
         
         // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: rando)!
