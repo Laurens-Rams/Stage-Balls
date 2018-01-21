@@ -19,6 +19,7 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
     @IBOutlet var highScore: UILabel!
     @IBOutlet var cornerPoints: UILabel!
     @IBOutlet var showPoints: UILabel!
+    
     @IBAction func likebuttonpressed(_ sender: AnyObject) {
         if let url = URL(string: "http://www.facebook.com/Stage-Ballz-1245764198880305/") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -138,32 +139,6 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
             tonANAUS = 0
             volume.setBackgroundImage(UIImage(named: "OFF.png"), for: UIControlState())
         }
-    }
-    
-    @IBAction func ratePressed(_ sender: AnyObject) {
-        
-        print("works")
-        rateApp(appId: "idfprStageBallz") { success in
-            print("RateApp \(success)")
-        }
-    }
-    
-    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
-        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
-            completion(false)
-            return
-        }
-        guard #available(iOS 10, *) else {
-            completion(UIApplication.shared.openURL(url))
-            return
-        }
-        UIApplication.shared.open(url, options: [:], completionHandler: completion)
-    }
-    
-    @IBAction func share(_ sender: AnyObject) {
-        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! My best score is 23. Can you beat my score? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = self.view
-        self.present(activityVC, animated: true, completion: nil)
     }
     
     

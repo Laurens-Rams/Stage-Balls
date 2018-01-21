@@ -20,5 +20,8 @@ protocol StartGameDelegate {
 protocol StartSceneDelegate {
     func launchGame()
     func launchShop()
+    func ratePressed()
+    func sharePressed()
+    func gameCenterPressed()
 }
 

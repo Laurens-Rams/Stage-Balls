@@ -134,12 +134,14 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         switch option {
         case .gameCenter:
             print("game center")
+            del?.gameCenterPressed()
             break
         case .volume:
             print("volume")
             break
         case .rate:
             print("rate")
+            del?.ratePressed()
             break
         case .like:
             print("like")

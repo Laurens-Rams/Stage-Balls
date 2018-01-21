@@ -77,16 +77,19 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                     del?.launchGame()
                 } else if node.name == "gameCenter" {
                     print("gameCenter")
+                    del?.gameCenterPressed()
                 }else if node.name == "volume" {
                     print("volume")
                 }else if node.name == "rate" {
                     print("rate")
+                    del?.ratePressed()
                 }else if node.name == "like" {
                     print("like")
                 }else if node.name == "noads" {
                     print("no ads")
                 }else if node.name == "share" {
                     print("share")
+                    del?.sharePressed()
                 }
         }
     }
