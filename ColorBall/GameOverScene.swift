@@ -12,23 +12,33 @@ import SpriteKit
 class GameOverScene: SKScene, SKPhysicsContactDelegate {
     
     var del: StartSceneDelegate?
-
     let Circle = PlayerCircle(imageNamed: "circle")
     
     let ballTextures: [SKTexture] = [
         // your textures here
         // e.g. SKTexture(imageNamed: ""),
+        SKTexture(imageNamed: "Icon-1"),
+        SKTexture(imageNamed: "Icon-2"),
+        SKTexture(imageNamed: "Icon-3"),
+        SKTexture(imageNamed: "Icon-4"),
+        SKTexture(imageNamed: "Icon-5"),
+        SKTexture(imageNamed: "Icon-6"),
+        
     ]
     
     let names: [String] = [
-        "presents",
-        "volume"
+        "gameCenter",
+        "volume",
+        "rate",
+        "like",
+        "noads",
+        "share"
     ]
     
     // TODO: implement a hit test for the "buttons"
     // example of this is in MenuScene's touchesEnded() and related functions
-    
     override func didMove(to view: SKView) {
+        backgroundColor = UIColor(red: 255/255, green: 233/255, blue: 233/255, alpha: 1.0)
         isPaused = false
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
@@ -39,6 +49,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
         Circle.size = CGSize(width: 200, height: 200)
+        Circle.name = "playButton"
         
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))
         body.categoryBitMask = PhysicsCategory.circleBall
@@ -51,16 +62,44 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(Circle)
     }
-
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+    }
+    
+    // hit test
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            print("touch")
+            
+            if let node = nodes(at: touch.location(in: self)).first {
+                if node.name == "playButton" {
+                    print("startgameagain")
+                    del?.launchGame()
+                } else if node.name == "gameCenter" {
+                    print("gameCenter")
+                }else if node.name == "volume" {
+                    print("volume")
+                }else if node.name == "rate" {
+                    print("rate")
+                }else if node.name == "like" {
+                    print("like")
+                }else if node.name == "noads" {
+                    print("no ads")
+                }else if node.name == "share" {
+                    print("share")
+                }
+        }
+    }
+    }
     func setupBalls() {
         var balls = [StartingSmallBall]();
 
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: 360 / CGFloat(14))
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(6))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
-        let startDistance: CGFloat = 123.0
+        let startDistance: CGFloat = 135.0
         
-        for i in 0..<4 {
+        for i in 0..<6 {
             print(i)
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
@@ -93,7 +132,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
      - ball: A StartingSmallBall object.
      */
     func animateBall(ball: StartingSmallBall) {
-        let action = SKAction.move(to: ball.insidePos, duration: 1.2)
+        let action = SKAction.move(to: ball.insidePos, duration: 0.8)
         ball.run(action, completion: {
             ball.stuck = true
         })
@@ -120,19 +159,22 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
 
         // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: index)!
-        let ballColor = Settings.ballColors[index]
         
-        let newBall = StartingSmallBall(circleOfRadius: 21.0)
+        let newBall = StartingSmallBall(circleOfRadius: 24.0)
         // set the fill color to our random color
-        newBall.fillColor = ballColor
+        newBall.fillColor = UIColor(red: 255/255, green: 233/255, blue: 233/255, alpha: 1.0)
         
-        // newBall.fillTexture = ballTextures[index]
-        // newBall.name = names[index]
+        newBall.alpha = 0.0
+        let fadeIn = SKAction.fadeIn(withDuration: 1.2)
+        newBall.run(fadeIn){
+        }
+        newBall.fillTexture = ballTextures[index]
+        newBall.name = names[index]
         
         // don't fill the outline
         newBall.lineWidth = 0.0
         
-        let body = SKPhysicsBody(circleOfRadius: 21.0)
+        let body = SKPhysicsBody(circleOfRadius: 24.0)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[index + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall

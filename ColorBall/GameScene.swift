@@ -145,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func updateCircle(dt: CGFloat) {
         //change animation
-        let increment = (((CGFloat(Double.pi) * 1) * direction)) * dt
+        let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt
 
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
@@ -283,6 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - ball: A SmallBall object.
      */
     func startFallTimer(ball: SmallBall) {
+
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
         let interval = 1.2 * game.speedMultiplier
@@ -453,21 +454,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // total length of each color action
         let totalTime = 0.5
         // fade to red actions
-        let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
+        //let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
         // fade back to original color actions
-        let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
+        //let newReturnAction = getColorChangeActionForNode(originalColor: UIColor.red, endColor: newBall.fillColor, totalTime: totalTime)
         
         // create the camera zoom action
-        let cameraStart = camera!.position
-        let crashY = (game.playerDiameter / 2.0) + (game.smallDiameter / 2.0)
-        let crashPosition = CGPoint(x: cameraStart.x, y: cameraStart.y + crashY)
-        let offsetZoom = getOffsetZoomAnimation(startingPoint: cameraStart, endingPoint: crashPosition, scaleFactor: 0.8, totalTime: 0.4)
         
-        let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.05)
-        let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.05)
-        
-        
+        let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.09)
+        let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.09)
+        //let popOut = SKAction.scale(to: 1.2, duration: 0.25)
+       // let popIn = SKAction.scale(to: 1.0, duration: 0.25)
+        //pop
+        //newBall.run(SKAction.sequence([popOut, popIn]))
         camera?.run(SKAction.sequence([
+            //popIn,
+            //popOut,
             shakeLeft,
             shakeRight,
             shakeRight,
@@ -475,12 +476,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shakeLeft,
             shakeRight,
             shakeRight,
-            shakeLeft,
+            shakeLeft
             
             ]))
-        
         // run the actions as a sequence on each node
-        newBall.run(SKAction.sequence([newDeadAction, newReturnAction]))
+        //for red
+        //newBall.run(SKAction.sequence([]))
         
         // start the timer
         UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
@@ -641,6 +642,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.physicsBody = body
         newBall.colorType = ballType
         
+        let positiontomove = CGPoint(x: size.width / 2, y: size.height - 60)
+        
         return newBall
     }
     
@@ -736,10 +739,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if game.skulls < game.numberStartingBalls {
             let newBall = makeBall()
             
-            newBall.position = CGPoint(x: size.width / 2, y: size.height - 60)
+            newBall.position = CGPoint(x: size.width / 2, y: size.height - 35)
             
             newBall.inLine = true
             
+            newBall.alpha = 0.4
+            newBall.setScale(0.6)
+            let fadeIn = SKAction.fadeIn(withDuration: 0.25)
+            let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: size.height - 60), duration: 0.25)
+            let popOut = SKAction.scale(to: 1.0, duration: 0.15)
+            newBall.run(SKAction.sequence([
+                    popOut
+                    ]))
+            newBall.run(moveaction){
+            }
+            newBall.run(fadeIn) {
+            }
             fallingBalls.append(newBall)
             
             addChild(newBall)

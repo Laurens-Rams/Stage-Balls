@@ -128,24 +128,21 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
         case .gameCenter:
             print("game center")
             break
-        case .like:
-            print("like")
-            
-            break
-        case .presents:
-            print("presents")
-            break
-        case .shop:
-            // showing a view controller
-            // use a StartSceneDelegate method
-            del?.launchShop()
-            print("shop")
-            break
         case .volume:
             print("volume")
+            
             break
         case .rate:
             print("rate")
+            break
+        case .like:
+            print("shop")
+            break
+        case .noads:
+            print("noads")
+            break
+        case .share:
+            print("noads")
             break
         case .start:
             print("start")

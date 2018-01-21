@@ -61,7 +61,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     var scoreKeeper: GameScoreDelegate?
     var gameDelegate: StartGameDelegate?
     
-    let numberOfMenuBalls = 6
+    let numberOfMenuBalls = 5
     var index = 0
     var contactsMade = 0
     
@@ -135,28 +135,24 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         case .gameCenter:
             print("game center")
             break
-        case .like:
-            print("like")
-    
-            break
-        case .presents:
-            print("presents")
-            break
-        case .shop:
-            // showing a view controller
-            // use a StartSceneDelegate method
-            del?.launchShop()
-            print("shop")
-            break
         case .volume:
             print("volume")
             break
         case .rate:
             print("rate")
             break
+        case .like:
+            print("like")
+            break
+        case .noads:
+            print("noads")
+            break
         case .start:
             print("start")
             del?.launchGame()
+            break
+        case .share:
+            print("share")
             break
         }
     }

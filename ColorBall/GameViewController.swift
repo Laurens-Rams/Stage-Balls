@@ -89,7 +89,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.text = scoreFormatter(score: scene.game.score)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
         if scene.game.score < 100 {
-            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 124)
+            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 140)
         } else if scene.game.score < 1000 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }
@@ -150,10 +150,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func gameoverdesign() {
-        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             
             self.pauseButton.alpha = 0.0
-            self.settingButton.alpha = 0.0
         }, completion: nil)
     }
     
