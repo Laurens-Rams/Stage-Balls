@@ -61,6 +61,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let skullTexture = SKTexture(image: #imageLiteral(resourceName: "skull"))
     
+    deinit {
+        print("deinit game scene")
+    }
+    
     // MARK: lifecycle methods and overrides
     
     // main update function (game loop)

@@ -62,6 +62,12 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(Circle)
     }
+    
+    func postRestartNotification() {
+        let notification = Notification(name: Notification.Name.init(rawValue: "gameRestartRequested"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(notification)
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
@@ -74,7 +80,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
             if let node = nodes(at: touch.location(in: self)).first {
                 if node.name == "playButton" {
                     print("startgameagain")
-                    del?.launchGame()
+                    postRestartNotification()
                 } else if node.name == "gameCenter" {
                     print("gameCenter")
                     del?.gameCenterPressed()

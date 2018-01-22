@@ -75,6 +75,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         }
         return String(score)
     }
+
     func stageFormatter(stage: Int) -> String {
         return String(stage)
     }
@@ -84,13 +85,15 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     // start scene delegate protocol methods
     
     func launchGame() {
-        let notification = Notification(name: Notification.Name.init(rawValue: "gameRestartRequested"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(notification)
-        dismiss(animated: true, completion: nil)
+//        let notification = Notification(name: Notification.Name.init(rawValue: "gameRestartRequested"), object: nil, userInfo: nil)
+//        NotificationCenter.default.post(notification)
+//        dismiss(animated: true, completion: nil)
     }
+
     func launchShop() {
         // launch the shop
     }
+
     func ratePressed() {
         print("works")
         rateApp(appId: "idfprStageBallz") { success in

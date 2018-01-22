@@ -28,12 +28,16 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     var game: Game!
     
+    var gameOverController: GameOverViewControllerNew?
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        listenForNotifications()
+        print("game view controller loaded")
         game = Game()
         camera = SKCameraNode()
         setupGame()
@@ -44,7 +48,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @objc func handleGameRestartRequest() {
-        restartGame()
+        print("restart?")
+        scene.removeAllChildren()
+        scene.removeAllActions()
+        scene.removeFromParent()
+        camera.removeFromParent()
+        camera = SKCameraNode()
+        gameOverController?.dismiss(animated: false, completion: {
+            self.setupGame()
+        })
     }
     
     func setupGame() {
@@ -55,8 +67,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setupScene() {
-        let score = game.score
-        scoreLabel.text = "\(score)"
+        scoreLabel.text = "\(game.score)"
         scene = GameScene(size: view.frame.size)
         scene.gameDelegate = self
         scene.scoreKeeper = self
@@ -76,8 +87,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func setupUI() {
         menuBtn.isEnabled = true
-        
-        
     }
     
     func addPlayedGame() {
@@ -104,6 +113,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func restartGame() {
         camera.removeFromParent()
+        camera = SKCameraNode()
+        game = Game()
         setupGame()
     }
     
@@ -144,9 +155,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         camera.removeFromParent()
         
         // create and present the game over view controller
-        let gameVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as! GameOverViewControllerNew
-        gameVC.endingScore = scene.game.score
-        present(gameVC, animated: false, completion: nil)
+        gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
+        gameOverController!.endingScore = scene.game.score
+        present(gameOverController!, animated: false, completion: nil)
     }
 
     func gameoverdesign() {

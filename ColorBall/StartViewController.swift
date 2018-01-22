@@ -13,13 +13,14 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
 
     @IBOutlet var moneyLabel: UILabel!
     
-    var audioPlayer = AVAudioPlayer()
-    
     var scene: MenuScene!
+    
+    var gameVC: GameViewController?
     
     override func viewDidLoad() {
         authenticateLocalPlayer()
         super.viewDidLoad()
+//        listenForNotifications()
         scene = MenuScene(size: view.bounds.size)
         scene.del = self
         let skView = view as! SKView
@@ -33,7 +34,24 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
+//    func listenForNotifications() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleGameRestartRequest), name: Notification.Name(rawValue: "gameRestartRequested"), object: nil)
+//    }
+//
+//    @objc func handleGameRestartRequest() {
+//        print("restart?")
+//        gameVC?.gameOverController?.dismiss(animated: false, completion: {
+//            self.gameVC?.scene.removeAllChildren()
+//            self.gameVC?.scene.removeAllActions()
+//            self.gameVC?.scene.removeFromParent()
+//            self.gameVC?.dismiss(animated: false, completion: {
+//                self.gameVC = nil
+//                self.launchGameViewController()
+//            })
+//        })
+//    }
+
     func scoreFormatter(score: Int) -> String {
         if score < 10 {
             return "0\(score)"
@@ -108,10 +126,10 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
     }
     
     func launchGameViewController() {
-        let gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as! GameViewController
+        gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as? GameViewController
         scene.isPaused = true
-        removeFromParentViewController()
-        present(gameVC, animated: false, completion: nil)
+//        removeFromParentViewController()
+        present(gameVC!, animated: false, completion: nil)
     }
     
     @IBAction func volumeONOFF(_ sender: AnyObject) {

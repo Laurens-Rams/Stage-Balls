@@ -111,20 +111,22 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        isTouching = true
     }
     
     // hit test
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             print("touch")
-   
-            if let node = nodes(at: touch.location(in: self)).first {
-                if node.name == "playButton" {
-                    print("start ball")
-                    handleMenuClick(option: .start)
-                } else if let menuNode = node as? StartMenuBall {
-                    handleMenuClick(option: menuNode.optionType)
+            if isTouching {
+                if let node = nodes(at: touch.location(in: self)).first {
+                    if node.name == "playButton" {
+                        print("start ball")
+                        handleMenuClick(option: .start)
+                    } else if let menuNode = node as? StartMenuBall {
+                        handleMenuClick(option: menuNode.optionType)
+                    }
+                    isTouching = false
                 }
             }
         }
