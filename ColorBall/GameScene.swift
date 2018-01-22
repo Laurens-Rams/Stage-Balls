@@ -112,14 +112,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         addChild(Circle)
         
-        
         setupFirstFallTimer()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isTouching {
-            return
-        }else if(allowToMove == true){
+       if allowToMove == true && !isTouching && !isHolding {
             isTouching = true
             isHolding = true
 
@@ -142,6 +139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isHolding = false
+        // isTouching = false
     }
     
     // MARK: custom update, animation, and movement methods
@@ -159,12 +157,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Circle.distance = Circle.distance + increment
         
         if (fabs(Circle.distance) >= fabs(Circle.nextTickPosition - Circle.lastTickPosition)) {
+            canMove = false
             Circle.distance = 0
             Circle.zRotation = Circle.nextTickPosition
-            canMove = false
-            isTouching = false
             if isHolding {
                 getCircleValues()
+            } else {
+                isTouching = false
             }
         }
     }
@@ -305,11 +304,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func getCircleValues() {
-        if !canMove {
-            Circle.lastTickPosition = Circle.zRotation
-            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(14) * direction))
-            canMove = true
-        }
+        Circle.lastTickPosition = Circle.zRotation
+        Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(14) * direction))
+        canMove = true
     }
 
     // checks the physics contact between two bodies

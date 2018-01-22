@@ -114,7 +114,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func restartGame() {
         camera.removeFromParent()
         camera = SKCameraNode()
-        game = Game()
         setupGame()
     }
     
