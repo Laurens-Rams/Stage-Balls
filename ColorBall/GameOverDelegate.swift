@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol StartGameDelegate {
+protocol GameOverDelegate {
     func restartGame()
     func unpauseGame()
     func showaltmenu()
@@ -17,11 +17,8 @@ protocol StartGameDelegate {
     func gameoverdesign()
 }
 
-protocol StartSceneDelegate {
+protocol GameOverDelegate {
     func launchGame()
     func launchShop()
-    func ratePressed()
-    func sharePressed()
-    func gameCenterPressed()
 }
 

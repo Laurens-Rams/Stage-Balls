@@ -3,83 +3,40 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import GameKit
-import GoogleMobileAds
 
-//Command
-class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
+class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCenterControllerDelegate {
+    
     deinit {
         print("game over view controller deinit")
     }
     
-    @IBOutlet var playedLabel: UILabel!
-    
-    @IBOutlet var startOverBtn: UIButton!
-    @IBOutlet var shopButton: UIButton!
-    
-    @IBOutlet var highScore: UILabel!
-    @IBOutlet var cornerPoints: UILabel!
-    @IBOutlet var showPoints: UILabel!
-    
-    @IBAction func likebuttonpressed(_ sender: AnyObject) {
-        if let url = URL(string: "http://www.facebook.com/Stage-Ballz-1245764198880305/") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    @IBAction func goToShop(_ sender: AnyObject) {
-        let shopVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "shop")
-        present(shopVC, animated: false, completion: nil)
-    }
-
-    @IBOutlet var myBannerBottom: GADBannerView!
-    
     var endingScore: Int = 0
-    var currentMoney: Int = 0
+
+    @IBOutlet var stageLabel: UILabel!
+    @IBOutlet var showpoints: UILabel!
+    
+    var scene: GameOverScene!
     
     override func viewDidLoad() {
-        authenticateLocalPlayer()
-        
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        myBannerBottom.delegate = self
-        myBannerBottom.adUnitID = "ca-app-pub-1616902070996876/2360545943"
-        myBannerBottom.rootViewController = self
-        myBannerBottom.load(request)
-        
-        showPoints.text = scoreFormatter(score: endingScore)
-        playedLabel.text = ("Games Played: ").appending(String(DataManager.main.played))
-        highScore.text = ("Best Score: ").appending(scoreFormatter(score: DataManager.main.highScore))
-        
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
-            self.startOverBtn.isEnabled = true
-        
-        })
+        super.viewDidLoad()
+        scene = GameOverScene(size: view.bounds.size)
+        scene.del = self
+        let skView = view as! SKView
+        skView.showsFPS = false
+        skView.showsNodeCount = false
+        scene.scaleMode = .resizeFill
+        skView.presentScene(scene)
+
+        showpoints.text = scoreFormatter(score: endingScore)
+        stageLabel.text = stageFormatter(stage: endingScore)
     }
     
-    func scoreFormatter(score: Int) -> String {
-        if score < 10 {
-            return "0\(score)"
-        }
-        return String(score)
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    @IBOutlet var scoreLabel: UILabel!
+    //GAMECENTER
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
-    
-    var score = 51
-    @IBOutlet var volume: UIButton!
-    var tonANAUS = 0
-    
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     let LEADERBOARD_ID = "identity"
-    
-    
     func authenticateLocalPlayer() {
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
         
@@ -107,8 +64,61 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
             }
         }
     }
-    @IBAction func addScoreAndSubmitToGC(_ sender: AnyObject) {
-        
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    func scoreFormatter(score: Int) -> String {
+        if score < 10 {
+            return "0\(score)"
+        }
+        return String(score)
+    }
+
+    func stageFormatter(stage: Int) -> String {
+        return String(stage)
+    }
+    
+    @IBOutlet var scoreLabel: UILabel!
+    
+    // start scene delegate protocol methods
+    
+    func launchGame() {
+//        let notification = Notification(name: Notification.Name.init(rawValue: "gameRestartRequested"), object: nil, userInfo: nil)
+//        NotificationCenter.default.post(notification)
+//        dismiss(animated: true, completion: nil)
+    }
+
+    func launchShop() {
+        // launch the shop
+    }
+
+    func ratePressed() {
+        print("works")
+        rateApp(appId: "idfprStageBallz") { success in
+            print("RateApp \(success)")
+        }
+    }
+    
+    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
+            completion(false)
+            return
+        }
+        guard #available(iOS 10, *) else {
+            completion(UIApplication.shared.openURL(url))
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+    }
+    func sharePressed() {
+        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! My best score is 23. Can you beat my score? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        self.present(activityVC, animated: true, completion: nil)
+    }
+   func gameCenterPressed() {
+        let score = 10
         // Submit score to GC leaderboard
         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
         bestScoreInt.value = Int64(score)
@@ -131,15 +141,6 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func volumeONOFF(_ sender: AnyObject) {
-        tonANAUS = tonANAUS + 2
-        if(tonANAUS == 2){
-            volume.setBackgroundImage(UIImage(named: "Icon-2.png"), for: UIControlState())
-        }else{
-            tonANAUS = 0
-            volume.setBackgroundImage(UIImage(named: "OFF.png"), for: UIControlState())
-        }
-    }
-    
-    
 }
+
+

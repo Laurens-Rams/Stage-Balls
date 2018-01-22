@@ -100,7 +100,7 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = .white
         
         let startX = CGFloat((size.width / 2))
-        let startY = CGFloat((size.height / 2.5))
+        let startY = CGFloat((size.height / 3))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
         Circle.size = CGSize(width: diameter, height: diameter)
@@ -167,10 +167,10 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(allowTouches == true){
-            
         
         let middle = (view?.frame.width)! / 2
-        if let touch = touches.first {
+
+            if let touch = touches.first {
             let touchX = touch.location(in: view).x
             isTouching = true
             if touchX < middle && lastDirection < 0 {
@@ -186,6 +186,7 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
             return
         }
     }
+
     func addBall() {
 
         if(ImageCounter < 4){

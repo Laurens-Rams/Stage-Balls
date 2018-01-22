@@ -13,20 +13,16 @@ import SpriteKit
 // - outline a game ball superclass SKNode, which we can implement together
 
 enum BallColor: Int {
-    case pink = 0, yellow, blue, red, skull
+    case blue = 0, pink, red, yellow, green, orange, purple, grey, skull
     
-    func asColor() -> UIColor {
-        switch (self) {
-            case .pink:
-                return UIColor(red: 0.978, green: 0.458, blue: 0.51, alpha: 1.0)
-            case .yellow:
-                return UIColor(red: 0.882, green: 0.694, blue: 0.235, alpha: 1.0)
-            case .blue:
-                return UIColor(red: 0.302, green: 0.6, blue: 0.886, alpha: 1.0)
-            case .red:
-                return UIColor(red: 0.235, green: 0.549, blue: 0.548, alpha: 1.0)
-            default:
-                return UIColor.black
+    func name() -> String {
+        switch self {
+        case .blue:
+            return "blue"
+        case .pink:
+            return "pink"
+        default:
+            return "ball"
         }
     }
 }
@@ -58,7 +54,10 @@ class StartingSmallBall: SmallBall {
 }
 
 // TODO: make an interface or protocol for all these properties
-class SkullBall: SKSpriteNode {
+class SkullBall: StartingSmallBall {
+}
+
+class StartMenuBall: SKSpriteNode {
     var x: CGFloat = 0
     var y: CGFloat = 0
     var inLine: Bool = false
@@ -74,6 +73,7 @@ class SkullBall: SKSpriteNode {
     var isStarter: Bool = true
     var startingPos: CGPoint = CGPoint(x: 0, y: 0)
     var insidePos: CGPoint = CGPoint(x: 0, y: 0)
+    var optionType: MenuOptionType = MenuOptionType.gameCenter
 }
 
 struct PhysicsCategory {
@@ -82,7 +82,11 @@ struct PhysicsCategory {
     static let pinkBall: UInt32 = 0b0011
     static let redBall: UInt32 = 0b0100
     static let yellowBall: UInt32 = 0b0101
-    static let skullBall: UInt32 = 0b1000
+    static let greenBall: UInt32 = 0b0110
+    static let orangeBall: UInt32 = 0b0111
+    static let purpleBall: UInt32 = 0b1000
+    static let greyBall: UInt32 = 0b1001
+    static let skullBall: UInt32 = 0b1011
     
     static func returnCategory(num: Int) -> UInt32 {
         switch (num) {
@@ -95,6 +99,14 @@ struct PhysicsCategory {
         case 4:
             return yellowBall
         case 5:
+            return greenBall
+        case 6:
+            return orangeBall
+        case 7:
+            return purpleBall
+        case 8:
+            return greyBall
+        case 9:
             return skullBall
         default:
             return blueBall

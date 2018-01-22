@@ -25,11 +25,10 @@ class PauseView: UIView {
     @IBAction func unpauseAction(_ sender: AnyObject) {
         disappear()
     }
+
     @IBAction func showalternativeview(_ sender: AnyObject) {
         delegate?.showaltmenu()
         self.removeFromSuperview()
-        
-        
     }
     
     @IBAction func restartpressed(_ sender: AnyObject) {
