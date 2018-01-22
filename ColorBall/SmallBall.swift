@@ -9,6 +9,9 @@
 import Foundation
 import SpriteKit
 
+// EMILY TODO:
+// - outline a game ball superclass SKNode, which we can implement together
+
 enum BallColor: Int {
     case blue = 0, pink, red, yellow, green, orange, purple, grey, skull
     
@@ -66,7 +69,7 @@ class StartMenuBall: SKSpriteNode {
     var startRads: CGFloat = 0
     var inContactWith = [SmallBall]()
     // non-optional type
-    var colorType: BallColor!
+    var colorType: BallColor = BallColor.skull
     var isStarter: Bool = true
     var startingPos: CGPoint = CGPoint(x: 0, y: 0)
     var insidePos: CGPoint = CGPoint(x: 0, y: 0)

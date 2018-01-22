@@ -613,8 +613,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: rando)!
-        let ballColor = game.ballColors[rando]
-        
+        let ballColor = ballType.asColor()
+
         game.incrementBallType(type: ballType)
         print("ballcolors", game.ballColors.count, rando)
         print(game.blues)
@@ -667,7 +667,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.purpleBall,
             PhysicsCategory.greyBall,
         ]
-
         var rando = randomInteger(upperBound: nil) - 1
         var ballType = BallColor(rawValue: rando)!
         
@@ -681,7 +680,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print(game.blues)
         game.incrementBallType(type: ballType)
         
-        let ballColor = game.ballColors[rando]
+        let ballColor = ballType.asColor()
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
         newBall.fillColor = ballColor
@@ -803,6 +802,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - returns: CGPoint to snap the newest ball to.
      */
     func getIdealBallPosition(fromBall ball: SmallBall) -> CGPoint {
+        let xPos = size.width / 2
+        let rowMultiplier = CGFloat(ball.inContactWith.count) + 1.5
+        let yPos = Circle.position.y + (game.playerDiameter / 2) + (game.smallDiameter * rowMultiplier)
+        return CGPoint(x: xPos, y: yPos)
+    }
+    
+    /**
+     Get the ideal position for a ball, based on the ball that it just hit.
+     - parameters:
+     - fromBall: SmallBall that was hit.
+     - returns: CGPoint to snap the newest ball to.
+     */
+    func getIdealBallPosition(fromSkull ball: SkullBall) -> CGPoint {
         let xPos = size.width / 2
         let rowMultiplier = CGFloat(ball.inContactWith.count) + 1.5
         let yPos = Circle.position.y + (game.playerDiameter / 2) + (game.smallDiameter * rowMultiplier)
