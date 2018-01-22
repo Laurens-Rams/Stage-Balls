@@ -13,7 +13,9 @@ import SpriteKit
 // TODOS:
 // - column snap top ball and/or distance calc points to columns - 1
 // - get rid of one of the boolean controls
+// - touching twice to start moving again?
 // - make interaction animations (particle explosion, etc)
+// - Search terms: Sk particle emitters, sk particle explosions
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
