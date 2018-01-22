@@ -12,7 +12,7 @@ import SpriteKit
 
 // TODOS:
 // - column snap top ball and/or distance calc points to columns - 1
-// - too many view controllers created?
+// - get rid of one of the boolean controls
 // - make interaction animations (particle explosion, etc)
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -48,6 +48,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // control variables
     var isTouching = false
+    var isHolding = false
+    // TODO: trim one of these though:
     var allowToMove = false
     var canMove = false
 
@@ -119,6 +121,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }else if(allowToMove == true){
             isTouching = true
+            isHolding = true
+
             let middle = size.width / 2
 
             if let touch = touches.first {
@@ -137,7 +141,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        isTouching = false
+        isHolding = false
     }
     
     // MARK: custom update, animation, and movement methods
@@ -159,6 +163,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Circle.zRotation = Circle.nextTickPosition
             canMove = false
             isTouching = false
+            if isHolding {
+                getCircleValues()
+            }
         }
     }
     
@@ -613,7 +620,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: rando)!
-        let ballColor = ballType.asColor()
 
         game.incrementBallType(type: ballType)
         print("ballcolors", game.ballColors.count, rando)
@@ -628,7 +634,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
-        newBall.fillColor = ballColor
+        newBall.fillColor = game.ballColors[rando]
         // don't fill the outline
         newBall.lineWidth = 0.0
 
@@ -679,11 +685,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print(game.pinks)
         print(game.blues)
         game.incrementBallType(type: ballType)
-        
-        let ballColor = ballType.asColor()
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
-        newBall.fillColor = ballColor
+        newBall.fillColor = game.ballColors[rando]
         newBall.lineWidth = 0.0
         
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
