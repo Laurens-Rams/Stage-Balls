@@ -425,28 +425,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkForZaps(colNumber: Int) {
         let colSlots = getSlotsInColumn(num: colNumber)
         if getFirstOpenSlot(slotList: colSlots) == nil {
-            game.decrementBallType(type: colSlots[0].colorType, byNumber: 4)
-            let zapBalls = colSlots.flatMap { s in
-                return s.ball!
-            }
+            game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
+            // map the column's slots to an array of the balls they contain
+            let zapBalls = colSlots.map({ $0.ball }) as! [SKNode]
+
+            // reset all slots in the column so we can add balls to them again
             for slot in colSlots {
                 slot.ball = nil
             }
 
+            // variable to count loop iterations
             var index = 0
+
+            // loop through the array of balls we should be zapping
             for _ in zapBalls {
+                // add one to the loop count
                 index += 1
+
+                // get a reference to the ball we want to animate this iteration
                 let ball = zapBalls[zapBalls.count - index]
+
+                // create the move action
                 let action = SKAction.moveBy(x: 0, y: -game.smallDiameter, duration: 0.25)
+
+                // create the wait action (delay)
                 let wait = SKAction.wait(forDuration: 0.25 * Double(index - 1))
+
+                // add the delay and move actions to a sequence
                 let sequence = SKAction.sequence([wait, action])
 
+                // if we're on the last ball, we want to remove the stack afterwards
                 if (index == zapBalls.count) {
                     ball.run(sequence, completion: {
-                        self.removeChildren(in: zapBalls)
+                        self.removeChildren(in: zapBalls as! [SKNode])
                         self.addSkull(toColumn: colNumber)
                     })
                 } else {
+                    // otherwise just run the delay/move sequence
                     ball.run(sequence) {
                         self.removeChildren(in: [ball])
                     }

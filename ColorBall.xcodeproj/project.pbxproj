@@ -46,7 +46,6 @@
 		A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83FB1FF4832C00359FC8 /* Settings.swift */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
 		A1989F9F20E969D200218FAE /* Spark.sks in Resources */ = {isa = PBXBuildFile; fileRef = A1989F9E20E969D100218FAE /* Spark.sks */; };
-		A1989FA120E969FA00218FAE /* Magic.sks in Resources */ = {isa = PBXBuildFile; fileRef = A1989FA020E969FA00218FAE /* Magic.sks */; };
 		A1A088312013C0C400A15983 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A088302013C0C400A15983 /* GameOverScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
@@ -121,7 +120,6 @@
 		A15E83FB1FF4832C00359FC8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A1989F9E20E969D100218FAE /* Spark.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Spark.sks; sourceTree = "<group>"; };
-		A1989FA020E969FA00218FAE /* Magic.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Magic.sks; sourceTree = "<group>"; };
 		A1A088302013C0C400A15983 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
@@ -242,7 +240,6 @@
 				A13F12751EF703F700A34B16 /* Info.plist */,
 				A15E83FB1FF4832C00359FC8 /* Settings.swift */,
 				A1989F9E20E969D100218FAE /* Spark.sks */,
-				A1989FA020E969FA00218FAE /* Magic.sks */,
 			);
 			path = ColorBall;
 			sourceTree = "<group>";
@@ -479,7 +476,6 @@
 				0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */,
 				A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */,
 				A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */,
-				A1989FA120E969FA00218FAE /* Magic.sks in Resources */,
 				0DC48F301F1D388900F1EA0B /* GoogleService-Info.plist in Resources */,
 				A1989F9F20E969D200218FAE /* Spark.sks in Resources */,
 			);

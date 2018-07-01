@@ -16,6 +16,19 @@ import UIKit
  
  */
 
+struct GameConstants {
+    // MARK: static properties
+    
+    static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
+
+    static let startingCircleScale: CGFloat = 0.55
+    static let startingBallScale: CGFloat = 0.1155
+
+    static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
+    static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
+    static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
+}
+
 /**
  For creating a Game object. Use to manage current game values, track the current score and level, etc. Should be instantiated or re-instantiated for each game played.
  */
@@ -30,13 +43,13 @@ class Game {
     private var _stage: Int = 1
     
     // starting player circle diameter
-    private var _playerDiameter: CGFloat = UIScreen.main.bounds.size.width * 0.55
-    private var _outerDiameter: CGFloat = (UIScreen.main.bounds.size.width * 0.55) + (UIScreen.main.bounds.size.width * 0.05775)
-    private var _minOuterDiameter: CGFloat = (UIScreen.main.bounds.size.width * 0.55) + (UIScreen.main.bounds.size.width * 0.05775)
+    private var _playerDiameter: CGFloat = GameConstants.startingCircleDiameter
+    private var _outerDiameter: CGFloat = GameConstants.startingOuterDiameter
+    private var _minOuterDiameter: CGFloat = GameConstants.startingOuterDiameter
 
     
     // starting small ball diameter
-    private var _smallDiameter: CGFloat = UIScreen.main.bounds.size.width * 0.1155
+    private var _smallDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingBallScale
     
     // multiplier for speeds
     // this controls the frequency of things falling
