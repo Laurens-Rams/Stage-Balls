@@ -333,9 +333,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
                 handleSameColorCollision(newBody: firstBody, stuckBody: secondBody)
+                createExplosion(onBody: firstBody)
             } else if secondBody.isDynamic == true {
                 handleSameColorCollision(newBody: secondBody, stuckBody: firstBody)
             }
+            // create an explision at the point of contact
+            // createExplosion(pointOfContact: contact.contactPoint)
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
             if let _ = firstBody.node as? StartingSmallBall, let _ = secondBody.node as? SkullBall {
               print("contact between starter ball and skull")
@@ -350,7 +353,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+
+    func createExplosion(onBody body: SKPhysicsBody) {
+        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
+            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+            let ball = body.node as? SmallBall {
+            let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
+            explosion.position = point
+            ball.addChild(explosion)
+        }
+    }
+
     func getFirstSlotInColumn(num: Int) -> BaseSlot {
         return slots.first(where: { s in
             return s.columnNumber == num
@@ -419,9 +432,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for slot in colSlots {
                 slot.ball = nil
             }
-            removeChildren(in: zapBalls)
-            
-            addSkull(toColumn: colNumber)
+
+            var index = 0
+            for _ in zapBalls {
+                index += 1
+                let ball = zapBalls[zapBalls.count - index]
+                let action = SKAction.moveBy(x: 0, y: -game.smallDiameter, duration: 0.25)
+                let wait = SKAction.wait(forDuration: 0.25 * Double(index - 1))
+                let sequence = SKAction.sequence([wait, action])
+
+                if (index == zapBalls.count) {
+                    ball.run(sequence, completion: {
+                        self.removeChildren(in: zapBalls)
+                        self.addSkull(toColumn: colNumber)
+                    })
+                } else {
+                    ball.run(sequence) {
+                        self.removeChildren(in: [ball])
+                    }
+                }
+            }
         }
     }
     

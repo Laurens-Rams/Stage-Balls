@@ -27,7 +27,7 @@ class Game {
     private var _ballsFallen = 0
 
     // game level
-    private var _stage: Int = 5
+    private var _stage: Int = 1
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = UIScreen.main.bounds.size.width * 0.55
