@@ -109,7 +109,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.pinned = true
         body.isDynamic = false
         Circle.physicsBody = body
-        
+
+        game.resetAll()
+
         setupSlots()
 
         addChild(Circle)
@@ -680,10 +682,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ballType = BallColor(rawValue: rando)!
         }
         
-        print(ballType.name())
-        print(game.pinks)
-        print(game.blues)
+        print("=======> making a new ball of type:", ballType.name())
+        print("=======> old count for this type:", game.getCountForType(type: ballType))
         game.incrementBallType(type: ballType)
+        print("=======> new count for this type:", game.getCountForType(type: ballType))
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
         newBall.fillColor = game.ballColors[rando]

@@ -21,12 +21,13 @@ import UIKit
  */
 class Game {
     // MARK: private properties
-    
-    // game score
-    private var _score = 0
-    
+
+    // number balls fallen in current stage
+    // TODO: create a "stage" object to manage all stage-related vars
+    private var _ballsFallen = 0
+
     // game level
-    private var _stage: Int = 1
+    private var _stage: Int = 5
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = UIScreen.main.bounds.size.width * 0.55
@@ -67,7 +68,7 @@ class Game {
     private var _oranges = 0
     private var _greys = 0
     private var _skulls = 0
-    
+
     var ballColors: [UIColor] = [
         UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
         UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
@@ -241,18 +242,25 @@ class Game {
             return _skulls
         }
     }
-    
+
     /**
-     The current game score (read-only getter).
-     */
-    var score: Int {
+     The number of balls that have dropped in current stage (read-only).
+    */
+    var ballsFallen: Int {
         get {
-            let amountToAdd = (_stage + 1) * (_slotsPerColumn - 1)
-            print("todad", _score)
-            return _score + amountToAdd
+            return _ballsFallen
         }
     }
-    
+
+    /**
+     The number of balls remaining to fall in the current stage.
+     */
+    var ballsRemaining: Int {
+        get {
+            return numberBallsInQueue - ballsFallen
+        }
+    }
+
     /**
      Number of balls remaining that will fall in current stage.
      */
@@ -368,8 +376,6 @@ class Game {
      */
     func increaseStage() {
         _stage += 1
-        _score = 0
-        // ?
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2
         }
@@ -382,7 +388,7 @@ class Game {
         - byValue: How much to add to the score.
      */
     func increaseScore(byValue: Int) {
-        _score -= byValue
+        _ballsFallen += byValue
     }
     
     /**
@@ -479,7 +485,7 @@ class Game {
     func getCountForType(type: BallColor) -> Int {
         switch (type) {
             case .blue:
-                return _blues
+                return blues
             case .pink:
                 return pinks
             case .red:
@@ -494,8 +500,34 @@ class Game {
                 return purples
             case .grey:
                 return greys
-            default: return 0
+            case .skull:
+                return skulls
         }
+    }
+    
+    /**
+     Reset the count of every ball type (color) to zero, e.g. on a game reset
+     */
+    func resetAllBallTypeCounts() {
+        _blues = 0
+        _pinks = 0
+        _reds = 0
+        _yellows = 0
+        _greens = 0
+        _oranges = 0
+        _purples = 0
+        _greys = 0
+        _skulls = 0
+    }
+
+    func resetBallsFallen() {
+        _ballsFallen = 0
+    }
+
+    // reset everything, e.g. on start of a new game
+    func resetAll() {
+        resetAllBallTypeCounts()
+        resetBallsFallen()
     }
 }
 
