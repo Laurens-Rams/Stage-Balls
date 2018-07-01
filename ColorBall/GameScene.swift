@@ -336,6 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 createExplosion(onBody: firstBody)
             } else if secondBody.isDynamic == true {
                 handleSameColorCollision(newBody: secondBody, stuckBody: firstBody)
+                createExplosion(onBody: secondBody)
             }
             // create an explision at the point of contact
             // createExplosion(pointOfContact: contact.contactPoint)
@@ -422,8 +423,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func checkForZaps(colNumber: Int) {
+    func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
         let colSlots = getSlotsInColumn(num: colNumber)
+
         if getFirstOpenSlot(slotList: colSlots) == nil {
             game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
             // map the column's slots to an array of the balls they contain
@@ -457,8 +459,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // if we're on the last ball, we want to remove the stack afterwards
                 if (index == zapBalls.count) {
                     ball.run(sequence, completion: {
-                        self.removeChildren(in: zapBalls as! [SKNode])
+                        print("removing children")
+                        self.removeChildren(in: zapBalls)
                         self.addSkull(toColumn: colNumber)
+                        completion()
                     })
                 } else {
                     // otherwise just run the delay/move sequence
@@ -467,6 +471,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
+        } else {
+            completion()
         }
     }
     
@@ -497,8 +503,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             slot.ball = ball
             ball.stuck = true
             ball.physicsBody?.isDynamic = false
-            checkForZaps(colNumber: slot.columnNumber)
-            addBall()
+            checkForZaps(colNumber: slot.columnNumber) {
+                self.addBall()
+            }
         }
     }
     
@@ -509,7 +516,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.physicsBody?.isDynamic = false
         gameDelegate?.gameoverdesign()
         // total length of each color action
-        let totalTime = 0.5
+        // let totalTime = 0.5
         // fade to red actions
         //let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
         // fade back to original color actions
