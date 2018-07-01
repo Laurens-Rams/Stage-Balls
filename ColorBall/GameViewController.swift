@@ -73,7 +73,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setupScene() {
-        scoreLabel.text = "\(game.score)"
+        scoreLabel.text = "\(game.numberBallsInQueue)"
         scene = GameScene(size: view.frame.size)
         scene.gameDelegate = self
         scene.scoreKeeper = self

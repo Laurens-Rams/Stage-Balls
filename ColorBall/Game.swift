@@ -247,9 +247,18 @@ class Game {
      */
     var score: Int {
         get {
-            let amountToAdd = ((_stage + 1) * 3)
+            let amountToAdd = (_stage + 1) * (_slotsPerColumn - 1)
             print("todad", _score)
             return _score + amountToAdd
+        }
+    }
+    
+    /**
+     Number of balls remaining that will fall in current stage.
+     */
+    var numberBallsInQueue: Int {
+        get {
+            return (_stage + 1) * (_slotsPerColumn - 1)
         }
     }
     
