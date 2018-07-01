@@ -364,6 +364,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.addChild(explosion)
         }
     }
+    
+    func createExplosion(onBall ball: SKNode) {
+        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
+            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+            let ball = ball as? SmallBall {
+            let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
+            explosion.position = point
+            ball.addChild(explosion)
+        }
+    }
 
     func getFirstSlotInColumn(num: Int) -> BaseSlot {
         return slots.first(where: { s in
@@ -447,23 +457,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // get a reference to the ball we want to animate this iteration
                 let ball = zapBalls[zapBalls.count - index]
 
-                // create the move action
-                let action = SKAction.moveBy(x: 0, y: -game.smallDiameter, duration: 0.25)
-
-                // create the wait action (delay)
+                // create the wait action (the delay before we start falling)
                 let wait = SKAction.wait(forDuration: 0.25 * Double(index - 1))
 
+                // create the move action
+                let fall = SKAction.moveBy(x: 0, y: -game.smallDiameter, duration: 0.25)
+
                 // add the delay and move actions to a sequence
-                let sequence = SKAction.sequence([wait, action])
+                let sequence = SKAction.sequence([wait, fall])
 
                 // if we're on the last ball, we want to remove the stack afterwards
                 if (index == zapBalls.count) {
-                    ball.run(sequence, completion: {
-                        print("removing children")
+                    ball.run(sequence) {
                         self.removeChildren(in: zapBalls)
                         self.addSkull(toColumn: colNumber)
                         completion()
-                    })
+                    }
                 } else {
                     // otherwise just run the delay/move sequence
                     ball.run(sequence) {
