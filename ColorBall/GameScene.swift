@@ -12,8 +12,10 @@ import SpriteKit
 
 // TODOS:
 // - column snap top ball and/or distance calc points to columns - 1
-// - too many view controllers created?
+// - get rid of one of the boolean controls
+// - touching twice to start moving again?
 // - make interaction animations (particle explosion, etc)
+// - Search terms: Sk particle emitters, sk particle explosions
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -48,6 +50,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // control variables
     var isTouching = false
+    var isHolding = false
+    // TODO: trim one of these though:
     var allowToMove = false
     var canMove = false
 
@@ -105,20 +109,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.pinned = true
         body.isDynamic = false
         Circle.physicsBody = body
-        
+
+        game.resetAll()
+
         setupSlots()
 
         addChild(Circle)
-        
         
         setupFirstFallTimer()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isTouching {
-            return
-        }else if(allowToMove == true){
+       if allowToMove == true && !isTouching && !isHolding {
             isTouching = true
+            isHolding = true
+
             let middle = size.width / 2
 
             if let touch = touches.first {
@@ -137,7 +142,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        isTouching = false
+        isHolding = false
+        // isTouching = false
     }
     
     // MARK: custom update, animation, and movement methods
@@ -155,10 +161,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Circle.distance = Circle.distance + increment
         
         if (fabs(Circle.distance) >= fabs(Circle.nextTickPosition - Circle.lastTickPosition)) {
+            canMove = false
             Circle.distance = 0
             Circle.zRotation = Circle.nextTickPosition
-            canMove = false
-            isTouching = false
+            if isHolding {
+                getCircleValues()
+            } else {
+                isTouching = false
+            }
         }
     }
     
@@ -198,7 +208,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // the radians to separate each starting ball by, when placing around the ring
         let incrementRads = degreesToRad(angle: 360 / CGFloat(14))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
-        let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2) + 2
+        let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
 
         for i in 0..<game.numberStartingBalls {
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
@@ -298,11 +308,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func getCircleValues() {
-        if !canMove {
-            Circle.lastTickPosition = Circle.zRotation
-            Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(14) * direction))
-            canMove = true
-        }
+        Circle.lastTickPosition = Circle.zRotation
+        Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(14) * direction))
+        canMove = true
     }
 
     // checks the physics contact between two bodies
@@ -325,9 +333,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
                 handleSameColorCollision(newBody: firstBody, stuckBody: secondBody)
+                createExplosion(onBody: firstBody)
             } else if secondBody.isDynamic == true {
                 handleSameColorCollision(newBody: secondBody, stuckBody: firstBody)
+                createExplosion(onBody: secondBody)
             }
+            // create an explision at the point of contact
+            // createExplosion(pointOfContact: contact.contactPoint)
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
             if let _ = firstBody.node as? StartingSmallBall, let _ = secondBody.node as? SkullBall {
               print("contact between starter ball and skull")
@@ -342,7 +354,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+
+    func createExplosion(onBody body: SKPhysicsBody) {
+        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
+            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+            let ball = body.node as? SmallBall {
+            let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
+            explosion.position = point
+            ball.addChild(explosion)
+        }
+    }
     
+    func createExplosion(onBall ball: SKNode) {
+        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
+            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+            let ball = ball as? SmallBall {
+            let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
+            explosion.position = point
+            ball.addChild(explosion)
+        }
+    }
+
     func getFirstSlotInColumn(num: Int) -> BaseSlot {
         return slots.first(where: { s in
             return s.columnNumber == num
@@ -401,19 +433,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func checkForZaps(colNumber: Int) {
+    func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
         let colSlots = getSlotsInColumn(num: colNumber)
+
         if getFirstOpenSlot(slotList: colSlots) == nil {
-            game.decrementBallType(type: colSlots[0].colorType, byNumber: 4)
-            let zapBalls = colSlots.flatMap { s in
-                return s.ball!
-            }
+            game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
+            // map the column's slots to an array of the balls they contain
+            let zapBalls = colSlots.map({ $0.ball }) as! [SKNode]
+
+            // reset all slots in the column so we can add balls to them again
             for slot in colSlots {
                 slot.ball = nil
             }
-            removeChildren(in: zapBalls)
-            
-            addSkull(toColumn: colNumber)
+
+            // variable to count loop iterations
+            var index = 0
+
+            // loop through the array of balls we should be zapping
+            for _ in zapBalls {
+                // add one to the loop count
+                index += 1
+
+                // get a reference to the ball we want to animate this iteration
+                let ball = zapBalls[zapBalls.count - index]
+
+                // create the wait action (the delay before we start falling)
+                let wait = SKAction.wait(forDuration: 0.25 * Double(index - 1))
+
+                // create the move action
+                let fall = SKAction.moveBy(x: 0, y: -game.smallDiameter, duration: 0.25)
+
+                // add the delay and move actions to a sequence
+                let sequence = SKAction.sequence([wait, fall])
+
+                // if we're on the last ball, we want to remove the stack afterwards
+                if (index == zapBalls.count) {
+                    ball.run(sequence) {
+                        self.removeChildren(in: zapBalls)
+                        self.addSkull(toColumn: colNumber)
+                        completion()
+                    }
+                } else {
+                    // otherwise just run the delay/move sequence
+                    ball.run(sequence) {
+                        self.removeChildren(in: [ball])
+                    }
+                }
+            }
+        } else {
+            completion()
         }
     }
     
@@ -444,8 +512,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             slot.ball = ball
             ball.stuck = true
             ball.physicsBody?.isDynamic = false
-            checkForZaps(colNumber: slot.columnNumber)
-            addBall()
+            checkForZaps(colNumber: slot.columnNumber) {
+                self.addBall()
+            }
         }
     }
     
@@ -456,7 +525,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.physicsBody?.isDynamic = false
         gameDelegate?.gameoverdesign()
         // total length of each color action
-        let totalTime = 0.5
+        // let totalTime = 0.5
         // fade to red actions
         //let newDeadAction = getColorChangeActionForNode(originalColor: newBall.fillColor, endColor: UIColor.red, totalTime: totalTime)
         // fade back to original color actions
@@ -613,7 +682,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: rando)!
-        let ballColor = ballType.asColor()
 
         game.incrementBallType(type: ballType)
         print("ballcolors", game.ballColors.count, rando)
@@ -628,7 +696,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
-        newBall.fillColor = ballColor
+        newBall.fillColor = game.ballColors[rando]
         // don't fill the outline
         newBall.lineWidth = 0.0
 
@@ -675,15 +743,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ballType = BallColor(rawValue: rando)!
         }
         
-        print(ballType.name())
-        print(game.pinks)
-        print(game.blues)
+        print("=======> making a new ball of type:", ballType.name())
+        print("=======> old count for this type:", game.getCountForType(type: ballType))
         game.incrementBallType(type: ballType)
-        
-        let ballColor = ballType.asColor()
+        print("=======> new count for this type:", game.getCountForType(type: ballType))
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
-        newBall.fillColor = ballColor
+        newBall.fillColor = game.ballColors[rando]
         newBall.lineWidth = 0.0
         
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)

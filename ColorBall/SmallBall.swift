@@ -40,6 +40,7 @@ class SmallBall: SKShapeNode {
     var inContactWith = [SmallBall]()
     // non-optional type
     var colorType: BallColor!
+    var emitterPoint: CGPoint!
     var isStarter: Bool {
         return false
     }

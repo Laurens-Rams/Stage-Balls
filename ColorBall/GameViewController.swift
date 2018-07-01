@@ -37,10 +37,16 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         listenForNotifications()
+        layoutUI()
         print("game view controller loaded")
         game = Game()
         camera = SKCameraNode()
         setupGame()
+    }
+    
+    func layoutUI() {
+        let startY = CGFloat((view.frame.height / 3) * 2) - (scoreLabel.frame.height / 2)
+        scoreLabel.frame = CGRect(x: 0, y: startY, width: scoreLabel.frame.width, height: scoreLabel.frame.height)
     }
     
     func listenForNotifications() {
@@ -67,7 +73,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setupScene() {
-        scoreLabel.text = "\(game.score)"
+        scoreLabel.text = "\(game.numberBallsInQueue)"
         scene = GameScene(size: view.frame.size)
         scene.gameDelegate = self
         scene.scoreKeeper = self
@@ -95,11 +101,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func increaseScore(byValue: Int) {
         scene.game.increaseScore(byValue: byValue)
-        scoreLabel.text = scoreFormatter(score: scene.game.score)
+        scoreLabel.text = scoreFormatter(score: scene.game.ballsRemaining)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
-        if scene.game.score < 100 {
+        if scene.game.ballsRemaining < 100 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 140)
-        } else if scene.game.score < 1000 {
+        } else if scene.game.ballsRemaining < 1000 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }
     }
@@ -114,7 +120,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func restartGame() {
         camera.removeFromParent()
         camera = SKCameraNode()
-        game = Game()
         setupGame()
     }
     
@@ -143,20 +148,24 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 self.scene.isPaused = false
                 self.scene.fallTimer.fire()
                 self.scoreLabel.textColor = UIColor.white
-                self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.score)
+                // TODO: should subtract number balls that have fallen here--
+                self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
             }
         })
     }
 
     func gameover() {
         // save the score and add money
-        DataManager.main.saveHighScore(newScore: scene.game.score)
-        DataManager.main.addMoney(amount: scene.game.score)
+        // TODO: do we still need to save these values?
+        DataManager.main.saveHighScore(newScore: scene.game.numberBallsInQueue)
+        DataManager.main.addMoney(amount: scene.game.numberBallsInQueue)
+
         camera.removeFromParent()
         
         // create and present the game over view controller
         gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
-        gameOverController!.endingScore = scene.game.score
+        // set the ending "score" to how many balls you cleared (number fallen)
+        gameOverController!.endingScore = scene.game.ballsFallen
         present(gameOverController!, animated: false, completion: nil)
     }
 

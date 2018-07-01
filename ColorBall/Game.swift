@@ -16,26 +16,40 @@ import UIKit
  
  */
 
+struct GameConstants {
+    // MARK: static properties
+    
+    static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
+
+    static let startingCircleScale: CGFloat = 0.55
+    static let startingBallScale: CGFloat = 0.1155
+
+    static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
+    static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
+    static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
+}
+
 /**
  For creating a Game object. Use to manage current game values, track the current score and level, etc. Should be instantiated or re-instantiated for each game played.
  */
 class Game {
     // MARK: private properties
-    
-    // game score
-    private var _score = 0
-    
+
+    // number balls fallen in current stage
+    // TODO: create a "stage" object to manage all stage-related vars
+    private var _ballsFallen = 0
+
     // game level
     private var _stage: Int = 1
     
     // starting player circle diameter
-    private var _playerDiameter: CGFloat = 200.0
-    private var _outerDiameter: CGFloat = 221.0
-    private var _minOuterDiameter: CGFloat = 221.0
+    private var _playerDiameter: CGFloat = GameConstants.startingCircleDiameter
+    private var _outerDiameter: CGFloat = GameConstants.startingOuterDiameter
+    private var _minOuterDiameter: CGFloat = GameConstants.startingOuterDiameter
 
     
     // starting small ball diameter
-    private var _smallDiameter: CGFloat = 42.0
+    private var _smallDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingBallScale
     
     // multiplier for speeds
     // this controls the frequency of things falling
@@ -67,7 +81,7 @@ class Game {
     private var _oranges = 0
     private var _greys = 0
     private var _skulls = 0
-    
+
     var ballColors: [UIColor] = [
         UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
         UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
@@ -241,15 +255,31 @@ class Game {
             return _skulls
         }
     }
-    
+
     /**
-     The current game score (read-only getter).
-     */
-    var score: Int {
+     The number of balls that have dropped in current stage (read-only).
+    */
+    var ballsFallen: Int {
         get {
-            let amountToAdd = ((_stage + 1) * 3)
-            print("todad", _score)
-            return _score + amountToAdd
+            return _ballsFallen
+        }
+    }
+
+    /**
+     The number of balls remaining to fall in the current stage.
+     */
+    var ballsRemaining: Int {
+        get {
+            return numberBallsInQueue - ballsFallen
+        }
+    }
+
+    /**
+     Number of balls remaining that will fall in current stage.
+     */
+    var numberBallsInQueue: Int {
+        get {
+            return (_stage + 1) * (_slotsPerColumn - 1)
         }
     }
     
@@ -359,8 +389,6 @@ class Game {
      */
     func increaseStage() {
         _stage += 1
-        _score = 0
-        // ?
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2
         }
@@ -373,7 +401,7 @@ class Game {
         - byValue: How much to add to the score.
      */
     func increaseScore(byValue: Int) {
-        _score -= byValue
+        _ballsFallen += byValue
     }
     
     /**
@@ -470,7 +498,7 @@ class Game {
     func getCountForType(type: BallColor) -> Int {
         switch (type) {
             case .blue:
-                return _blues
+                return blues
             case .pink:
                 return pinks
             case .red:
@@ -485,8 +513,34 @@ class Game {
                 return purples
             case .grey:
                 return greys
-            default: return 0
+            case .skull:
+                return skulls
         }
+    }
+    
+    /**
+     Reset the count of every ball type (color) to zero, e.g. on a game reset
+     */
+    func resetAllBallTypeCounts() {
+        _blues = 0
+        _pinks = 0
+        _reds = 0
+        _yellows = 0
+        _greens = 0
+        _oranges = 0
+        _purples = 0
+        _greys = 0
+        _skulls = 0
+    }
+
+    func resetBallsFallen() {
+        _ballsFallen = 0
+    }
+
+    // reset everything, e.g. on start of a new game
+    func resetAll() {
+        resetAllBallTypeCounts()
+        resetBallsFallen()
     }
 }
 
