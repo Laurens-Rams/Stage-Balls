@@ -29,13 +29,13 @@ class Game {
     private var _stage: Int = 1
     
     // starting player circle diameter
-    private var _playerDiameter: CGFloat = 200.0
-    private var _outerDiameter: CGFloat = 221.0
-    private var _minOuterDiameter: CGFloat = 221.0
+    private var _playerDiameter: CGFloat = UIScreen.main.bounds.size.width * 0.55
+    private var _outerDiameter: CGFloat = (UIScreen.main.bounds.size.width * 0.55) + (UIScreen.main.bounds.size.width * 0.05775)
+    private var _minOuterDiameter: CGFloat = (UIScreen.main.bounds.size.width * 0.55) + (UIScreen.main.bounds.size.width * 0.05775)
 
     
     // starting small ball diameter
-    private var _smallDiameter: CGFloat = 42.0
+    private var _smallDiameter: CGFloat = UIScreen.main.bounds.size.width * 0.1155
     
     // multiplier for speeds
     // this controls the frequency of things falling

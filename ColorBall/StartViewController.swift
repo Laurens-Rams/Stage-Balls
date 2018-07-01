@@ -18,7 +18,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
     var gameVC: GameViewController?
     
     override func viewDidLoad() {
-        authenticateLocalPlayer()
+       // authenticateLocalPlayer()
         super.viewDidLoad()
 //        listenForNotifications()
         scene = MenuScene(size: view.bounds.size)

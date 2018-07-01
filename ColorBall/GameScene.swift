@@ -206,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // the radians to separate each starting ball by, when placing around the ring
         let incrementRads = degreesToRad(angle: 360 / CGFloat(14))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
-        let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2) + 2
+        let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
 
         for i in 0..<game.numberStartingBalls {
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)

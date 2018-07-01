@@ -37,10 +37,16 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         listenForNotifications()
+        layoutUI()
         print("game view controller loaded")
         game = Game()
         camera = SKCameraNode()
         setupGame()
+    }
+    
+    func layoutUI() {
+        let startY = CGFloat((view.frame.height / 3) * 2) - (scoreLabel.frame.height / 2)
+        scoreLabel.frame = CGRect(x: 0, y: startY, width: scoreLabel.frame.width, height: scoreLabel.frame.height)
     }
     
     func listenForNotifications() {

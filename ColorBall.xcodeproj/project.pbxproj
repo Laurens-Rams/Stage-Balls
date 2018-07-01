@@ -355,7 +355,6 @@
 				A13F125D1EF703F700A34B16 /* Frameworks */,
 				A13F125E1EF703F700A34B16 /* Resources */,
 				2A130D5ACB1996E70AA0A7DA /* [CP] Embed Pods Frameworks */,
-				3C6911004D547532E6E37780 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -531,21 +530,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3C6911004D547532E6E37780 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
