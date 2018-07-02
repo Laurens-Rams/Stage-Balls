@@ -29,6 +29,6 @@
         </view>
     </objects>
     <resources>
-        <image name="play" width="247" height="248"/>
+        <image name="play" width="227" height="227"/>
     </resources>
 </document>

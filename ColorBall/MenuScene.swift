@@ -91,6 +91,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         let startY = CGFloat((size.height / 3))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
+        Circle.alpha = 0.0
         CircleImage.position = startpos
         Circle.size = CGSize(width: 200.0, height: 200.0)
         CircleImage.size = CGSize(width: 200.0, height: 200.0)
@@ -107,7 +108,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         addChild(Circle)
         addChild(CircleImage)
         
-        self.addBall()
+      //  self.addBall()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
