@@ -21,7 +21,8 @@ import SpriteKit
 class MenuScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: class properties
-    
+    var game: Game!
+    var circleDiameter = UIScreen.main.bounds.size.width * 0.55
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     let CircleImage = PlayerCircle(imageNamed: "play")
@@ -93,8 +94,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         Circle.position = startpos
         Circle.alpha = 0.0
         CircleImage.position = startpos
-        Circle.size = CGSize(width: 200.0, height: 200.0)
-        CircleImage.size = CGSize(width: 200.0, height: 200.0)
+        
+        Circle.size = CGSize(width: circleDiameter, height: circleDiameter)
+        CircleImage.size = CGSize(width: circleDiameter, height: circleDiameter)
         Circle.name = "Player"
         CircleImage.name = "playButton"
         
@@ -435,7 +437,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     func getIdealBallPosition(fromBall ball: StartMenuBall) -> CGPoint {
         let xPos = size.width / 2
         let rowMultiplier = CGFloat(ball.inContactWith.count) + 1.5
-        let yPos = Circle.position.y + (200.0 / 2) + (42.0 * rowMultiplier)
+        let yPos = Circle.position.y + (circleDiameter / 2) + (42.0 * rowMultiplier)
         return CGPoint(x: xPos, y: yPos)
     }
     

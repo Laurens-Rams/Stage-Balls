@@ -22,7 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: class properties
     
     var game: Game!
-    
+    var slotsOnCircle = 13
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     let ring = PlayerCircle(imageNamed: "ring")
@@ -206,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupSlots() {
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: 360 / CGFloat(14))
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(slotsOnCircle))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
 
@@ -309,7 +309,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func getCircleValues() {
         Circle.lastTickPosition = Circle.zRotation
-        Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(14) * direction))
+        Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(slotsOnCircle) * direction))
         canMove = true
     }
 
