@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "neuskullZeichenfläche 1 Kopie 17@1x.png",
+      "filename" : "circle@1x-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "neuskullZeichenfläche 1 Kopie 17@2x.png",
+      "filename" : "circle@2x-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "neuskullZeichenfläche 1 Kopie 17@3x.png",
+      "filename" : "neuskullZeichenfläche1Kopie 17@3x-1.png",
       "scale" : "3x"
     }
   ],

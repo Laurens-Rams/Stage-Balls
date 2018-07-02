@@ -161,6 +161,10 @@ class Game {
         UIColor.white,
         
     ]
+    
+    init(startingStage: Int) {
+        _stage = startingStage
+    }
 
     // we'll flip this to false later to test the other option
     var endGameOnCircleCollision = true
