@@ -22,7 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: class properties
     
     var game: Game!
-    var slotsOnCircle = 13
+    var slotsOnCircle = 30
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     let ring = PlayerCircle(imageNamed: "ring")
