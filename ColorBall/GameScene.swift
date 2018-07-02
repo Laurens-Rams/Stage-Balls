@@ -493,6 +493,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         skullSlot.ball = skullBall
         skullBall.position = skullSlot.position
         skullBall.stuck = true
+        skullBall.zPosition = -100
         skullSlot.containsSkull = true
         addChild(skullBall)
     }
