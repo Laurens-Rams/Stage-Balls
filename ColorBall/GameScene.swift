@@ -564,7 +564,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - stuckBody: The non-dynamic body.
      */
     func handleDifferentColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
-        print("contact between two different color balls")
         if let newBall = newBody.node as? SmallBall {
             startGameOverSequence(newBall: newBall)
         }
@@ -619,7 +618,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func handleGameOver() {
-        
         isPaused = true
         ballTimer?.invalidate()
         gameDelegate?.gameover()
@@ -675,16 +673,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ballType = BallColor(rawValue: rando)!
 
         game.incrementBallType(type: ballType)
-        print("ballcolors", GameConstants.ballColors.count, rando)
-        print(game.blues)
-        print(game.pinks)
-        print(game.reds)
-        print(game.yellows)
-        print(game.greens)
-        print(game.oranges)
-        print(game.purples)
-        print(game.greys)
-        
+
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
         newBall.fillColor = GameConstants.ballColors[rando]
@@ -696,7 +685,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
         body.restitution = 0
-        print("rando:", rando)
         categories.remove(at: rando)
         body.allowsRotation = true
         
@@ -704,9 +692,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.isDynamic = false
         newBall.physicsBody = body
         newBall.colorType = ballType
-        
-        let positiontomove = CGPoint(x: size.width / 2, y: size.height - 60)
-        
+    
         return newBall
     }
     
@@ -734,10 +720,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ballType = BallColor(rawValue: rando)!
         }
         
-        print("=======> making a new ball of type:", ballType.name())
-        print("=======> old count for this type:", game.getCountForType(type: ballType))
         game.incrementBallType(type: ballType)
-        print("=======> new count for this type:", game.getCountForType(type: ballType))
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
         newBall.fillColor = GameConstants.ballColors[rando]
@@ -748,11 +731,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
         body.restitution = 0
-        print("rando2", rando)
         categories.remove(at: rando)
-        
         body.allowsRotation = true
-        
         body.usesPreciseCollisionDetection = true
         
         newBall.physicsBody = body
@@ -795,26 +775,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Add a new ball to the array and to the game scene if we can.
      */
     @objc func addBall() {
-        print(game.skulls, game.numberStartingBalls)
         if game.skulls < game.numberStartingBalls {
             let newBall = makeBall()
-            
             newBall.position = CGPoint(x: size.width / 2, y: size.height - 35)
-            
             newBall.inLine = true
-            
             newBall.alpha = 0.4
             newBall.setScale(0.6)
+
             let fadeIn = SKAction.fadeIn(withDuration: 0.25)
             let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: size.height - 60), duration: 0.25)
             let popOut = SKAction.scale(to: 1.0, duration: 0.15)
-            newBall.run(SKAction.sequence([
-                    popOut
-                    ]))
-            newBall.run(moveaction){
-            }
-            newBall.run(fadeIn) {
-            }
+
+            // create an action group to run simultaneous actions
+            let actionGroup = SKAction.group([popOut, moveaction, fadeIn])
+            newBall.run(actionGroup)
+
             fallingBalls.append(newBall)
             
             addChild(newBall)
