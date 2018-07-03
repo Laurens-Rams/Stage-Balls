@@ -11,13 +11,17 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
     
     var endingScore: Int = 0
+    var endingStage: Int = 1
 
+    var game1: Game!
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     
     var scene: GameOverScene!
     
+
     override func viewDidLoad() {
+        layoutUI()
         super.viewDidLoad()
         scene = GameOverScene(size: view.bounds.size)
         scene.del = self
@@ -26,11 +30,19 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
-
         showpoints.text = scoreFormatter(score: endingScore)
-        stageLabel.text = stageFormatter(stage: endingScore)
+        if let highScore = UserDefaults.standard.object(forKey: "HIGH_SCORE") as? Int {
+             stageLabel.text = stageFormatter(stage: highScore)
+            print("using saved value from user defaults", highScore)
+        } else {
+            stageLabel.text = stageFormatter(stage: endingStage)
+            print("using ending stage from last game", endingStage)
+        }
     }
-    
+    func layoutUI() {
+        let startY = CGFloat((view.frame.height / 3) * 2) - (showpoints.frame.height / 2)
+        showpoints.frame = CGRect(x: 0, y: startY, width: showpoints.frame.width, height: showpoints.frame.height)
+    }
     //GAMECENTER
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
@@ -70,14 +82,11 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
     
     func scoreFormatter(score: Int) -> String {
-        if score < 10 {
-            return "0\(score)"
-        }
         return String(score)
     }
 
     func stageFormatter(stage: Int) -> String {
-        return String(stage)
+        return "STAGE \(stage)"
     }
     
     @IBOutlet var scoreLabel: UILabel!

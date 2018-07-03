@@ -12,6 +12,7 @@ import SpriteKit
 class GameOverScene: SKScene, SKPhysicsContactDelegate {
     
     var del: StartSceneDelegate?
+    var circleDiameter = UIScreen.main.bounds.size.width * 0.55
     let Circle = PlayerCircle(imageNamed: "circle")
     
     let ballTextures: [SKTexture] = [
@@ -38,7 +39,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
     // TODO: implement a hit test for the "buttons"
     // example of this is in MenuScene's touchesEnded() and related functions
     override func didMove(to view: SKView) {
-        backgroundColor = UIColor(red: 255/255, green: 233/255, blue: 233/255, alpha: 1.0)
+        backgroundColor = .white
         isPaused = false
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
@@ -48,7 +49,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         let startY = CGFloat((size.height / 3))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
-        Circle.size = CGSize(width: 200, height: 200)
+        Circle.size = CGSize(width: circleDiameter, height: circleDiameter)
         Circle.name = "playButton"
         
         let body = SKPhysicsBody(texture: Circle.texture!, size: CGSize(width: Circle.size.width - 2, height: Circle.size.height - 2))

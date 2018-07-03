@@ -35,6 +35,20 @@ class DataManager {
     func initHighScore() {
         if let score = _realm.objects(HighScore.self).first {
             _highScore = score.value
+            print("HIGH SCORE", _highScore)
+        } else {
+            let newHighScore = HighScore()
+            newHighScore.id = 1
+            newHighScore.value = 0
+            do {
+                try _realm.write {
+                    _realm.add(newHighScore, update: true)
+                }
+            }
+            catch let error {
+                print(error.localizedDescription)
+            }
+            _highScore = newHighScore.value
         }
     }
     

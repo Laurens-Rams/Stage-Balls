@@ -20,7 +20,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     @IBOutlet var pauseButton: UIButton!
     @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var menuBtn: UIButton!
-    @IBOutlet var moneyLabel: UILabel!
+    @IBOutlet weak var stageLabel: UILabel!
     
     var scene: GameScene!
     var skView: SKView!
@@ -39,7 +39,18 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         listenForNotifications()
         layoutUI()
         print("game view controller loaded")
-        game = Game()
+        if let currentStage = UserDefaults.standard.object(forKey: "CURRENT_STAGE") as? Int {
+            stageLabel.text = "STAGE \(currentStage)"
+            game = Game(startingStage: currentStage)
+        } else if let highScore = UserDefaults.standard.object(forKey: "HIGH_SCORE") as? Int {
+            game = Game(startingStage: highScore)
+            stageLabel.text = "STAGE \(highScore)"
+            UserDefaults.standard.set(highScore, forKey: "CURRENT_STAGE")
+        } else {
+            game = Game(startingStage: 1)
+            UserDefaults.standard.set(1, forKey: "CURRENT_STAGE")
+            stageLabel.text = "STAGE 1"
+        }
         camera = SKCameraNode()
         setupGame()
     }
@@ -155,17 +166,24 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func gameover() {
-        // save the score and add money
-        // TODO: do we still need to save these values?
-        DataManager.main.saveHighScore(newScore: scene.game.numberBallsInQueue)
-        DataManager.main.addMoney(amount: scene.game.numberBallsInQueue)
+        // save the high score if we just set it!
+        if let highScore = UserDefaults.standard.object(forKey: "HIGH_SCORE") as? Int {
+            if game.stage > highScore {
+                UserDefaults.standard.set(game.stage, forKey: "HIGH_SCORE")
+                UserDefaults.standard.synchronize()
+            }
+        } else {
+            UserDefaults.standard.set(game.stage, forKey: "HIGH_SCORE")
+            UserDefaults.standard.synchronize()
+        }
 
         camera.removeFromParent()
         
         // create and present the game over view controller
         gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
         // set the ending "score" to how many balls you cleared (number fallen)
-        gameOverController!.endingScore = scene.game.ballsFallen
+        gameOverController!.endingScore = scene.game.ballsRemaining
+        gameOverController!.endingStage = scene.game.stage
         present(gameOverController!, animated: false, completion: nil)
     }
 
@@ -178,6 +196,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func handleNextStage() {
         game.increaseStage()
+        UserDefaults.standard.set(game.stage, forKey: "CURRENT_STAGE")
+        stageLabel.text = "STAGE \(game.stage)"
         restartGame()
     }
     

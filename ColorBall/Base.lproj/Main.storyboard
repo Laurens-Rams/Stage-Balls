@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -26,7 +26,7 @@
                         <viewControllerLayoutGuide type="bottom" id="8aI-AI-zHe"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dnR-zw-IN9" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Color Ballz" translatesAutoresizingMaskIntoConstraints="NO" id="cco-X0-RZ6">
@@ -34,7 +34,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wYv-33-toj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -50,47 +50,51 @@
                         <viewControllerLayoutGuide type="bottom" id="qHh-Mt-9TT"/>
                     </layoutGuides>
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neW-P3-VwB">
-                                <rect key="frame" x="0.0" y="363" width="375" height="161"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="140"/>
-                                <color key="textColor" red="0.97555762078273589" green="0.97884279821218267" blue="0.95674671885803975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IaP-cR-WyT">
                                 <rect key="frame" x="16" y="20" width="18" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" backgroundImage="menu"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwH-2j-QtW">
-                                <rect key="frame" x="0.0" y="0.0" width="63" height="71"/>
+                                <rect key="frame" x="0.0" y="0.0" width="91" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="menuAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nsj-pQ-ci3"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stage 1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcs-gc-tFs">
-                                <rect key="frame" x="217" y="1" width="142" height="60"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neW-P3-VwB">
+                                <rect key="frame" x="0.0" y="471" width="375" height="164"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="140"/>
+                                <color key="textColor" red="0.97555762078273589" green="0.97884279821218267" blue="0.95674671885803975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcs-gc-tFs">
+                                <rect key="frame" x="351.33333333333331" y="44" width="7.6666666666666856" height="35.666666666666657"/>
                                 <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="30"/>
                                 <color key="textColor" red="0.32659663643376136" green="0.32983026649746194" blue="0.32983026649746194" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.98155932739999996" green="0.97886078590000003" blue="0.97599582799999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="hcs-gc-tFs" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" id="hM7-6l-0oQ"/>
+                            <constraint firstAttribute="trailing" secondItem="hcs-gc-tFs" secondAttribute="trailing" constant="16" id="mCB-pq-4Cl"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="menuBtn" destination="uwH-2j-QtW" id="fbZ-hN-K46"/>
                         <outlet property="pauseButton" destination="uwH-2j-QtW" id="N5O-hi-um0"/>
                         <outlet property="scoreLabel" destination="neW-P3-VwB" id="yen-3U-vsh"/>
+                        <outlet property="stageLabel" destination="hcs-gc-tFs" id="MsK-ZG-wVR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1730.4000000000001" y="-136.28185907046478"/>
+            <point key="canvasLocation" x="-1730.4000000000001" y="-136.69950738916256"/>
         </scene>
         <!--Game Over View Controller New-->
         <scene sceneID="QeJ-5P-T9b">
@@ -101,25 +105,28 @@
                         <viewControllerLayoutGuide type="bottom" id="jKn-rS-djN"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yjA-7l-cMK" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INO-Ra-MFt">
-                                <rect key="frame" x="0.0" y="362" width="375" height="161"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INO-Ra-MFt">
+                                <rect key="frame" x="0.0" y="476" width="375" height="161"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="140"/>
                                 <color key="textColor" red="0.97555762079999997" green="0.97884279819999997" blue="0.95674671889999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stage 1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
-                                <rect key="frame" x="217" y="0.0" width="142" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stage 1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
+                                <rect key="frame" x="272.33333333333331" y="44" width="86.666666666666686" height="35.666666666666657"/>
                                 <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="30"/>
                                 <color key="textColor" red="0.32534593343734741" green="0.32945013046264648" blue="0.3294142484664917" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="NCH-hY-IBo" secondAttribute="trailing" constant="16" id="hHo-xQ-odi"/>
+                            <constraint firstItem="NCH-hY-IBo" firstAttribute="top" secondItem="ijy-fd-OMl" secondAttribute="bottom" id="rhM-JY-zU2"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="showpoints" destination="INO-Ra-MFt" id="br0-cs-hji"/>
@@ -139,7 +146,7 @@
                         <viewControllerLayoutGuide type="bottom" id="PNV-Ka-TuI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="px8-Q6-y89">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSz-KA-k2N">
@@ -431,7 +438,7 @@
                         <viewControllerLayoutGuide type="bottom" id="oOJ-h6-mfX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="H3q-YM-kID">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PointIcon" translatesAutoresizingMaskIntoConstraints="NO" id="2hl-z3-4Eb">
@@ -541,23 +548,23 @@
         <image name="500" width="412" height="273"/>
         <image name="Color Ballz" width="751" height="282"/>
         <image name="GAMEOVER" width="442" height="150"/>
-        <image name="Icon-1" width="114" height="111"/>
-        <image name="Icon-3" width="117" height="115"/>
-        <image name="Icon-4" width="180" height="173"/>
-        <image name="Icon-5" width="162" height="162"/>
-        <image name="Icon-6" width="173" height="169"/>
+        <image name="Icon-1" width="51" height="51"/>
+        <image name="Icon-3" width="51" height="51"/>
+        <image name="Icon-4" width="50" height="50"/>
+        <image name="Icon-5" width="51" height="51"/>
+        <image name="Icon-6" width="51" height="51"/>
         <image name="OFF" width="108" height="107"/>
         <image name="PointIcon" width="83" height="83"/>
         <image name="SHOP" width="354" height="208"/>
         <image name="addpicture" width="387" height="256"/>
-        <image name="circle" width="200" height="200"/>
+        <image name="circle" width="227" height="227"/>
         <image name="home" width="177" height="176"/>
         <image name="item-1" width="412" height="274"/>
         <image name="item-2" width="413" height="273"/>
         <image name="item-3" width="412" height="273"/>
         <image name="item-4" width="412" height="273"/>
-        <image name="menu" width="35" height="40"/>
-        <image name="play" width="247" height="248"/>
+        <image name="menu" width="51" height="51"/>
+        <image name="play" width="228" height="228"/>
         <image name="share" width="173" height="169"/>
         <image name="watchVideo" width="362" height="239"/>
     </resources>

@@ -18,11 +18,12 @@ import UIKit
 
 struct GameConstants {
     // MARK: static properties
-    
+    static let ballFallDuration: CGFloat = 0.2
+
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
 
     static let startingCircleScale: CGFloat = 0.55
-    static let startingBallScale: CGFloat = 0.1155
+    static let startingBallScale: CGFloat = 0.116
 
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
@@ -40,7 +41,7 @@ class Game {
     private var _ballsFallen = 0
 
     // game level
-    private var _stage: Int = 1
+    private var _stage: Int = 20
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = GameConstants.startingCircleDiameter
@@ -97,80 +98,74 @@ class Game {
     // we can also change how this works so it automatically creates them
     private var _backgroundColors: [UIColor] = [
         UIColor.white,
-        UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 230/255, green: 244/255, blue: 255/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 233/255, blue: 237/255, alpha: 1.0),
-        UIColor(red: 233/255, green: 252/255, blue: 255/255, alpha: 1.0),
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
         
     ]
+    
+    init(startingStage: Int) {
+        _stage = 1
+    }
 
     // we'll flip this to false later to test the other option
     var endGameOnCircleCollision = true
