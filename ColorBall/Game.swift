@@ -18,7 +18,11 @@ import UIKit
 
 struct GameConstants {
     // MARK: static properties
-    static let ballFallDuration: CGFloat = 0.2
+
+    static let initialSlotsOnCircle: CGFloat = 13
+    static let initialSlotsPerColumn = 4
+
+    static let ballZapDuration: CGFloat = 0.2
 
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
 
@@ -28,6 +32,83 @@ struct GameConstants {
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
     static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
+    
+    static let ballColors: [UIColor] = [
+        UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
+        UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
+        UIColor(red: 63/255, green: 139/255, blue: 138/255, alpha: 1.0),
+        UIColor(red: 223/255, green: 175/255, blue: 71/255, alpha: 1.0),
+        UIColor(red: 124/255, green: 45/255, blue: 243/255, alpha: 1.0),
+        UIColor(red: 117/255, green: 228/255, blue: 179/255, alpha: 1.0),
+        UIColor(red: 255/255, green: 00/255, blue: 00/255, alpha: 1.0),
+        UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
+    ]
+    
+    static let backgroundColors: [UIColor] = [
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+        UIColor.white,
+    ]
 }
 
 /**
@@ -41,7 +122,7 @@ class Game {
     private var _ballsFallen = 0
 
     // game level
-    private var _stage: Int = 20
+    private var _stage: Int = 1
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = GameConstants.startingCircleDiameter
@@ -70,7 +151,8 @@ class Game {
     // keep track of extra chance
     private var _extraChance = 1
     
-    private var _slotsPerColumn = 4
+    private var _slotsPerColumn = GameConstants.initialSlotsPerColumn
+    private var _slotsOnCircle = GameConstants.initialSlotsOnCircle
     
     // counts for each type of physics category on the screen
     private var _blues = 0
@@ -82,89 +164,9 @@ class Game {
     private var _oranges = 0
     private var _greys = 0
     private var _skulls = 0
-
-    var ballColors: [UIColor] = [
-        UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
-        UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
-        UIColor(red: 63/255, green: 139/255, blue: 138/255, alpha: 1.0),
-        UIColor(red: 223/255, green: 175/255, blue: 71/255, alpha: 1.0),
-        UIColor(red: 124/255, green: 45/255, blue: 243/255, alpha: 1.0),
-        UIColor(red: 117/255, green: 228/255, blue: 179/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 00/255, blue: 00/255, alpha: 1.0),
-        UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
-    ]
-    
-    // add colors to the array to add background colors
-    // we can also change how this works so it automatically creates them
-    private var _backgroundColors: [UIColor] = [
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        
-    ]
     
     init(startingStage: Int) {
-        _stage = 1
+        _stage = startingStage
     }
 
     // we'll flip this to false later to test the other option
@@ -375,7 +377,7 @@ class Game {
      */
     var backgroundColor: UIColor {
         get {
-            return _backgroundColors[_stage - 1]
+            return GameConstants.backgroundColors[_stage - 1]
         }
     }
     

@@ -58,7 +58,7 @@ class Slot {
         var f = self.startDistance
         if let ball = self.ball, ball.stuck == true {
             if ball.falling {
-                t = ball.fallTime / GameConstants.ballFallDuration
+                t = ball.fallTime / GameConstants.ballZapDuration
 //                f *= CGFloat(ball.fallTime)
                 if ball.fallTime > 0 {
                     ball.fallTime -= dt
