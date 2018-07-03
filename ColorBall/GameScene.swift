@@ -22,7 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: class properties
     
     var game: Game!
-    var slotsOnCircle = 30
+    var slotsOnCircle = 13
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     let ring = PlayerCircle(imageNamed: "ring")
@@ -83,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             updateCircle(dt: dt)
         }
 
-        updateSlots()
+        updateSlots(dt: dt)
         updateBalls(dt: dt)
     }
     
@@ -172,9 +172,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func updateSlots() {
+    func updateSlots(dt: CGFloat) {
         for slot in slots {
-            slot.update(player: Circle)
+            slot.update(player: Circle, dt: dt)
         }
     }
     
@@ -209,6 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let incrementRads = degreesToRad(angle: 360 / CGFloat(slotsOnCircle))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
+//        let endDistance = startDistance - game.smallDiameter
 
         for i in 0..<game.numberStartingBalls {
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
@@ -217,6 +218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let targetPosition = CGPoint(x: newX, y: newY)
 
             let slot = BaseSlot(position: targetPosition, startPosition: startPosition, insidePosition: targetPosition, startRads: startRads, isStarter: true, distance: startDistance)
+            slot.diameter = game.smallDiameter
             slot.columnNumber = i
             
             let ball = makeStartBall(index: i)
@@ -234,6 +236,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let slotY = (updatedDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
                 let slotPos = CGPoint(x: slotX, y: slotY)
                 let slot = Slot(position: slotPos, startRads: startRads, isStarter: false, distance: updatedDistance)
+//                slot.endDistance = updatedDistance - game.smallDiameter
+                slot.diameter = game.smallDiameter
                 slot.columnNumber = i
                 slots.append(slot)
             }
@@ -442,12 +446,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let zapBalls = colSlots.map({ $0.ball }) as! [SKNode]
 
             // reset all slots in the column so we can add balls to them again
-            for slot in colSlots {
-                slot.ball = nil
-            }
+//            for slot in colSlots {
+//                slot.ball = nil
+//            }
 
             // variable to count loop iterations
             var index = 0
+            
+            var ball2: SmallBall? = nil
+            for b in zapBalls {
+                if let b = b as? SmallBall, !b.falling {
+                    ball2 = b
+                }
+            }
+            if (ball2 != nil) {
+                ball2!.falling = true
+            }
 
             // loop through the array of balls we should be zapping
             for _ in zapBalls {
@@ -455,16 +469,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 index += 1
 
                 // get a reference to the ball we want to animate this iteration
-                let ball = zapBalls[zapBalls.count - index]
+                let ball = zapBalls[zapBalls.count - index] as! SmallBall
 
                 // create the wait action (the delay before we start falling)
-                let wait = SKAction.wait(forDuration: 0.25 * Double(index - 1))
+                let wait = SKAction.wait(forDuration: Double(GameConstants.ballFallDuration * CGFloat(index - 1)))
 
-                // create the move action
-                let fall = SKAction.moveBy(x: 0, y: -game.smallDiameter, duration: 0.25)
+                ball.fallTime = GameConstants.ballFallDuration
 
                 // add the delay and move actions to a sequence
-                let sequence = SKAction.sequence([wait, fall])
+                let sequence = SKAction.sequence([wait])
 
                 // if we're on the last ball, we want to remove the stack afterwards
                 if (index == zapBalls.count) {
@@ -476,6 +489,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else {
                     // otherwise just run the delay/move sequence
                     ball.run(sequence) {
+                        var ball2: SmallBall? = nil
+                        for b in zapBalls {
+                            if let b = b as? SmallBall, !b.falling {
+                                ball2 = b
+                            }
+                        }
+                        if (ball2 != nil) {
+                            ball2!.falling = true
+                            self.createExplosion(onBall: ball2!)
+                        }
                         self.removeChildren(in: [ball])
                     }
                 }

@@ -22,6 +22,8 @@ class Slot {
     var position: CGPoint = CGPoint(x: 0, y: 0)
     var stuck = false
     var startDistance: CGFloat = 0
+    var endDistance: CGFloat = 0
+    var diameter: CGFloat = 0
     var startRads: CGFloat = 0
     var colorType: BallColor!
     var isStarter = false
@@ -45,9 +47,27 @@ class Slot {
         self.colorType = ball.colorType
     }
     
-    func update(player: PlayerCircle) {
-        let newX = self.startDistance * cos(player.zRotation - self.startRads) + player.position.x
-        let newY = self.startDistance * sin(player.zRotation - self.startRads) + player.position.y
+    func lerp(a: CGFloat, b: CGFloat, t: CGFloat) -> CGFloat {
+        return a + (b - a) * t
+    }
+    
+    func update(player: PlayerCircle, dt: CGFloat) {
+        var t: CGFloat = 1
+        let startDistance = self.startDistance
+        let endDistance = startDistance - self.diameter
+        var f = self.startDistance
+        if let ball = self.ball, ball.stuck == true {
+            if ball.falling {
+                t = ball.fallTime / GameConstants.ballFallDuration
+//                f *= CGFloat(ball.fallTime)
+                if ball.fallTime > 0 {
+                    ball.fallTime -= dt
+                }
+                f = lerp(a: endDistance, b: startDistance, t: t)
+            }
+        }
+        let newX = f * cos(player.zRotation - self.startRads) + player.position.x
+        let newY = f * sin(player.zRotation - self.startRads) + player.position.y
         self.position = CGPoint(x: newX, y: newY)
         if let ball = self.ball, ball.stuck == true {
             ball.position = self.position

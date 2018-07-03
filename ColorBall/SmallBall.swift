@@ -38,6 +38,9 @@ class SmallBall: SKShapeNode {
     var startDistance: CGFloat = 0
     var startRads: CGFloat = 0
     var inContactWith = [SmallBall]()
+
+    var fallTime: CGFloat = 0
+    var falling = false
     // non-optional type
     var colorType: BallColor!
     var emitterPoint: CGPoint!

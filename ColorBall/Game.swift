@@ -18,11 +18,12 @@ import UIKit
 
 struct GameConstants {
     // MARK: static properties
-    
+    static let ballFallDuration: CGFloat = 0.2
+
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
 
-    static let startingCircleScale: CGFloat = 1.0
-    static let startingBallScale: CGFloat = 0.1
+    static let startingCircleScale: CGFloat = 0.55
+    static let startingBallScale: CGFloat = 0.116
 
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
@@ -163,7 +164,7 @@ class Game {
     ]
     
     init(startingStage: Int) {
-        _stage = 29
+        _stage = 1
     }
 
     // we'll flip this to false later to test the other option
