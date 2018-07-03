@@ -264,8 +264,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func cleanupBalls() {
         let skulls = slots
-            .filter({ $0.containsSkull == true })
-            .compactMap({ $0.ball as? SkullBall })
+           .filter({ $0.containsSkull == true })
+            .flatMap({ $0.ball as? SkullBall })
 
         for i in 0..<skulls.count {
             let isLast = (i == skulls.count - 1)
@@ -312,7 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 1.2 * game.speedMultiplier
+        let interval = 1.0 * game.speedMultiplier
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             ball.inLine = false

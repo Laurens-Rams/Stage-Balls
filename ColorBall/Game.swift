@@ -18,17 +18,17 @@ import UIKit
 
 struct GameConstants {
     // MARK: static properties
-
-    static let initialSlotsOnCircle: CGFloat = 13
-    static let initialSlotsPerColumn = 4
-
-    static let ballZapDuration: CGFloat = 0.2
-
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
-
+    //SLOTS
+    static let initialSlotsOnCircle: CGFloat = 14
+    //ZAP
+    static let initialSlotsPerColumn = 4
+    //ZAP DURRATION
+    static let ballZapDuration: CGFloat = 0.2
+    //CIRLCE SIZE
     static let startingCircleScale: CGFloat = 0.55
-    static let startingBallScale: CGFloat = 0.116
-
+    //BALL SIZE
+    static let startingBallScale: CGFloat = 0.11
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
     static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
@@ -46,68 +46,7 @@ struct GameConstants {
     
     static let backgroundColors: [UIColor] = [
         UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
+
     ]
 }
 
@@ -122,7 +61,7 @@ class Game {
     private var _ballsFallen = 0
 
     // game level
-    private var _stage: Int = 1
+    private var _stage: Int = 0
     
     // starting player circle diameter
     private var _playerDiameter: CGFloat = GameConstants.startingCircleDiameter
@@ -136,11 +75,11 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.00
+    private var _speedMultiplier: Double = 0.01
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.00
+    private var _gravityMultiplier: Double = 0.04
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
@@ -166,7 +105,7 @@ class Game {
     private var _skulls = 0
     
     init(startingStage: Int) {
-        _stage = startingStage
+        _stage = 13
     }
 
     // we'll flip this to false later to test the other option
@@ -377,7 +316,7 @@ class Game {
      */
     var backgroundColor: UIColor {
         get {
-            return GameConstants.backgroundColors[_stage - 1]
+            return GameConstants.backgroundColors[0]
         }
     }
     
@@ -390,6 +329,7 @@ class Game {
             _outerDiameter -= 2
         }
         print("increased stage to \(_stage)")
+        
     }
     
     /**
