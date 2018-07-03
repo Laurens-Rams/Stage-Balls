@@ -443,7 +443,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let zapBalls = colSlots.map({ $0.ball! })
 
             if let topBall = zapBalls.last {
-                topBall.falling = true
+                topBall.run(SKAction.wait(forDuration: 0.1)) {
+                    topBall.falling = true
+                }
             }
 
             // variable to count loop iterations
@@ -458,7 +460,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let ball = zapBalls[zapBalls.count - index]
 
                 // create the wait action (the delay before we start falling)
-                let wait = SKAction.wait(forDuration: Double(GameConstants.ballZapDuration * CGFloat(index - 1)))
+                let waitDuration = Double(GameConstants.ballZapDuration * CGFloat(index))
+                let wait = SKAction.wait(forDuration: waitDuration)
 
                 ball.fallTime = GameConstants.ballZapDuration
 
