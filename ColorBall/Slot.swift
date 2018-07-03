@@ -52,36 +52,34 @@ class Slot {
     }
     
     func update(player: PlayerCircle, dt: CGFloat) {
-        var t: CGFloat = 1
-        let startDistance = self.startDistance
-        let endDistance = startDistance - self.diameter
-        var f = self.startDistance
-        if let ball = self.ball, ball.stuck == true {
-            if ball.falling {
-                t = ball.fallTime / GameConstants.ballFallDuration
-//                f *= CGFloat(ball.fallTime)
-                if ball.fallTime > 0 {
-                    ball.fallTime -= dt
-                }
-                f = lerp(a: endDistance, b: startDistance, t: t)
+        var f = startDistance
+
+        if let ball = ball, ball.stuck, ball.falling {
+            if ball.fallTime > 0 {
+                ball.fallTime -= dt
             }
+            f = lerp(a: startDistance - diameter, b: startDistance, t: ball.fallTime / GameConstants.ballZapDuration)
         }
-        let newX = f * cos(player.zRotation - self.startRads) + player.position.x
-        let newY = f * sin(player.zRotation - self.startRads) + player.position.y
-        self.position = CGPoint(x: newX, y: newY)
-        if let ball = self.ball, ball.stuck == true {
-            ball.position = self.position
+
+        let newX = f * cos(player.zRotation - startRads) + player.position.x
+        let newY = f * sin(player.zRotation - startRads) + player.position.y
+        position = CGPoint(x: newX, y: newY)
+
+        if let ball = ball, ball.stuck {
+            ball.position = position
         }
     }
 }
 
 class BaseSlot: Slot {
     var startPosition: CGPoint = CGPoint(x: 0, y: 0)
+
     override var slotType: SlotType {
         get {
             return SlotType.base
         }
     }
+
     var insidePosition: CGPoint = CGPoint(x: 0, y: 0)
 
     init(position: CGPoint, startPosition: CGPoint, insidePosition: CGPoint, startRads: CGFloat, isStarter: Bool, distance: CGFloat) {
@@ -95,7 +93,7 @@ class BaseSlot: Slot {
     }
     
     var isFull: Bool {
-        return self.ball != nil
+        return ball != nil
     }
 }
 

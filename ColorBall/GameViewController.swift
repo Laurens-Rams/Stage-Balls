@@ -12,10 +12,6 @@ import GameplayKit
 
 class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate {
     
-    deinit {
-        print("game view controller deinit")
-    }
-    
     @IBOutlet var settingButton: UIButton!
     @IBOutlet var pauseButton: UIButton!
     @IBOutlet var scoreLabel: UILabel!
@@ -30,6 +26,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     var gameOverController: GameOverViewControllerNew?
     
+    let defaults = UserDefaults.standard
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -38,19 +36,23 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         super.viewDidLoad()
         listenForNotifications()
         layoutUI()
-        print("game view controller loaded")
-        if let currentStage = UserDefaults.standard.object(forKey: "CURRENT_STAGE") as? Int {
+
+        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
             game = Game(startingStage: currentStage)
-        } else if let highScore = UserDefaults.standard.object(forKey: "HIGH_SCORE") as? Int {
+        } else if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
             game = Game(startingStage: highScore)
             stageLabel.text = "STAGE \(highScore)"
-            UserDefaults.standard.set(highScore, forKey: "CURRENT_STAGE")
+            defaults.set(highScore, forKey: Settings.CURRENT_STAGE_KEY)
         } else {
+            // fallback to level 1 (first time players or after a reset)
             game = Game(startingStage: 1)
-            UserDefaults.standard.set(1, forKey: "CURRENT_STAGE")
+            defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }
+
+        defaults.synchronize()
+
         camera = SKCameraNode()
         setupGame()
     }
@@ -65,15 +67,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @objc func handleGameRestartRequest() {
-        print("restart?")
         scene.removeAllChildren()
         scene.removeAllActions()
         scene.removeFromParent()
         camera.removeFromParent()
         camera = SKCameraNode()
-        gameOverController?.dismiss(animated: false, completion: {
+        gameOverController?.dismiss(animated: false) {
             self.setupGame()
-        })
+        }
     }
     
     func setupGame() {
@@ -122,10 +123,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func scoreFormatter(score: Int) -> String {
-        if score < 10 {
-            return "\(score)"
-        }
-        return String(score)
+        return "\(score)"
     }
     
     func restartGame() {
@@ -159,7 +157,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 self.scene.isPaused = false
                 self.scene.fallTimer.fire()
                 self.scoreLabel.textColor = UIColor.white
-                // TODO: should subtract number balls that have fallen here--
                 self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
             }
         })
@@ -167,15 +164,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func gameover() {
         // save the high score if we just set it!
-        if let highScore = UserDefaults.standard.object(forKey: "HIGH_SCORE") as? Int {
+        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
             if game.stage > highScore {
-                UserDefaults.standard.set(game.stage, forKey: "HIGH_SCORE")
-                UserDefaults.standard.synchronize()
+                defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY)
             }
         } else {
-            UserDefaults.standard.set(game.stage, forKey: "HIGH_SCORE")
-            UserDefaults.standard.synchronize()
+            defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY)
         }
+
+        defaults.synchronize()
 
         camera.removeFromParent()
         
@@ -189,14 +186,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func gameoverdesign() {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            
             self.pauseButton.alpha = 0.0
         }, completion: nil)
     }
     
     func handleNextStage() {
         game.increaseStage()
-        UserDefaults.standard.set(game.stage, forKey: "CURRENT_STAGE")
+        defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY)
+        defaults.synchronize()
         stageLabel.text = "STAGE \(game.stage)"
         restartGame()
     }
