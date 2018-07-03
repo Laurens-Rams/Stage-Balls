@@ -6,19 +6,15 @@ import GameKit
 
 class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCenterControllerDelegate {
     
-    deinit {
-        print("game over view controller deinit")
-    }
-    
     var endingScore: Int = 0
     var endingStage: Int = 1
 
-    var game1: Game!
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     
     var scene: GameOverScene!
-    
+
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         layoutUI()
@@ -31,24 +27,25 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         showpoints.text = scoreFormatter(score: endingScore)
-        if let highScore = UserDefaults.standard.object(forKey: "HIGH_SCORE") as? Int {
+        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
              stageLabel.text = stageFormatter(stage: highScore)
-            print("using saved value from user defaults", highScore)
         } else {
             stageLabel.text = stageFormatter(stage: endingStage)
-            print("using ending stage from last game", endingStage)
         }
     }
+
     func layoutUI() {
         let startY = CGFloat((view.frame.height / 3) * 2) - (showpoints.frame.height / 2)
         showpoints.frame = CGRect(x: 0, y: startY, width: showpoints.frame.width, height: showpoints.frame.height)
     }
-    //GAMECENTER
+
+    // MARK: GAMECENTER
     
     var gcEnabled = Bool() // Check if the user has Game Center enabled
     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     let LEADERBOARD_ID = "identity"
+
     func authenticateLocalPlayer() {
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
         
@@ -69,7 +66,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             } else {
                 // 3. Game center is not enabled on the users device
                 self.gcEnabled = false
-                print("Local player could not be authenticated!")
                 if let err = error {
                     print(err.localizedDescription)
                 }
@@ -93,15 +89,9 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     
     // start scene delegate protocol methods
     
-    func launchGame() {
-//        let notification = Notification(name: Notification.Name.init(rawValue: "gameRestartRequested"), object: nil, userInfo: nil)
-//        NotificationCenter.default.post(notification)
-//        dismiss(animated: true, completion: nil)
-    }
+    func launchGame() {}
 
-    func launchShop() {
-        // launch the shop
-    }
+    func launchShop() {}
 
     func ratePressed() {
         print("works")
@@ -109,7 +99,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             print("RateApp \(success)")
         }
     }
-    
+
     func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
         guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
             completion(false)
@@ -121,12 +111,14 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         }
         UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
+
     func sharePressed() {
         let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! My best score is 23. Can you beat my score? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true, completion: nil)
     }
-   func gameCenterPressed() {
+
+    func gameCenterPressed() {
         let score = 10
         // Submit score to GC leaderboard
         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)

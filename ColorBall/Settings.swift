@@ -13,6 +13,8 @@ struct Settings {
     // interval for giving presents
     // 21600 == 6 hours in seconds (6 * 60 * 60)
     static let PRESENT_INTERVAL: Double = 21600
+    static let CURRENT_STAGE_KEY = "CURRENT_STAGE"
+    static let HIGH_SCORE_KEY = "HIGH_SCORE"
     
 //    static let ballColors: [UIColor] = [
 //        UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
