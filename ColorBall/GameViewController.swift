@@ -75,20 +75,22 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @objc func handleGameRestartRequest() {
-        let mb = self.menuBtn
-        let pb = self.pauseButton
+//        let mb = self.menuBtn
+//        let pb = self.pauseButton
         scene.removeAllChildren()
         scene.removeAllActions()
         scene.removeFromParent()
         camera.removeFromParent()
         camera = SKCameraNode()
-        gameOverController?.dismiss(animated: false) {
-            self.setupGame()
-            if let pb = pb { self.view.addSubview(pb) }
-            else { print("no pause button anymore") }
-            if let mb = mb { self.view.addSubview(mb) }
-            else { print("no menu button anymore") }
-        }
+        let _ = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false, block: { _ in
+            self.gameOverController?.dismiss(animated: false) {
+                self.setupGame()
+//                if let pb = pb { self.view.addSubview(pb) }
+//                else { print("no pause button anymore") }
+//                if let mb = mb { self.view.addSubview(mb) }
+//                else { print("no menu button anymore") }
+            }
+        })
     }
     
     func setupGame() {

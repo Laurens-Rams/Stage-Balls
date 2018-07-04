@@ -22,6 +22,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: class properties
     
     var game: Game!
+    
+    var spinMultiplier = CGFloat(0.7)
 
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
@@ -154,7 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func updateCircle(dt: CGFloat) {
         // change animation
-        let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt
+        let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt * spinMultiplier
 
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
@@ -165,7 +167,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Circle.zRotation = Circle.nextTickPosition
             if isHolding {
                 getCircleValues()
+                if (spinMultiplier < 1.2) {
+                    spinMultiplier += 0.15
+                }
             } else {
+                spinMultiplier = 0.7
                 isTouching = false
             }
         }
@@ -337,11 +343,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if firstBody.categoryBitMask == PhysicsCategory.circleBall || secondBody.categoryBitMask == PhysicsCategory.circleBall {
             handleLargeCollisionWith(newBody: secondBody)
+            print("hit the large circle")
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
+                print("same color collision")
                 handleSameColorCollision(newBody: firstBody, stuckBody: secondBody)
                 createExplosion(onBody: firstBody)
             } else if secondBody.isDynamic == true {
+                print("same color collision")
                 handleSameColorCollision(newBody: secondBody, stuckBody: firstBody)
                 createExplosion(onBody: secondBody)
             }
@@ -352,8 +361,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("contact between starter ball and skull")
             } else {
                 if firstBody.isDynamic == true {
+                    print("oh noooooooo")
                     handleDifferentColorCollision(newBody: firstBody, stuckBody: secondBody)
                 } else if secondBody.isDynamic == true {
+                    print("oh noooooooo")
                     handleDifferentColorCollision(newBody: secondBody, stuckBody: firstBody)
                 }
             }

@@ -106,7 +106,7 @@ class Game {
     private var _skulls = 0
     
     init(startingStage: Int) {
-        _stage = 10
+        _stage = 40
         print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
 
@@ -320,7 +320,9 @@ class Game {
             else if _stage < 29 { return _slotsPerColumn + 2 }
             else {
                 let multiplesOfTwenty = Int(round(Double(_stage - 9) / 20))
-                return _slotsPerColumn + 2 + multiplesOfTwenty
+                let newSlots = _slotsPerColumn + 2 + multiplesOfTwenty
+                if newSlots > 5 { return 5 }
+                return newSlots
             }
         }
     }

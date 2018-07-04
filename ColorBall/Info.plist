@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>StageBallz</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,6 +22,14 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>laurens.ttf</string>
+		<string>Monopoly Regular.ttf</string>
+		<string>Oregon-Regular.otf</string>
+		<string>StageFont.otf</string>
+		<string>Face Off M54.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -31,14 +41,6 @@
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>laurens.ttf</string>
-		<string>Monopoly Regular.ttf</string>
-		<string>Oregon-Regular.otf</string>
-		<string>StageFont.otf</string>
-		<string>Face Off M54.ttf</string>
-	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
