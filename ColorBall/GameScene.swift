@@ -674,7 +674,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ]
         
         // generate a random integer betweeb 0 and 7
-        let rando = index < GameConstants.ballColors.count ? index : randomInteger(upperBound: nil) - 1
+        let rando = index < game.numberBallColors ? index : randomInteger(upperBound: game.numberBallColors) - 1
         
         // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: rando)!
@@ -719,11 +719,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.purpleBall,
             PhysicsCategory.greyBall,
         ]
-        var rando = randomInteger(upperBound: nil) - 1
+        var rando = randomInteger(upperBound: game.numberBallColors) - 1
         var ballType = BallColor(rawValue: rando)!
         
         while (game.getCountForType(type: ballType) == 0) {
-            rando = randomInteger(upperBound: nil) - 1
+            rando = randomInteger(upperBound: game.numberBallColors) - 1
             ballType = BallColor(rawValue: rando)!
         }
         

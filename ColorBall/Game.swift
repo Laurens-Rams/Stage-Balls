@@ -106,7 +106,7 @@ class Game {
     private var _skulls = 0
     
     init(startingStage: Int) {
-        _stage = 40
+        _stage = 50
         print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
 
@@ -343,6 +343,16 @@ class Game {
     var backgroundColor: UIColor {
         get {
             return GameConstants.backgroundColors[0]
+        }
+    }
+    
+    var numberBallColors: Int {
+        get {
+            if _stage <= 24 { return _numberBallColors }
+            if _stage >= 84 { return 24 }
+            let numberToAdd = Int((_stage - 24) / 3)
+            print(numberToAdd)
+            return _numberBallColors + Int(numberToAdd)
         }
     }
     
