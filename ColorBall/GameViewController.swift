@@ -62,11 +62,21 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.frame = CGRect(x: 0, y: startY, width: scoreLabel.frame.width, height: scoreLabel.frame.height)
     }
     
+    func layoutAfterSetup() {
+        view.bringSubview(toFront: pauseButton)
+        view.bringSubview(toFront: menuBtn)
+        view.layer.zPosition = 0
+        pauseButton.layer.zPosition = 1
+        menuBtn.layer.zPosition = 2
+    }
+    
     func listenForNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleGameRestartRequest), name: Notification.Name(rawValue: "gameRestartRequested"), object: nil)
     }
     
     @objc func handleGameRestartRequest() {
+        let mb = self.menuBtn
+        let pb = self.pauseButton
         scene.removeAllChildren()
         scene.removeAllActions()
         scene.removeFromParent()
@@ -74,6 +84,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         camera = SKCameraNode()
         gameOverController?.dismiss(animated: false) {
             self.setupGame()
+            if let pb = pb { self.view.addSubview(pb) }
+            else { print("no pause button anymore") }
+            if let mb = mb { self.view.addSubview(mb) }
+            else { print("no menu button anymore") }
         }
     }
     
@@ -82,6 +96,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         setupCamera()
         setupUI()
         addPlayedGame()
+        layoutAfterSetup()
     }
     
     func setupScene() {
@@ -151,8 +166,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             self.scoreLabel.text = "\(countdown)"
             if countdown == 0 {
                 timer.invalidate()
-                if self.scene.fallingBalls.count > 0 {
-                    self.scene.startFallTimer(ball: self.scene.fallingBalls[0])
+                if let lastBall = self.scene.fallingBalls.last {
+                    self.scene.startFallTimer(ball: lastBall)
                 }
                 self.scene.isPaused = false
                 self.scene.fallTimer.fire()

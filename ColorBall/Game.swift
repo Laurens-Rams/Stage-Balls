@@ -20,7 +20,7 @@ struct GameConstants {
     // MARK: static properties
 
     static let initialSlotsOnCircle: CGFloat = 13
-    static let initialSlotsPerColumn = 4
+    static let initialSlotsPerColumn = 2
 
     static let ballZapDuration: CGFloat = 0.2
 
@@ -45,69 +45,7 @@ struct GameConstants {
     ]
     
     static let backgroundColors: [UIColor] = [
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
-        UIColor.white,
+        UIColor.white
     ]
 }
 
@@ -136,11 +74,11 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.00
+    private var _speedMultiplier: Double = 0.01
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.00
+    private var _gravityMultiplier: Double = 0.04
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
@@ -148,11 +86,13 @@ class Game {
     // number of balls on starting row
     private var _numberStartingBalls = 2
     
+    // number of colors to use this stage
+    private var _numberBallColors = 4
+    
     // keep track of extra chance
     private var _extraChance = 1
     
     private var _slotsPerColumn = GameConstants.initialSlotsPerColumn
-    private var _slotsOnCircle = GameConstants.initialSlotsOnCircle
     
     // counts for each type of physics category on the screen
     private var _blues = 0
@@ -166,13 +106,20 @@ class Game {
     private var _skulls = 0
     
     init(startingStage: Int) {
-        _stage = startingStage
+        _stage = 10
+        print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
 
     // we'll flip this to false later to test the other option
     var endGameOnCircleCollision = true
     
     // MARK: properties' public getters
+    
+    var slotsOnCircle: Int {
+        get {
+            return numberStartingBalls <= 13 ? 13 : numberStartingBalls
+        }
+    }
     
     /**
      Number of blues in game (read-only getter).
@@ -313,7 +260,9 @@ class Game {
     var numberStartingBalls: Int {
         get {
             let amountToAdd = _stage - 1
-            return _numberStartingBalls + amountToAdd
+            let newStart = _numberStartingBalls + amountToAdd
+            if newStart > 24 { return 24 }
+            return newStart
         }
     }
     
@@ -349,6 +298,14 @@ class Game {
      */
     var smallDiameter: CGFloat {
         get {
+            let minDiameter = (GameConstants.startingOuterDiameter * CGFloat(Double.pi)) / CGFloat(numberStartingBalls)
+
+            if numberStartingBalls >= 24 { return minDiameter }
+
+            let newDiameter = ((14 * GameConstants.startingBallScale) / CGFloat(numberStartingBalls)) * UIScreen.main.bounds.size.width
+
+            if (newDiameter < _smallDiameter) { return newDiameter }
+
             return _smallDiameter
         }
     }
@@ -358,7 +315,13 @@ class Game {
      */
     var slotsPerColumn: Int {
         get {
-            return _slotsPerColumn
+            if _stage < 13 { return _slotsPerColumn }
+            else if _stage < 24 { return _slotsPerColumn + 1 }
+            else if _stage < 29 { return _slotsPerColumn + 2 }
+            else {
+                let multiplesOfTwenty = Int(round(Double(_stage - 9) / 20))
+                return _slotsPerColumn + 2 + multiplesOfTwenty
+            }
         }
     }
 
@@ -377,7 +340,7 @@ class Game {
      */
     var backgroundColor: UIColor {
         get {
-            return GameConstants.backgroundColors[_stage - 1]
+            return GameConstants.backgroundColors[0]
         }
     }
     
@@ -390,6 +353,14 @@ class Game {
             _outerDiameter -= 2
         }
         print("increased stage to \(_stage)")
+
+        if _stage >= 24 && _stage <= 29 {
+            _numberBallColors += 1
+        }
+
+//        if (_stage >= 14 && _stage <= 23) {
+//            _smallDiameter -= (14 * 0.11) / CGFloat(numberBallsInQueue + numberStartingBalls)
+//        }
     }
     
     /**

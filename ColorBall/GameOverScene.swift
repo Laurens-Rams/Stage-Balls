@@ -24,7 +24,6 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         SKTexture(imageNamed: "Icon-4"),
         SKTexture(imageNamed: "Icon-5"),
         SKTexture(imageNamed: "Icon-6"),
-        
     ]
     
     let names: [String] = [

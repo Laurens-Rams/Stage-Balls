@@ -17,8 +17,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
-        layoutUI()
         super.viewDidLoad()
+        layoutUI()
         scene = GameOverScene(size: view.bounds.size)
         scene.del = self
         let skView = view as! SKView

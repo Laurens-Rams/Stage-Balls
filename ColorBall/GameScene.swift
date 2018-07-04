@@ -36,11 +36,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // available slots around circle
     var slots = [Slot]()
     
-    // actions
-//    var rotation: SKAction!
-//    var runRotation: SKAction!
-//    var fall: SKAction!
-    
     // timers
     var ballTimer: Timer?
     var fallTimer: Timer!
@@ -215,7 +210,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func setupSlots() {
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: 360 / GameConstants.initialSlotsOnCircle)
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
 
@@ -321,7 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func getCircleValues() {
         Circle.lastTickPosition = Circle.zRotation
-        Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / GameConstants.initialSlotsOnCircle * direction))
+        Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(game.slotsOnCircle) * direction))
         canMove = true
     }
 
@@ -726,6 +721,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         game.incrementBallType(type: ballType)
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
+        print("MAKING BALL OF DIAMETER:", game.smallDiameter / 2)
         newBall.fillColor = GameConstants.ballColors[rando]
         newBall.lineWidth = 0.0
         
@@ -783,7 +779,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             newBall.position = CGPoint(x: size.width / 2, y: size.height - 35)
             newBall.inLine = true
             newBall.alpha = 0.4
-            newBall.setScale(0.6)
+//            newBall.setScale(0.6)
 
             let fadeIn = SKAction.fadeIn(withDuration: 0.25)
             let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: size.height - 60), duration: 0.25)
