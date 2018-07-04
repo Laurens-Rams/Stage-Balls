@@ -438,9 +438,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let zapBalls = colSlots.map({ $0.ball! })
 
             if let topBall = zapBalls.last {
-                topBall.run(SKAction.wait(forDuration: 0.06)) {
-                    topBall.falling = true
-                }
+                topBall.falling = true
             }
 
             // variable to count loop iterations
