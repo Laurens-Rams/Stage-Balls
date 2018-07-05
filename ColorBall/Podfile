@@ -7,5 +7,6 @@ target 'ColorBall' do
   # Pods for ColorBall
 
   pod 'RealmSwift'
+  pod "SACountingLabel"
 
 end

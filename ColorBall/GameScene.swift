@@ -23,7 +23,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var game: Game!
     
-    var spinMultiplier = CGFloat(0.7)
+    var spinMultiplier = CGFloat(1.0)
 
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
@@ -80,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         isPaused = false
-
+        spinMultiplier = (19 / CGFloat(game.slotsOnCircle))
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
@@ -157,7 +157,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func updateCircle(dt: CGFloat) {
         // change animation
         let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt * spinMultiplier
-
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
         
@@ -165,15 +164,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             canMove = false
             Circle.distance = 0
             Circle.zRotation = Circle.nextTickPosition
+            
             if isHolding {
-                getCircleValues()
-                if (spinMultiplier < 1.2) {
-                    spinMultiplier += 0.15
-                }
+               getCircleValues()
+               if (spinMultiplier < (19 / CGFloat(game.slotsOnCircle)) * 2.2) {
+                   spinMultiplier += 0.2
+             }
             } else {
-                spinMultiplier = 0.7
-                isTouching = false
-            }
+               spinMultiplier = (19 / CGFloat(game.slotsOnCircle))
+               isTouching = false
+           }
         }
     }
     
@@ -266,7 +266,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func cleanupBalls() {
         let skulls = slots
             .filter({ $0.containsSkull == true })
-            .compactMap({ $0.ball as? SkullBall })
+            .flatMap({ $0.ball as? SkullBall })
 
         for i in 0..<skulls.count {
             let isLast = (i == skulls.count - 1)
@@ -671,6 +671,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.orangeBall,
             PhysicsCategory.purpleBall,
             PhysicsCategory.greyBall,
+            PhysicsCategory.a,
+            PhysicsCategory.s,
+            PhysicsCategory.d,
+            PhysicsCategory.f,
+            PhysicsCategory.g,
+            PhysicsCategory.h,
+            PhysicsCategory.j,
+            PhysicsCategory.k,
+            PhysicsCategory.l,
+            PhysicsCategory.y,
+            PhysicsCategory.x,
+            PhysicsCategory.c,
+            PhysicsCategory.v,
+            PhysicsCategory.b,
+            PhysicsCategory.n,
+            PhysicsCategory.m,
         ]
         
         // generate a random integer betweeb 0 and 7
@@ -690,7 +706,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
-        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
+        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
         body.restitution = 0
         categories.remove(at: rando)
         body.allowsRotation = true
@@ -718,6 +734,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.orangeBall,
             PhysicsCategory.purpleBall,
             PhysicsCategory.greyBall,
+            PhysicsCategory.a,
+            PhysicsCategory.s,
+            PhysicsCategory.d,
+            PhysicsCategory.f,
+            PhysicsCategory.g,
+            PhysicsCategory.h,
+            PhysicsCategory.j,
+            PhysicsCategory.k,
+            PhysicsCategory.l,
+            PhysicsCategory.y,
+            PhysicsCategory.x,
+            PhysicsCategory.c,
+            PhysicsCategory.v,
+            PhysicsCategory.b,
+            PhysicsCategory.n,
+            PhysicsCategory.m,
         ]
         var rando = randomInteger(upperBound: game.numberBallColors) - 1
         var ballType = BallColor(rawValue: rando)!
@@ -737,7 +769,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
-        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
+        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
         body.restitution = 0
         categories.remove(at: rando)
         body.allowsRotation = true
@@ -764,7 +796,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
         body.categoryBitMask = PhysicsCategory.skullBall
-        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall
+        body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
         body.restitution = 0
         body.allowsRotation = true
         

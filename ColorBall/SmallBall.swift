@@ -13,7 +13,7 @@ import SpriteKit
 // - outline a game ball superclass SKNode, which we can implement together
 
 enum BallColor: Int {
-    case blue = 0, pink, red, yellow, green, orange, purple, grey, skull
+    case blue = 0, pink, red, yellow, green, orange, purple, grey, a, s, d, f, g, h, j, k, l, y, x, c, v, b, n, m, skull
     
     func name() -> String {
         switch self {
@@ -81,15 +81,35 @@ class StartMenuBall: SKSpriteNode {
 }
 
 struct PhysicsCategory {
-    static let circleBall: UInt32 = 0b0001
-    static let blueBall: UInt32 = 0b0010
-    static let pinkBall: UInt32 = 0b0011
-    static let redBall: UInt32 = 0b0100
-    static let yellowBall: UInt32 = 0b0101
-    static let greenBall: UInt32 = 0b0110
-    static let orangeBall: UInt32 = 0b0111
-    static let purpleBall: UInt32 = 0b1000
-    static let greyBall: UInt32 = 0b1001
+
+    static let circleBall: UInt32 = 11101110
+    static let blueBall: UInt32 = 10101000
+    static let pinkBall: UInt32 = 10110010
+    static let redBall: UInt32 = 10001010
+    
+    static let yellowBall: UInt32 = 10001001
+    static let greenBall: UInt32 = 10100101
+    static let orangeBall: UInt32 = 01111011
+    static let purpleBall: UInt32 = 00101001
+    
+    static let greyBall: UInt32 = 00110101
+    
+    static let a: UInt32 = 10011010
+    static let s: UInt32 = 01000000
+    static let d: UInt32 = 10110000
+    static let f: UInt32 = 01010011
+    static let g: UInt32 = 11111100
+    static let h: UInt32 = 11101101
+    static let j: UInt32 = 00100101
+    static let k: UInt32 = 00011101
+    static let l: UInt32 = 10110010
+    static let y: UInt32 = 11100100
+    static let x: UInt32 = 01100000
+    static let c: UInt32 = 11110010
+    static let v: UInt32 = 01101011
+    static let b: UInt32 = 01010110
+    static let n: UInt32 = 01101000
+    static let m: UInt32 = 01111111
     static let skullBall: UInt32 = 0b1011
     
     static func returnCategory(num: Int) -> UInt32 {
@@ -110,6 +130,38 @@ struct PhysicsCategory {
             return purpleBall
         case 8:
             return greyBall
+        case 9:
+            return a
+        case 10:
+            return s
+        case 11:
+            return d
+        case 12:
+            return f
+        case 13:
+            return g
+        case 14:
+            return h
+        case 15:
+            return j
+        case 16:
+            return k
+        case 17:
+            return l
+        case 18:
+            return y
+        case 19:
+            return x
+        case 20:
+            return c
+        case 21:
+            return v
+        case 22:
+            return b
+        case 23:
+            return n
+        case 24:
+            return m
         case 9:
             return skullBall
         default:

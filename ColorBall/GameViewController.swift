@@ -14,6 +14,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     @IBOutlet var settingButton: UIButton!
     @IBOutlet var pauseButton: UIButton!
+
     @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var menuBtn: UIButton!
     @IBOutlet weak var stageLabel: UILabel!

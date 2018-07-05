@@ -27,21 +27,74 @@ struct GameConstants {
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
 
     static let startingCircleScale: CGFloat = 0.55
-    static let startingBallScale: CGFloat = 0.116
+    static let startingBallScale: CGFloat = 0.11
 
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
     static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
     
     static let ballColors: [UIColor] = [
-        UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
-        UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
-        UIColor(red: 63/255, green: 139/255, blue: 138/255, alpha: 1.0),
-        UIColor(red: 223/255, green: 175/255, blue: 71/255, alpha: 1.0),
-        UIColor(red: 124/255, green: 45/255, blue: 243/255, alpha: 1.0),
-        UIColor(red: 117/255, green: 228/255, blue: 179/255, alpha: 1.0),
-        UIColor(red: 255/255, green: 00/255, blue: 00/255, alpha: 1.0),
-        UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
+//        UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
+//        UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
+//        UIColor(red: 63/255, green: 139/255, blue: 138/255, alpha: 1.0),
+//        UIColor(red: 223/255, green: 175/255, blue: 71/255, alpha: 1.0),
+//        UIColor(red: 124/255, green: 45/255, blue: 243/255, alpha: 1.0),
+//        UIColor(red: 117/255, green: 228/255, blue: 179/255, alpha: 1.0),
+//        UIColor(red: 255/255, green: 00/255, blue: 00/255, alpha: 1.0),
+//        UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
+        
+
+ //1
+ UIColor(red: 255/255, green: 141/255, blue: 193/255, alpha: 1.0),
+ //2
+ UIColor(red: 0/255, green: 104/255, blue: 255/255, alpha: 1.0),
+ //3
+ UIColor(red: 255/255, green: 190/255, blue: 2/255, alpha: 1.0),
+ //4
+ UIColor(red: 5/255, green: 153/255, blue: 149/255, alpha: 1.0),
+ //5
+ UIColor(red: 45/255, green: 222/255, blue: 252/255, alpha: 1.0),
+ //6
+ UIColor(red: 116/255, green: 97/255, blue: 194/255, alpha: 1.0),
+ //7
+ UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0),
+ //8
+ UIColor(red: 57/255, green: 247/255, blue: 134/255, alpha: 1.0),
+ 
+ // UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0), --> hard one
+ //9
+ UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
+ //10
+ UIColor(red: 214/255, green: 98/255, blue: 19/255, alpha: 1.0),
+ //11
+ UIColor(red: 166/255, green: 196/255, blue: 70/255, alpha: 1.0),
+ //12
+ UIColor(red: 179/255, green: 50/255, blue: 201/255, alpha: 1.0),
+ //13
+ UIColor(red: 154/255, green: 172/255, blue: 211/255, alpha: 1.0),
+ //14
+ UIColor(red: 29/255, green: 77/255, blue: 104/255, alpha: 1.0),
+ //15
+ UIColor(red: 52/255, green: 171/255, blue: 224/255, alpha: 1.0),
+ //16
+ UIColor(red: 255/255, green: 221/255, blue: 51/255, alpha: 1.0),
+ //17
+ UIColor(red: 93/255, green: 69/255, blue: 53/255, alpha: 1.0),
+ //18
+ UIColor(red: 100/255, green: 24/255, blue: 119/255, alpha: 1.0),
+ //19
+ UIColor(red: 239/255, green: 221/255, blue: 182/255, alpha: 1.0),
+ //20
+ UIColor(red: 137/255, green: 46/255, blue: 44/255, alpha: 1.0),
+ //21
+ UIColor(red: 100/255, green: 109/255, blue: 108/255, alpha: 1.0),
+ //22
+ UIColor(red: 175/255, green: 150/255, blue: 133/255, alpha: 1.0),
+ //23
+ UIColor(red: 239/255, green: 96/255, blue: 113/255, alpha: 1.0),
+ //24
+ UIColor(red: 224/255, green: 30/255, blue: 58/255, alpha: 1.0),
+
     ]
     
     static let backgroundColors: [UIColor] = [
@@ -74,11 +127,11 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.01
+    private var _speedMultiplier: Double = 0.005
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.04
+    private var _gravityMultiplier: Double = 0.02
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
@@ -95,6 +148,7 @@ class Game {
     private var _slotsPerColumn = GameConstants.initialSlotsPerColumn
     
     // counts for each type of physics category on the screen
+    
     private var _blues = 0
     private var _pinks = 0
     private var _reds = 0
@@ -103,10 +157,26 @@ class Game {
     private var _purples = 0
     private var _oranges = 0
     private var _greys = 0
+    private var _a = 0
+    private var _s = 0
+    private var _d = 0
+    private var _f = 0
+    private var _g = 0
+    private var _h = 0
+    private var _j = 0
+    private var _k = 0
+    private var _l = 0
+    private var _y = 0
+    private var _x = 0
+    private var _c = 0
+    private var _v = 0
+    private var _b = 0
+    private var _n = 0
+    private var _m = 0
     private var _skulls = 0
     
     init(startingStage: Int) {
-        _stage = 50
+        _stage = startingStage
         print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
 
@@ -189,7 +259,136 @@ class Game {
             return _greys
         }
     }
-
+    var a: Int {
+        get {
+            return _blues
+        }
+    }
+    
+    /**
+     Number of reds in game (read-only getter).
+     */
+    var s: Int {
+        get {
+            return _reds
+        }
+    }
+    
+    /**
+     Number of pinks in game (read-only getter).
+     */
+    var d: Int {
+        get {
+            return _pinks
+        }
+    }
+    
+    /**
+     Number of yellows in game (read-only getter).
+     */
+    var f: Int {
+        get {
+            return _yellows
+        }
+    }
+    /**
+     Number of greens in game (read-only getter).
+     */
+    var g: Int {
+        get {
+            return _greens
+        }
+    }
+    /**
+     Number of purples in game (read-only getter).
+     */
+    var h: Int {
+        get {
+            return _purples
+        }
+    }
+    /**
+     Number of oranges in game (read-only getter).
+     */
+    var j: Int {
+        get {
+            return _oranges
+        }
+    }
+    
+    /**
+     Number of greys in game (read-only getter).
+     */
+    var k: Int {
+        get {
+            return _greys
+        }
+    }
+    var l: Int {
+        get {
+            return _blues
+        }
+    }
+    
+    /**
+     Number of reds in game (read-only getter).
+     */
+    var y: Int {
+        get {
+            return _reds
+        }
+    }
+    
+    /**
+     Number of pinks in game (read-only getter).
+     */
+    var x: Int {
+        get {
+            return _pinks
+        }
+    }
+    
+    /**
+     Number of yellows in game (read-only getter).
+     */
+    var c: Int {
+        get {
+            return _yellows
+        }
+    }
+    /**
+     Number of greens in game (read-only getter).
+     */
+    var v: Int {
+        get {
+            return _greens
+        }
+    }
+    /**
+     Number of purples in game (read-only getter).
+     */
+    var b: Int {
+        get {
+            return _purples
+        }
+    }
+    /**
+     Number of oranges in game (read-only getter).
+     */
+    var n: Int {
+        get {
+            return _oranges
+        }
+    }
+    
+    /**
+     Number of greys in game (read-only getter).
+     */
+    var m: Int {
+        get {
+            return _greys
+        }
+    }
 
     /**
      Number of skulls in game (read-only getter).
@@ -223,7 +422,7 @@ class Game {
      */
     var numberBallsInQueue: Int {
         get {
-            return (_stage + 1) * (_slotsPerColumn - 1)
+            return (_stage + 1) * (slotsPerColumn - 1)
         }
     }
     
@@ -298,15 +497,10 @@ class Game {
      */
     var smallDiameter: CGFloat {
         get {
-            let minDiameter = (GameConstants.startingOuterDiameter * CGFloat(Double.pi)) / CGFloat(numberStartingBalls)
-
-            if numberStartingBalls >= 24 { return minDiameter }
-
-            let newDiameter = ((14 * GameConstants.startingBallScale) / CGFloat(numberStartingBalls)) * UIScreen.main.bounds.size.width
-
+            let newDiameter = ((15 * GameConstants.startingBallScale) / CGFloat(numberStartingBalls)) * UIScreen.main.bounds.size.width
             if (newDiameter < _smallDiameter) { return newDiameter }
-
             return _smallDiameter
+            
         }
     }
     
@@ -351,8 +545,7 @@ class Game {
             if _stage <= 24 { return _numberBallColors }
             if _stage >= 84 { return 24 }
             let numberToAdd = Int((_stage - 24) / 3)
-            print(numberToAdd)
-            return _numberBallColors + Int(numberToAdd)
+           return _numberBallColors + Int(numberToAdd)
         }
     }
     
@@ -366,9 +559,9 @@ class Game {
         }
         print("increased stage to \(_stage)")
 
-        if _stage >= 24 && _stage <= 29 {
-            _numberBallColors += 1
-        }
+       // if _stage >= 24 && _stage <= 29 {
+        //    _numberBallColors += 1
+       // }
 
 //        if (_stage >= 14 && _stage <= 23) {
 //            _smallDiameter -= (14 * 0.11) / CGFloat(numberBallsInQueue + numberStartingBalls)
@@ -427,6 +620,54 @@ class Game {
             case .grey:
                 _greys += 1
                 break
+            case .a:
+                _a += 1
+                break
+            case .s:
+                _s += 1
+                break
+            case .d:
+                _d += 1
+                break
+            case .f:
+                _f += 1
+                break
+            case .g:
+                _g += 1
+                break
+            case .h:
+                _h += 1
+                break
+            case .j:
+                _j += 1
+                break
+            case .k:
+                _k += 1
+                break
+            case .l:
+                _l += 1
+                break
+            case .y:
+                _y += 1
+                break
+            case .x:
+                _x += 1
+                break
+            case .c:
+                _c += 1
+                break
+            case .v:
+                _v += 1
+                break
+            case .b:
+                _b += 1
+                break
+            case .n:
+                _n += 1
+                break
+            case .m:
+                _m += 1
+                break
             case .skull:
                 _skulls += 1
         }
@@ -466,6 +707,54 @@ class Game {
                 break
             case .skull:
                 _skulls -= byNumber
+        case .a:
+            _a -= byNumber
+            break
+        case .s:
+            _s -= byNumber
+            break
+        case .d:
+            _d -= byNumber
+            break
+        case .f:
+            _f -= byNumber
+            break
+        case .g:
+            _g -= byNumber
+            break
+        case .h:
+            _h -= byNumber
+            break
+        case .j:
+            _j -= byNumber
+            break
+        case .k:
+            _k -= byNumber
+            break
+        case .l:
+            _l -= byNumber
+            break
+        case .y:
+            _y -= byNumber
+            break
+        case .x:
+            _x -= byNumber
+            break
+        case .c:
+            _c -= byNumber
+            break
+        case .v:
+            _v -= byNumber
+            break
+        case .b:
+            _b -= byNumber
+            break
+        case .n:
+            _n -= byNumber
+            break
+        case .m:
+            _m -= byNumber
+            break
         }
     }
     
@@ -493,11 +782,42 @@ class Game {
                 return purples
             case .grey:
                 return greys
+            case .a:
+                return a
+            case .s:
+                return s
+            case .d:
+                return d
+            case .f:
+                return f
+            case .g:
+                return g
+            case .h:
+                return h
+            case .j:
+                return j
+            case .k:
+                return k
+            case .l:
+                return l
+            case .y:
+                return y
+            case .x:
+                return x
+            case .c:
+                return c
+            case .v:
+                return v
+            case .b:
+                return b
+            case .n:
+                return n
+            case .m:
+                return m
             case .skull:
                 return skulls
-        }
     }
-    
+    }
     /**
      Reset the count of every ball type (color) to zero, e.g. on a game reset
      */
@@ -510,6 +830,22 @@ class Game {
         _oranges = 0
         _purples = 0
         _greys = 0
+        _a = 0
+        _s = 0
+        _d = 0
+        _f = 0
+        _g = 0
+        _h = 0
+        _j = 0
+        _k = 0
+        _l = 0
+        _y = 0
+        _x = 0
+        _c = 0
+        _v = 0
+        _b = 0
+        _n = 0
+        _m = 0
         _skulls = 0
     }
 
@@ -522,6 +858,6 @@ class Game {
         resetAllBallTypeCounts()
         resetBallsFallen()
     }
-}
+  }
 
 

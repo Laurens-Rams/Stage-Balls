@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Face Off M54.ttf">
             <string>FaceOffM54</string>
         </array>
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
         <array key="Oregon-Regular.otf">
             <string>Oregon-Regular</string>
+        </array>
+        <array key="SinhalaSangamMN.ttc">
+            <string>SinhalaSangamMN-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -65,7 +71,7 @@
                                     <action selector="menuAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nsj-pQ-ci3"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neW-P3-VwB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neW-P3-VwB" customClass="SACountingLabel">
                                 <rect key="frame" x="0.0" y="471" width="375" height="164"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="140"/>
@@ -88,7 +94,7 @@
                     <connections>
                         <outlet property="menuBtn" destination="uwH-2j-QtW" id="fbZ-hN-K46"/>
                         <outlet property="pauseButton" destination="uwH-2j-QtW" id="N5O-hi-um0"/>
-                        <outlet property="scoreLabel" destination="neW-P3-VwB" id="yen-3U-vsh"/>
+                        <outlet property="scoreLabel" destination="neW-P3-VwB" id="ilk-oy-Dq8"/>
                         <outlet property="stageLabel" destination="hcs-gc-tFs" id="MsK-ZG-wVR"/>
                     </connections>
                 </viewController>
@@ -548,11 +554,11 @@
         <image name="500" width="412" height="273"/>
         <image name="Color Ballz" width="751" height="282"/>
         <image name="GAMEOVER" width="442" height="150"/>
-        <image name="Icon-1" width="51" height="51"/>
-        <image name="Icon-3" width="51" height="51"/>
+        <image name="Icon-1" width="50" height="50"/>
+        <image name="Icon-3" width="50" height="50"/>
         <image name="Icon-4" width="50" height="50"/>
-        <image name="Icon-5" width="51" height="51"/>
-        <image name="Icon-6" width="51" height="51"/>
+        <image name="Icon-5" width="50" height="50"/>
+        <image name="Icon-6" width="50" height="50"/>
         <image name="OFF" width="108" height="107"/>
         <image name="PointIcon" width="83" height="83"/>
         <image name="SHOP" width="354" height="208"/>
@@ -563,8 +569,8 @@
         <image name="item-2" width="413" height="273"/>
         <image name="item-3" width="412" height="273"/>
         <image name="item-4" width="412" height="273"/>
-        <image name="menu" width="51" height="51"/>
-        <image name="play" width="228" height="228"/>
+        <image name="menu" width="50" height="50"/>
+        <image name="play" width="227" height="227"/>
         <image name="share" width="173" height="169"/>
         <image name="watchVideo" width="362" height="239"/>
     </resources>
