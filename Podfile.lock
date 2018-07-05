@@ -1,5 +1,6 @@
 PODS:
   - EFCountingLabel (4.0.1)
+  - Google-Mobile-Ads-SDK (7.31.0)
   - Realm (3.0.1):
     - Realm/Headers (= 3.0.1)
   - Realm/Headers (3.0.1)
@@ -8,19 +9,22 @@ PODS:
 
 DEPENDENCIES:
   - EFCountingLabel
+  - Google-Mobile-Ads-SDK
   - RealmSwift
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - EFCountingLabel
+    - Google-Mobile-Ads-SDK
     - Realm
     - RealmSwift
 
 SPEC CHECKSUMS:
   EFCountingLabel: 1beb6707761ad00b97efc8bde5c3fceaa7cb9eec
+  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
   Realm: ba6144c74f835f7497791f6599d63a7755377b83
   RealmSwift: 7d13b1ac4b6022a13f841e3143e7789c9e40ad0d
 
-PODFILE CHECKSUM: ccda2d7c123f05d78894ba5ddcc731d99a091b60
+PODFILE CHECKSUM: a9546d38248a965b26bbe9da66e1c194dac64c45
 
 COCOAPODS: 1.5.3

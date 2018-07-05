@@ -38,7 +38,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
     // TODO: implement a hit test for the "buttons"
     // example of this is in MenuScene's touchesEnded() and related functions
     override func didMove(to view: SKView) {
-        backgroundColor = .white
+        backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         isPaused = false
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)

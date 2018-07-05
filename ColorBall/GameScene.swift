@@ -79,16 +79,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-        if (game.stage == 84){
-            run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 2.0))
-        }
+       // if (game.stage == 84){
+       //     run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 2.0))
+        //}
+        backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
         isPaused = false
         spinMultiplier = (19 / CGFloat(game.slotsOnCircle))
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
 
-        backgroundColor = game.backgroundColor
+        //backgroundColor = game.backgroundColor
         setupPlayerCircle()
 
         game.resetAll()
@@ -543,6 +545,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startGameOverSequence(newBall: SmallBall) {
+        run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
         allowToMove = false
         canMove = false
         newBall.stuck = true

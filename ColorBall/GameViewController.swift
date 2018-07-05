@@ -10,9 +10,13 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import EFCountingLabel
+//ADS
+import GoogleMobileAds
 
-class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate {
+class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate, GADInterstitialDelegate {
     
+    // ---> THIS IS FOR ADS AT ADMOB.com
+    var interstitial: GADInterstitial!
     @IBOutlet var settingButton: UIButton!
     @IBOutlet var pauseButton: UIButton!
 
@@ -36,6 +40,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     override func viewDidLoad() {
+        interstitial = createAndLoadInterstitial()
         super.viewDidLoad()
         listenForNotifications()
         layoutUI()
@@ -58,6 +63,17 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
         camera = SKCameraNode()
         setupGame()
+    }
+    
+    func createAndLoadInterstitial() -> GADInterstitial {
+        // ---> THIS IS FOR ADS AT ADMOB.com
+        // interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7915824718")
+        // to test
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7915824718")
+        let request = GADRequest()
+        interstitial.load(request)
+        interstitial.delegate = self
+        return interstitial
     }
     
     func layoutUI() {
@@ -186,6 +202,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func gameover() {
+        
         // save the high score if we just set it!
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
             if game.stage > highScore {
@@ -204,9 +221,23 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         // set the ending "score" to how many balls you cleared (number fallen)
         gameOverController!.endingScore = scene.game.ballsRemaining
         gameOverController!.endingStage = scene.game.stage
-        present(gameOverController!, animated: false, completion: nil)
+        /// Tells the delegate the interstitial had been animated off the screen.
+        
+       if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        } else {
+            print("Ad wasn't ready")
+            present(gameOverController!, animated: false, completion: nil)
+        }
+        
+        
     }
-
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        print("interstitialDidDismissScreen")
+        interstitial = createAndLoadInterstitial()
+        present(gameOverController!, animated: false, completion: nil)
+        
+    }
     func gameoverdesign() {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.pauseButton.alpha = 0.0
