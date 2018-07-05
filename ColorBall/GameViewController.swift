@@ -9,13 +9,15 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import EFCountingLabel
 
 class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate {
     
     @IBOutlet var settingButton: UIButton!
     @IBOutlet var pauseButton: UIButton!
 
-    @IBOutlet var scoreLabel: UILabel!
+    @IBOutlet var scoreLabel: EFCountingLabel!
+    
     @IBOutlet var menuBtn: UIButton!
     @IBOutlet weak var stageLabel: UILabel!
     
@@ -103,7 +105,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setupScene() {
-        scoreLabel.text = "\(game.numberBallsInQueue)"
+      //  scoreLabel.text = "\(game.numberBallsInQueue)"
+        scoreLabel.format = "%d"
+        scoreLabel.method = .linear
+        scoreLabel.countFrom(CGFloat(game.ballsRemaining), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
         scene = GameScene(size: view.frame.size)
         scene.gameDelegate = self
         scene.scoreKeeper = self

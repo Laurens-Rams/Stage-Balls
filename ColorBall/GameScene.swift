@@ -79,6 +79,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        if (game.stage == 84){
+            run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 2.0))
+        }
         isPaused = false
         spinMultiplier = (19 / CGFloat(game.slotsOnCircle))
         //changes gravity spped up !!!not gravity//
@@ -86,7 +89,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
 
         backgroundColor = game.backgroundColor
-        
         setupPlayerCircle()
 
         game.resetAll()
@@ -509,6 +511,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         skullBall.stuck = true
         skullBall.zPosition = -100
         skullSlot.containsSkull = true
+        
+        // let fadeInSkull = SKAction.fadeIn(withDuration: 2.0)
+      //  let moveactionSkull = SKAction.move(to: skullSlot.insidePosition, duration: 2.0)
+
+        // let fadeOut = SKAction.fadeOut(withDuration: 0.4)
+        // create an action group to run simultaneous actions
+       // let actionGroup = SKAction.group([fadeInSkull])
+       // skullBall.run(actionGroup)
         addChild(skullBall)
     }
     
@@ -817,15 +827,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func addBall() {
         if game.skulls < game.numberStartingBalls {
             let newBall = makeBall()
-            newBall.position = CGPoint(x: size.width / 2, y: size.height - 35)
+            newBall.position = CGPoint(x: size.width / 2, y: size.height)
             newBall.inLine = true
             newBall.alpha = 0.4
 //            newBall.setScale(0.6)
 
             let fadeIn = SKAction.fadeIn(withDuration: 0.25)
-            let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: size.height - 60), duration: 0.25)
+            let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: size.height - (20 + (game.smallDiameter/2))), duration: 0.25)
             let popOut = SKAction.scale(to: 1.0, duration: 0.15)
-
+           // let fadeOut = SKAction.fadeOut(withDuration: 0.4)
             // create an action group to run simultaneous actions
             let actionGroup = SKAction.group([popOut, moveaction, fadeIn])
             newBall.run(actionGroup)

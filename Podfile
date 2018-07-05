@@ -8,5 +8,6 @@ target 'ColorBall' do
   # Pods for ColorBall
 
   pod 'RealmSwift'
+  pod 'EFCountingLabel'
 
 end
