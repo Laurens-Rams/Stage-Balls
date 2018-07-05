@@ -345,8 +345,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        if firstBody.categoryBitMask == PhysicsCategory.circleBall || secondBody.categoryBitMask == PhysicsCategory.circleBall {
+        if firstBody.categoryBitMask == PhysicsCategory.circleBall {
             handleLargeCollisionWith(newBody: secondBody)
+            print("hit the large circle")
+        } else if secondBody.categoryBitMask == PhysicsCategory.circleBall {
+            handleLargeCollisionWith(newBody: firstBody)
             print("hit the large circle")
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
@@ -439,6 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // add 3 points to the skull's y position
             ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 3)
         } else if let ball = newBody.node as? SmallBall, game.endGameOnCircleCollision {
+            print("======> game over sequence")
             startGameOverSequence(newBall: ball)
         }
     }
