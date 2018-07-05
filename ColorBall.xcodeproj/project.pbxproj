@@ -430,6 +430,9 @@
 							com.apple.GameCenter = {
 								enabled = 1;
 							};
+							com.apple.GameCenter.iOS = {
+								enabled = 1;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
