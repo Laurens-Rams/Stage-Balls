@@ -59,6 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameDelegate: StartGameDelegate?
     
     let skullTexture = SKTexture(image: #imageLiteral(resourceName: "skull"))
+    let invisible = SKTexture(image: #imageLiteral(resourceName: "randomimage"))
 
     // MARK: lifecycle methods and overrides
     
@@ -244,6 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.position = CGPoint(x: size.width / 2, y: Circle.position.y)
             ball.zPosition = Circle.zPosition - 1
             addChild(ball)
+
 
             slots.append(slot)
             
@@ -859,8 +861,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.usesPreciseCollisionDetection = true
         
         newBall.physicsBody = body
-        newBall.colorType = ballType
         
+       newBall.colorType = ballType
+        //to make ball invisible after falling
+//        let waitfordis = SKAction.wait(forDuration: 2.0)
+//        self.run(waitfordis) {
+//            newBall.fillTexture = self.invisible
+//        }
         return newBall
     }
     
