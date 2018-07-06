@@ -83,7 +83,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        //     run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 2.0))
         //}
         //make a last backgroundColor
-        
+        Circle.alpha = 1.0
+        let action = SKAction.fadeIn(withDuration: 0)
+        Circle.run(action)
         backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
         run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
         isPaused = false
@@ -270,6 +272,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Teardown the stage.
      */
     func cleanupBalls() {
+        //createstageexplosion()
         let skulls = slots
             .filter({ $0.containsSkull == true })
             .flatMap({ $0.ball as? SkullBall })
@@ -282,8 +285,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 skulls[i].removeFromParent()
 
                 if isLast {
-                    self.gameDelegate?.handleNextStage()
-                    self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
+                    self.gameDelegate?.scorelabelalpha()
+                    self.createstageexplosion()
+                    let waittimer = SKAction.wait(forDuration: 1.0)
+                    self.run(waittimer) {
+                        self.gameDelegate?.handleNextStage()
+                        self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
+                    }
                 }
             }
         }
@@ -308,7 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - returns: The SKAction to reverse animate the ball.
      */
     func getReverseAnimation(ball: SkullBall) -> SKAction {
-        return SKAction.move(to: ball.startingPos, duration: 1.2)
+        return SKAction.move(to: ball.startingPos, duration: 0.8)
     }
  
     /**
@@ -418,10 +426,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
             thisExplosion.particleTexture = explosionTexture
             addChild(thisExplosion)
-
-        }
+            
+            }
     }
-
+    func createstageexplosion(){
+        if let explosionPath = Bundle.main.path(forResource: "sparkstage", ofType: "sks"),
+            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+            let thisExplosion = explosion.copy() as? SKEmitterNode {
+            let point = CGPoint(x: size.width / 2, y: size.height / 3)
+            thisExplosion.particleSize = CGSize(width: game.playerDiameter, height: game.playerDiameter)
+            thisExplosion.position = point
+            addChild(thisExplosion)
+            run(SKAction.wait(forDuration: 0.2)) {
+                self.Circle.alpha = 0.0
+            }
+            
+            
+        }
+    
+    }
+//    func createstageexplosionreverse(){
+//        if let explosionPath = Bundle.main.path(forResource: "sparkstagereverse2", ofType: "sks"),
+//            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+//            let thisExplosion = explosion.copy() as? SKEmitterNode {
+//            let point = CGPoint(x: size.width / 2, y: size.height / 3)
+//            thisExplosion.particleSize = CGSize(width: game.playerDiameter, height: game.playerDiameter)
+//            thisExplosion.position = point
+//            addChild(thisExplosion)
+//            Circle.alpha = 1.0
+//        }
+//
+//    }
+    
     func getFirstSlotInColumn(num: Int) -> BaseSlot {
         return slots.first(where: { $0.columnNumber == num }) as! BaseSlot
     }
@@ -498,7 +534,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // create the wait action (the delay before we start falling)
                 let waitDuration = Double(GameConstants.ballZapDuration * CGFloat(index))
                 let wait = SKAction.wait(forDuration: waitDuration)
-                let waitDurationforskull = Double(GameConstants.ballZapDuration)
+                let waitDurationforskull = Double(GameConstants.ballZapDuration + GameConstants.ballZapDuration)
                 let waitforskull = SKAction.wait(forDuration: waitDurationforskull)
                 let waitnew = SKAction.wait(forDuration: waitDuration - waitDurationforskull)
                 ball.fallTime = GameConstants.ballZapDuration
@@ -545,7 +581,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         skullSlot.ball = skullBall
         skullBall.position = skullSlot.position
         skullBall.stuck = true
-        skullBall.zPosition = -100
+        skullBall.zPosition = -5
         skullSlot.containsSkull = true
         
         // let fadeInSkull = SKAction.fadeIn(withDuration: 2.0)

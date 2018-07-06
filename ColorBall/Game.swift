@@ -176,7 +176,7 @@ class Game {
     private var _skulls = 0
     
     init(startingStage: Int) {
-        _stage = 13
+        _stage = 2
         print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
 

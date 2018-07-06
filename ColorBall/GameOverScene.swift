@@ -14,7 +14,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
     var del: StartSceneDelegate?
     var circleDiameter = UIScreen.main.bounds.size.width * 0.55
     let Circle = PlayerCircle(imageNamed: "circle")
-    
+    var game: Game!
     let ballTextures: [SKTexture] = [
         // your textures here
         // e.g. SKTexture(imageNamed: ""),
@@ -169,7 +169,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         // use the random integer to get a ball type and a ball colorr
         let ballType = BallColor(rawValue: index)!
         
-        let newBall = StartingSmallBall(circleOfRadius: 24.0)
+        let newBall = StartingSmallBall(circleOfRadius: (GameConstants.screenWidth * GameConstants.startingBallScale * 0.5) + 6)
         // set the fill color to our random color
         newBall.fillColor = UIColor(red: 255/255, green: 233/255, blue: 233/255, alpha: 1.0)
         
@@ -183,7 +183,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         // don't fill the outline
         newBall.lineWidth = 0.0
         
-        let body = SKPhysicsBody(circleOfRadius: 24.0)
+        let body = SKPhysicsBody(circleOfRadius: (GameConstants.screenWidth * GameConstants.startingBallScale * 0.5) + 6)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[index + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall

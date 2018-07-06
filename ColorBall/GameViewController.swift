@@ -52,6 +52,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         }
         stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+       // scoreLabel.alpha = 1.0
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
             game = Game(startingStage: currentStage)
@@ -273,12 +274,18 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func gameoverdesign() {
         print("gameoverdesin")
-        UIView.animate(withDuration: 0.4, delay: 0.0, options: [.repeat, .curveEaseOut, .autoreverse], animations: {
+        UIView.animate(withDuration: 0.4, delay: 0.0, animations: {
             self.stageLabel.textColor = UIColor.white
         }, completion: nil)
     }
-    
+    func scorelabelalpha() {
+        scoreLabel.alpha = 0.0
+        print("again")
+    }
     func handleNextStage() {
+        UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
+            self.scoreLabel.alpha = 1.0
+        }, completion: nil)
         adsShowNextStage = true
         handleAds()
     }

@@ -15,6 +15,7 @@ protocol StartGameDelegate {
     func gameover()
     func handleNextStage()
     func gameoverdesign()
+    func scorelabelalpha()
 }
 
 protocol StartSceneDelegate {
