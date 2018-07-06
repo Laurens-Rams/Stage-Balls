@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Face Off M54.ttf">
             <string>FaceOffM54</string>
         </array>
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
         <array key="Oregon-Regular.otf">
             <string>Oregon-Regular</string>
-        </array>
-        <array key="SinhalaSangamMN.ttc">
-            <string>SinhalaSangamMN-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -61,27 +55,25 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="neW-P3-VwB" customClass="EFCountingLabel" customModule="EFCountingLabel">
                                 <rect key="frame" x="0.0" y="471" width="375" height="164"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="140"/>
                                 <color key="textColor" red="0.97555762078273589" green="0.97884279821218267" blue="0.95674671885803975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="STAGE   999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcs-gc-tFs">
-                                <rect key="frame" x="185" y="64" width="170" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STAGE   999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcs-gc-tFs">
+                                <rect key="frame" x="261.66666666666669" y="64" width="93.333333333333314" height="24"/>
                                 <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="20"/>
                                 <color key="textColor" red="0.32659663643376136" green="0.32983026649746194" blue="0.32983026649746194" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IaP-cR-WyT">
-                                <rect key="frame" x="20" y="64" width="16" height="18"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwH-2j-QtW">
+                                <rect key="frame" x="0.0" y="52" width="59" height="41"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="DGz-jw-w00"/>
-                                    <constraint firstAttribute="width" constant="16" id="Ifx-ps-YOx"/>
+                                    <constraint firstAttribute="height" constant="41" id="FrG-Do-FQC"/>
+                                    <constraint firstAttribute="width" constant="59" id="yLw-17-wVf"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="menu"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwH-2j-QtW">
-                                <rect key="frame" x="0.0" y="52" width="73" height="67"/>
+                                <inset key="imageEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
+                                <state key="normal" image="menu"/>
                                 <connections>
                                     <action selector="menuAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nsj-pQ-ci3"/>
                                 </connections>
@@ -91,14 +83,12 @@
                         <constraints>
                             <constraint firstItem="hcs-gc-tFs" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="20" id="G8X-gg-dWT"/>
                             <constraint firstAttribute="trailing" secondItem="hcs-gc-tFs" secondAttribute="trailing" constant="20" id="U5j-Ya-rUs"/>
-                            <constraint firstItem="IaP-cR-WyT" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" constant="20" id="YwW-Tz-g48"/>
                             <constraint firstItem="uwH-2j-QtW" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="8" id="ciR-3T-DXG"/>
-                            <constraint firstItem="IaP-cR-WyT" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="20" id="pmN-E2-urZ"/>
+                            <constraint firstItem="uwH-2j-QtW" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="u6l-ja-yPk"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="menuBtn" destination="uwH-2j-QtW" id="fbZ-hN-K46"/>
-                        <outlet property="pauseButton" destination="uwH-2j-QtW" id="N5O-hi-um0"/>
                         <outlet property="scoreLabel" destination="neW-P3-VwB" id="uPq-6q-S4d"/>
                         <outlet property="stageLabel" destination="hcs-gc-tFs" id="MsK-ZG-wVR"/>
                     </connections>
@@ -559,11 +549,11 @@
         <image name="500" width="412" height="273"/>
         <image name="Color Ballz" width="751" height="282"/>
         <image name="GAMEOVER" width="442" height="150"/>
-        <image name="Icon-1" width="50" height="50"/>
-        <image name="Icon-3" width="50" height="50"/>
+        <image name="Icon-1" width="51" height="51"/>
+        <image name="Icon-3" width="51" height="51"/>
         <image name="Icon-4" width="50" height="50"/>
-        <image name="Icon-5" width="50" height="50"/>
-        <image name="Icon-6" width="50" height="50"/>
+        <image name="Icon-5" width="51" height="51"/>
+        <image name="Icon-6" width="51" height="51"/>
         <image name="OFF" width="108" height="107"/>
         <image name="PointIcon" width="83" height="83"/>
         <image name="SHOP" width="354" height="208"/>

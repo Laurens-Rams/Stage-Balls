@@ -18,7 +18,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     // ---> THIS IS FOR ADS AT ADMOB.com
     var interstitial: GADInterstitial!
     @IBOutlet var settingButton: UIButton!
-    @IBOutlet var pauseButton: UIButton!
 
     @IBOutlet var scoreLabel: EFCountingLabel!
     
@@ -44,6 +43,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         super.viewDidLoad()
         listenForNotifications()
         layoutUI()
+        
+        if Settings.isIphoneX {
+            stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+            menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        }
 
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
@@ -82,10 +86,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func layoutAfterSetup() {
-        view.bringSubview(toFront: pauseButton)
         view.bringSubview(toFront: menuBtn)
         view.layer.zPosition = 0
-        pauseButton.layer.zPosition = 1
         menuBtn.layer.zPosition = 2
     }
     
@@ -94,8 +96,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @objc func handleGameRestartRequest() {
-//        let mb = self.menuBtn
-//        let pb = self.pauseButton
         scene.removeAllChildren()
         scene.removeAllActions()
         scene.removeFromParent()
@@ -104,10 +104,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let _ = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false, block: { _ in
             self.gameOverController?.dismiss(animated: false) {
                 self.setupGame()
-//                if let pb = pb { self.view.addSubview(pb) }
-//                else { print("no pause button anymore") }
-//                if let mb = mb { self.view.addSubview(mb) }
-//                else { print("no menu button anymore") }
             }
         })
     }
@@ -174,11 +170,17 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func pauseGame() {
         // TODO: destroy the pause view
         scene.isPaused = true
-        scene.fallTimer.invalidate()
+        scene.canMove = false
+        scene.allowToMove = false
+        scene.fallTimer?.invalidate()
         let pauseView = PauseView.instanceFromNib() as! PauseView
         pauseView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         pauseView.delegate = self
         self.view.addSubview(pauseView)
+        let startY = CGFloat((view.frame.height / 3) * 2) - (pauseView.playButton.frame.height / 2) - 2
+        let startX = CGFloat(view.frame.width / 2 - pauseView.playButton.frame.width / 2) - 2
+        let size = UIScreen.main.bounds.size.width * 0.55
+        pauseView.playButton.frame = CGRect(x: startX, y: startY, width: size, height: size)
     }
     
     func unpauseGame() {
@@ -194,7 +196,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                     self.scene.startFallTimer(ball: lastBall)
                 }
                 self.scene.isPaused = false
-                self.scene.fallTimer.fire()
+                self.scene.canMove = true
+                self.scene.allowToMove = true
+                self.scene.fallTimer?.fire()
                 self.scoreLabel.textColor = UIColor.white
                 self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
             }
@@ -238,10 +242,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         present(gameOverController!, animated: false, completion: nil)
         
     }
+
     func gameoverdesign() {
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.pauseButton.alpha = 0.0
-        }, completion: nil)
+       
     }
     
     func handleNextStage() {

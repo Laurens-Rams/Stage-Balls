@@ -11,6 +11,7 @@ import UIKit
 
 class PauseView: UIView {
     
+    @IBOutlet weak var playButton: UIButton!
     var delegate: StartGameDelegate?
     
     class func instanceFromNib() -> UIView {

@@ -40,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // timers
     var ballTimer: Timer?
-    var fallTimer: Timer!
+    var fallTimer: Timer?
     
     // control variables
     var isTouching = false

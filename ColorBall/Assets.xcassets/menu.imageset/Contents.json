@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Zeichenfläche17@1x.png",
+      "filename" : "Zeichenflache17@1x-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Zeichenfläche17@2x.png",
+      "filename" : "Zeichenflache17@2x-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Zeichenfläche17@3x.png",
+      "filename" : "Zeichenflache17@3x-1.png",
       "scale" : "3x"
     }
   ],

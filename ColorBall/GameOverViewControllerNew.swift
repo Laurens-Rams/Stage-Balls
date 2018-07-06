@@ -33,6 +33,9 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         //GameCenter
         authenticateLocalPlayer()
         super.viewDidLoad()
+        if Settings.isIphoneX {
+            stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        }
         layoutUI()
         scene = GameOverScene(size: view.bounds.size)
         scene.del = self
