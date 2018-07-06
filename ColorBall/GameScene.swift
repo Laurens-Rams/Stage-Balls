@@ -22,7 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: class properties
     
     var game: Game!
-    
+    var explosionpos = 0
     var spinMultiplier = CGFloat(1.0)
 
     // player (large circle)
@@ -82,7 +82,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        // if (game.stage == 84){
        //     run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 2.0))
         //}
-        backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+        //make a last backgroundColor
+        
+        backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
         run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
         isPaused = false
         spinMultiplier = (19 / CGFloat(game.slotsOnCircle))
@@ -348,9 +350,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if firstBody.categoryBitMask == PhysicsCategory.circleBall {
             handleLargeCollisionWith(newBody: secondBody)
             print("hit the large circle")
+            
         } else if secondBody.categoryBitMask == PhysicsCategory.circleBall {
             handleLargeCollisionWith(newBody: firstBody)
             print("hit the large circle")
+            
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
                 print("same color collision")
@@ -378,27 +382,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    func createExplosion(onBody body: SKPhysicsBody) {
-        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
-            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
-            let ball = body.node as? SmallBall,
-            let thisExplosion = explosion.copy() as? SKEmitterNode {
-            let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
-            thisExplosion.position = point
-            ball.addChild(thisExplosion)
-        }
-    }
-    
+//    func createExplosion(onBody body: SKPhysicsBody) {
+//        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
+//            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+//            let ball = body.node as? SmallBall,
+//            let thisExplosion = explosion.copy() as? SKEmitterNode {
+//            let point = CGPoint(x: ball.x, y: ball.y)
+//            thisExplosion.position = point
+//            ball.addChild(thisExplosion)
+//        }
+//    }
+//
+//    func createExplosion(onBall ball: SKNode) {
+//        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
+//            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
+//            let ball = ball as? SmallBall,
+//            let thisExplosion = explosion.copy() as? SKEmitterNode {
+//           let explosiony = size.width / 3 + game.playerDiameter + game.smallDiameter / 2 + (CGFloat(game.slotsPerColumn - 1 - explosionpos) * game.smallDiameter)
+//            let point = CGPoint(x: size.width / 2, y: explosiony)
+//            thisExplosion.position = point
+//            let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
+//            thisExplosion.particleTexture = explosionTexture
+//            addChild(thisExplosion)
+//            explosionpos += 1
+//        }
+//    }
     func createExplosion(onBall ball: SKNode) {
         if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
             let ball = ball as? SmallBall,
             let thisExplosion = explosion.copy() as? SKEmitterNode {
-            let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
+            let explosiony = size.width / 3 + game.playerDiameter + game.smallDiameter / 2
+            let point = CGPoint(x: size.width / 2, y: explosiony)
             thisExplosion.position = point
             let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
             thisExplosion.particleTexture = explosionTexture
-            ball.addChild(thisExplosion)
+            addChild(thisExplosion)
+
         }
     }
 
@@ -478,7 +498,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // create the wait action (the delay before we start falling)
                 let waitDuration = Double(GameConstants.ballZapDuration * CGFloat(index))
                 let wait = SKAction.wait(forDuration: waitDuration)
-
+                let waitDurationforskull = Double(GameConstants.ballZapDuration)
+                let waitforskull = SKAction.wait(forDuration: waitDurationforskull)
+                let waitnew = SKAction.wait(forDuration: waitDuration - waitDurationforskull)
                 ball.fallTime = GameConstants.ballZapDuration
 
                 // if we're on the last ball, we want to:
@@ -486,22 +508,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // - 2. add a skull ball to the first slot
                 // - 3. call the completion handler after finishing
                 if (index == zapBalls.count) {
-                    self.createExplosion(onBall: ball)
-                    ball.run(wait) {
+                    ball.run(waitnew) {
                         self.createExplosion(onBall: ball)
-                        self.addSkull(toColumn: colNumber)
-                        ball.fillColor = UIColor.clear
-                        completion()
-                        ball.run(SKAction.wait(forDuration: 1.2)) {
-                            self.removeChildren(in: zapBalls)
+                        ball.run(waitforskull) {
+                            self.addSkull(toColumn: colNumber)
+                            ball.fillColor = UIColor.clear
+                            completion()
+                            ball.run(SKAction.wait(forDuration: 1.2)) {
+                                self.removeChildren(in: zapBalls)
+                            }
                         }
-                    }
+                        }
                 } else {
                     // if we are not on the last ball yet, we want to:
                     // - 1. run the delay
                     // - 2. remove this ball
                     // - 3. set the next ball's falling property to true
-                    self.createExplosion(onBall: ball)
                     ball.run(wait) {
                         if let nextBall = zapBalls.filter({ !$0.falling }).last {
                             nextBall.falling = true

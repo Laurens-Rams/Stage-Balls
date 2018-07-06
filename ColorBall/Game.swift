@@ -22,7 +22,7 @@ struct GameConstants {
     static let initialSlotsOnCircle: CGFloat = 13
     static let initialSlotsPerColumn = 2
 
-    static let ballZapDuration: CGFloat = 0.2
+    static let ballZapDuration: CGFloat = 0.15
 
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
 
@@ -47,7 +47,7 @@ struct GameConstants {
  //1
  UIColor(red: 255/255, green: 141/255, blue: 193/255, alpha: 1.0),
  //2
- UIColor(red: 0/255, green: 104/255, blue: 255/255, alpha: 1.0),
+ UIColor(red: 52/255, green: 171/255, blue: 224/255, alpha: 1.0),
  //3
  UIColor(red: 255/255, green: 190/255, blue: 2/255, alpha: 1.0),
  //4
@@ -75,7 +75,7 @@ struct GameConstants {
  //14
  UIColor(red: 29/255, green: 77/255, blue: 104/255, alpha: 1.0),
  //15
- UIColor(red: 52/255, green: 171/255, blue: 224/255, alpha: 1.0),
+ UIColor(red: 0/255, green: 104/255, blue: 255/255, alpha: 1.0),
  //16
  UIColor(red: 255/255, green: 221/255, blue: 51/255, alpha: 1.0),
  //17

@@ -51,7 +51,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         }
-
+        stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
             game = Game(startingStage: currentStage)
@@ -71,7 +71,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         camera = SKCameraNode()
         setupGame()
     }
-    
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
         // interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7915824718")
@@ -99,6 +98,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @objc func handleGameRestartRequest() {
+        //background/ color also for this
+        stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         scene.removeAllChildren()
         scene.removeAllActions()
         scene.removeFromParent()
@@ -271,7 +272,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func gameoverdesign() {
-       
+        print("gameoverdesin")
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: [.repeat, .curveEaseOut, .autoreverse], animations: {
+            self.stageLabel.textColor = UIColor.white
+        }, completion: nil)
     }
     
     func handleNextStage() {

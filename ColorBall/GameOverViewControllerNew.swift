@@ -11,17 +11,9 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
     
     
-    /* Variables */
-    var gcEnabled = Bool() // Check if the user has Game Center enabled
-    var gcDefaultLeaderBoard = String() // Check the default leaderboardID
-    var score = 0
-    // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
-    let LEADERBOARD_ID = "stageid"
-    
-    
     var endingScore: Int = 0
     var endingStage: Int = 1
-
+    let LEADERBOARD_ID = "stageid"
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     
@@ -30,12 +22,11 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
-        //GameCenter
-        authenticateLocalPlayer()
         super.viewDidLoad()
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         }
+        stageLabel.textColor = .white
         layoutUI()
         scene = GameOverScene(size: view.bounds.size)
         scene.del = self
@@ -50,34 +41,19 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         } else {
             stageLabel.text = stageFormatter(stage: endingStage)
         }
-    }
-    
-    // MARK: - AUTHENTICATE LOCAL PLAYER
-    func authenticateLocalPlayer() {
-        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
-        
-        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-            if((ViewController) != nil) {
-                // 1. Show login if player is not logged in
-                self.present(ViewController!, animated: true, completion: nil)
-            } else if (localPlayer.isAuthenticated) {
-                // 2. Player is already authenticated & logged in, load game center
-                self.gcEnabled = true
-                
-                // Get the default leaderboard ID
-                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
-                    if error != nil { print(error)
-                    } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
-                })
-                
+        let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
+        let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+        bestScoreInt.value = scoreGameCenter as! Int64
+        GKScore.report([bestScoreInt]) { (error) in
+            if error != nil {
+                print(error!.localizedDescription)
             } else {
-                // 3. Game center is not enabled on the users device
-                self.gcEnabled = false
-                print("Local player could not be authenticated!")
-                print(error)
+                print("Best Score submitted to your Leaderboard!")
             }
         }
     }
+    
+    // MARK: - AUTHENTICATE LOCAL PL
     func layoutUI() {
         let startY = CGFloat((view.frame.height / 3) * 2) - (showpoints.frame.height / 2)
         showpoints.frame = CGRect(x: 0, y: startY, width: showpoints.frame.width, height: showpoints.frame.height)
@@ -124,29 +100,18 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
 
     func sharePressed() {
-        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! Im at Stage \(scoreFormatter(score: endingStage)) Can you beat my Stage? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! Im at Stage \(String(describing: defaults.object(forKey: Settings.HIGH_SCORE_KEY))) Can you beat my Stage? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true, completion: nil)
     }
 
     
     func gameCenterPressed() {
-        let score = scoreFormatter(score: endingStage)
-        // Submit score to GC leaderboard
-        let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
-        bestScoreInt.value = Int64(score)!
-        GKScore.report([bestScoreInt]) { (error) in
-            if error != nil {
-                print(error!.localizedDescription)
-            } else {
-                print("Best Score submitted to your Leaderboard!")
-            }
-        }
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards
-        gcVC.leaderboardIdentifier = LEADERBOARD_ID
-        present(gcVC, animated: true, completion: nil)
+        gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
+        self.present(gcVC, animated: true, completion: nil)
 }
 
 }

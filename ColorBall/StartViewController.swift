@@ -5,8 +5,18 @@ import GameplayKit
 import GameKit
 
 class StartViewController: UIViewController, GKGameCenterControllerDelegate, StartSceneDelegate {
+    func gameCenterPressed() {
+        
+    }
     
-
+    
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: false, completion: nil)
+    }
+    var gcEnabled = Bool() // Check if the user has Game Center enabled
+    var gcDefaultLeaderBoard = String() // Check the default leaderboardI
+    // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
+    let LEADERBOARD_ID = "stageid"
     deinit {
         print("start view controller deinit")
     }
@@ -20,6 +30,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
     override func viewDidLoad() {
         super.viewDidLoad()
 //        listenForNotifications()
+        authenticateLocalPlayer()
         scene = MenuScene(size: view.bounds.size)
         scene.del = self
         let skView = view as! SKView
@@ -28,7 +39,31 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
     }
-
+    func authenticateLocalPlayer() {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                // 1. Show login if player is not logged in
+                self.present(ViewController!, animated: true, completion: nil)
+            } else if (localPlayer.isAuthenticated) {
+                // 2. Player is already authenticated & logged in, load game center
+                self.gcEnabled = true
+                
+                // Get the default leaderboard ID
+                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
+                    if error != nil { print(error)
+                    } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
+                })
+                
+            } else {
+                // 3. Game center is not enabled on the users device
+                self.gcEnabled = false
+                print("Local player could not be authenticated!")
+                print(error)
+            }
+        }
+    }
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -61,69 +96,13 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
     
     @IBOutlet var scoreLabel: UILabel!
     
-    var gcEnabled = Bool() // Check if the user has Game Center enabled
-    var gcDefaultLeaderBoard = String() // Check the default leaderboardID
     
     var score = 51
     @IBOutlet var volume: UIButton!
     var tonANAUS = 0
     
-    // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
-    let LEADERBOARD_ID = "identity"
+    // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect
 
-    
-    func authenticateLocalPlayer() {
-        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
-        
-        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-            if((ViewController) != nil) {
-                // 1. Show login if player is not logged in
-                self.present(ViewController!, animated: false, completion: nil)
-            } else if (localPlayer.isAuthenticated) {
-                // 2. Player is already authenticated & logged in, load game center
-                self.gcEnabled = true
-                
-                // Get the default leaderboard ID
-                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
-                    if let err = error { print(err.localizedDescription)
-                    } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
-                })
-                
-            } else {
-                // 3. Game center is not enabled on the users device
-                self.gcEnabled = false
-                print("Local player could not be authenticated!")
-                if let err = error {
-                    print(err.localizedDescription)
-                }
-            }
-        }
-    }
-    
-    func gameCenterPressed() {
-        
-        // Submit score to GC leaderboard
-        let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
-        bestScoreInt.value = Int64(score)
-        GKScore.report([bestScoreInt]) { (error) in
-            if error != nil {
-                print(error!.localizedDescription)
-            } else {
-                print("Best Score submitted to your Leaderboard!")
-            }
-        }
-        //open leadboard
-        let gcVC = GKGameCenterViewController()
-        gcVC.gameCenterDelegate = self
-        gcVC.viewState = .leaderboards
-        gcVC.leaderboardIdentifier = LEADERBOARD_ID
-        present(gcVC, animated: false, completion: nil)
-    }
-    
-    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
-        gameCenterViewController.dismiss(animated: true, completion: nil)
-    }
-    
     func launchGameViewController() {
         gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as? GameViewController
         scene.isPaused = true

@@ -420,7 +420,7 @@
 				TargetAttributes = {
 					A13F125F1EF703F700A34B16 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 6NYLE5AU4Y;
+						DevelopmentTeam = J936S4T28E;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -528,7 +528,7 @@
 		};
 		2A130D5ACB1996E70AA0A7DA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -740,7 +740,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6NYLE5AU4Y;
+				DEVELOPMENT_TEAM = J936S4T28E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",
@@ -748,7 +748,7 @@
 				INFOPLIST_FILE = ColorBall/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BerndEdlinger.ColorBall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RamsenthalerLaurens.StageBallz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -764,7 +764,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6NYLE5AU4Y;
+				DEVELOPMENT_TEAM = J936S4T28E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",
@@ -772,7 +772,7 @@
 				INFOPLIST_FILE = ColorBall/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BerndEdlinger.ColorBall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RamsenthalerLaurens.StageBallz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
