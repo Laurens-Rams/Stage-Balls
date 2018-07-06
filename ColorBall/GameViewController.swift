@@ -34,6 +34,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     let defaults = UserDefaults.standard
     
+    var adsShowGameOver = false
+    var adsShowNextStage = false
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -206,7 +209,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func gameover() {
-        
         // save the high score if we just set it!
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
             if game.stage > highScore {
@@ -216,30 +218,55 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY)
         }
 
+        adsShowGameOver = true
+
+        handleAds()
+
         defaults.synchronize()
 
         camera.removeFromParent()
+    }
+    
+    func handleAds() {
+        var shouldShowAds = false
         
-        // create and present the game over view controller
-        gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
-        // set the ending "score" to how many balls you cleared (number fallen)
-        gameOverController!.endingScore = scene.game.ballsRemaining
-        gameOverController!.endingStage = scene.game.stage
-        /// Tells the delegate the interstitial had been animated off the screen.
-        
-       if interstitial.isReady {
-            interstitial.present(fromRootViewController: self)
-        } else {
-            print("Ad wasn't ready")
-            present(gameOverController!, animated: false, completion: nil)
+        if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
+            let now = Date().timeIntervalSince1970
+            print("=====> last ad time", now, lastAdTime, now - lastAdTime)
+            if now - lastAdTime >= 300 && scene.game.stage >= 13 && interstitial.isReady {
+                shouldShowAds = true
+            }
+        } else if scene.game.stage >= 13 {
+            print("====> no last ad time found")
+            shouldShowAds = true
         }
         
-        
+        if interstitial.isReady && shouldShowAds {
+            interstitial.present(fromRootViewController: self)
+            defaults.set(Date().timeIntervalSince1970, forKey: Settings.LAST_AD_TIME)
+            defaults.synchronize()
+        } else {
+            print("Ad wasn't ready")
+            if adsShowGameOver {
+                adsShowGameOver = false
+                showGameOverViewController()
+            } else if adsShowNextStage {
+                adsShowNextStage = false
+                startNextStage()
+            }
+        }
     }
+    
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
         print("interstitialDidDismissScreen")
         interstitial = createAndLoadInterstitial()
-        present(gameOverController!, animated: false, completion: nil)
+        if adsShowGameOver {
+             present(gameOverController!, animated: false, completion: nil)
+            adsShowGameOver = false
+        } else if adsShowNextStage {
+            startNextStage()
+            adsShowNextStage = false
+        }
         
     }
 
@@ -248,6 +275,19 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func handleNextStage() {
+        handleAds()
+    }
+    
+    func showGameOverViewController() {
+        // create and present the game over view controller
+        gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
+        // set the ending "score" to how many balls you cleared (number fallen)
+        gameOverController!.endingScore = scene.game.ballsRemaining
+        gameOverController!.endingStage = scene.game.stage
+        present(gameOverController!, animated: false, completion: nil)
+    }
+    
+    func startNextStage() {
         game.increaseStage()
         defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY)
         defaults.synchronize()
