@@ -355,11 +355,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if firstBody.isDynamic == true {
                 print("same color collision")
                 handleSameColorCollision(newBody: firstBody, stuckBody: secondBody)
-                createExplosion(onBody: firstBody)
+//                createExplosion(onBody: firstBody)
             } else if secondBody.isDynamic == true {
                 print("same color collision")
                 handleSameColorCollision(newBody: secondBody, stuckBody: firstBody)
-                createExplosion(onBody: secondBody)
+//                createExplosion(onBody: secondBody)
             }
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
             if let _ = firstBody.node as? StartingSmallBall, let _ = secondBody.node as? SkullBall {
@@ -381,20 +381,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createExplosion(onBody body: SKPhysicsBody) {
         if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
-            let ball = body.node as? SmallBall {
+            let ball = body.node as? SmallBall,
+            let thisExplosion = explosion.copy() as? SKEmitterNode {
             let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
-            explosion.position = point
-            ball.addChild(explosion)
+            thisExplosion.position = point
+            ball.addChild(thisExplosion)
         }
     }
     
     func createExplosion(onBall ball: SKNode) {
         if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
-            let ball = ball as? SmallBall {
+            let ball = ball as? SmallBall,
+            let thisExplosion = explosion.copy() as? SKEmitterNode {
             let point = CGPoint(x: ball.x, y: ball.y - (game.smallDiameter / 2))
-            explosion.position = point
-            ball.addChild(explosion)
+            thisExplosion.position = point
+            let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
+            thisExplosion.particleTexture = explosionTexture
+            ball.addChild(thisExplosion)
         }
     }
 
@@ -482,23 +486,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // - 2. add a skull ball to the first slot
                 // - 3. call the completion handler after finishing
                 if (index == zapBalls.count) {
+                    self.createExplosion(onBall: ball)
                     ball.run(wait) {
                         self.createExplosion(onBall: ball)
-                        self.removeChildren(in: zapBalls)
                         self.addSkull(toColumn: colNumber)
+                        ball.fillColor = UIColor.clear
                         completion()
+                        ball.run(SKAction.wait(forDuration: 1.2)) {
+                            self.removeChildren(in: zapBalls)
+                        }
                     }
                 } else {
                     // if we are not on the last ball yet, we want to:
                     // - 1. run the delay
                     // - 2. remove this ball
                     // - 3. set the next ball's falling property to true
+                    self.createExplosion(onBall: ball)
                     ball.run(wait) {
                         if let nextBall = zapBalls.filter({ !$0.falling }).last {
                             nextBall.falling = true
-                            self.createExplosion(onBall: nextBall)
                         }
-                        self.removeChildren(in: [ball])
+                        ball.fillColor = UIColor.clear
                     }
                 }
             }

@@ -261,7 +261,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         print("interstitialDidDismissScreen")
         interstitial = createAndLoadInterstitial()
         if adsShowGameOver {
-             present(gameOverController!, animated: false, completion: nil)
+            showGameOverViewController()
             adsShowGameOver = false
         } else if adsShowNextStage {
             startNextStage()
@@ -275,6 +275,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func handleNextStage() {
+        adsShowNextStage = true
         handleAds()
     }
     

@@ -21,6 +21,48 @@ enum BallColor: Int {
             return "blue"
         case .pink:
             return "pink"
+        case .red:
+            return "red"
+        case .yellow:
+            return "yellow"
+        case .green:
+            return "green"
+        case .orange:
+            return "orange"
+        case .purple:
+            return "purple"
+        case .grey:
+            return "grey"
+        case .a:
+            return "a"
+        case .s:
+            return "s"
+        case .d:
+            return "d"
+        case .f:
+            return "f"
+        case .g:
+            return "g"
+        case .h:
+            return "h"
+        case .j:
+            return "j"
+        case .k:
+            return "k"
+        case .l:
+            return "l"
+        case .y:
+            return "y"
+        case .x:
+            return "x"
+        case .c:
+            return "c"
+        case .v:
+            return "v"
+        case .b:
+            return "b"
+        case .n:
+            return "n"
         default:
             return "ball"
         }
