@@ -30,6 +30,7 @@
 		0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */; };
 		0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */; };
 		A10B5B9C20F03D8C00C5F823 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10B5B9B20F03D8C00C5F823 /* GameKit.framework */; };
+		A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A10B5B9D20F0527D00C5F823 /* pop.mp3 */; };
 		A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC1E3200116F600A70204 /* StartupViewController.swift */; };
 		A12CC1E62001175500A70204 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC1E52001175500A70204 /* MenuScene.swift */; };
 		A13F12641EF703F700A34B16 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F12631EF703F700A34B16 /* AppDelegate.swift */; };
@@ -101,6 +102,7 @@
 		3B0A081C405A0F97EC6B2F5A /* Pods_ColorBallTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBallTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		589E72D0A762311BB94178FE /* Pods_ColorBallUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBallUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10B5B9B20F03D8C00C5F823 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		A10B5B9D20F0527D00C5F823 /* pop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop.mp3; sourceTree = "<group>"; };
 		A12CC1E3200116F600A70204 /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		A12CC1E52001175500A70204 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		A13F12601EF703F700A34B16 /* ColorBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,6 +325,7 @@
 		A15E83F31FF46CF500359FC8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				A10B5B9D20F0527D00C5F823 /* pop.mp3 */,
 				0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */,
 				0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */,
 				0D54F0B620EA730C00BBBDBB /* Assets.xcassets */,
@@ -485,6 +488,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */,
 				0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */,
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
 				A13F126F1EF703F700A34B16 /* Main.storyboard in Resources */,
