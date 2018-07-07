@@ -16,9 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GADMobileAds.configure(withApplicationID: "ca-app-pub-8530735287041699~2180707337")
-        if UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) == nil {
-            UserDefaults.standard.set(true, forKey: Settings.VOLUME_ON_KEY)
-        }
         // Override point for customization after application launch.
         return true
     }

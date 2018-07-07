@@ -70,8 +70,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.synchronize()
 
         camera = SKCameraNode()
-        setupGame()
+
+        setupGame(animateBackground: false)
     }
+
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
         // interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7915824718")
@@ -108,17 +110,21 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         camera = SKCameraNode()
         let _ = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false, block: { _ in
             self.gameOverController?.dismiss(animated: false) {
-                self.setupGame()
+                self.setupGame(animateBackground: true)
             }
         })
     }
     
-    func setupGame() {
+    func setupGame(animateBackground: Bool) {
         setupScene()
+        if (animateBackground) {
+            scene.setBackgroundToDark()
+        }
         setupCamera()
         setupUI()
         addPlayedGame()
         layoutAfterSetup()
+        scene.fadeBackgroundBackToWhite()
     }
     
     func setupScene() {
@@ -169,7 +175,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func restartGame() {
         camera.removeFromParent()
         camera = SKCameraNode()
-        setupGame()
+        setupGame(animateBackground: true)
     }
     
     func pauseGame() {

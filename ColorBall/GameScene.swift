@@ -624,6 +624,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func setBackgroundToDark() {
+        backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+    }
+    
+    func fadeBackgroundBackToWhite() {
+        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
+    }
+    
     func startGameOverSequence(newBall: SmallBall) {
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
         allowToMove = false

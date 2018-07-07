@@ -48,6 +48,8 @@ class AudioManager {
                 volume = 0.0
             }
         }
+        
+        setVolumes()
     }
     
     func setVolumes() {
