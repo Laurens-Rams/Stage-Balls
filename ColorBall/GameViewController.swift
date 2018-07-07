@@ -250,9 +250,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         } else {
             print("Ad wasn't ready")
             if adsShowGameOver {
+                AudioManager.only.playGameOverSOund()
                 adsShowGameOver = false
                 showGameOverViewController()
             } else if adsShowNextStage {
+                AudioManager.only.playNextStageSound()
                 adsShowNextStage = false
                 startNextStage()
             }
@@ -263,9 +265,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         print("interstitialDidDismissScreen")
         interstitial = createAndLoadInterstitial()
         if adsShowGameOver {
+            AudioManager.only.playGameOverSOund()
             showGameOverViewController()
             adsShowGameOver = false
         } else if adsShowNextStage {
+            AudioManager.only.playNextStageSound()
             startNextStage()
             adsShowNextStage = false
         }

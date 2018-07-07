@@ -78,8 +78,6 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
             print("touch")
             
             if let node = nodes(at: touch.location(in: self)).first {
-                AudioManager.only.playClickSound()
-
                 if node.name == "playButton" {
                     print("startgameagain")
                     postRestartNotification()
@@ -88,6 +86,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                     del?.gameCenterPressed()
                 }else if node.name == "volume" {
                     print("volume")
+                    AudioManager.only.toggleVolume()
                 }else if node.name == "rate" {
                     print("rate")
                     del?.ratePressed()
@@ -99,10 +98,20 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                     print("share")
                     del?.sharePressed()
                 }
+                AudioManager.only.playClickSound()
         }
     }
     }
+
     func setupBalls() {
+        if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
+            if !volumeOn {
+                // set image to volume off
+            } else {
+                // set image to volume on
+            }
+        }
+
         var balls = [StartingSmallBall]();
 
         // the radians to separate each starting ball by, when placing around the ring
