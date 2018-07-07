@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Face Off M54.ttf">
             <string>FaceOffM54</string>
         </array>
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
         <array key="Oregon-Regular.otf">
             <string>Oregon-Regular</string>
-        </array>
-        <array key="SinhalaSangamMN.ttc">
-            <string>SinhalaSangamMN-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -73,12 +67,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwH-2j-QtW">
-                                <rect key="frame" x="0.0" y="52" width="59" height="41"/>
+                                <rect key="frame" x="20" y="52" width="72" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="41" id="FrG-Do-FQC"/>
-                                    <constraint firstAttribute="width" constant="59" id="yLw-17-wVf"/>
+                                    <constraint firstAttribute="height" constant="50" id="FrG-Do-FQC"/>
+                                    <constraint firstAttribute="width" constant="72" id="yLw-17-wVf"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="15" maxX="52" maxY="15"/>
                                 <state key="normal" image="menu"/>
                                 <connections>
                                     <action selector="menuAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nsj-pQ-ci3"/>
@@ -90,7 +84,7 @@
                             <constraint firstItem="hcs-gc-tFs" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="20" id="G8X-gg-dWT"/>
                             <constraint firstAttribute="trailing" secondItem="hcs-gc-tFs" secondAttribute="trailing" constant="20" id="U5j-Ya-rUs"/>
                             <constraint firstItem="uwH-2j-QtW" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="8" id="ciR-3T-DXG"/>
-                            <constraint firstItem="uwH-2j-QtW" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="u6l-ja-yPk"/>
+                            <constraint firstItem="uwH-2j-QtW" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" constant="20" id="q7X-kY-W0m"/>
                         </constraints>
                     </view>
                     <connections>

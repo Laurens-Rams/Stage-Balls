@@ -552,16 +552,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // - 3. call the completion handler after finishing
                 if (index == zapBalls.count) {
                     ball.run(waitnew) {
-                        self.createExplosion(onBall: ball)
                         ball.run(waitforskull) {
+                            self.createExplosion(onBall: ball)
                             self.addSkull(toColumn: colNumber)
                             ball.fillColor = UIColor.clear
                             completion()
-                            ball.run(SKAction.wait(forDuration: 1.2)) {
+                            self.run(SKAction.wait(forDuration: 1.2)) {
                                 self.removeChildren(in: zapBalls)
                             }
                         }
-                        }
+                    }
                 } else {
                     // if we are not on the last ball yet, we want to:
                     // - 1. run the delay

@@ -180,7 +180,7 @@ class Game {
     private var _skulls = 0
 
     init(startingStage: Int) {
-        _stage = startingStage
+        _stage = 18
         _colorSetIndex = randomColorSet()
         print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
