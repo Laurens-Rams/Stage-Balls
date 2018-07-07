@@ -100,6 +100,8 @@ struct GameConstants {
     static let backgroundColors: [UIColor] = [
         UIColor.white
     ]
+    
+    static let colorSets: [[UIColor]] = [[UIColor]]()
 }
 
 /**
@@ -142,6 +144,8 @@ class Game {
     // number of colors to use this stage
     private var _numberBallColors = 4
     
+    private var _colorSetIndex = 0
+    
     // keep track of extra chance
     private var _extraChance = 1
     
@@ -177,7 +181,18 @@ class Game {
     
     init(startingStage: Int) {
         _stage = 2
+        _colorSetIndex = randomColorSet()
         print("NUMBER STARTING BALLS:", numberStartingBalls)
+    }
+    
+    /**
+     Generate a random integer between 0 and 3.
+     - parameters:
+     - upperBound: Optional max.
+     - returns: A number.
+     */
+    func randomColorSet() -> Int {
+        return Int(arc4random_uniform(4) + UInt32(1))
     }
 
     // we'll flip this to false later to test the other option
@@ -549,6 +564,18 @@ class Game {
         }
     }
     
+    var colorSetIndex: Int {
+        get {
+            return _colorSetIndex
+        }
+    }
+    
+    var ballColorSet: [UIColor] {
+        get {
+            return GameConstants.colorSets[colorSetIndex]
+        }
+    }
+    
     /**
      Increment the game level by 1.
      */
@@ -558,14 +585,6 @@ class Game {
             _outerDiameter -= 2
         }
         print("increased stage to \(_stage)")
-
-       // if _stage >= 24 && _stage <= 29 {
-        //    _numberBallColors += 1
-       // }
-
-//        if (_stage >= 14 && _stage <= 23) {
-//            _smallDiameter -= (14 * 0.11) / CGFloat(numberBallsInQueue + numberStartingBalls)
-//        }
     }
     
     /**
