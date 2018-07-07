@@ -50,6 +50,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+            menuBtn.imageEdgeInsets.top = 5.0
+            menuBtn.imageEdgeInsets.bottom = 25.0
         }
         stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
        // scoreLabel.alpha = 1.0
@@ -139,6 +141,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         skView.showsFPS = false
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
+        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+            game.setStage(toStage: currentStage)
+        }
         scene.game = game
         skView.presentScene(scene)
     }

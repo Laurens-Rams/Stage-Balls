@@ -51,6 +51,10 @@
 		A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */; };
 		A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83FB1FF4832C00359FC8 /* Settings.swift */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
+		A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A19625EA20F07DB800F43718 /* NextStageButton.xib */; };
+		A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A19625EC20F07DE300F43718 /* LastStageButton.xib */; };
+		A19625EF20F07E1E00F43718 /* NextStageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19625EE20F07E1E00F43718 /* NextStageButton.swift */; };
+		A19625F120F07E4400F43718 /* LastStageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19625F020F07E4400F43718 /* LastStageButton.swift */; };
 		A1989F9F20E969D200218FAE /* Spark.sks in Resources */ = {isa = PBXBuildFile; fileRef = A1989F9E20E969D100218FAE /* Spark.sks */; };
 		A1A088312013C0C400A15983 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A088302013C0C400A15983 /* GameOverScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
@@ -131,6 +135,10 @@
 		A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRepeatingTimer.swift; sourceTree = "<group>"; };
 		A15E83FB1FF4832C00359FC8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		A19625EA20F07DB800F43718 /* NextStageButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NextStageButton.xib; sourceTree = "<group>"; };
+		A19625EC20F07DE300F43718 /* LastStageButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LastStageButton.xib; sourceTree = "<group>"; };
+		A19625EE20F07E1E00F43718 /* NextStageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextStageButton.swift; sourceTree = "<group>"; };
+		A19625F020F07E4400F43718 /* LastStageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastStageButton.swift; sourceTree = "<group>"; };
 		A1989F9E20E969D100218FAE /* Spark.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Spark.sks; sourceTree = "<group>"; };
 		A1A088302013C0C400A15983 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
@@ -308,6 +316,10 @@
 			children = (
 				A1AF062E1F19AEB100811992 /* PauseView.xib */,
 				A1AF06301F19AECE00811992 /* PauseView.swift */,
+				A19625EA20F07DB800F43718 /* NextStageButton.xib */,
+				A19625EC20F07DE300F43718 /* LastStageButton.xib */,
+				A19625EE20F07E1E00F43718 /* NextStageButton.swift */,
+				A19625F020F07E4400F43718 /* LastStageButton.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -494,6 +506,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */,
 				A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */,
 				0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */,
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
@@ -506,6 +519,7 @@
 				0D91268820EFE337009D3A8A /* sparkstage.sks in Resources */,
 				0DC48F301F1D388900F1EA0B /* GoogleService-Info.plist in Resources */,
 				0D54F0B720EA730C00BBBDBB /* Assets.xcassets in Resources */,
+				A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */,
 				A1989F9F20E969D200218FAE /* Spark.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -581,8 +595,10 @@
 				A14286BA2005F2780043BC4C /* Slot.swift in Sources */,
 				A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */,
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
+				A19625EF20F07E1E00F43718 /* NextStageButton.swift in Sources */,
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
+				A19625F120F07E4400F43718 /* LastStageButton.swift in Sources */,
 				A10B5BA020F05A3000C5F823 /* AudioManager.swift in Sources */,
 				A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */,
 				0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */,

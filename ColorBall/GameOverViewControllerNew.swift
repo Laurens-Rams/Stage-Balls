@@ -16,6 +16,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let LEADERBOARD_ID = "stageid"
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
+    @IBOutlet weak var lastStageButton: UIButton!
+    @IBOutlet weak var nextStageButton: UIButton!
     
     var scene: GameOverScene!
 
@@ -36,11 +38,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         showpoints.text = scoreFormatter(score: endingScore)
-        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
-             stageLabel.text = stageFormatter(stage: highScore)
-        } else {
-            stageLabel.text = stageFormatter(stage: endingStage)
-        }
+        setStageLabel()
         let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
         bestScoreInt.value = scoreGameCenter as! Int64
@@ -51,6 +49,67 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                 print("Best Score submitted to your Leaderboard!")
             }
         }
+        showHideStageButtons()
+    }
+    
+    func setStageLabel() {
+        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+            stageLabel.text = stageFormatter(stage: currentStage)
+        } else {
+            stageLabel.text = stageFormatter(stage: endingStage)
+        }
+    }
+    
+    func showHideStageButtons() {
+        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+            print("high score", highScore)
+            if currentStage >= highScore {
+                nextStageButton.alpha = 0
+                nextStageButton.isUserInteractionEnabled = false
+                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 50).isActive = false
+                stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 20, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
+            } else {
+                nextStageButton.alpha = 1
+                nextStageButton.isUserInteractionEnabled = true
+                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 50).isActive = true
+                stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
+            }
+            if currentStage <= 1 {
+                lastStageButton.alpha = 0
+                lastStageButton.isUserInteractionEnabled = false
+            } else {
+                lastStageButton.alpha = 1
+                lastStageButton.isUserInteractionEnabled = true
+            }
+        } else if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int{
+            if currentStage <= 1 {
+                lastStageButton.alpha = 0
+                lastStageButton.isUserInteractionEnabled = false
+            } else {
+                lastStageButton.alpha = 1
+                lastStageButton.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    @IBAction func goToNextStage(_ sender: Any) {
+        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+            let nextStage = currentStage + 1
+            defaults.set(nextStage, forKey: Settings.CURRENT_STAGE_KEY)
+            defaults.synchronize()
+        }
+        showHideStageButtons()
+        setStageLabel()
+    }
+    
+    @IBAction func goToLastStage(_ sender: Any) {
+        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+            let lastStage = currentStage - 1
+            defaults.set(lastStage, forKey: Settings.CURRENT_STAGE_KEY)
+            defaults.synchronize()
+        }
+        showHideStageButtons()
+        setStageLabel()
     }
     
     // MARK: - AUTHENTICATE LOCAL PL

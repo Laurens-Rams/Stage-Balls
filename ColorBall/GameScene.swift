@@ -364,31 +364,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if firstBody.categoryBitMask == PhysicsCategory.circleBall {
             handleLargeCollisionWith(newBody: secondBody)
-            print("hit the large circle")
-            
         } else if secondBody.categoryBitMask == PhysicsCategory.circleBall {
             handleLargeCollisionWith(newBody: firstBody)
-            print("hit the large circle")
             
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
-                print("same color collision")
                 handleSameColorCollision(newBody: firstBody, stuckBody: secondBody, contactPoint: contact.contactPoint)
             } else if secondBody.isDynamic == true {
-                print("same color collision")
                 handleSameColorCollision(newBody: secondBody, stuckBody: firstBody, contactPoint: contact.contactPoint)
             }
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
             if let _ = firstBody.node as? StartingSmallBall, let _ = secondBody.node as? SkullBall {
-              print("contact between starter ball and skull")
             } else if let _ = secondBody.node as? StartingSmallBall, let _ = firstBody.node as? SkullBall {
-                print("contact between starter ball and skull")
             } else {
                 if firstBody.isDynamic == true {
-                    print("oh noooooooo")
                     handleDifferentColorCollision(newBody: firstBody, stuckBody: secondBody)
                 } else if secondBody.isDynamic == true {
-                    print("oh noooooooo")
                     handleDifferentColorCollision(newBody: secondBody, stuckBody: firstBody)
                 }
             }
@@ -507,7 +498,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // add 3 points to the skull's y position
             ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 3)
         } else if let ball = newBody.node as? SmallBall, game.endGameOnCircleCollision {
-            print("======> game over sequence")
             startGameOverSequence(newBall: ball)
         }
     }
@@ -557,7 +547,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.addSkull(toColumn: colNumber)
                             ball.fillColor = UIColor.clear
                             completion()
-                            self.run(SKAction.wait(forDuration: 1.2)) {
+                            ball.run(SKAction.wait(forDuration: 1.2)) {
                                 self.removeChildren(in: zapBalls)
                             }
                         }
@@ -612,11 +602,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             increaseScore(byValue: 1)
             let slot = getClosestOpenSlot(toPoint: contactPoint)
 
-            ball.stuck = true
-            ball.physicsBody?.isDynamic = false
-
             ball.position = slot.position
             slot.ball = ball
+            
+            ball.stuck = true
+            ball.physicsBody?.isDynamic = false
 
             checkForZaps(colNumber: slot.columnNumber) {
                 self.addBall()
@@ -629,7 +619,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func fadeBackgroundBackToWhite() {
-        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
+        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
     }
     
     func startGameOverSequence(newBall: SmallBall) {
@@ -863,7 +853,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         game.incrementBallType(type: ballType)
 
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
-        print("MAKING BALL OF DIAMETER:", game.smallDiameter / 2)
         newBall.fillColor = GameConstants.ballColors[rando]
         newBall.lineWidth = 0.0
         
@@ -923,15 +912,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func addBall() {
         if game.skulls < game.numberStartingBalls {
             let newBall = makeBall()
-            newBall.position = CGPoint(x: size.width / 2, y: size.height)
+            var yPos = size.height
+            var moveToY = size.height - (20 + (game.smallDiameter/2))
+            if (Settings.isIphoneX) {
+                // adjust these to adjust fall position on iphone x
+                yPos -= 35
+                moveToY -= 35
+            }
+
+            newBall.position = CGPoint(x: size.width / 2, y: yPos)
             newBall.inLine = true
             newBall.alpha = 0.4
-//            newBall.setScale(0.6)
 
             let fadeIn = SKAction.fadeIn(withDuration: 0.25)
-            let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: size.height - (20 + (game.smallDiameter/2))), duration: 0.25)
+            let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: moveToY), duration: 0.25)
             let popOut = SKAction.scale(to: 1.0, duration: 0.15)
-           // let fadeOut = SKAction.fadeOut(withDuration: 0.4)
             // create an action group to run simultaneous actions
             let actionGroup = SKAction.group([popOut, moveaction, fadeIn])
             newBall.run(actionGroup)

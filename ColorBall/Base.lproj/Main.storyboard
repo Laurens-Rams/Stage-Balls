@@ -116,20 +116,43 @@
                                 <color key="textColor" red="0.97555762079999997" green="0.97884279819999997" blue="0.95674671889999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Stage 999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
-                                <rect key="frame" x="185" y="64" width="170" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stage 999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
+                                <rect key="frame" x="272.33333333333331" y="62" width="82.666666666666686" height="24"/>
                                 <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="20"/>
                                 <color key="textColor" red="0.32534593343734741" green="0.32945013046264648" blue="0.3294142484664917" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9a-yu-z60">
+                                <rect key="frame" x="320" y="59" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="&gt;"/>
+                                <connections>
+                                    <action selector="goToNextStage:" destination="dts-TZ-53q" eventType="touchUpInside" id="lbi-mj-4A0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VL7-ie-tLK">
+                                <rect key="frame" x="234" y="59" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5aF-j4-ObC"/>
+                                    <constraint firstAttribute="width" constant="30" id="aoz-W1-bag"/>
+                                </constraints>
+                                <state key="normal" title="&lt;"/>
+                                <connections>
+                                    <action selector="goToLastStage:" destination="dts-TZ-53q" eventType="touchUpInside" id="Iif-gM-cDQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="NCH-hY-IBo" firstAttribute="top" secondItem="ijy-fd-OMl" secondAttribute="bottom" constant="20" id="9BN-vj-dJG"/>
+                            <constraint firstItem="NCH-hY-IBo" firstAttribute="leading" secondItem="VL7-ie-tLK" secondAttribute="trailing" constant="8.3333333333333144" id="51d-HK-BT5"/>
+                            <constraint firstItem="VL7-ie-tLK" firstAttribute="centerY" secondItem="NCH-hY-IBo" secondAttribute="centerY" id="7i4-p8-BOg"/>
+                            <constraint firstItem="NCH-hY-IBo" firstAttribute="top" secondItem="ijy-fd-OMl" secondAttribute="bottom" constant="18" id="9BN-vj-dJG"/>
                             <constraint firstAttribute="trailing" secondItem="NCH-hY-IBo" secondAttribute="trailing" constant="20" id="zmO-29-y4k"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="lastStageButton" destination="VL7-ie-tLK" id="n70-lf-0NI"/>
+                        <outlet property="nextStageButton" destination="L9a-yu-z60" id="5t7-A4-r2s"/>
                         <outlet property="showpoints" destination="INO-Ra-MFt" id="br0-cs-hji"/>
                         <outlet property="stageLabel" destination="NCH-hY-IBo" id="yI1-NP-i4d"/>
                     </connections>

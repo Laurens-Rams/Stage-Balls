@@ -152,10 +152,8 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
             
             if let ball = secondBody.node as? MenuBall{
                 if (ball.hasCollited == true){
-                    print("true")
                     return
                 }
-                print("false")
                 let pin = SKPhysicsJointFixed.joint(withBodyA: firstBody, bodyB: secondBody, anchor: contact.contactPoint)
                 physicsWorld.add(pin)
                 ball.hasCollited = true

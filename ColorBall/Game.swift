@@ -180,9 +180,8 @@ class Game {
     private var _skulls = 0
 
     init(startingStage: Int) {
-        _stage = 1
+        _stage = startingStage
         _colorSetIndex = randomColorSet()
-        print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
 
     /**
@@ -584,7 +583,10 @@ class Game {
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2
         }
-        print("increased stage to \(_stage)")
+    }
+    
+    func setStage(toStage: Int) {
+        _stage = toStage
     }
     
     /**
