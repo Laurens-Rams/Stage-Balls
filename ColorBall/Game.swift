@@ -178,13 +178,13 @@ class Game {
     private var _n = 0
     private var _m = 0
     private var _skulls = 0
-    
+
     init(startingStage: Int) {
-        _stage = 2
+        _stage = 25
         _colorSetIndex = randomColorSet()
         print("NUMBER STARTING BALLS:", numberStartingBalls)
     }
-    
+
     /**
      Generate a random integer between 0 and 3.
      - parameters:

@@ -238,7 +238,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let slot = BaseSlot(position: targetPosition, startPosition: startPosition, insidePosition: targetPosition, startRads: startRads, isStarter: true, distance: startDistance)
             slot.diameter = game.smallDiameter
             slot.columnNumber = i
-            
+
             let ball = makeStartBall(index: i)
             ball.stuck = false
             slot.setBall(ball: ball)
@@ -368,12 +368,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if firstBody.categoryBitMask == secondBody.categoryBitMask {
             if firstBody.isDynamic == true {
                 print("same color collision")
-                handleSameColorCollision(newBody: firstBody, stuckBody: secondBody)
-//                createExplosion(onBody: firstBody)
+                handleSameColorCollision(newBody: firstBody, stuckBody: secondBody, contactPoint: contact.contactPoint)
             } else if secondBody.isDynamic == true {
                 print("same color collision")
-                handleSameColorCollision(newBody: secondBody, stuckBody: firstBody)
-//                createExplosion(onBody: secondBody)
+                handleSameColorCollision(newBody: secondBody, stuckBody: firstBody, contactPoint: contact.contactPoint)
             }
         } else if firstBody.categoryBitMask != secondBody.categoryBitMask {
             if let _ = firstBody.node as? StartingSmallBall, let _ = secondBody.node as? SkullBall {
@@ -602,14 +600,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - newBody: The dynamic body.
         - stuckBody: The non-dynamic body.
      */
-    func handleSameColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
+    func handleSameColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody, contactPoint: CGPoint) {
         if let ball = newBody.node as? SmallBall {
             increaseScore(byValue: 1)
-            let slot = getClosestOpenSlot(toPoint: ball.position)
-            ball.position = slot.position
-            slot.ball = ball
+            let slot = getClosestOpenSlot(toPoint: contactPoint)
+
             ball.stuck = true
             ball.physicsBody?.isDynamic = false
+
+            ball.position = slot.position
+            slot.ball = ball
+
             checkForZaps(colNumber: slot.columnNumber) {
                 self.addBall()
             }
