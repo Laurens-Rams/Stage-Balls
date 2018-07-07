@@ -63,6 +63,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let invisible = SKTexture(image: #imageLiteral(resourceName: "randomimage"))
     
     var popPlayer: AVAudioPlayer?
+    
+    var volumeOn = false
 
     // MARK: lifecycle methods and overrides
     
@@ -87,8 +89,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        //     run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 2.0))
         //}
         //make a last backgroundColor
-        initPlayers()
-
         Circle.alpha = 1.0
         let action = SKAction.fadeIn(withDuration: 0)
         Circle.run(action)
@@ -110,17 +110,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(Circle)
         
         setupFirstFallTimer()
-    }
-    
-    func initPlayers() {
-        let popPath = Bundle.main.path(forResource: "pop.mp3", ofType: nil)!
-        let popUrl = URL(fileURLWithPath: popPath)
-
-        do {
-            self.popPlayer = try AVAudioPlayer(contentsOf: popUrl)
-        } catch {
-            // couldn't load file :(
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -539,7 +528,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // variable to count loop iterations
             var index = 0
             
-            playZapSound(iterations: game.slotsPerColumn - 1)
+            AudioManager.only.playZapSound(iterations: game.slotsPerColumn - 1)
 
             // loop through the array of balls we should be zapping
             for _ in zapBalls {
@@ -1013,22 +1002,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let rowMultiplier = CGFloat(ball.inContactWith.count) + 0.5
         let yPos = Circle.position.y + (game.playerDiameter / 2) + (game.smallDiameter * rowMultiplier)
         return CGPoint(x: xPos, y: yPos)
-    }
-    
-    func playZapSound(iterations: Int) {
-        let duration = 0.25
-        var iterationCount = 0
-
-        popPlayer?.play()
-
-        Timer.scheduledTimer(withTimeInterval: duration, repeats: true, block: { timer in
-            iterationCount += 1
-            if (iterationCount == iterations) {
-                self.popPlayer?.stop()
-                timer.invalidate()
-                self.popPlayer?.currentTime = 0
-            }
-        })
     }
     
     // []  |

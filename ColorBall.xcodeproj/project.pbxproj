@@ -31,6 +31,8 @@
 		0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */; };
 		A10B5B9C20F03D8C00C5F823 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10B5B9B20F03D8C00C5F823 /* GameKit.framework */; };
 		A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A10B5B9D20F0527D00C5F823 /* pop.mp3 */; };
+		A10B5BA020F05A3000C5F823 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B5B9F20F05A3000C5F823 /* AudioManager.swift */; };
+		A10B5BA220F05CFB00C5F823 /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A10B5BA120F05CFB00C5F823 /* click.mp3 */; };
 		A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC1E3200116F600A70204 /* StartupViewController.swift */; };
 		A12CC1E62001175500A70204 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CC1E52001175500A70204 /* MenuScene.swift */; };
 		A13F12641EF703F700A34B16 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F12631EF703F700A34B16 /* AppDelegate.swift */; };
@@ -103,6 +105,8 @@
 		589E72D0A762311BB94178FE /* Pods_ColorBallUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBallUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10B5B9B20F03D8C00C5F823 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		A10B5B9D20F0527D00C5F823 /* pop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop.mp3; sourceTree = "<group>"; };
+		A10B5B9F20F05A3000C5F823 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		A10B5BA120F05CFB00C5F823 /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
 		A12CC1E3200116F600A70204 /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		A12CC1E52001175500A70204 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		A13F12601EF703F700A34B16 /* ColorBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +199,7 @@
 			children = (
 				0DC020071F2035B3009A76F9 /* DataManager.swift */,
 				A15E83F71FF4702E00359FC8 /* PresentManager.swift */,
+				A10B5B9F20F05A3000C5F823 /* AudioManager.swift */,
 			);
 			name = Singletons;
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 		A15E83F31FF46CF500359FC8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				A10B5BA120F05CFB00C5F823 /* click.mp3 */,
 				A10B5B9D20F0527D00C5F823 /* pop.mp3 */,
 				0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */,
 				0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */,
@@ -491,6 +497,7 @@
 				A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */,
 				0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */,
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
+				A10B5BA220F05CFB00C5F823 /* click.mp3 in Resources */,
 				A13F126F1EF703F700A34B16 /* Main.storyboard in Resources */,
 				0D94CA8A200A6ADF00D6E3EA /* Face Off M54.ttf in Resources */,
 				0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */,
@@ -576,6 +583,7 @@
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
+				A10B5BA020F05A3000C5F823 /* AudioManager.swift in Sources */,
 				A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */,
 				0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */,
 				0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */,

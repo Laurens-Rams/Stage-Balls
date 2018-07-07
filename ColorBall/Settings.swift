@@ -16,6 +16,7 @@ struct Settings {
     static let CURRENT_STAGE_KEY = "CURRENT_STAGE"
     static let HIGH_SCORE_KEY = "HIGH_SCORE"
     static let LAST_AD_TIME = "LAST_AD_TIME"
+    static let VOLUME_ON_KEY = "VOLUME_ON_KEY"
     
     static var isIphoneX: Bool {
         get {

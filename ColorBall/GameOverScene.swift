@@ -78,6 +78,8 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
             print("touch")
             
             if let node = nodes(at: touch.location(in: self)).first {
+                AudioManager.only.playClickSound()
+
                 if node.name == "playButton" {
                     print("startgameagain")
                     postRestartNotification()

@@ -24,6 +24,7 @@ class PauseView: UIView {
     }
     
     @IBAction func unpauseAction(_ sender: AnyObject) {
+        AudioManager.only.playClickSound()
         disappear()
     }
 
@@ -33,6 +34,7 @@ class PauseView: UIView {
     }
     
     @IBAction func restartpressed(_ sender: AnyObject) {
+        AudioManager.only.playClickSound()
         delegate?.restartGame()
         self.removeFromSuperview()
 

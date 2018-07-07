@@ -321,6 +321,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @IBAction func menuAction(_ sender: Any) {
+        AudioManager.only.playClickSound()
         pauseGame()
     }
 }
