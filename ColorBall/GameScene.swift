@@ -602,8 +602,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             increaseScore(byValue: 1)
             let slot = getClosestOpenSlot(toPoint: contactPoint)
 
-            ball.position = slot.position
-            slot.ball = ball
+            // any position animations should be done here, before ball.position... and slot.ball....
+            
+            ball.position = slot.position // this sets the position strictly
+            slot.ball = ball // this will make that position update every frame
             
             ball.stuck = true
             ball.physicsBody?.isDynamic = false
