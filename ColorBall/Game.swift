@@ -129,11 +129,11 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.005
+    private var _speedMultiplier: Double = 0.001
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.02
+    private var _gravityMultiplier: Double = 0.004
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
@@ -471,12 +471,36 @@ class Game {
      Number of starting balls (read-only getter).
      */
     var numberStartingBalls: Int {
-        get {
-            let amountToAdd = _stage - 1
-            let newStart = _numberStartingBalls + amountToAdd
-            if newStart > 24 { return 24 }
-            return newStart
-        }
+//        get {
+//            let amountToAdd = _stage - 1
+//            let newStart = _numberStartingBalls + amountToAdd
+//            if newStart > 18 { return 18 }
+//            return newStart
+//        }
+            get {
+                if _stage < 13 {
+                let amountToAdd = _stage - 1
+                let newStart = _numberStartingBalls + amountToAdd // = 13
+                return newStart
+                    
+                }
+                else if _stage < 19 { return 14 } // = 14
+                else if _stage < 24 { return 15 } // 13-33 = 15
+                else if _stage < 29 { return 16} // 13-33 = 16
+                else if _stage < 34 { return 17 } // 13-33 = 17
+                else if _stage < 39 { return 18 } // 13-33 = 18
+                else if _stage < 44 { return 19 } // 34-53 = 19
+                else if _stage < 49 { return 20 } // 13-33 = 20
+                else if _stage < 54 { return 21 } // 54-63 = 21
+                else if _stage < 59 { return 22 } // 13-33 = 22
+                else if _stage < 64 { return 23 } // 54-63 = 23
+                else if _stage < 69 { return 24 } // 13-33 = 24
+                else if _stage < 74 { return 25 } // 13-33 = 24
+                else {
+                    return 25
+                }
+            }
+        
     }
     
     /**
@@ -523,14 +547,17 @@ class Game {
      */
     var slotsPerColumn: Int {
         get {
-            if _stage < 13 { return _slotsPerColumn }
-            else if _stage < 24 { return _slotsPerColumn + 1 }
-            else if _stage < 29 { return _slotsPerColumn + 2 }
+            if _stage < 13 { return _slotsPerColumn } // 1-12 = 2
+            else if _stage < 39 { return _slotsPerColumn + 1 } // 13-33 = 3
+            else if _stage < 59 { return _slotsPerColumn + 2 } // 34-53 = 4
+            else if _stage < 79 { return _slotsPerColumn + 3 } // 54-63 = 5
+            else if _stage < 99 { return _slotsPerColumn + 4 } // 54-63 = 6
             else {
-                let multiplesOfTwenty = Int(round(Double(_stage - 9) / 20))
-                let newSlots = _slotsPerColumn + 2 + multiplesOfTwenty
-                if newSlots > 5 { return 5 }
-                return newSlots
+//                let multiplesOfTwenty = Int(round(Double(_stage - 4) / 50)) // stage 54: 1 = 5
+//                let newSlots = _slotsPerColumn + 2 + multiplesOfTwenty
+//                if newSlots > 6 { return 5 }
+//                return newSlots
+                return 6
             }
         }
     }
@@ -557,9 +584,17 @@ class Game {
     var numberBallColors: Int {
         get {
             if _stage <= 24 { return _numberBallColors }
-            if _stage >= 84 { return 24 }
-            let numberToAdd = Int((_stage - 24) / 3)
-           return _numberBallColors + Int(numberToAdd)
+            else if _stage <= 34 { return _numberBallColors + 1 } // = 5
+            else if _stage <= 44 { return _numberBallColors + 2 } // = 6
+            else if _stage <= 54 { return _numberBallColors + 3 }
+            else if _stage <= 64 { return _numberBallColors + 4 }
+            else if _stage <= 74 { return _numberBallColors + 5 }
+            else if _stage <= 84 { return _numberBallColors + 6 }
+            else if _stage <= 94 { return _numberBallColors + 7 } // = 11
+            else if _stage <= 99 { return _numberBallColors + 8 } // = 18
+            else {
+                return 12
+            }
         }
     }
     

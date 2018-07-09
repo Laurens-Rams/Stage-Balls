@@ -42,11 +42,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     override func viewDidLoad() {
+        defaults.set(50, forKey: Settings.CURRENT_STAGE_KEY)
         interstitial = createAndLoadInterstitial()
         super.viewDidLoad()
         listenForNotifications()
         layoutUI()
-        
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
@@ -58,21 +58,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
             game = Game(startingStage: currentStage)
-        } else if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
-            game = Game(startingStage: highScore)
-            stageLabel.text = "STAGE \(highScore)"
-            defaults.set(highScore, forKey: Settings.CURRENT_STAGE_KEY)
-        } else {
+            print("updatedstage: ------------ \(currentStage)")
+        }else {
             // fallback to level 1 (first time players or after a reset)
             game = Game(startingStage: 1)
             defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }
-
         defaults.synchronize()
-
         camera = SKCameraNode()
-
         setupGame(animateBackground: false)
     }
 
@@ -104,6 +98,22 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     @objc func handleGameRestartRequest() {
         //background/ color also for this
+        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+            stageLabel.text = "STAGE \(currentStage)"
+            game = Game(startingStage: currentStage)
+            print("updatedstage: ------------ \(currentStage)")
+        }else {
+            // fallback to level 1 (first time players or after a reset)
+            game = Game(startingStage: 1)
+            defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
+            stageLabel.text = "STAGE 1"
+        }
+        defaults.synchronize()
+        
+        camera = SKCameraNode()
+        
+        setupGame(animateBackground: false)
+        
         stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         scene.removeAllChildren()
         scene.removeAllActions()
@@ -113,6 +123,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let _ = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false, block: { _ in
             self.gameOverController?.dismiss(animated: false) {
                 self.setupGame(animateBackground: true)
+                print("animate tooooo true")
             }
         })
     }
@@ -120,13 +131,16 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func setupGame(animateBackground: Bool) {
         setupScene()
         if (animateBackground) {
-            scene.setBackgroundToDark()
+            scene.fadeBackgroundBackToWhite()
+            print("daaaaaaaark")
+        }else{
+        scene.BackgroundBackToWhite()
         }
         setupCamera()
         setupUI()
         addPlayedGame()
         layoutAfterSetup()
-        scene.fadeBackgroundBackToWhite()
+        print("white")
     }
     
     func setupScene() {
@@ -134,6 +148,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.format = "%d"
         scoreLabel.method = .linear
         scoreLabel.countFrom(CGFloat(game.ballsRemaining), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
+        checkscorelabelsize()
         scene = GameScene(size: view.frame.size)
         scene.gameDelegate = self
         scene.scoreKeeper = self
@@ -166,13 +181,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scene.game.increaseScore(byValue: byValue)
         scoreLabel.text = scoreFormatter(score: scene.game.ballsRemaining)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
-        if scene.game.ballsRemaining < 100 {
+        checkscorelabelsize()
+    }
+    func checkscorelabelsize(){
+        if game.ballsRemaining < 100 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 140)
-        } else if scene.game.ballsRemaining < 1000 {
+        } else if game.ballsRemaining < 1000 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }
     }
-    
     func scoreFormatter(score: Int) -> String {
         return "\(score)"
     }

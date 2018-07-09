@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Face Off M54.ttf">
-            <string>FaceOffM54</string>
+        <array key="FaceOffM55-Regula.ttf">
+            <string>FaceOffM54-Regular</string>
+        </array>
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
         </array>
         <array key="Oregon-Regular.otf">
             <string>Oregon-Regular</string>
+        </array>
+        <array key="SinhalaSangamMN.ttc">
+            <string>SinhalaSangamMN-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -60,9 +66,9 @@
                                 <color key="textColor" red="0.97555762078273589" green="0.97884279821218267" blue="0.95674671885803975" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STAGE   999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcs-gc-tFs">
-                                <rect key="frame" x="261.66666666666669" y="64" width="93.333333333333314" height="24"/>
-                                <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STAGE   11" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcs-gc-tFs">
+                                <rect key="frame" x="264" y="64" width="86" height="24"/>
+                                <fontDescription key="fontDescription" name="FaceOffM54-Regular" family="Face Off M54" pointSize="20"/>
                                 <color key="textColor" red="0.32659663643376136" green="0.32983026649746194" blue="0.32983026649746194" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -82,7 +88,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="hcs-gc-tFs" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="20" id="G8X-gg-dWT"/>
-                            <constraint firstAttribute="trailing" secondItem="hcs-gc-tFs" secondAttribute="trailing" constant="20" id="U5j-Ya-rUs"/>
+                            <constraint firstAttribute="trailing" secondItem="hcs-gc-tFs" secondAttribute="trailing" constant="25" id="U5j-Ya-rUs"/>
                             <constraint firstItem="uwH-2j-QtW" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="8" id="ciR-3T-DXG"/>
                             <constraint firstItem="uwH-2j-QtW" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" constant="20" id="q7X-kY-W0m"/>
                         </constraints>
@@ -116,27 +122,28 @@
                                 <color key="textColor" red="0.97555762079999997" green="0.97884279819999997" blue="0.95674671889999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stage 999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
-                                <rect key="frame" x="272.33333333333331" y="62" width="82.666666666666686" height="24"/>
-                                <fontDescription key="fontDescription" name="FaceOffM54" family="Face Off M54" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stage 1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
+                                <rect key="frame" x="157" y="64" width="193" height="24"/>
+                                <fontDescription key="fontDescription" name="FaceOffM54-Regular" family="Face Off M54" pointSize="20"/>
                                 <color key="textColor" red="0.32534593343734741" green="0.32945013046264648" blue="0.3294142484664917" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9a-yu-z60">
-                                <rect key="frame" x="320" y="59" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="&gt;"/>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9a-yu-z60">
+                                <rect key="frame" x="350" y="66" width="24" height="20"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="33"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" red="0.61137902736663818" green="0.62361627817153931" blue="0.62358987331390381" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="goToNextStage:" destination="dts-TZ-53q" eventType="touchUpInside" id="lbi-mj-4A0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VL7-ie-tLK">
-                                <rect key="frame" x="234" y="59" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="5aF-j4-ObC"/>
-                                    <constraint firstAttribute="width" constant="30" id="aoz-W1-bag"/>
-                                </constraints>
-                                <state key="normal" title="&lt;"/>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VL7-ie-tLK">
+                                <rect key="frame" x="260" y="66" width="30" height="20"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="40"/>
+                                <state key="normal" title="-">
+                                    <color key="titleColor" red="0.61245349980093566" green="0.62470256979695438" blue="0.62470256979695438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="goToLastStage:" destination="dts-TZ-53q" eventType="touchUpInside" id="Iif-gM-cDQ"/>
                                 </connections>
@@ -144,10 +151,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="NCH-hY-IBo" firstAttribute="leading" secondItem="VL7-ie-tLK" secondAttribute="trailing" constant="8.3333333333333144" id="51d-HK-BT5"/>
-                            <constraint firstItem="VL7-ie-tLK" firstAttribute="centerY" secondItem="NCH-hY-IBo" secondAttribute="centerY" id="7i4-p8-BOg"/>
-                            <constraint firstItem="NCH-hY-IBo" firstAttribute="top" secondItem="ijy-fd-OMl" secondAttribute="bottom" constant="18" id="9BN-vj-dJG"/>
-                            <constraint firstAttribute="trailing" secondItem="NCH-hY-IBo" secondAttribute="trailing" constant="20" id="zmO-29-y4k"/>
+                            <constraint firstItem="NCH-hY-IBo" firstAttribute="leading" secondItem="VL7-ie-tLK" secondAttribute="trailing" constant="-127" id="83v-Jc-hBa"/>
+                            <constraint firstItem="NCH-hY-IBo" firstAttribute="top" secondItem="ijy-fd-OMl" secondAttribute="bottom" constant="20" id="9BN-vj-dJG"/>
+                            <constraint firstItem="L9a-yu-z60" firstAttribute="centerY" secondItem="NCH-hY-IBo" secondAttribute="centerY" id="B3W-Lv-EvC"/>
+                            <constraint firstItem="VL7-ie-tLK" firstAttribute="centerY" secondItem="NCH-hY-IBo" secondAttribute="centerY" id="GC8-V9-XJR"/>
+                            <constraint firstItem="L9a-yu-z60" firstAttribute="leading" secondItem="VL7-ie-tLK" secondAttribute="trailing" constant="60" id="KMK-tg-MOp"/>
+                            <constraint firstAttribute="trailing" secondItem="L9a-yu-z60" secondAttribute="trailing" constant="1" id="UTC-O2-dkh"/>
+                            <constraint firstAttribute="trailing" secondItem="NCH-hY-IBo" secondAttribute="trailing" constant="25" id="ljn-Hn-TT5"/>
                         </constraints>
                     </view>
                     <connections>
@@ -593,6 +603,6 @@
         <image name="watchVideo" width="362" height="239"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Uhh-wl-9Rq"/>
+        <segue reference="sEx-Nx-Xsa"/>
     </inferredMetricsTieBreakers>
 </document>
