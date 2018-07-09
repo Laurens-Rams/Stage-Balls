@@ -20,7 +20,7 @@ class AudioManager {
     var volume: Float = 1.0
 
     private init() {
-        let popPath = Bundle.main.path(forResource: "pop.mp3", ofType: nil)!
+        let popPath = Bundle.main.path(forResource: "pop1.mp3", ofType: nil)!
         let popUrl = URL(fileURLWithPath: popPath)
 
         let clickPath = Bundle.main.path(forResource: "click.mp3", ofType: nil)!
@@ -47,6 +47,8 @@ class AudioManager {
             } else {
                 volume = 0.0
             }
+        } else {
+            UserDefaults.standard.set(true, forKey: Settings.VOLUME_ON_KEY)
         }
         
         setVolumes()
@@ -91,18 +93,23 @@ class AudioManager {
     }
     
     func playZapSound(iterations: Int) {
-        let duration = 0.25
-        var iterationCount = 0
-        
-        popPlayer?.play()
-        
-        Timer.scheduledTimer(withTimeInterval: duration, repeats: true, block: { timer in
-            iterationCount += 1
-            if (iterationCount == iterations) {
-                self.popPlayer?.stop()
-                timer.invalidate()
-                self.popPlayer?.currentTime = 0
+        DispatchQueue.global().async {
+            var soundFile: String = "pop1.mp3"
+            if iterations == 2 {
+                soundFile = "pop2.mp3"
+            } else if iterations == 3 {
+                soundFile = "pop3.mp3"
+            } else if iterations == 4 {
+                soundFile = "pop4.mp3"
             }
-        })
+            let popPath = Bundle.main.path(forResource: soundFile, ofType: nil)!
+            let popUrl = URL(fileURLWithPath: popPath)
+            do {
+                self.popPlayer = try AVAudioPlayer(contentsOf: popUrl)
+                self.popPlayer?.play()
+            } catch {
+                return
+            }
+        }
     }
 }
