@@ -93,6 +93,10 @@ class AudioManager {
     }
     
     func playZapSound(iterations: Int) {
+        // playing the audio on a background thread seems to smooth things out quite a bit
+        // however, we loose access to the popPlayer methods when we move it into the background
+        // this means we can't count iterations and then call popPlayer.stop()-- the stop() call won't have any effect
+        // thus, instead, we have different sound files for the different numbers of pops
         DispatchQueue.global().async {
             var soundFile: String = "pop1.mp3"
             if iterations == 2 {

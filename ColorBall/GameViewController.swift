@@ -42,7 +42,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     override func viewDidLoad() {
-        defaults.set(50, forKey: Settings.CURRENT_STAGE_KEY)
+        // defaults.set(50, forKey: Settings.CURRENT_STAGE_KEY)
         interstitial = createAndLoadInterstitial()
         super.viewDidLoad()
         listenForNotifications()

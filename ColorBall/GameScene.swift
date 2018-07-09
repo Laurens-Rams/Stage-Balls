@@ -514,7 +514,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // variable to count loop iterations
             var index = 0
-            //AudioManager.only.playZapSound(iterations: game.slotsPerColumn - 1)
+            AudioManager.only.playZapSound(iterations: game.slotsPerColumn - 1)
 
             // loop through the array of balls we should be zapping
             for _ in zapBalls {
