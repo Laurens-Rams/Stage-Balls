@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:ColorBall.xcodeproj">
+      location = "group:/Users/Laurens/Design/SWIFT/laurens-colorball/ColorBall.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

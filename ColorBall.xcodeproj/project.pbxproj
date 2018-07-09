@@ -12,6 +12,8 @@
 		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
 		0D4AEB411F19285400568F11 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB401F19285400568F11 /* GameOver.swift */; };
 		0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB461F19641500568F11 /* AlternativStart.swift */; };
+		0D4E999920F1BBF800341E0F /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0D4E999820F1BBF800341E0F /* Oregon-Regular.otf */; };
+		0D4E999C20F1C1A700341E0F /* FaceOffM55-Regula.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */; };
 		0D54F0B720EA730C00BBBDBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D54F0B620EA730C00BBBDBB /* Assets.xcassets */; };
 		0D6E2E4020EEB86400F537C1 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D6E2E3F20EEB86400F537C1 /* StoreKit.framework */; };
 		0D81DD871F16C63100712F49 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D81DD861F16C63100712F49 /* StartViewController.swift */; };
@@ -19,7 +21,6 @@
 		0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0D91268A20EFF310009D3A8A /* sparkstagereverse2.sks */; };
 		0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */; };
 		0D94CA82200A53A200D6E3EA /* GameOverScene-old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */; };
-		0D94CA8A200A6ADF00D6E3EA /* Face Off M54.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */; };
 		0DC020051F203116009A76F9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0DC020041F203116009A76F9 /* Podfile */; };
 		0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC020071F2035B3009A76F9 /* DataManager.swift */; };
 		0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */; };
@@ -28,7 +29,6 @@
 		0DC48F321F1D7C7D00F1EA0B /* SmallBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */; };
 		0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */; };
 		0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */; };
-		0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */; };
 		A10B5B9C20F03D8C00C5F823 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A10B5B9B20F03D8C00C5F823 /* GameKit.framework */; };
 		A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A10B5B9D20F0527D00C5F823 /* pop.mp3 */; };
 		A10B5BA020F05A3000C5F823 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B5B9F20F05A3000C5F823 /* AudioManager.swift */; };
@@ -87,6 +87,8 @@
 		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		0D4AEB401F19285400568F11 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
+		0D4E999820F1BBF800341E0F /* Oregon-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Oregon-Regular.otf"; path = "../../../../Documents/Löschen/Oregon-Regular.otf"; sourceTree = "<group>"; };
+		0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaceOffM55-Regula.ttf"; sourceTree = "<group>"; };
 		0D54F0B620EA730C00BBBDBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D6E2E3F20EEB86400F537C1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0D81DD861F16C63100712F49 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +96,6 @@
 		0D91268A20EFF310009D3A8A /* sparkstagereverse2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = sparkstagereverse2.sks; sourceTree = "<group>"; };
 		0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewControllerNew.swift; sourceTree = "<group>"; };
 		0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameOverScene-old.swift"; sourceTree = "<group>"; };
-		0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Face Off M54.ttf"; sourceTree = "<group>"; };
 		0DC020041F203116009A76F9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		0DC020071F2035B3009A76F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartGameDelegate.swift; sourceTree = "<group>"; };
@@ -103,7 +104,6 @@
 		0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallBall.swift; sourceTree = "<group>"; };
 		0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCircle.swift; sourceTree = "<group>"; };
 		0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBallsFallingDown.swift; sourceTree = "<group>"; };
-		0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oregon-Regular.otf"; sourceTree = "<group>"; };
 		0F4C1CA45F72F2EFF3838654 /* Pods_ColorBall.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBall.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0A081C405A0F97EC6B2F5A /* Pods_ColorBallTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBallTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		589E72D0A762311BB94178FE /* Pods_ColorBallUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ColorBallUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -342,10 +342,10 @@
 		A15E83F31FF46CF500359FC8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */,
 				A10B5BA120F05CFB00C5F823 /* click.mp3 */,
 				A10B5B9D20F0527D00C5F823 /* pop.mp3 */,
-				0DFAE7591FFFB85900AF06C5 /* Oregon-Regular.otf */,
-				0D94CA89200A6ADE00D6E3EA /* Face Off M54.ttf */,
+				0D4E999820F1BBF800341E0F /* Oregon-Regular.otf */,
 				0D54F0B620EA730C00BBBDBB /* Assets.xcassets */,
 			);
 			name = Assets;
@@ -442,12 +442,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
-				ORGANIZATIONNAME = "Emily Kolar";
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Laurens Ramsenthaler";
 				TargetAttributes = {
 					A13F125F1EF703F700A34B16 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = B9452FEMTF;
+						DevelopmentTeam = J936S4T28E;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -507,13 +507,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */,
+				0D4E999C20F1C1A700341E0F /* FaceOffM55-Regula.ttf in Resources */,
 				A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */,
+				0D4E999920F1BBF800341E0F /* Oregon-Regular.otf in Resources */,
 				0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */,
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
 				A10B5BA220F05CFB00C5F823 /* click.mp3 in Resources */,
 				A13F126F1EF703F700A34B16 /* Main.storyboard in Resources */,
-				0D94CA8A200A6ADF00D6E3EA /* Face Off M54.ttf in Resources */,
-				0DFAE75A1FFFB85900AF06C5 /* Oregon-Regular.otf in Resources */,
 				A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */,
 				A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */,
 				0D91268820EFE337009D3A8A /* sparkstage.sks in Resources */,
@@ -686,7 +686,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -694,7 +696,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -736,7 +742,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -744,7 +752,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -776,7 +788,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B9452FEMTF;
+				DEVELOPMENT_TEAM = J936S4T28E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",
@@ -784,7 +796,7 @@
 				INFOPLIST_FILE = ColorBall/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emilykolar.BallTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RamsenthalerLaurens.StageBallz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -800,7 +812,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = B9452FEMTF;
+				DEVELOPMENT_TEAM = J936S4T28E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",
@@ -808,7 +820,7 @@
 				INFOPLIST_FILE = ColorBall/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emilykolar.BallTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RamsenthalerLaurens.StageBallz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;

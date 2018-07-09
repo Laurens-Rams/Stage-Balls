@@ -10,7 +10,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         gameCenterViewController.dismiss(animated: false, completion: nil)
     }
     
-    
+    var game: Game!
     var endingScore: Int = 0
     var endingStage: Int = 1
     let LEADERBOARD_ID = "stageid"
@@ -27,6 +27,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         super.viewDidLoad()
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+            
         }
         stageLabel.textColor = .white
         layoutUI()
@@ -61,18 +62,24 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
     
     func showHideStageButtons() {
+        if Int(scoreFormatter(score: endingScore))! < 100 {
+            showpoints.font = UIFont(name: "Oregon-Regular", size: 140)
+        } else if Int(scoreFormatter(score: endingScore))! < 1000 {
+            showpoints.font = UIFont(name: "Oregon-Regular", size: 95.0)
+        }
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             print("high score", highScore)
+            print("current stage", currentStage)
             if currentStage >= highScore {
                 nextStageButton.alpha = 0
                 nextStageButton.isUserInteractionEnabled = false
-                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 50).isActive = false
-                stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 20, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
+                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
+              // stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width + 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
             } else {
                 nextStageButton.alpha = 1
                 nextStageButton.isUserInteractionEnabled = true
-                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 50).isActive = true
-                stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
+                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
+                //stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
             }
             if currentStage <= 1 {
                 lastStageButton.alpha = 0

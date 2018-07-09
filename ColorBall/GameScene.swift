@@ -85,17 +85,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-       // if (game.stage == 84){
-       //     run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 2.0))
-        //}
         //make a last backgroundColor
         Circle.alpha = 1.0
         let action = SKAction.fadeIn(withDuration: 0)
         Circle.run(action)
-        backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
+        //backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        //run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
         isPaused = false
-        spinMultiplier = (19 / CGFloat(game.slotsOnCircle))
+        spinMultiplier = (18 / CGFloat(game.slotsOnCircle))
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
@@ -181,11 +178,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if isHolding {
                getCircleValues()
-               if (spinMultiplier < (19 / CGFloat(game.slotsOnCircle)) * 2.2) {
-                   spinMultiplier += 0.2
+               if (spinMultiplier < (18 / CGFloat(game.slotsOnCircle)) * 2.0) {
+                   spinMultiplier += 0.3
              }
             } else {
-               spinMultiplier = (19 / CGFloat(game.slotsOnCircle))
+               spinMultiplier = (18 / CGFloat(game.slotsOnCircle))
                isTouching = false
            }
         }
@@ -211,7 +208,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for ball in fallingBalls {
             if !ball.inLine && !ball.stuck {
                 let newX = ball.position.x
-                let newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
+                let newY = ball.position.y - (5.0 + CGFloat(game.gravityMultiplier))
                 ball.position = CGPoint(x: newX, y: newY)
             }
         }
@@ -223,7 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
         let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
-            self.addBall()
+           self.addBall()
             self.allowToMove = true
         })
     }
@@ -334,7 +331,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 1.2 * game.speedMultiplier
+        let interval = 0.9 * game.speedMultiplier
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             ball.inLine = false
@@ -517,8 +514,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // variable to count loop iterations
             var index = 0
-            
-            AudioManager.only.playZapSound(iterations: game.slotsPerColumn - 1)
+            //AudioManager.only.playZapSound(iterations: game.slotsPerColumn - 1)
 
             // loop through the array of balls we should be zapping
             for _ in zapBalls {
@@ -542,8 +538,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // - 3. call the completion handler after finishing
                 if (index == zapBalls.count) {
                     ball.run(waitnew) {
+                        self.createExplosion(onBall: ball)
                         ball.run(waitforskull) {
-                            self.createExplosion(onBall: ball)
                             self.addSkull(toColumn: colNumber)
                             ball.fillColor = UIColor.clear
                             completion()
@@ -621,7 +617,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func fadeBackgroundBackToWhite() {
-        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
+        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
+    }
+    func BackgroundBackToWhite() {
+        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.0))
     }
     
     func startGameOverSequence(newBall: SmallBall) {
