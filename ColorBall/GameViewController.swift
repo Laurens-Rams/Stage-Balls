@@ -43,7 +43,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     override func viewDidLoad() {
         // defaults.set(50, forKey: Settings.CURRENT_STAGE_KEY)
-        interstitial = createAndLoadInterstitial()
+        //ads
+        //      interstitial = createAndLoadInterstitial()
         super.viewDidLoad()
         listenForNotifications()
         layoutUI()
@@ -68,6 +69,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.synchronize()
         camera = SKCameraNode()
         setupGame(animateBackground: false)
+        layoutUI()
     }
 
     func createAndLoadInterstitial() -> GADInterstitial {
@@ -80,11 +82,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         interstitial.delegate = self
         return interstitial
     }
-    
-    func layoutUI() {
-        let startY = CGFloat((view.frame.height / 3) * 2) - (scoreLabel.frame.height / 2)
-        scoreLabel.frame = CGRect(x: 0, y: startY, width: scoreLabel.frame.width, height: scoreLabel.frame.height)
-    }
+
     
     func layoutAfterSetup() {
         view.bringSubview(toFront: menuBtn)
@@ -193,7 +191,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func scoreFormatter(score: Int) -> String {
         return "\(score)"
     }
-    
+    func layoutUI() {
+        let startY = CGFloat((view.frame.height / 3) * 2) - (scoreLabel.frame.height / 2)
+        let width = UIScreen.main.bounds.width
+        scoreLabel.frame = CGRect(x: 0, y: startY, width: width, height: scoreLabel.frame.height)
+    }
     func restartGame() {
         camera.removeFromParent()
         camera = SKCameraNode()
@@ -258,25 +260,27 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func handleAds() {
+//ads
         var shouldShowAds = false
         
-        if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
-            let now = Date().timeIntervalSince1970
-            print("=====> last ad time", now, lastAdTime, now - lastAdTime)
-            if now - lastAdTime >= 300 && scene.game.stage >= 13 && interstitial.isReady {
-                shouldShowAds = true
-            }
-        } else if scene.game.stage >= 13 {
-            print("====> no last ad time found")
-            shouldShowAds = true
-        }
+//        if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
+//            let now = Date().timeIntervalSince1970
+//            print("=====> last ad time", now, lastAdTime, now - lastAdTime)
+//            if now - lastAdTime >= 300 && scene.game.stage >= 13 && interstitial.isReady {
+//                shouldShowAds = true
+//            }
+//        } else if scene.game.stage >= 13 {
+//            print("====> no last ad time found")
+//            shouldShowAds = true
+//        }
         
-        if interstitial.isReady && shouldShowAds {
-            interstitial.present(fromRootViewController: self)
-            defaults.set(Date().timeIntervalSince1970, forKey: Settings.LAST_AD_TIME)
-            defaults.synchronize()
-        } else {
-            print("Ad wasn't ready")
+//        if interstitial.isReady && shouldShowAds {
+//shows ads
+//            interstitial.present(fromRootViewController: self)
+//            defaults.set(Date().timeIntervalSince1970, forKey: Settings.LAST_AD_TIME)
+//            defaults.synchronize()
+//        } else {
+//            print("Ad wasn't ready")
             if adsShowGameOver {
                 AudioManager.only.playGameOverSOund()
                 adsShowGameOver = false
@@ -286,7 +290,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 adsShowNextStage = false
                 startNextStage()
             }
-        }
+//        }
     }
     
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {

@@ -62,7 +62,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     var scoreKeeper: GameScoreDelegate?
     var gameDelegate: StartGameDelegate?
     
-    let numberOfMenuBalls = 5
+    let numberOfMenuBalls = 4
     var index = 0
     var contactsMade = 0
     
@@ -109,8 +109,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(Circle)
         addChild(CircleImage)
-        
-      //  self.addBall()
+        self.addBall()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -143,13 +142,15 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             break
         case .volume:
             print("volume")
+            AudioManager.only.toggleVolume()
             break
         case .rate:
             print("rate")
             del?.ratePressed()
             break
-        case .like:
-            print("like")
+        case .share:
+            print("share")
+            del?.sharePressed()
             break
         case .noads:
             print("noads")
@@ -158,11 +159,12 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             print("start")
             del?.launchGame()
             break
-        case .share:
-            print("share")
+        case .like:
+            print("like")
             break
         }
     }
+    
     
     // MARK: custom update, animation, and movement methods
     
@@ -255,8 +257,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        if firstBody.categoryBitMask == PhysicsCategory.circleBall || secondBody.categoryBitMask == PhysicsCategory.circleBall {
+        if firstBody.categoryBitMask == PhysicsCategory.circleBall {
             handleLargeCollisionWith(newBody: secondBody)
+        } else if secondBody.categoryBitMask == PhysicsCategory.circleBall {
+            handleLargeCollisionWith(newBody: firstBody)
+            
         }
     }
     
@@ -273,6 +278,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             if index < numberOfMenuBalls {
                 getCircleValues()
                 self.addBall()
+                
             } else {
                 allowToMove = true
                 forceUpdate = false

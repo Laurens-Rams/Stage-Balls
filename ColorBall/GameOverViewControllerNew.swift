@@ -122,7 +122,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     // MARK: - AUTHENTICATE LOCAL PL
     func layoutUI() {
         let startY = CGFloat((view.frame.height / 3) * 2) - (showpoints.frame.height / 2)
-        showpoints.frame = CGRect(x: 0, y: startY, width: showpoints.frame.width, height: showpoints.frame.height)
+        let width = UIScreen.main.bounds.width
+        showpoints.frame = CGRect(x: 0, y: startY, width: width, height: showpoints.frame.height)
     }
 
     
@@ -178,6 +179,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         gcVC.viewState = .leaderboards
         gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
         self.present(gcVC, animated: true, completion: nil)
+        print("also in del")
 }
 
 }

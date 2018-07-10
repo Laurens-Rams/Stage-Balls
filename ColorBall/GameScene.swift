@@ -514,7 +514,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // variable to count loop iterations
             var index = 0
-            AudioManager.only.playZapSound(iterations: game.slotsPerColumn - 1)
 
             // loop through the array of balls we should be zapping
             for _ in zapBalls {
@@ -556,6 +555,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ball.run(wait) {
                         if let nextBall = zapBalls.filter({ !$0.falling }).last {
                             nextBall.falling = true
+                            AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
                         }
                         ball.fillColor = UIColor.clear
                     }

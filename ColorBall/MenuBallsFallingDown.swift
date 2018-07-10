@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 enum MenuOptionType: Int {
-    case gameCenter = 0, volume, rate, like, noads, share, start
+    case gameCenter = 0, volume, rate, share, noads, like, start
 }
 
 class MenuBall: SKSpriteNode {

@@ -30,9 +30,9 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         "gameCenter",
         "volume",
         "rate",
-        "like",
+        "share",
         "noads",
-        "share"
+        "like"
     ]
     
     // TODO: implement a hit test for the "buttons"
@@ -90,13 +90,13 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                 }else if node.name == "rate" {
                     print("rate")
                     del?.ratePressed()
-                }else if node.name == "like" {
-                    print("like")
-                }else if node.name == "noads" {
-                    print("no ads")
                 }else if node.name == "share" {
                     print("share")
                     del?.sharePressed()
+                }else if node.name == "noads" {
+                    print("no ads")
+                }else if node.name == "like" {
+                    print("like")
                 }
                 AudioManager.only.playClickSound()
         }
@@ -107,6 +107,8 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
             if !volumeOn {
                 // set image to volume off
+                
+                
             } else {
                 // set image to volume on
             }
@@ -115,11 +117,11 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         var balls = [StartingSmallBall]();
 
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: 360 / CGFloat(6))
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(4))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
-        let startDistance: CGFloat = 135.0
+        let startDistance: CGFloat = ((0.55 * GameConstants.screenWidth) / 2) + (GameConstants.screenWidth * GameConstants.startingBallScale * 0.5) + 6
         
-        for i in 0..<6 {
+        for i in 0..<4 {
             print(i)
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x

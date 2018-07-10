@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BF61F202333008C04DB /* GameScoreDelegate.swift */; };
 		0D245BFC1F202DE2008C04DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Item.swift */; };
+		0D34DBE720F523110073E795 /* pop1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBE620F523110073E795 /* pop1.mp3 */; };
+		0D34DBEB20F5233F0073E795 /* pop2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBE820F5233F0073E795 /* pop2.mp3 */; };
+		0D34DBEC20F5233F0073E795 /* pop3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBE920F5233F0073E795 /* pop3.mp3 */; };
+		0D34DBED20F5233F0073E795 /* pop4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBEA20F5233F0073E795 /* pop4.mp3 */; };
 		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
 		0D4AEB411F19285400568F11 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB401F19285400568F11 /* GameOver.swift */; };
 		0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB461F19641500568F11 /* AlternativStart.swift */; };
@@ -50,10 +54,6 @@
 		A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */; };
 		A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83FB1FF4832C00359FC8 /* Settings.swift */; };
 		A16D697C20F3F4B8008E3771 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A16D697B20F3F4B8008E3771 /* Oregon-Regular.otf */; };
-		A16D697E20F3F513008E3771 /* pop1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A16D697D20F3F513008E3771 /* pop1.mp3 */; };
-		A16D698020F3F523008E3771 /* pop2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A16D697F20F3F523008E3771 /* pop2.mp3 */; };
-		A16D698220F3F529008E3771 /* pop3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A16D698120F3F529008E3771 /* pop3.mp3 */; };
-		A16D698420F3F52F008E3771 /* pop4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A16D698320F3F52F008E3771 /* pop4.mp3 */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
 		A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A19625EA20F07DB800F43718 /* NextStageButton.xib */; };
 		A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A19625EC20F07DE300F43718 /* LastStageButton.xib */; };
@@ -88,6 +88,10 @@
 /* Begin PBXFileReference section */
 		0D245BF61F202333008C04DB /* GameScoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreDelegate.swift; sourceTree = "<group>"; };
 		0D245BFB1F202DE2008C04DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		0D34DBE620F523110073E795 /* pop1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop1.mp3; path = ../../../../Downloads/pop1.mp3; sourceTree = "<group>"; };
+		0D34DBE820F5233F0073E795 /* pop2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop2.mp3; path = ../../../../Downloads/pop2.mp3; sourceTree = "<group>"; };
+		0D34DBE920F5233F0073E795 /* pop3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop3.mp3; path = ../../../../Downloads/pop3.mp3; sourceTree = "<group>"; };
+		0D34DBEA20F5233F0073E795 /* pop4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop4.mp3; path = ../../../../Downloads/pop4.mp3; sourceTree = "<group>"; };
 		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		0D4AEB401F19285400568F11 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
@@ -138,10 +142,6 @@
 		A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRepeatingTimer.swift; sourceTree = "<group>"; };
 		A15E83FB1FF4832C00359FC8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		A16D697B20F3F4B8008E3771 /* Oregon-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oregon-Regular.otf"; sourceTree = "<group>"; };
-		A16D697D20F3F513008E3771 /* pop1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop1.mp3; path = ../../Desktop/pop1.mp3; sourceTree = "<group>"; };
-		A16D697F20F3F523008E3771 /* pop2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop2.mp3; path = ../../Desktop/pop2.mp3; sourceTree = "<group>"; };
-		A16D698120F3F529008E3771 /* pop3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop3.mp3; path = ../../Desktop/pop3.mp3; sourceTree = "<group>"; };
-		A16D698320F3F52F008E3771 /* pop4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop4.mp3; path = ../../Desktop/pop4.mp3; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A19625EA20F07DB800F43718 /* NextStageButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NextStageButton.xib; sourceTree = "<group>"; };
 		A19625EC20F07DE300F43718 /* LastStageButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LastStageButton.xib; sourceTree = "<group>"; };
@@ -350,10 +350,10 @@
 		A15E83F31FF46CF500359FC8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				A16D698320F3F52F008E3771 /* pop4.mp3 */,
-				A16D698120F3F529008E3771 /* pop3.mp3 */,
-				A16D697F20F3F523008E3771 /* pop2.mp3 */,
-				A16D697D20F3F513008E3771 /* pop1.mp3 */,
+				0D34DBE820F5233F0073E795 /* pop2.mp3 */,
+				0D34DBE920F5233F0073E795 /* pop3.mp3 */,
+				0D34DBEA20F5233F0073E795 /* pop4.mp3 */,
+				0D34DBE620F523110073E795 /* pop1.mp3 */,
 				0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */,
 				A10B5BA120F05CFB00C5F823 /* click.mp3 */,
 				A10B5B9D20F0527D00C5F823 /* pop.mp3 */,
@@ -520,22 +520,22 @@
 			files = (
 				A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */,
 				0D4E999C20F1C1A700341E0F /* FaceOffM55-Regula.ttf in Resources */,
-				A16D698220F3F529008E3771 /* pop3.mp3 in Resources */,
 				A16D697C20F3F4B8008E3771 /* Oregon-Regular.otf in Resources */,
+				0D34DBEC20F5233F0073E795 /* pop3.mp3 in Resources */,
 				A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */,
 				0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */,
+				0D34DBE720F523110073E795 /* pop1.mp3 in Resources */,
+				0D34DBED20F5233F0073E795 /* pop4.mp3 in Resources */,
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
-				A16D697E20F3F513008E3771 /* pop1.mp3 in Resources */,
 				A10B5BA220F05CFB00C5F823 /* click.mp3 in Resources */,
 				A13F126F1EF703F700A34B16 /* Main.storyboard in Resources */,
+				0D34DBEB20F5233F0073E795 /* pop2.mp3 in Resources */,
 				A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */,
 				A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */,
 				0D91268820EFE337009D3A8A /* sparkstage.sks in Resources */,
 				0DC48F301F1D388900F1EA0B /* GoogleService-Info.plist in Resources */,
 				0D54F0B720EA730C00BBBDBB /* Assets.xcassets in Resources */,
-				A16D698020F3F523008E3771 /* pop2.mp3 in Resources */,
 				A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */,
-				A16D698420F3F52F008E3771 /* pop4.mp3 in Resources */,
 				A1989F9F20E969D200218FAE /* Spark.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

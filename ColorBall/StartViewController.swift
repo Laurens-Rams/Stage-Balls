@@ -4,11 +4,7 @@ import SpriteKit
 import GameplayKit
 import GameKit
 
-class StartViewController: UIViewController, GKGameCenterControllerDelegate, StartSceneDelegate {
-    func gameCenterPressed() {
-        
-    }
-    
+class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterControllerDelegate {
     
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: false, completion: nil)
@@ -20,7 +16,7 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
     deinit {
         print("start view controller deinit")
     }
-
+    let defaults = UserDefaults.standard
     @IBOutlet var moneyLabel: UILabel!
     
     var scene: MenuScene!
@@ -147,10 +143,21 @@ class StartViewController: UIViewController, GKGameCenterControllerDelegate, Sta
         }
         UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
+    
     func sharePressed() {
-        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! My best score is 23. Can you beat my score? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! Im at Stage \(String(describing: defaults.object(forKey: Settings.HIGH_SCORE_KEY))) Can you beat my Stage? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true, completion: nil)
+    }
+    
+    
+    func gameCenterPressed() {
+        let gcVC = GKGameCenterViewController()
+        gcVC.gameCenterDelegate = self
+        gcVC.viewState = .leaderboards
+        gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
+        self.present(gcVC, animated: true, completion: nil)
+        print("also in del")
     }
 
 }
