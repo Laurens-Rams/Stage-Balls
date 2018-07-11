@@ -6,7 +6,6 @@ target 'ColorBall' do
   use_frameworks!
 
   # Pods for ColorBall
-
   pod 'RealmSwift'
   pod 'EFCountingLabel'
   pod 'Google-Mobile-Ads-SDK'

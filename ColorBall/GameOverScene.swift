@@ -86,6 +86,9 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                     del?.gameCenterPressed()
                 }else if node.name == "volume" {
                     print("volume")
+                    if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
+                        setVolumeTexture(volumeOn: volumeOn)
+                    }
                     AudioManager.only.toggleVolume()
                 }else if node.name == "rate" {
                     print("rate")
@@ -104,26 +107,18 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setVolumeTexture(volumeOn: Bool) {
-        let volumeofftexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
-        let volumeontexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
         if volumeOn {
-            if let volumeNode = childNode(withName: "volume") {
-//              volumeNode.fillTexture = volumeontexture
+            if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
+              volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
             }
-        } else {
-            
+        } else if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
+            volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
         }
     }
 
     func setupBalls() {
         if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
-            if !volumeOn {
-                // set image to volume off
-                
-                
-            } else {
-                // set image to volume on
-            }
+        setVolumeTexture(volumeOn: volumeOn)
         }
 
         var balls = [StartingSmallBall]();

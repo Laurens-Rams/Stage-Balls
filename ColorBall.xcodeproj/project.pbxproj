@@ -88,6 +88,11 @@
 /* Begin PBXFileReference section */
 		0D245BF61F202333008C04DB /* GameScoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreDelegate.swift; sourceTree = "<group>"; };
 		0D245BFB1F202DE2008C04DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		0D34DBEE20F59EA00073E795 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		0D34DBF020F59EA60073E795 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		0D34DBF220F59EA90073E795 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		0D34DBF420F59EAF0073E795 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0D34DBF620F59FCF0073E795 /* GameAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameAnalytics.framework; path = "Pods/GA-SDK-IOS/GameAnalytics.framework"; sourceTree = "<group>"; };
 		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		0D4AEB401F19285400568F11 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
@@ -201,6 +206,11 @@
 		0D81DD881F17190900712F49 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D34DBF620F59FCF0073E795 /* GameAnalytics.framework */,
+				0D34DBF420F59EAF0073E795 /* SystemConfiguration.framework */,
+				0D34DBF220F59EA90073E795 /* libz.tbd */,
+				0D34DBF020F59EA60073E795 /* libsqlite3.tbd */,
+				0D34DBEE20F59EA00073E795 /* AdSupport.framework */,
 				A10B5B9B20F03D8C00C5F823 /* GameKit.framework */,
 				0D6E2E3F20EEB86400F537C1 /* StoreKit.framework */,
 				0F4C1CA45F72F2EFF3838654 /* Pods_ColorBall.framework */,
@@ -808,13 +818,19 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",
+					"$(PROJECT_DIR)/Pods/GA-SDK-IOS",
 				);
 				INFOPLIST_FILE = ColorBall/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ColorBall",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RamsenthalerLaurens.StageBallz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -832,13 +848,19 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ColorBall",
+					"$(PROJECT_DIR)/Pods/GA-SDK-IOS",
 				);
 				INFOPLIST_FILE = ColorBall/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ColorBall",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.RamsenthalerLaurens.StageBallz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

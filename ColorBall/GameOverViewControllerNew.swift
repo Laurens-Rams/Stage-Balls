@@ -167,9 +167,12 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
 
     func sharePressed() {
-        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! Im at Stage \(String(describing: defaults.object(forKey: Settings.HIGH_SCORE_KEY))) Can you beat my Stage? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = self.view
-        self.present(activityVC, animated: true, completion: nil)
+        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
+            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! Im at Stage \(highScore) Can you beat my Stage? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = self.view
+            self.present(activityVC, animated: true, completion: nil)
+        }
+        
     }
 
     

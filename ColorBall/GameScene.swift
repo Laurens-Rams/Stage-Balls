@@ -542,6 +542,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         ball.run(waitforskull) {
                             self.addSkull(toColumn: colNumber)
                             ball.fillColor = UIColor.clear
+                            ball.strokeColor = UIColor.clear
                             completion()
                             ball.run(SKAction.wait(forDuration: 1.2)) {
                                 self.removeChildren(in: zapBalls)
@@ -559,6 +560,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
                         }
                         ball.fillColor = UIColor.clear
+                        ball.strokeColor = UIColor.clear
                     }
                 }
             }
@@ -794,9 +796,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // set the fill color to our random color
         newBall.fillColor = GameConstants.ballColors[rando]
         // don't fill the outline
-        newBall.lineWidth = 0.0
-
-        let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
+        let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2) + 0.4)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
@@ -808,7 +808,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.isDynamic = false
         newBall.physicsBody = body
         newBall.colorType = ballType
-    
+
+        newBall.lineWidth = 0.1
+        newBall.lineCap = CGLineCap(rawValue: 1)!
+        newBall.strokeColor = GameConstants.ballColors[rando]
+        newBall.isAntialiased = true
+        
         return newBall
     }
     
@@ -853,12 +858,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         game.incrementBallType(type: ballType)
-
+        
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
         newBall.fillColor = GameConstants.ballColors[rando]
-        newBall.lineWidth = 0.0
-        
-        let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
+        newBall.isAntialiased = false
+        newBall.strokeColor = GameConstants.ballColors[rando]
+        let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2) + 0.4)
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
@@ -875,6 +880,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        self.run(waitfordis) {
 //            newBall.fillTexture = self.invisible
 //        }
+        newBall.lineWidth = 0.1
+        newBall.lineCap = CGLineCap(rawValue: 1)!
+        newBall.strokeColor = GameConstants.ballColors[rando]
+        newBall.isAntialiased = true
         return newBall
     }
     
