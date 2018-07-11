@@ -504,6 +504,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         if getFirstOpenSlot(slotList: colSlots) == nil {
             game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
+            
 
             // map the column's slots to an array of the balls they contain
             let zapBalls = colSlots.map({ $0.ball! })

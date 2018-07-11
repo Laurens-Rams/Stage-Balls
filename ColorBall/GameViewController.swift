@@ -93,7 +93,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func listenForNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleGameRestartRequest), name: Notification.Name(rawValue: "gameRestartRequested"), object: nil)
     }
-    
+
     @objc func handleGameRestartRequest() {
         //background/ color also for this
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
@@ -109,9 +109,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.synchronize()
         
         camera = SKCameraNode()
-        
-        setupGame(animateBackground: false)
-        
+       
         stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         scene.removeAllChildren()
         scene.removeAllActions()
@@ -127,12 +125,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setupGame(animateBackground: Bool) {
-        setupScene()
+        setupScene(setToWhite: !animateBackground)
         if (animateBackground) {
             scene.fadeBackgroundBackToWhite()
             print("daaaaaaaark")
-        }else{
-        scene.BackgroundBackToWhite()
         }
         setupCamera()
         setupUI()
@@ -141,13 +137,18 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         print("white")
     }
     
-    func setupScene() {
+    func setupScene(setToWhite: Bool) {
       //  scoreLabel.text = "\(game.numberBallsInQueue)"
         scoreLabel.format = "%d"
         scoreLabel.method = .linear
         scoreLabel.countFrom(CGFloat(game.ballsRemaining), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
         checkscorelabelsize()
         scene = GameScene(size: view.frame.size)
+        if (setToWhite) {
+            scene.backgroundColor = UIColor.white
+        } else {
+//            scene.backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+        }
         scene.gameDelegate = self
         scene.scoreKeeper = self
         skView = view as! SKView
@@ -340,7 +341,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY)
         defaults.synchronize()
         stageLabel.text = "STAGE \(game.stage)"
-        restartGame()
+        camera.removeFromParent()
+        camera = SKCameraNode()
+        setupGame(animateBackground: false)
     }
     
     func showaltmenu() {

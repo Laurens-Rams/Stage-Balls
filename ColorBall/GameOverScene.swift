@@ -102,6 +102,18 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     }
+    
+    func setVolumeTexture(volumeOn: Bool) {
+        let volumeofftexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
+        let volumeontexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
+        if volumeOn {
+            if let volumeNode = childNode(withName: "volume") {
+//              volumeNode.fillTexture = volumeontexture
+            }
+        } else {
+            
+        }
+    }
 
     func setupBalls() {
         if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {

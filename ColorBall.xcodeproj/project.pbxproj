@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BF61F202333008C04DB /* GameScoreDelegate.swift */; };
 		0D245BFC1F202DE2008C04DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Item.swift */; };
-		0D34DBE720F523110073E795 /* pop1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBE620F523110073E795 /* pop1.mp3 */; };
-		0D34DBEB20F5233F0073E795 /* pop2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBE820F5233F0073E795 /* pop2.mp3 */; };
-		0D34DBEC20F5233F0073E795 /* pop3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBE920F5233F0073E795 /* pop3.mp3 */; };
-		0D34DBED20F5233F0073E795 /* pop4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D34DBEA20F5233F0073E795 /* pop4.mp3 */; };
 		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
 		0D4AEB411F19285400568F11 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB401F19285400568F11 /* GameOver.swift */; };
 		0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB461F19641500568F11 /* AlternativStart.swift */; };
@@ -60,6 +56,10 @@
 		A19625EF20F07E1E00F43718 /* NextStageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19625EE20F07E1E00F43718 /* NextStageButton.swift */; };
 		A19625F120F07E4400F43718 /* LastStageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19625F020F07E4400F43718 /* LastStageButton.swift */; };
 		A1989F9F20E969D200218FAE /* Spark.sks in Resources */ = {isa = PBXBuildFile; fileRef = A1989F9E20E969D100218FAE /* Spark.sks */; };
+		A198EB0120F57750004AB462 /* pop3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A198EAFD20F57750004AB462 /* pop3.mp3 */; };
+		A198EB0220F57750004AB462 /* pop2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A198EAFE20F57750004AB462 /* pop2.mp3 */; };
+		A198EB0320F57750004AB462 /* pop1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A198EAFF20F57750004AB462 /* pop1.mp3 */; };
+		A198EB0420F57750004AB462 /* pop4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A198EB0020F57750004AB462 /* pop4.mp3 */; };
 		A1A088312013C0C400A15983 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A088302013C0C400A15983 /* GameOverScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
@@ -88,10 +88,6 @@
 /* Begin PBXFileReference section */
 		0D245BF61F202333008C04DB /* GameScoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreDelegate.swift; sourceTree = "<group>"; };
 		0D245BFB1F202DE2008C04DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		0D34DBE620F523110073E795 /* pop1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop1.mp3; path = ../../../../Downloads/pop1.mp3; sourceTree = "<group>"; };
-		0D34DBE820F5233F0073E795 /* pop2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop2.mp3; path = ../../../../Downloads/pop2.mp3; sourceTree = "<group>"; };
-		0D34DBE920F5233F0073E795 /* pop3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop3.mp3; path = ../../../../Downloads/pop3.mp3; sourceTree = "<group>"; };
-		0D34DBEA20F5233F0073E795 /* pop4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = pop4.mp3; path = ../../../../Downloads/pop4.mp3; sourceTree = "<group>"; };
 		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		0D4AEB401F19285400568F11 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
@@ -148,6 +144,10 @@
 		A19625EE20F07E1E00F43718 /* NextStageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextStageButton.swift; sourceTree = "<group>"; };
 		A19625F020F07E4400F43718 /* LastStageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastStageButton.swift; sourceTree = "<group>"; };
 		A1989F9E20E969D100218FAE /* Spark.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Spark.sks; sourceTree = "<group>"; };
+		A198EAFD20F57750004AB462 /* pop3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop3.mp3; sourceTree = "<group>"; };
+		A198EAFE20F57750004AB462 /* pop2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop2.mp3; sourceTree = "<group>"; };
+		A198EAFF20F57750004AB462 /* pop1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop1.mp3; sourceTree = "<group>"; };
+		A198EB0020F57750004AB462 /* pop4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop4.mp3; sourceTree = "<group>"; };
 		A1A088302013C0C400A15983 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
@@ -350,10 +350,10 @@
 		A15E83F31FF46CF500359FC8 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				0D34DBE820F5233F0073E795 /* pop2.mp3 */,
-				0D34DBE920F5233F0073E795 /* pop3.mp3 */,
-				0D34DBEA20F5233F0073E795 /* pop4.mp3 */,
-				0D34DBE620F523110073E795 /* pop1.mp3 */,
+				A198EAFF20F57750004AB462 /* pop1.mp3 */,
+				A198EAFE20F57750004AB462 /* pop2.mp3 */,
+				A198EAFD20F57750004AB462 /* pop3.mp3 */,
+				A198EB0020F57750004AB462 /* pop4.mp3 */,
 				0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */,
 				A10B5BA120F05CFB00C5F823 /* click.mp3 */,
 				A10B5B9D20F0527D00C5F823 /* pop.mp3 */,
@@ -521,19 +521,19 @@
 				A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */,
 				0D4E999C20F1C1A700341E0F /* FaceOffM55-Regula.ttf in Resources */,
 				A16D697C20F3F4B8008E3771 /* Oregon-Regular.otf in Resources */,
-				0D34DBEC20F5233F0073E795 /* pop3.mp3 in Resources */,
 				A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */,
 				0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */,
-				0D34DBE720F523110073E795 /* pop1.mp3 in Resources */,
-				0D34DBED20F5233F0073E795 /* pop4.mp3 in Resources */,
+				A198EB0420F57750004AB462 /* pop4.mp3 in Resources */,
 				0DC020051F203116009A76F9 /* Podfile in Resources */,
 				A10B5BA220F05CFB00C5F823 /* click.mp3 in Resources */,
 				A13F126F1EF703F700A34B16 /* Main.storyboard in Resources */,
-				0D34DBEB20F5233F0073E795 /* pop2.mp3 in Resources */,
+				A198EB0220F57750004AB462 /* pop2.mp3 in Resources */,
+				A198EB0320F57750004AB462 /* pop1.mp3 in Resources */,
 				A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */,
 				A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */,
 				0D91268820EFE337009D3A8A /* sparkstage.sks in Resources */,
 				0DC48F301F1D388900F1EA0B /* GoogleService-Info.plist in Resources */,
+				A198EB0120F57750004AB462 /* pop3.mp3 in Resources */,
 				0D54F0B720EA730C00BBBDBB /* Assets.xcassets in Resources */,
 				A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */,
 				A1989F9F20E969D200218FAE /* Spark.sks in Resources */,
