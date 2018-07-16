@@ -10,6 +10,7 @@ import Foundation
 import Darwin
 import SpriteKit
 import AVFoundation
+import AudioToolbox
 
 // TODOS:
 // - column snap top ball and/or distance calc points to columns - 1
@@ -50,6 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // TODO: trim one of these though:
     var allowToMove = false
     var canMove = false
+    var canpresspause = true
 
     // game loop update values
     var lastUpdateTime: TimeInterval = 0
@@ -92,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
         //run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
         isPaused = false
-        spinMultiplier = (18 / CGFloat(game.slotsOnCircle))
+        spinMultiplier = (20 / CGFloat(game.slotsOnCircle))
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
@@ -142,7 +144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupPlayerCircle() {
         let startX = CGFloat((size.width / 2))
-        let startY = CGFloat((size.height / 3))
+        let startY = CGFloat((size.height / 3.5))
         let startpos = CGPoint(x: startX, y: startY)
 
         Circle.position = startpos
@@ -178,11 +180,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if isHolding {
                getCircleValues()
-               if (spinMultiplier < (18 / CGFloat(game.slotsOnCircle)) * 2.0) {
+               if (spinMultiplier < (20 / CGFloat(game.slotsOnCircle)) * 2.0) {
                    spinMultiplier += 0.3
              }
             } else {
-               spinMultiplier = (18 / CGFloat(game.slotsOnCircle))
+               spinMultiplier = (20 / CGFloat(game.slotsOnCircle))
                isTouching = false
            }
         }
@@ -219,11 +221,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
+        self.allowToMove = true
         let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
            self.addBall()
-            self.allowToMove = true
+            self.gameDelegate?.tapleftright()
+            
         })
     }
+
     
     func setupSlots() {
         // the radians to separate each starting ball by, when placing around the ring
@@ -252,7 +257,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             slots.append(slot)
             
             for j in 0..<game.slotsPerColumn - 1 {
-                let updatedDistance = startDistance + (game.smallDiameter * CGFloat(j + 1))
+                let updatedDistance = startDistance + (game.smallDiameter + 1) * CGFloat(j + 1)
                 let slotX = (updatedDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
                 let slotY = (updatedDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
                 let slotPos = CGPoint(x: slotX, y: slotY)
@@ -331,7 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 0.9 * game.speedMultiplier
+        let interval = 1.0 * game.speedMultiplier
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             ball.inLine = false
@@ -413,7 +418,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
             let ball = ball as? SmallBall,
             let thisExplosion = explosion.copy() as? SKEmitterNode {
-            let explosiony = size.width / 3 + game.playerDiameter + game.smallDiameter / 2
+            let explosiony = size.height / 3.5 + (game.playerDiameter / 2) + (game.smallDiameter / 2)
             let point = CGPoint(x: size.width / 2, y: explosiony)
             thisExplosion.position = point
             let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
@@ -426,7 +431,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let explosionPath = Bundle.main.path(forResource: "sparkstage", ofType: "sks"),
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
             let thisExplosion = explosion.copy() as? SKEmitterNode {
-            let point = CGPoint(x: size.width / 2, y: size.height / 3)
+            let point = CGPoint(x: size.width / 2, y: size.height / 3.5)
             thisExplosion.particleSize = CGSize(width: game.playerDiameter, height: game.playerDiameter)
             thisExplosion.position = point
             addChild(thisExplosion)
@@ -557,7 +562,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ball.run(wait) {
                         if let nextBall = zapBalls.filter({ !$0.falling }).last {
                             nextBall.falling = true
-                            AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
+                            //AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
                         }
                         ball.fillColor = UIColor.clear
                         ball.strokeColor = UIColor.clear
@@ -603,7 +608,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // any position animations should be done here, before ball.position... and slot.ball....
             
-            ball.position = slot.position // this sets the position strictly
+            ball.position = slot.position// this sets the position strictly
             slot.ball = ball // this will make that position update every frame
             
             ball.stuck = true
@@ -627,7 +632,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startGameOverSequence(newBall: SmallBall) {
+        self.gameDelegate?.gameoverplayscore()
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+        let wait = SKAction.wait(forDuration: 0.2)
+        self.run(wait) {
+        generator.impactOccurred()
+        }
         allowToMove = false
         canMove = false
         newBall.stuck = true
@@ -637,7 +649,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // create the camera zoom action
         let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.09)
         let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.09)
-
+        
         camera?.run(SKAction.sequence([
             shakeLeft,
             shakeRight,
@@ -648,7 +660,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shakeRight,
             shakeLeft
         ]))
-
         // start the timer
         UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.ring.alpha = 0.0
@@ -796,7 +807,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // set the fill color to our random color
         newBall.fillColor = GameConstants.ballColors[rando]
         // don't fill the outline
-        let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2) + 0.4)
+        let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2))
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
@@ -863,7 +874,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.fillColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = false
         newBall.strokeColor = GameConstants.ballColors[rando]
-        let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2) + 0.4)
+        let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2))
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
@@ -900,7 +911,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         newBall.colorType = .skull
 
-        let body = SKPhysicsBody(circleOfRadius: game.smallDiameter / 2)
+        let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2))
         body.categoryBitMask = PhysicsCategory.skullBall
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
         body.restitution = 0

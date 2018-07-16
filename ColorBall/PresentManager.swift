@@ -76,7 +76,7 @@ class PresentManager {
         - numberOfPresents: Number of presents to give.
      */
     private func _givePresents(numberOfPresents: Int) {
-        print(numberOfPresents)
+        // print(numberOfPresents)
     }
 
     /**

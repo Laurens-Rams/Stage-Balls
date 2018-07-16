@@ -8,7 +8,7 @@ import GoogleMobileAds
 //Command
 class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewDelegate {
     deinit {
-        print("game over view controller deinit")
+        // print("game over view controller deinit")
     }
     
     @IBOutlet var playedLabel: UILabel!
@@ -93,16 +93,16 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
                 
                 // Get the default leaderboard ID
                 localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
-                    if let err = error { print(err.localizedDescription)
+                    if let err = error { // print(err.localizedDescription)
                     } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
                 })
                 
             } else {
                 // 3. Game center is not enabled on the users device
                 self.gcEnabled = false
-                print("Local player could not be authenticated!")
+                // print("Local player could not be authenticated!")
                 if let err = error {
-                    print(err.localizedDescription)
+                    // print(err.localizedDescription)
                 }
             }
         }
@@ -114,9 +114,9 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
         bestScoreInt.value = Int64(score)
         GKScore.report([bestScoreInt]) { (error) in
             if error != nil {
-                print(error!.localizedDescription)
+                // print(error!.localizedDescription)
             } else {
-                print("Best Score submitted to your Leaderboard!")
+                // print("Best Score submitted to your Leaderboard!")
             }
         }
         //open leadboard

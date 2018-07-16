@@ -89,7 +89,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         let startX = CGFloat((size.width / 2))
-        let startY = CGFloat((size.height / 3))
+        let startY = CGFloat((size.height / 3.5))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
         Circle.alpha = 0.0
@@ -119,11 +119,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     // hit test
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            print("touch")
+            // print("touch")
             if isTouching {
                 if let node = nodes(at: touch.location(in: self)).first {
                     if node.name == "playButton" {
-                        print("start ball")
+                        // print("start ball")
                         handleMenuClick(option: .start)
                     } else if let menuNode = node as? StartMenuBall {
                         handleMenuClick(option: menuNode.optionType)
@@ -137,34 +137,48 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     func handleMenuClick(option: MenuOptionType) {
         switch option {
         case .gameCenter:
-            print("game center")
+            // print("game center")
             del?.gameCenterPressed()
             break
         case .volume:
-            print("volume")
-            AudioManager.only.toggleVolume()
+            // print("volume")
+            
+            if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
+                setVolumeTexture(volumeOn: volumeOn)
+            }
+            //AudioManager.only.toggleVolume()
             break
         case .rate:
-            print("rate")
+            // print("rate")
             del?.ratePressed()
             break
         case .share:
-            print("share")
+            // print("share")
             del?.sharePressed()
             break
         case .noads:
-            print("noads")
+            // print("noads")
             break
         case .start:
-            print("start")
+            // print("start")
             del?.launchGame()
             break
         case .like:
-            print("like")
+            // print("like")
             break
         }
     }
-    
+    func setVolumeTexture(volumeOn: Bool) {
+        if volumeOn {
+            if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
+                volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
+                // print("on")
+            }
+        } else if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
+            volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
+            // print("off")
+        }
+    }
     
     // MARK: custom update, animation, and movement methods
     
@@ -272,7 +286,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
      */
     func handleLargeCollisionWith(newBody: SKPhysicsBody) {
         if let ball = newBody.node as? StartMenuBall {
-            print("contact between circle and small ball")
+            // print("contact between circle and small ball")
             getBallValues(ball: ball)
             contactsMade += 1
             if index < numberOfMenuBalls {

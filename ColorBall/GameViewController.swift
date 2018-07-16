@@ -10,6 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import EFCountingLabel
+import Firebase
 //ADS
 import GoogleMobileAds
 
@@ -20,10 +21,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     @IBOutlet var settingButton: UIButton!
 
     @IBOutlet var scoreLabel: EFCountingLabel!
+    @IBOutlet var tapRight: UIButton!
+    @IBOutlet var tapLeft: UIButton!
     
     @IBOutlet var menuBtn: UIButton!
     @IBOutlet weak var stageLabel: UILabel!
-    
+
     var scene: GameScene!
     var skView: SKView!
     var camera: SKCameraNode!
@@ -40,12 +43,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+    func gameoverplayscore(){
+        
+    }
     override func viewDidLoad() {
-        // defaults.set(50, forKey: Settings.CURRENT_STAGE_KEY)
         //ads
         //      interstitial = createAndLoadInterstitial()
         super.viewDidLoad()
+        setcurrentStage()
         listenForNotifications()
         layoutUI()
         if Settings.isIphoneX {
@@ -59,7 +64,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
             game = Game(startingStage: currentStage)
-            print("updatedstage: ------------ \(currentStage)")
+            // print("updatedstage: ------------ \(currentStage)")
         }else {
             // fallback to level 1 (first time players or after a reset)
             game = Game(startingStage: 1)
@@ -69,9 +74,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.synchronize()
         camera = SKCameraNode()
         setupGame(animateBackground: false)
-        layoutUI()
     }
-
+    func setcurrentStage(){
+        Analytics.logEvent("highest_stage", parameters: [
+            "stage": defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int
+        ])
+    }
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
         // interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7915824718")
@@ -88,6 +96,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         view.bringSubview(toFront: menuBtn)
         view.layer.zPosition = 0
         menuBtn.layer.zPosition = 2
+        
     }
     
     func listenForNotifications() {
@@ -99,7 +108,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
             game = Game(startingStage: currentStage)
-            print("updatedstage: ------------ \(currentStage)")
+            // print("updatedstage: ------------ \(currentStage)")
         }else {
             // fallback to level 1 (first time players or after a reset)
             game = Game(startingStage: 1)
@@ -119,7 +128,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let _ = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false, block: { _ in
             self.gameOverController?.dismiss(animated: false) {
                 self.setupGame(animateBackground: true)
-                print("animate tooooo true")
+                // print("animate tooooo true")
             }
         })
     }
@@ -128,13 +137,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         setupScene(setToWhite: !animateBackground)
         if (animateBackground) {
             scene.fadeBackgroundBackToWhite()
-            print("daaaaaaaark")
+            // print("daaaaaaaark")
         }
         setupCamera()
         setupUI()
         addPlayedGame()
         layoutAfterSetup()
-        print("white")
+        // print("white")
     }
     
     func setupScene(setToWhite: Bool) {
@@ -160,6 +169,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
         scene.game = game
         skView.presentScene(scene)
+        
     }
     
     func setupCamera() {
@@ -170,6 +180,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func setupUI() {
         menuBtn.isEnabled = true
+        
     }
     
     func addPlayedGame() {
@@ -193,7 +204,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         return "\(score)"
     }
     func layoutUI() {
-        let startY = CGFloat((view.frame.height / 3) * 2) - (scoreLabel.frame.height / 2)
+        let startY = CGFloat((view.frame.height / 2.8) * 2) - (scoreLabel.frame.height / 2)
         let width = UIScreen.main.bounds.width
         scoreLabel.frame = CGRect(x: 0, y: startY, width: width, height: scoreLabel.frame.height)
     }
@@ -208,12 +219,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scene.isPaused = true
         scene.canMove = false
         scene.allowToMove = false
+        scene.canpresspause = false
         scene.fallTimer?.invalidate()
         let pauseView = PauseView.instanceFromNib() as! PauseView
         pauseView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         pauseView.delegate = self
         self.view.addSubview(pauseView)
-        let startY = CGFloat((view.frame.height / 3) * 2) - (pauseView.playButton.frame.height / 2) - 2
+        let startY = CGFloat((view.frame.height / 2.8) * 2) - (pauseView.playButton.frame.height / 2) - 2
         let startX = CGFloat(view.frame.width / 2 - pauseView.playButton.frame.width / 2) - 2
         let size = UIScreen.main.bounds.size.width * 0.55
         pauseView.playButton.frame = CGRect(x: startX, y: startY, width: size, height: size)
@@ -237,11 +249,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 self.scene.fallTimer?.fire()
                 self.scoreLabel.textColor = UIColor.white
                 self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
+                self.scene.canpresspause = true
             }
         })
     }
 
     func gameover() {
+            let playspergame = defaults.integer(forKey: Settings.PLAYS_PER_GAME)
+            defaults.set(playspergame + 1, forKey: Settings.PLAYS_PER_GAME)
+            print("print", playspergame)
         // save the high score if we just set it!
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
             if game.stage > highScore {
@@ -250,7 +266,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         } else {
             defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY)
         }
-
         adsShowGameOver = true
 
         handleAds()
@@ -262,16 +277,16 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func handleAds() {
 //ads
-        var shouldShowAds = false
+        //var shouldShowAds = false
         
 //        if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
 //            let now = Date().timeIntervalSince1970
-//            print("=====> last ad time", now, lastAdTime, now - lastAdTime)
+//            // print("=====> last ad time", now, lastAdTime, now - lastAdTime)
 //            if now - lastAdTime >= 300 && scene.game.stage >= 13 && interstitial.isReady {
 //                shouldShowAds = true
 //            }
 //        } else if scene.game.stage >= 13 {
-//            print("====> no last ad time found")
+//            // print("====> no last ad time found")
 //            shouldShowAds = true
 //        }
         
@@ -281,45 +296,58 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 //            defaults.set(Date().timeIntervalSince1970, forKey: Settings.LAST_AD_TIME)
 //            defaults.synchronize()
 //        } else {
-//            print("Ad wasn't ready")
+//            // print("Ad wasn't ready")
             if adsShowGameOver {
-                AudioManager.only.playGameOverSOund()
+                //AudioManager.only.playGameOverSOund()
                 adsShowGameOver = false
                 showGameOverViewController()
             } else if adsShowNextStage {
-                AudioManager.only.playNextStageSound()
+                //AudioManager.only.playNextStageSound()
                 adsShowNextStage = false
                 startNextStage()
             }
 //        }
     }
     
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-        print("interstitialDidDismissScreen")
-        interstitial = createAndLoadInterstitial()
-        if adsShowGameOver {
-            AudioManager.only.playGameOverSOund()
-            showGameOverViewController()
-            adsShowGameOver = false
-        } else if adsShowNextStage {
-            AudioManager.only.playNextStageSound()
-            startNextStage()
-            adsShowNextStage = false
-        }
-        
-    }
+//    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+//        // print("interstitialDidDismissScreen")
+//        interstitial = createAndLoadInterstitial()
+//        if adsShowGameOver {
+//            AudioManager.only.playGameOverSOund()
+//            showGameOverViewController()
+//            adsShowGameOver = false
+//        } else if adsShowNextStage {
+//            AudioManager.only.playNextStageSound()
+//            startNextStage()
+//            adsShowNextStage = false
+//        }
+//
+//    }
 
     func gameoverdesign() {
-        print("gameoverdesin")
+        // print("gameoverdesin")
         UIView.animate(withDuration: 0.4, delay: 0.0, animations: {
             self.stageLabel.textColor = UIColor.white
         }, completion: nil)
     }
     func scorelabelalpha() {
         scoreLabel.alpha = 0.0
-        print("again")
+        // print("again")
+    }
+    func tapleftright(){
+        UIView.animate(withDuration: 0.5, delay: 2.5, options: .curveEaseIn, animations: {
+            self.tapLeft.alpha = 0.0
+            self.tapRight.alpha = 0.0
+        }) { (finished) in
+            print("finish")
+        }
     }
     func handleNextStage() {
+        Analytics.logEvent("played_nextstage", parameters: [
+            "stage": defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int,
+            "played": defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int
+        ])
+        defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
         UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
             self.scoreLabel.alpha = 1.0
         }, completion: nil)
@@ -360,7 +388,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @IBAction func menuAction(_ sender: Any) {
-        AudioManager.only.playClickSound()
-        pauseGame()
+        //AudioManager.only.playClickSound()
+        if scene.canpresspause {
+            pauseGame()
+        }else{
+            print("no pause")
+        }
+        
     }
 }

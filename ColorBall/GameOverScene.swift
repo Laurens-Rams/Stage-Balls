@@ -45,7 +45,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         let startX = CGFloat((size.width / 2))
-        let startY = CGFloat((size.height / 3))
+        let startY = CGFloat((size.height / 3.5))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
         Circle.size = CGSize(width: circleDiameter, height: circleDiameter)
@@ -75,34 +75,41 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
     // hit test
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            print("touch")
+            // print("touch")
             
             if let node = nodes(at: touch.location(in: self)).first {
                 if node.name == "playButton" {
-                    print("startgameagain")
+                    // print("startgameagain")
                     postRestartNotification()
+                    node.removeAllChildren()
+                    node.removeFromParent()
+
                 } else if node.name == "gameCenter" {
-                    print("gameCenter")
+                    // print("gameCenter")
                     del?.gameCenterPressed()
                 }else if node.name == "volume" {
-                    print("volume")
+                    // print("volume")
                     if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
                         setVolumeTexture(volumeOn: volumeOn)
                     }
-                    AudioManager.only.toggleVolume()
+
+                    //AudioManager.only.toggleVolume()
                 }else if node.name == "rate" {
-                    print("rate")
+                    // print("rate")
                     del?.ratePressed()
                 }else if node.name == "share" {
-                    print("share")
+                    // print("share")
                     del?.sharePressed()
                 }else if node.name == "noads" {
-                    print("no ads")
+                    // print("no ads")
                 }else if node.name == "like" {
-                    print("like")
+                    // print("like")
                 }
-                AudioManager.only.playClickSound()
-        }
+                //AudioManager.only.playClickSound()
+            }else{
+                    postRestartNotification()
+
+            }
     }
     }
     
@@ -117,6 +124,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupBalls() {
+        
         if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
         setVolumeTexture(volumeOn: volumeOn)
         }
@@ -129,7 +137,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         let startDistance: CGFloat = ((0.55 * GameConstants.screenWidth) / 2) + (GameConstants.screenWidth * GameConstants.startingBallScale * 0.5) + 6
         
         for i in 0..<4 {
-            print(i)
+            // print(i)
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
             let newY = (startDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
@@ -145,7 +153,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
             ball.startDistance = startDistance
             balls.append(ball);
             
-            print(ball.colorType)
+            // print(ball.colorType)
 
             addChild(ball)
         }
@@ -166,7 +174,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
             ball.stuck = true
         })
     }
-    
+
     /**
      Create a ball to appear at the beginning of the level.
      - parameters:

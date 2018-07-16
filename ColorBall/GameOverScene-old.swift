@@ -86,7 +86,7 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         let startX = CGFloat((size.width / 2))
-        let startY = CGFloat((size.height / 3))
+        let startY = CGFloat((size.height / 3.5))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
         Circle.size = CGSize(width: 200.0, height: 200.0)
@@ -110,11 +110,11 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            print("touch")
+            // print("touch")
             
             if let node = nodes(at: touch.location(in: self)).first {
                 if node.name == "playButton" {
-                    print("start ball")
+                    // print("start ball")
                     handleMenuClick(option: .start)
                 } else if let menuNode = node as? StartMenuBall {
                     handleMenuClick(option: menuNode.optionType)
@@ -126,26 +126,26 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
     func handleMenuClick(option: MenuOptionType) {
         switch option {
         case .gameCenter:
-            print("game center")
+            // print("game center")
             break
         case .volume:
-            print("volume")
+            // print("volume")
             
             break
         case .rate:
-            print("rate")
+            // print("rate")
             break
         case .like:
-            print("shop")
+            // print("shop")
             break
         case .noads:
-            print("noads")
+            // print("noads")
             break
         case .share:
-            print("noads")
+            // print("noads")
             break
         case .start:
-            print("start")
+            // print("start")
             del?.launchGame()
             break
         }
@@ -254,7 +254,7 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
      */
     func handleLargeCollisionWith(newBody: SKPhysicsBody) {
         if let ball = newBody.node as? StartMenuBall {
-            print("contact between circle and small ball")
+            // print("contact between circle and small ball")
             getBallValues(ball: ball)
             contactsMade += 1
             if index < numberOfMenuBalls {

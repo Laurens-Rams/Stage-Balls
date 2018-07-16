@@ -19,6 +19,7 @@ class AudioManager {
 
     var volume: Float = 1.0
 
+    
     private init() {
         let popPath = Bundle.main.path(forResource: "pop1.mp3", ofType: nil)!
         let popUrl = URL(fileURLWithPath: popPath)
@@ -29,16 +30,18 @@ class AudioManager {
         let nextStagePath = Bundle.main.path(forResource: "click.mp3", ofType: nil)!
         let nextStageUrl = URL(fileURLWithPath: nextStagePath)
         
-        let gameOverPath = Bundle.main.path(forResource: "pop.mp3", ofType: nil)!
+        let gameOverPath = Bundle.main.path(forResource: "lose.mp3", ofType: nil)!
         let gameOverUrl = URL(fileURLWithPath: gameOverPath)
         
         do {
+            try AVAudioSession.sharedInstance().setActive(true)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
             popPlayer = try AVAudioPlayer(contentsOf: popUrl)
             clickPlayer = try AVAudioPlayer(contentsOf: clickUrl)
             nextStagePlayer = try AVAudioPlayer(contentsOf: nextStageUrl)
             gameOverPlayer = try AVAudioPlayer(contentsOf: gameOverUrl)
         } catch let err {
-            print(err.localizedDescription)
+            // print(err.localizedDescription)
         }
         
         if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
@@ -100,11 +103,14 @@ class AudioManager {
         DispatchQueue.global().async {
             var soundFile: String = "pop1.mp3"
             if iterations == 2 {
-                soundFile = "pop2.mp3"
+                //soundFile = "pop2.mp3"
+                return
             } else if iterations == 3 {
-                soundFile = "pop3.mp3"
+                //soundFile = "pop3.mp3"
+                return
             } else if iterations == 4 {
-                soundFile = "pop4.mp3"
+                //soundFile = "pop4.mp3"
+                return
             }
             let popPath = Bundle.main.path(forResource: soundFile, ofType: nil)!
             let popUrl = URL(fileURLWithPath: popPath)

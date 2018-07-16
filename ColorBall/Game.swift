@@ -34,16 +34,6 @@ struct GameConstants {
     static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
     
     static let ballColors: [UIColor] = [
-//        UIColor(red: 48/255, green: 153/255, blue: 232/255, alpha: 1.0),
-//        UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
-//        UIColor(red: 63/255, green: 139/255, blue: 138/255, alpha: 1.0),
-//        UIColor(red: 223/255, green: 175/255, blue: 71/255, alpha: 1.0),
-//        UIColor(red: 124/255, green: 45/255, blue: 243/255, alpha: 1.0),
-//        UIColor(red: 117/255, green: 228/255, blue: 179/255, alpha: 1.0),
-//        UIColor(red: 255/255, green: 00/255, blue: 00/255, alpha: 1.0),
-//        UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
-        
-
  //1
  UIColor(red: 255/255, green: 141/255, blue: 193/255, alpha: 1.0),
  //2
@@ -53,47 +43,50 @@ struct GameConstants {
  //4
  UIColor(red: 5/255, green: 153/255, blue: 149/255, alpha: 1.0),
  //5
- UIColor(red: 45/255, green: 222/255, blue: 252/255, alpha: 1.0),
+ UIColor(red: 112/255, green: 32/255, blue: 132/255, alpha: 1.0),
  //6
- UIColor(red: 116/255, green: 97/255, blue: 194/255, alpha: 1.0),
- //7
- UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0),
- //8
- UIColor(red: 57/255, green: 247/255, blue: 134/255, alpha: 1.0),
- 
- // UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0), --> hard one
- //9
- UIColor(red: 247/255, green: 117/255, blue: 132/255, alpha: 1.0),
- //10
- UIColor(red: 214/255, green: 98/255, blue: 19/255, alpha: 1.0),
- //11
- UIColor(red: 166/255, green: 196/255, blue: 70/255, alpha: 1.0),
- //12
- UIColor(red: 179/255, green: 50/255, blue: 201/255, alpha: 1.0),
- //13
- UIColor(red: 154/255, green: 172/255, blue: 211/255, alpha: 1.0),
- //14
- UIColor(red: 29/255, green: 77/255, blue: 104/255, alpha: 1.0),
- //15
- UIColor(red: 0/255, green: 104/255, blue: 255/255, alpha: 1.0),
- //16
- UIColor(red: 255/255, green: 221/255, blue: 51/255, alpha: 1.0),
- //17
- UIColor(red: 93/255, green: 69/255, blue: 53/255, alpha: 1.0),
- //18
- UIColor(red: 100/255, green: 24/255, blue: 119/255, alpha: 1.0),
- //19
  UIColor(red: 239/255, green: 221/255, blue: 182/255, alpha: 1.0),
- //20
- UIColor(red: 137/255, green: 46/255, blue: 44/255, alpha: 1.0),
- //21
- UIColor(red: 100/255, green: 109/255, blue: 108/255, alpha: 1.0),
- //22
- UIColor(red: 175/255, green: 150/255, blue: 133/255, alpha: 1.0),
- //23
- UIColor(red: 239/255, green: 96/255, blue: 113/255, alpha: 1.0),
- //24
- UIColor(red: 224/255, green: 30/255, blue: 58/255, alpha: 1.0),
+ //7
+ UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
+ //8
+ UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0),
+ 
+ 
+ //9
+ UIColor(red: 232/255, green: 21/255, blue: 62/255, alpha: 1.0),
+ //10
+ UIColor(red: 57/255, green: 247/255, blue: 134/255, alpha: 1.0),
+
+        
+        
+// //11
+// UIColor(red: 166/255, green: 196/255, blue: 70/255, alpha: 1.0),
+// //12
+// UIColor(red: 179/255, green: 50/255, blue: 201/255, alpha: 1.0),
+// //13
+// UIColor(red: 154/255, green: 172/255, blue: 211/255, alpha: 1.0),
+// //14
+// UIColor(red: 29/255, green: 77/255, blue: 104/255, alpha: 1.0),
+// //15
+// UIColor(red: 0/255, green: 104/255, blue: 255/255, alpha: 1.0),
+// //16
+// UIColor(red: 255/255, green: 221/255, blue: 51/255, alpha: 1.0),
+// //17
+// UIColor(red: 93/255, green: 69/255, blue: 53/255, alpha: 1.0),
+// //18
+// UIColor(red: 100/255, green: 24/255, blue: 119/255, alpha: 1.0),
+// //19
+// UIColor(red: 239/255, green: 221/255, blue: 182/255, alpha: 1.0),
+// //20
+// UIColor(red: 137/255, green: 46/255, blue: 44/255, alpha: 1.0),
+// //21
+// UIColor(red: 100/255, green: 109/255, blue: 108/255, alpha: 1.0),
+// //22
+// UIColor(red: 175/255, green: 150/255, blue: 133/255, alpha: 1.0),
+// //23
+// UIColor(red: 239/255, green: 96/255, blue: 113/255, alpha: 1.0),
+// //24
+// UIColor(red: 224/255, green: 30/255, blue: 58/255, alpha: 1.0),
 
     ]
     
@@ -129,7 +122,7 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.001
+    private var _speedMultiplier: Double = 0.002
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
@@ -586,14 +579,14 @@ class Game {
             if _stage <= 24 { return _numberBallColors }
             else if _stage <= 34 { return _numberBallColors + 1 } // = 5
             else if _stage <= 44 { return _numberBallColors + 2 } // = 6
-            else if _stage <= 54 { return _numberBallColors + 3 }
-            else if _stage <= 64 { return _numberBallColors + 4 }
-            else if _stage <= 74 { return _numberBallColors + 5 }
-            else if _stage <= 84 { return _numberBallColors + 6 }
-            else if _stage <= 94 { return _numberBallColors + 7 } // = 11
-            else if _stage <= 99 { return _numberBallColors + 8 } // = 18
+            else if _stage <= 54 { return _numberBallColors + 2 }
+            else if _stage <= 64 { return _numberBallColors + 2 }
+            else if _stage <= 74 { return _numberBallColors + 3 }
+            else if _stage <= 84 { return _numberBallColors + 3 }
+            else if _stage <= 94 { return _numberBallColors + 4 } // = 8
+            else if _stage <= 99 { return _numberBallColors + 5 } // = 9
             else {
-                return 12
+                return 10
             }
         }
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D0925A620FAB25D007064BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0D0925A520FAB25C007064BF /* GoogleService-Info.plist */; };
 		0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BF61F202333008C04DB /* GameScoreDelegate.swift */; };
 		0D245BFC1F202DE2008C04DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Item.swift */; };
 		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
@@ -20,11 +21,11 @@
 		0D91268B20EFF471009D3A8A /* sparkstagereverse2.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0D91268A20EFF310009D3A8A /* sparkstagereverse2.sks */; };
 		0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */; };
 		0D94CA82200A53A200D6E3EA /* GameOverScene-old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */; };
+		0D987BC920F8501000A91D78 /* lose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D987BC820F8501000A91D78 /* lose.mp3 */; };
 		0DC020051F203116009A76F9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0DC020041F203116009A76F9 /* Podfile */; };
 		0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC020071F2035B3009A76F9 /* DataManager.swift */; };
 		0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */; };
 		0DC48F2E1F1D386400F1EA0B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC48F2D1F1D386400F1EA0B /* GoogleMobileAds.framework */; };
-		0DC48F301F1D388900F1EA0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0DC48F2F1F1D388900F1EA0B /* GoogleService-Info.plist */; };
 		0DC48F321F1D7C7D00F1EA0B /* SmallBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */; };
 		0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */; };
 		0DC48F381F1EE48900F1EA0B /* MenuBallsFallingDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D0925A520FAB25C007064BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0D245BF61F202333008C04DB /* GameScoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreDelegate.swift; sourceTree = "<group>"; };
 		0D245BFB1F202DE2008C04DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0D34DBEE20F59EA00073E795 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -104,11 +106,11 @@
 		0D91268A20EFF310009D3A8A /* sparkstagereverse2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = sparkstagereverse2.sks; sourceTree = "<group>"; };
 		0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewControllerNew.swift; sourceTree = "<group>"; };
 		0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameOverScene-old.swift"; sourceTree = "<group>"; };
+		0D987BC820F8501000A91D78 /* lose.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lose.mp3; sourceTree = "<group>"; };
 		0DC020041F203116009A76F9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		0DC020071F2035B3009A76F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartGameDelegate.swift; sourceTree = "<group>"; };
 		0DC48F2D1F1D386400F1EA0B /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
-		0DC48F2F1F1D388900F1EA0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0DC48F311F1D7C7D00F1EA0B /* SmallBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallBall.swift; sourceTree = "<group>"; };
 		0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerCircle.swift; sourceTree = "<group>"; };
 		0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBallsFallingDown.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				63C6C870E47597ADF299A6BD /* Pods */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		A13F12611EF703F700A34B16 /* Products */ = {
 			isa = PBXGroup;
@@ -275,7 +278,7 @@
 				A15E83E91FF46BC400359FC8 /* Views */,
 				A15E83E71FF46B9600359FC8 /* ViewControllers */,
 				0DC020041F203116009A76F9 /* Podfile */,
-				0DC48F2F1F1D388900F1EA0B /* GoogleService-Info.plist */,
+				0D0925A520FAB25C007064BF /* GoogleService-Info.plist */,
 				A13F12631EF703F700A34B16 /* AppDelegate.swift */,
 				A13F12751EF703F700A34B16 /* Info.plist */,
 				A15E83FB1FF4832C00359FC8 /* Settings.swift */,
@@ -364,6 +367,7 @@
 				A198EAFE20F57750004AB462 /* pop2.mp3 */,
 				A198EAFD20F57750004AB462 /* pop3.mp3 */,
 				A198EB0020F57750004AB462 /* pop4.mp3 */,
+				0D987BC820F8501000A91D78 /* lose.mp3 */,
 				0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */,
 				A10B5BA120F05CFB00C5F823 /* click.mp3 */,
 				A10B5B9D20F0527D00C5F823 /* pop.mp3 */,
@@ -529,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */,
+				0D987BC920F8501000A91D78 /* lose.mp3 in Resources */,
 				0D4E999C20F1C1A700341E0F /* FaceOffM55-Regula.ttf in Resources */,
 				A16D697C20F3F4B8008E3771 /* Oregon-Regular.otf in Resources */,
 				A10B5B9E20F0527D00C5F823 /* pop.mp3 in Resources */,
@@ -542,11 +547,11 @@
 				A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */,
 				A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */,
 				0D91268820EFE337009D3A8A /* sparkstage.sks in Resources */,
-				0DC48F301F1D388900F1EA0B /* GoogleService-Info.plist in Resources */,
 				A198EB0120F57750004AB462 /* pop3.mp3 in Resources */,
 				0D54F0B720EA730C00BBBDBB /* Assets.xcassets in Resources */,
 				A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */,
 				A1989F9F20E969D200218FAE /* Spark.sks in Resources */,
+				0D0925A620FAB25D007064BF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,14 +598,18 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/EFCountingLabel/EFCountingLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EFCountingLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -35,7 +35,7 @@ class DataManager {
     func initHighScore() {
         if let score = _realm.objects(HighScore.self).first {
             _highScore = score.value
-            print("HIGH SCORE", _highScore)
+            // print("HIGH SCORE", _highScore)
         } else {
             let newHighScore = HighScore()
             newHighScore.id = 1
@@ -46,7 +46,7 @@ class DataManager {
                 }
             }
             catch let error {
-                print(error.localizedDescription)
+                // print(error.localizedDescription)
             }
             _highScore = newHighScore.value
         }
@@ -75,7 +75,7 @@ class DataManager {
                 }
             }
             catch let error {
-                print(error.localizedDescription)
+                // print(error.localizedDescription)
             }
             _highScore = newHighScore.value
         }
@@ -91,7 +91,7 @@ class DataManager {
             }
         }
         catch let error {
-            print(error.localizedDescription)
+            // print(error.localizedDescription)
         }
         _money = newMoney.value
     }
@@ -106,7 +106,7 @@ class DataManager {
             }
         }
         catch let error {
-            print(error.localizedDescription)
+            // print(error.localizedDescription)
         }
         _played = games.value
     }
@@ -121,7 +121,7 @@ class DataManager {
             }
         }
         catch let error {
-            print(error.localizedDescription)
+            // print(error.localizedDescription)
         }
         _money = newMoney.value
     }

@@ -15,6 +15,7 @@ struct Settings {
     static let PRESENT_INTERVAL: Double = 21600
     static let CURRENT_STAGE_KEY = "CURRENT_STAGE"
     static let HIGH_SCORE_KEY = "HIGH_SCORE"
+    static let PLAYS_PER_GAME = "PLAYS_PER_GAME"
     static let LAST_AD_TIME = "LAST_AD_TIME"
     static let VOLUME_ON_KEY = "VOLUME_ON_KEY"
     

@@ -45,14 +45,14 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         bestScoreInt.value = scoreGameCenter as! Int64
         GKScore.report([bestScoreInt]) { (error) in
             if error != nil {
-                print(error!.localizedDescription)
+                // print(error!.localizedDescription)
             } else {
-                print("Best Score submitted to your Leaderboard!")
+                // print("Best Score submitted to your Leaderboard!")
             }
         }
         showHideStageButtons()
     }
-    
+
     func setStageLabel() {
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = stageFormatter(stage: currentStage)
@@ -60,7 +60,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             stageLabel.text = stageFormatter(stage: endingStage)
         }
     }
-    
     func showHideStageButtons() {
         if Int(scoreFormatter(score: endingScore))! < 100 {
             showpoints.font = UIFont(name: "Oregon-Regular", size: 140)
@@ -68,8 +67,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             showpoints.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
-            print("high score", highScore)
-            print("current stage", currentStage)
+            // print("high score", highScore)
+            // print("current stage", currentStage)
             if currentStage >= highScore {
                 nextStageButton.alpha = 0
                 nextStageButton.isUserInteractionEnabled = false
@@ -121,7 +120,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     
     // MARK: - AUTHENTICATE LOCAL PL
     func layoutUI() {
-        let startY = CGFloat((view.frame.height / 3) * 2) - (showpoints.frame.height / 2)
+        //showpoints.layer.zPosition = -1
+        let startY = CGFloat((view.frame.height / 2.8) * 2) - (showpoints.frame.height / 2) // wieso 2.8
         let width = UIScreen.main.bounds.width
         showpoints.frame = CGRect(x: 0, y: startY, width: width, height: showpoints.frame.height)
     }
@@ -148,14 +148,14 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     func launchShop() {}
 
     func ratePressed() {
-        print("works")
-        rateApp(appId: "idfprStageBallz") { success in
-            print("RateApp \(success)")
+        // print("works")
+        rateApp(appId: "1408563085") { success in
+            // print("RateApp \(success)")
         }
     }
 
     func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
-        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/stage-balls/id" + appId) else {
             completion(false)
             return
         }
@@ -168,7 +168,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
 
     func sharePressed() {
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
-            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! Im at Stage \(highScore) Can you beat my Stage? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
+            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Balls is awesome! I'm at Stage \(highScore) Can you beat my Stage? Get Stage Balls here https://itunes.apple.com/app/stage-balls/id1408563085"], applicationActivities: nil)
             activityVC.popoverPresentationController?.sourceView = self.view
             self.present(activityVC, animated: true, completion: nil)
         }
@@ -182,7 +182,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         gcVC.viewState = .leaderboards
         gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
         self.present(gcVC, animated: true, completion: nil)
-        print("also in del")
+        // print("also in del")
 }
+    
 
 }

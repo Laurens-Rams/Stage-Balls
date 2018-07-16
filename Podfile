@@ -9,5 +9,6 @@ target 'ColorBall' do
   pod 'RealmSwift'
   pod 'EFCountingLabel'
   pod 'Google-Mobile-Ads-SDK'
+  pod 'Firebase/Core'
 
 end

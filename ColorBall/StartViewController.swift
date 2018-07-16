@@ -14,7 +14,7 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     let LEADERBOARD_ID = "stageid"
     deinit {
-        print("start view controller deinit")
+        // print("start view controller deinit")
     }
     let defaults = UserDefaults.standard
     @IBOutlet var moneyLabel: UILabel!
@@ -48,15 +48,15 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
                 
                 // Get the default leaderboard ID
                 localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
-                    if error != nil { print(error)
+                    if error != nil { // print(error)
                     } else { self.gcDefaultLeaderBoard = leaderboardIdentifer! }
                 })
                 
             } else {
                 // 3. Game center is not enabled on the users device
                 self.gcEnabled = false
-                print("Local player could not be authenticated!")
-                print(error)
+                // print("Local player could not be authenticated!")
+                // print(error)
             }
         }
     }
@@ -70,7 +70,7 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
 //    }
 //
 //    @objc func handleGameRestartRequest() {
-//        print("restart?")
+//        // print("restart?")
 //        gameVC?.gameOverController?.dismiss(animated: false, completion: {
 //            self.gameVC?.scene.removeAllChildren()
 //            self.gameVC?.scene.removeAllActions()
@@ -126,14 +126,14 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         // launch the shop
     }
     func ratePressed() {
-        print("works")
-        rateApp(appId: "idfprStageBallz") { success in
-            print("RateApp \(success)")
+        // print("works")
+        rateApp(appId: "1408563085") { success in
+            // print("RateApp \(success)")
         }
     }
     
     func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
-        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/stage-balls/id" + appId) else {
             completion(false)
             return
         }
@@ -145,9 +145,11 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     }
     
     func sharePressed() {
-        let activityVC = UIActivityViewController(activityItems: ["Playing Stage Ballz is awesome! Im at Stage \(String(describing: defaults.object(forKey: Settings.HIGH_SCORE_KEY))) Can you beat my Stage? Get Stage Ballz here https://itunes.apple.com/app/Stage Ballz/id"], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = self.view
-        self.present(activityVC, animated: true, completion: nil)
+        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
+            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Balls is awesome! I'm at Stage \(highScore) Can you beat my Stage? Get Stage Balls here https://itunes.apple.com/app/stage-balls/id1408563085"], applicationActivities: nil)
+            activityVC.popoverPresentationController?.sourceView = self.view
+            self.present(activityVC, animated: true, completion: nil)
+        }
     }
     
     
@@ -157,7 +159,7 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         gcVC.viewState = .leaderboards
         gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
         self.present(gcVC, animated: true, completion: nil)
-        print("also in del")
+        //print("also in del")
     }
 
 }
