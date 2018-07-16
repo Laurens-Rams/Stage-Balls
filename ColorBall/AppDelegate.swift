@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import GoogleMobileAds
-
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,8 +19,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GADMobileAds.configure(withApplicationID: "ca-app-pub-8530735287041699~2180707337")
         FirebaseApp.configure()
+        setupAudio()
         // Override point for customization after application launch.
         return true
+    }
+    
+    func setupAudio() {
+        let sess = AVAudioSession.sharedInstance()
+        do {
+            try sess.setCategory(AVAudioSessionCategoryAmbient)
+            try sess.setActive(true)
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

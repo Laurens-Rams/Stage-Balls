@@ -146,7 +146,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
                 setVolumeTexture(volumeOn: volumeOn)
             }
-            //AudioManager.only.toggleVolume()
+            AudioManager.only.toggleVolume()
             break
         case .rate:
             // print("rate")

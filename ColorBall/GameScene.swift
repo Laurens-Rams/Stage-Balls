@@ -563,7 +563,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ball.run(wait) {
                         if let nextBall = zapBalls.filter({ !$0.falling }).last {
                             nextBall.falling = true
-                            //AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
+                            AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
                         }
                         ball.fillColor = UIColor.clear
                         ball.strokeColor = UIColor.clear

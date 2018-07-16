@@ -93,7 +93,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                         setVolumeTexture(volumeOn: volumeOn)
                     }
 
-                    //AudioManager.only.toggleVolume()
+                    AudioManager.only.toggleVolume()
                 }else if node.name == "rate" {
                     // print("rate")
                     del?.ratePressed()
@@ -105,7 +105,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                 }else if node.name == "like" {
                     // print("like")
                 }
-                //AudioManager.only.playClickSound()
+                AudioManager.only.playClickSound()
             }else{
                     postRestartNotification()
             }

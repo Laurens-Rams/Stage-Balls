@@ -298,11 +298,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 //        } else {
 //            // print("Ad wasn't ready")
             if adsShowGameOver {
-                //AudioManager.only.playGameOverSOund()
+                AudioManager.only.playGameOverSOund()
                 adsShowGameOver = false
                 showGameOverViewController()
             } else if adsShowNextStage {
-                //AudioManager.only.playNextStageSound()
+                AudioManager.only.playNextStageSound()
                 adsShowNextStage = false
                 startNextStage()
             }
@@ -388,7 +388,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     @IBAction func menuAction(_ sender: Any) {
-        //AudioManager.only.playClickSound()
+        AudioManager.only.playClickSound()
         if scene.canpresspause {
             pauseGame()
         }else{
