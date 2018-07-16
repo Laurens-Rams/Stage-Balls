@@ -82,7 +82,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-        backgroundColor = .white
+        backgroundColor = .clear
         isPaused = false
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.8)

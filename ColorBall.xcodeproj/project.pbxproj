@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D0925A620FAB25D007064BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0D0925A520FAB25C007064BF /* GoogleService-Info.plist */; };
 		0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BF61F202333008C04DB /* GameScoreDelegate.swift */; };
 		0D245BFC1F202DE2008C04DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Item.swift */; };
 		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
@@ -42,6 +41,7 @@
 		A13F12741EF703F700A34B16 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A13F12721EF703F700A34B16 /* LaunchScreen.storyboard */; };
 		A13F127F1EF703F700A34B16 /* ColorBallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F127E1EF703F700A34B16 /* ColorBallTests.swift */; };
 		A14286BA2005F2780043BC4C /* Slot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14286B92005F2780043BC4C /* Slot.swift */; };
+		A14F7DF320FD5C49001F4805 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */; };
 		A15E83E61FF466AB00359FC8 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83E51FF466AB00359FC8 /* Game.swift */; };
 		A15E83EC1FF46C2200359FC8 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83EB1FF46C2200359FC8 /* Money.swift */; };
 		A15E83EE1FF46C5B00359FC8 /* HighScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83ED1FF46C5B00359FC8 /* HighScore.swift */; };
@@ -87,7 +87,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0D0925A520FAB25C007064BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0D245BF61F202333008C04DB /* GameScoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreDelegate.swift; sourceTree = "<group>"; };
 		0D245BFB1F202DE2008C04DB /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		0D34DBEE20F59EA00073E795 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -136,6 +135,7 @@
 		A13F12851EF703F700A34B16 /* ColorBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A13F128B1EF703F700A34B16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A14286B92005F2780043BC4C /* Slot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slot.swift; sourceTree = "<group>"; };
+		A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A15E83E51FF466AB00359FC8 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A15E83EB1FF46C2200359FC8 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		A15E83ED1FF46C5B00359FC8 /* HighScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScore.swift; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 				A15E83E91FF46BC400359FC8 /* Views */,
 				A15E83E71FF46B9600359FC8 /* ViewControllers */,
 				0DC020041F203116009A76F9 /* Podfile */,
-				0D0925A520FAB25C007064BF /* GoogleService-Info.plist */,
+				A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */,
 				A13F12631EF703F700A34B16 /* AppDelegate.swift */,
 				A13F12751EF703F700A34B16 /* Info.plist */,
 				A15E83FB1FF4832C00359FC8 /* Settings.swift */,
@@ -551,7 +551,7 @@
 				0D54F0B720EA730C00BBBDBB /* Assets.xcassets in Resources */,
 				A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */,
 				A1989F9F20E969D200218FAE /* Spark.sks in Resources */,
-				0D0925A620FAB25D007064BF /* GoogleService-Info.plist in Resources */,
+				A14F7DF320FD5C49001F4805 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

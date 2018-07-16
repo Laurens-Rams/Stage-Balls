@@ -108,9 +108,8 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                 //AudioManager.only.playClickSound()
             }else{
                     postRestartNotification()
-
             }
-    }
+        }
     }
     
     func setVolumeTexture(volumeOn: Bool) {

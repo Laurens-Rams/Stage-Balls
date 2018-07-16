@@ -22,14 +22,14 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     var scene: MenuScene!
     
     var gameVC: GameViewController?
-    
+    @IBOutlet weak var skView: SKView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 //        listenForNotifications()
         authenticateLocalPlayer()
         scene = MenuScene(size: view.bounds.size)
         scene.del = self
-        let skView = view as! SKView
         skView.showsFPS = false
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
