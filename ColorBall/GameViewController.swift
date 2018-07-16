@@ -335,7 +335,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         // print("again")
     }
     func tapleftright(){
-        UIView.animate(withDuration: 0.5, delay: 2.5, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.5, delay: 2.0, options: .curveEaseIn, animations: {
             self.tapLeft.alpha = 0.0
             self.tapRight.alpha = 0.0
         }) { (finished) in

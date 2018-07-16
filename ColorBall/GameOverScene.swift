@@ -13,7 +13,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
     
     var del: StartSceneDelegate?
     var circleDiameter = UIScreen.main.bounds.size.width * 0.55
-    let Circle = PlayerCircle(imageNamed: "circle")
+    let Circle = PlayerCircle(imageNamed: "play")
     var game: Game!
     let ballTextures: [SKTexture] = [
         // your textures here

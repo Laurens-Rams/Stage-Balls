@@ -224,7 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.allowToMove = true
         let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
            self.addBall()
-            self.gameDelegate?.tapleftright()
+         self.gameDelegate?.tapleftright()
             
         })
     }
@@ -505,6 +505,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
+        
         let colSlots = getSlotsInColumn(num: colNumber)
 
         if getFirstOpenSlot(slotList: colSlots) == nil {
@@ -592,6 +593,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // create an action group to run simultaneous actions
        // let actionGroup = SKAction.group([fadeInSkull])
        // skullBall.run(actionGroup)
+        let scale = SKAction.scale(by: 0.2, duration: 1.0)
+        skullBall.run(SKAction.sequence([
+            scale
+        ]))
         addChild(skullBall)
     }
     
@@ -607,6 +612,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let slot = getClosestOpenSlot(toPoint: contactPoint)
 
             // any position animations should be done here, before ball.position... and slot.ball....
+            
+            let popIn = SKAction.scale(by: 1.15, duration: 0.125)
+            let popOut = SKAction.scale(by: 0.85, duration: 0.125)
+            ball.run(SKAction.sequence([
+                popIn,
+                popOut
+                ]))
             
             ball.position = slot.position// this sets the position strictly
             slot.ball = ball // this will make that position update every frame

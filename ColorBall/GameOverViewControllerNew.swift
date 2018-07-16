@@ -10,6 +10,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         gameCenterViewController.dismiss(animated: false, completion: nil)
     }
     
+    @IBOutlet var RemainingBalls: UILabel!
     var game: Game!
     var endingScore: Int = 0
     var endingStage: Int = 1
@@ -27,6 +28,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         super.viewDidLoad()
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+            RemainingBalls.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             
         }
         stageLabel.textColor = .white
@@ -39,6 +41,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         showpoints.text = scoreFormatter(score: endingScore)
+        showpoints.alpha = 0
+        RemainingBalls.text = "BALLS \(scoreFormatter(score: endingScore))"
         setStageLabel()
         let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
