@@ -19,7 +19,6 @@ class AudioManager {
 
     var volume: Float = 1.0
 
-    
     private init() {
         let popPath = Bundle.main.path(forResource: "pop1.mp3", ofType: nil)!
         let popUrl = URL(fileURLWithPath: popPath)
@@ -52,6 +51,7 @@ class AudioManager {
             }
         } else {
             UserDefaults.standard.set(true, forKey: Settings.VOLUME_ON_KEY)
+            UserDefaults.standard.synchronize()
         }
         
         setVolumes()
@@ -65,17 +65,17 @@ class AudioManager {
     }
     
     func toggleVolume() {
+        print("toggling volume")
         if (volume == 1.0) { volume = 0.0 }
         else { volume = 1.0 }
         
-        if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
-            let newVolumeOn = !volumeOn
-            UserDefaults.standard.set(newVolumeOn, forKey: Settings.VOLUME_ON_KEY)
-            UserDefaults.standard.synchronize()
+        if volume == 1.0 {
+            UserDefaults.standard.set(true, forKey: Settings.VOLUME_ON_KEY)
         } else {
             UserDefaults.standard.set(false, forKey: Settings.VOLUME_ON_KEY)
-            UserDefaults.standard.synchronize()
         }
+
+        UserDefaults.standard.synchronize()
 
         setVolumes()
     }
@@ -101,25 +101,8 @@ class AudioManager {
         // this means we can't count iterations and then call popPlayer.stop()-- the stop() call won't have any effect
         // thus, instead, we have different sound files for the different numbers of pops
         DispatchQueue.global().async {
-            var soundFile: String = "pop1.mp3"
-            if iterations == 2 {
-                //soundFile = "pop2.mp3"
-                return
-            } else if iterations == 3 {
-                //soundFile = "pop3.mp3"
-                return
-            } else if iterations == 4 {
-                //soundFile = "pop4.mp3"
-                return
-            }
-            let popPath = Bundle.main.path(forResource: soundFile, ofType: nil)!
-            let popUrl = URL(fileURLWithPath: popPath)
-            do {
-                self.popPlayer = try AVAudioPlayer(contentsOf: popUrl)
-                self.popPlayer?.play()
-            } catch {
-                return
-            }
+            self.popPlayer?.currentTime = 0
+            self.popPlayer?.play()
         }
     }
 }

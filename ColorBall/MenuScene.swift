@@ -124,9 +124,9 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
                 if let node = nodes(at: touch.location(in: self)).first {
                     if node.name == "playButton" {
                         // print("start ball")
-                        handleMenuClick(option: .start)
+                        handleMenuClick(option: .start, ballNode: nil)
                     } else if let menuNode = node as? StartMenuBall {
-                        handleMenuClick(option: menuNode.optionType)
+                        handleMenuClick(option: menuNode.optionType, ballNode: node as? SKSpriteNode)
                     }
                     isTouching = false
                 }
@@ -134,19 +134,16 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func handleMenuClick(option: MenuOptionType) {
+    func handleMenuClick(option: MenuOptionType, ballNode: SKSpriteNode?) {
         switch option {
         case .gameCenter:
             // print("game center")
             del?.gameCenterPressed()
             break
         case .volume:
-            // print("volume")
-            
-            if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
-                setVolumeTexture(volumeOn: volumeOn)
-            }
-            AudioManager.only.toggleVolume()
+//             print("volume")
+             AudioManager.only.toggleVolume()
+             setVolumeTexture(ballNode: ballNode)
             break
         case .rate:
             // print("rate")
@@ -167,19 +164,25 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             // print("like")
             break
         }
+        AudioManager.only.playClickSound()
     }
-    func setVolumeTexture(volumeOn: Bool) {
-        if volumeOn {
-            if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
-                volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
-                // print("on")
-            }
-        } else if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
-            volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
+
+    func setVolumeTexture(ballNode: SKSpriteNode?) {
+        guard let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool else {
+            print("~~~~> no volume on is defined??")
+            return
+        }
+
+        if volumeOn && ballNode != nil {
+            print("~~~~> volume is ON")
+            ballNode!.texture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
+        } else if ballNode != nil {
+            print("~~~~> volume is OFF")
+            ballNode!.texture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
             // print("off")
         }
     }
-    
+
     // MARK: custom update, animation, and movement methods
     
     /**
@@ -292,7 +295,6 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             if index < numberOfMenuBalls {
                 getCircleValues()
                 self.addBall()
-                
             } else {
                 allowToMove = true
                 forceUpdate = false
@@ -357,7 +359,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     func makeBall() -> StartMenuBall {
         let image = randomImageName(imageNumber: index + 1)
         let optionType = MenuOptionType(rawValue: index)!
-        
+
         let newBall = StartMenuBall(imageNamed: image)
         newBall.optionType = optionType
         
@@ -390,7 +392,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         addChild(newBall)
         
         balls.append(newBall)
-        
+
+        if newBall.optionType.toName() == "volume" {
+            setVolumeTexture(ballNode: newBall as SKSpriteNode)
+        }
+
         index += 1
     }
     

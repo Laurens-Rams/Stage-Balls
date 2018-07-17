@@ -61,6 +61,8 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         setupBalls()
         
         addChild(Circle)
+        
+        setVolumeTexture()
     }
     
     func postRestartNotification() {
@@ -89,11 +91,8 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                     del?.gameCenterPressed()
                 }else if node.name == "volume" {
                     // print("volume")
-                    if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
-                        setVolumeTexture(volumeOn: volumeOn)
-                    }
-
                     AudioManager.only.toggleVolume()
+                    setVolumeTexture()
                 }else if node.name == "rate" {
                     // print("rate")
                     del?.ratePressed()
@@ -112,22 +111,24 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func setVolumeTexture(volumeOn: Bool) {
+    func setVolumeTexture() {
+        guard let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool else {
+            print("===========/ no volume default found")
+            return
+        }
+
         if volumeOn {
+            print("~~~~> volume is ON")
             if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
-              volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
+              volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
             }
         } else if let volumeNode = childNode(withName: "volume") as? StartingSmallBall {
-            volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
+            print("~~~~> volume is OFF")
+            volumeNode.fillTexture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
         }
     }
 
     func setupBalls() {
-        
-        if let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool {
-        setVolumeTexture(volumeOn: volumeOn)
-        }
-
         var balls = [StartingSmallBall]();
 
         // the radians to separate each starting ball by, when placing around the ring
