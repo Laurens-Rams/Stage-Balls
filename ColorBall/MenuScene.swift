@@ -62,7 +62,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     var scoreKeeper: GameScoreDelegate?
     var gameDelegate: StartGameDelegate?
     
-    let numberOfMenuBalls = 4
+    let numberOfMenuBalls = 5
     var index = 0
     var contactsMade = 0
     
@@ -153,17 +153,15 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             // print("share")
             del?.sharePressed()
             break
-        case .noads:
+        case .endlessMode:
             // print("noads")
             break
         case .start:
             // print("start")
             del?.launchGame()
             break
-        case .like:
-            // print("like")
-            break
         }
+        
         AudioManager.only.playClickSound()
     }
 
@@ -409,7 +407,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         if let bound = upperBound {
             return Int(arc4random_uniform(UInt32(bound)) + UInt32(1))
         }
-        return Int(arc4random_uniform(4) + UInt32(1))
+        return Int(arc4random_uniform(5) + UInt32(1))
     }
     
     /**

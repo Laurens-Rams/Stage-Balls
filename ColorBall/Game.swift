@@ -56,38 +56,6 @@ struct GameConstants {
  UIColor(red: 232/255, green: 21/255, blue: 62/255, alpha: 1.0),
  //10
  UIColor(red: 57/255, green: 247/255, blue: 134/255, alpha: 1.0),
-
-        
-        
-// //11
-// UIColor(red: 166/255, green: 196/255, blue: 70/255, alpha: 1.0),
-// //12
-// UIColor(red: 179/255, green: 50/255, blue: 201/255, alpha: 1.0),
-// //13
-// UIColor(red: 154/255, green: 172/255, blue: 211/255, alpha: 1.0),
-// //14
-// UIColor(red: 29/255, green: 77/255, blue: 104/255, alpha: 1.0),
-// //15
-// UIColor(red: 0/255, green: 104/255, blue: 255/255, alpha: 1.0),
-// //16
-// UIColor(red: 255/255, green: 221/255, blue: 51/255, alpha: 1.0),
-// //17
-// UIColor(red: 93/255, green: 69/255, blue: 53/255, alpha: 1.0),
-// //18
-// UIColor(red: 100/255, green: 24/255, blue: 119/255, alpha: 1.0),
-// //19
-// UIColor(red: 239/255, green: 221/255, blue: 182/255, alpha: 1.0),
-// //20
-// UIColor(red: 137/255, green: 46/255, blue: 44/255, alpha: 1.0),
-// //21
-// UIColor(red: 100/255, green: 109/255, blue: 108/255, alpha: 1.0),
-// //22
-// UIColor(red: 175/255, green: 150/255, blue: 133/255, alpha: 1.0),
-// //23
-// UIColor(red: 239/255, green: 96/255, blue: 113/255, alpha: 1.0),
-// //24
-// UIColor(red: 224/255, green: 30/255, blue: 58/255, alpha: 1.0),
-
     ]
     
     static let backgroundColors: [UIColor] = [

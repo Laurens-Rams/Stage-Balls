@@ -135,14 +135,12 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
         case .rate:
             // print("rate")
             break
-        case .like:
+        case .share:
             // print("shop")
             break
-        case .noads:
+        case .endlessMode:
             // print("noads")
-            break
-        case .share:
-            // print("noads")
+            del?.launchGame(EndlessModeActivated: true)
             break
         case .start:
             // print("start")

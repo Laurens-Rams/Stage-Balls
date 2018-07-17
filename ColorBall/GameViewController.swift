@@ -152,7 +152,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.method = .linear
         scoreLabel.countFrom(CGFloat(game.ballsRemaining), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
         checkscorelabelsize()
-        scene = EndlessScene(size: view.frame.size)
+        scene = GameScene(size: view.frame.size)
         if (setToWhite) {
             scene.backgroundColor = UIColor.white
         } else {

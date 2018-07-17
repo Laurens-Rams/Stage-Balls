@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 enum MenuOptionType: Int {
-    case gameCenter = 0, volume, rate, share, noads, like, start
+    case gameCenter = 0, volume, rate, share, endlessMode, start
 
     func toName() -> String {
         switch self {
@@ -22,16 +22,13 @@ enum MenuOptionType: Int {
             return "rate"
         case .share:
             return "share"
-        case .like:
+        case .endlessMode:
             return "like"
         case .start:
             return "start"
-        case .noads:
-            return "noads"
-        }
     }
 }
-
+}
 class MenuBall: SKSpriteNode {
     var hasCollited = false
     var type: MenuOptionType = MenuOptionType.gameCenter

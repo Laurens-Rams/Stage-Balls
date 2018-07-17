@@ -136,7 +136,7 @@
 		A13F12851EF703F700A34B16 /* ColorBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorBallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A13F128B1EF703F700A34B16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A14286B92005F2780043BC4C /* Slot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slot.swift; sourceTree = "<group>"; };
-		A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A14F7DF420FD7347001F4805 /* EndlessScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndlessScene.swift; sourceTree = "<group>"; };
 		A15E83E51FF466AB00359FC8 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A15E83EB1FF46C2200359FC8 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };

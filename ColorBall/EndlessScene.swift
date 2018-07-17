@@ -21,18 +21,6 @@ class EndlessScene: GameScene {
         skullBall.stuck = true
         skullBall.zPosition = -5
         skullSlot.containsSkull = false
-        
-        // let fadeInSkull = SKAction.fadeIn(withDuration: 2.0)
-        //  let moveactionSkull = SKAction.move(to: skullSlot.insidePosition, duration: 2.0)
-        
-        // let fadeOut = SKAction.fadeOut(withDuration: 0.4)
-        // create an action group to run simultaneous actions
-        // let actionGroup = SKAction.group([fadeInSkull])
-        // skullBall.run(actionGroup)
-//        let scale = SKAction.scale(by: 0.2, duration: 1.0)
-//        skullBall.run(SKAction.sequence([
-//            scale
-//            ]))
         addChild(skullBall)
     }
 }
