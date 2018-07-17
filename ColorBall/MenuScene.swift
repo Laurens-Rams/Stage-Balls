@@ -169,15 +169,12 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
 
     func setVolumeTexture(ballNode: SKSpriteNode?) {
         guard let volumeOn = UserDefaults.standard.object(forKey: Settings.VOLUME_ON_KEY) as? Bool else {
-            print("~~~~> no volume on is defined??")
             return
         }
 
         if volumeOn && ballNode != nil {
-            print("~~~~> volume is ON")
             ballNode!.texture = SKTexture(image: #imageLiteral(resourceName: "Icon-2OFF"))
         } else if ballNode != nil {
-            print("~~~~> volume is OFF")
             ballNode!.texture = SKTexture(image: #imageLiteral(resourceName: "Icon-2"))
             // print("off")
         }
