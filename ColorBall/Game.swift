@@ -144,6 +144,9 @@ class Game {
     
     private var _slotsPerColumn = GameConstants.initialSlotsPerColumn
     
+    private var _isEndlessMode = false
+    private var _endlessScore = 0
+    
     // counts for each type of physics category on the screen
     
     private var _blues = 0
@@ -179,7 +182,8 @@ class Game {
     }
 
     func initEndlessMode() {
-        // initializers
+        // initializers for endless
+        _isEndlessMode = true
     }
 
     /**
@@ -628,7 +632,11 @@ class Game {
         - byValue: How much to add to the score.
      */
     func increaseScore(byValue: Int) {
-        _ballsFallen += byValue
+        if _isEndlessMode {
+            // call a function to add byValue to _endlessScore
+        } else {
+            _ballsFallen += byValue
+        }
     }
     
     /**
