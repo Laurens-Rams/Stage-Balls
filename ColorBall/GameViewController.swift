@@ -63,11 +63,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
        // scoreLabel.alpha = 1.0
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
-            game = Game(startingStage: currentStage)
+            game = Game(startingStage: currentStage, isEndlessMode: true)
             // print("updatedstage: ------------ \(currentStage)")
         }else {
             // fallback to level 1 (first time players or after a reset)
-            game = Game(startingStage: 1)
+            game = Game(startingStage: 1, isEndlessMode: true)
             defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }
@@ -107,11 +107,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         //background/ color also for this
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
-            game = Game(startingStage: currentStage)
+            game = Game(startingStage: currentStage, isEndlessMode: true)
             // print("updatedstage: ------------ \(currentStage)")
         }else {
             // fallback to level 1 (first time players or after a reset)
-            game = Game(startingStage: 1)
+            game = Game(startingStage: 1, isEndlessMode: true)
             defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }
@@ -152,7 +152,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.method = .linear
         scoreLabel.countFrom(CGFloat(game.ballsRemaining), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
         checkscorelabelsize()
-        scene = GameScene(size: view.frame.size)
+        scene = EndlessScene(size: view.frame.size)
         if (setToWhite) {
             scene.backgroundColor = UIColor.white
         } else {

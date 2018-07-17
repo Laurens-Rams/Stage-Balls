@@ -42,6 +42,7 @@
 		A13F127F1EF703F700A34B16 /* ColorBallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13F127E1EF703F700A34B16 /* ColorBallTests.swift */; };
 		A14286BA2005F2780043BC4C /* Slot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14286B92005F2780043BC4C /* Slot.swift */; };
 		A14F7DF320FD5C49001F4805 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */; };
+		A14F7DF520FD7347001F4805 /* EndlessScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14F7DF420FD7347001F4805 /* EndlessScene.swift */; };
 		A15E83E61FF466AB00359FC8 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83E51FF466AB00359FC8 /* Game.swift */; };
 		A15E83EC1FF46C2200359FC8 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83EB1FF46C2200359FC8 /* Money.swift */; };
 		A15E83EE1FF46C5B00359FC8 /* HighScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83ED1FF46C5B00359FC8 /* HighScore.swift */; };
@@ -136,6 +137,7 @@
 		A13F128B1EF703F700A34B16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A14286B92005F2780043BC4C /* Slot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slot.swift; sourceTree = "<group>"; };
 		A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A14F7DF420FD7347001F4805 /* EndlessScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndlessScene.swift; sourceTree = "<group>"; };
 		A15E83E51FF466AB00359FC8 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		A15E83EB1FF46C2200359FC8 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		A15E83ED1FF46C5B00359FC8 /* HighScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScore.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				A12CC1E52001175500A70204 /* MenuScene.swift */,
 				0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */,
 				A1A088302013C0C400A15983 /* GameOverScene.swift */,
+				A14F7DF420FD7347001F4805 /* EndlessScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
 				A19625EF20F07E1E00F43718 /* NextStageButton.swift in Sources */,
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
+				A14F7DF520FD7347001F4805 /* EndlessScene.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
 				A19625F120F07E4400F43718 /* LastStageButton.swift in Sources */,
 				A10B5BA020F05A3000C5F823 /* AudioManager.swift in Sources */,

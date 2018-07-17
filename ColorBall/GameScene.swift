@@ -593,10 +593,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // create an action group to run simultaneous actions
        // let actionGroup = SKAction.group([fadeInSkull])
        // skullBall.run(actionGroup)
-        let scale = SKAction.scale(by: 0.2, duration: 1.0)
-        skullBall.run(SKAction.sequence([
-            scale
-        ]))
+//        let scale = SKAction.scale(by: 0.2, duration: 1.0)
+//        skullBall.run(SKAction.sequence([
+//            scale
+//        ]))
         addChild(skullBall)
     }
     
@@ -814,6 +814,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ballType = BallColor(rawValue: rando)!
 
         game.incrementBallType(type: ballType)
+        print("++++++ BALL COUNT FOR TYPE: \(ballType.name()) ", game.getCountForType(type: ballType))
+
+        slots.forEach({
+            if $0.ball != nil {
+                print("++++++ BALL COUNT FOR TYPE: \($0.ball!.colorType.name()) ", game.getCountForType(type: $0.ball!.colorType))
+            }
+        })
 
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
@@ -824,7 +831,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
         body.restitution = 0
-        categories.remove(at: rando)
+//        categories.remove(at: rando)
         body.allowsRotation = true
         
         body.usesPreciseCollisionDetection = true
@@ -897,7 +904,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         newBall.physicsBody = body
         
-       newBall.colorType = ballType
+        newBall.colorType = ballType
         //to make ball invisible after falling
 //        let waitfordis = SKAction.wait(forDuration: 2.0)
 //        self.run(waitfordis) {

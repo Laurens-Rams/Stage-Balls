@@ -172,9 +172,14 @@ class Game {
     private var _m = 0
     private var _skulls = 0
 
-    init(startingStage: Int) {
+    init(startingStage: Int, isEndlessMode: Bool) {
         _stage = startingStage
+        if isEndlessMode { initEndlessMode() }
         _colorSetIndex = randomColorSet()
+    }
+
+    func initEndlessMode() {
+        // initializers
     }
 
     /**
