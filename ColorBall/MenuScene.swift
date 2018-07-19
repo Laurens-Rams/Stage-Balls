@@ -62,7 +62,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     var scoreKeeper: GameScoreDelegate?
     var gameDelegate: StartGameDelegate?
     
-    let numberOfMenuBalls = 5
+    let numberOfMenuBalls = 4
     var index = 0
     var contactsMade = 0
     
@@ -407,7 +407,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         if let bound = upperBound {
             return Int(arc4random_uniform(UInt32(bound)) + UInt32(1))
         }
-        return Int(arc4random_uniform(5) + UInt32(1))
+        return Int(arc4random_uniform(4) + UInt32(1))
     }
     
     /**

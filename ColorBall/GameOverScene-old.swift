@@ -140,7 +140,7 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
             break
         case .endlessMode:
             // print("noads")
-            del?.launchGame(EndlessModeActivated: true)
+            //del?.launchGame(EndlessModeActivated: true)
             break
         case .start:
             // print("start")

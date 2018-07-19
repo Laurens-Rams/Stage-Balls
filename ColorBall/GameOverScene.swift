@@ -169,7 +169,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
      - ball: A StartingSmallBall object.
      */
     func animateBall(ball: StartingSmallBall) {
-        let action = SKAction.move(to: ball.insidePos, duration: 0.8)
+        let action = SKAction.move(to: ball.insidePos, duration: 0.5)
         ball.run(action, completion: {
             ball.stuck = true
         })

@@ -210,7 +210,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for ball in fallingBalls {
             if !ball.inLine && !ball.stuck {
                 let newX = ball.position.x
-                let newY = ball.position.y - (5.0 + CGFloat(game.gravityMultiplier))
+                let newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
                 ball.position = CGPoint(x: newX, y: newY)
             }
         }
@@ -336,10 +336,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 1.0 * game.speedMultiplier
+        let interval = 1.0// * game.speedMultiplier
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             ball.inLine = false
+            self.physicsWorld.gravity = CGVector(dx: 0, dy: -0.5)
         })
     }
     
@@ -615,10 +616,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let popIn = SKAction.scale(by: 1.15, duration: 0.125)
             let popOut = SKAction.scale(by: 0.85, duration: 0.125)
+//           // let shakeBottom = getMoveAction(moveX: 0.0, moveY: 5.0, totalTime: 0.06)
+//            let shakeTop = getMoveAction(moveX: 0.0, moveY: -10.0, totalTime: 1.0)
+//            camera?.run(SKAction.sequence([
+//                //shakeBottom,
+//                shakeTop
+//                ]))
             ball.run(SKAction.sequence([
                 popIn,
                 popOut
-                ]))
+            ]))
             
             ball.position = slot.position// this sets the position strictly
             slot.ball = ball // this will make that position update every frame
@@ -646,9 +653,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGameOverSequence(newBall: SmallBall) {
         self.gameDelegate?.gameoverplayscore()
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
-        let generator = UIImpactFeedbackGenerator(style: .medium)
+        let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
-        let wait = SKAction.wait(forDuration: 0.2)
+        let wait = SKAction.wait(forDuration: 0.01)
         self.run(wait) {
         generator.impactOccurred()
         }
@@ -659,8 +666,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameDelegate?.gameoverdesign()
         
         // create the camera zoom action
-        let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.09)
-        let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.09)
+        let shakeLeft = getMoveAction(moveX: -7.0, moveY: 0.0, totalTime: 0.04)
+        let shakeRight = getMoveAction(moveX: 7.0, moveY: 0.0, totalTime: 0.04)
         
         camera?.run(SKAction.sequence([
             shakeLeft,
@@ -960,7 +967,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 yPos -= 35
                 moveToY -= 35
             }
-
+           self.physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
             newBall.position = CGPoint(x: size.width / 2, y: yPos)
             newBall.inLine = true
             newBall.alpha = 0.4

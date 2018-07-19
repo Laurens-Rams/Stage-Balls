@@ -25,10 +25,8 @@ struct GameConstants {
     static let ballZapDuration: CGFloat = 0.15
 
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
-
     static let startingCircleScale: CGFloat = 0.55
     static let startingBallScale: CGFloat = 0.11
-
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
     static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
