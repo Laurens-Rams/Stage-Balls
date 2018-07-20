@@ -29,12 +29,14 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
 //        listenForNotifications()
         authenticateLocalPlayer()
         scene = MenuScene(size: view.bounds.size)
+//        scene.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
         scene.del = self
         skView.showsFPS = false
         skView.showsNodeCount = false
-        scene.scaleMode = .resizeFill
+        scene.scaleMode = .fill
         skView.presentScene(scene)
     }
+
     func authenticateLocalPlayer() {
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
         
@@ -143,7 +145,7 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         }
         UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
-    
+
     func sharePressed() {
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
             let activityVC = UIActivityViewController(activityItems: ["Playing Stage Balls is awesome! I'm at Stage \(highScore) Can you beat my Stage? Get Stage Balls here https://itunes.apple.com/app/stage-balls/id1408563085"], applicationActivities: nil)

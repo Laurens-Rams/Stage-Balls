@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BF61F202333008C04DB /* GameScoreDelegate.swift */; };
 		0D245BFC1F202DE2008C04DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Item.swift */; };
-		0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene.swift */; };
+		0D4AEB3F1F19068900568F11 /* StartScene-Old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene-Old.swift */; };
 		0D4AEB411F19285400568F11 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB401F19285400568F11 /* GameOver.swift */; };
 		0D4AEB471F19641500568F11 /* AlternativStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB461F19641500568F11 /* AlternativStart.swift */; };
 		0D4E999C20F1C1A700341E0F /* FaceOffM55-Regula.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */; };
@@ -95,7 +95,7 @@
 		0D34DBF220F59EA90073E795 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0D34DBF420F59EAF0073E795 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0D34DBF620F59FCF0073E795 /* GameAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameAnalytics.framework; path = "Pods/GA-SDK-IOS/GameAnalytics.framework"; sourceTree = "<group>"; };
-		0D4AEB3E1F19068900568F11 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
+		0D4AEB3E1F19068900568F11 /* StartScene-Old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StartScene-Old.swift"; sourceTree = "<group>"; };
 		0D4AEB401F19285400568F11 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		0D4AEB461F19641500568F11 /* AlternativStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlternativStart.swift; sourceTree = "<group>"; };
 		0D4E999A20F1C12D00341E0F /* FaceOffM55-Regula.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FaceOffM55-Regula.ttf"; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				A188BC121F1AA75E008313DF /* GameScene.swift */,
-				0D4AEB3E1F19068900568F11 /* StartScene.swift */,
+				0D4AEB3E1F19068900568F11 /* StartScene-Old.swift */,
 				A13F12691EF703F700A34B16 /* GameScene-Old.swift */,
 				A12CC1E52001175500A70204 /* MenuScene.swift */,
 				0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */,
@@ -628,7 +628,7 @@
 			files = (
 				0D81DD871F16C63100712F49 /* StartViewController.swift in Sources */,
 				A15E83E61FF466AB00359FC8 /* Game.swift in Sources */,
-				0D4AEB3F1F19068900568F11 /* StartScene.swift in Sources */,
+				0D4AEB3F1F19068900568F11 /* StartScene-Old.swift in Sources */,
 				A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */,
 				A14286BA2005F2780043BC4C /* Slot.swift in Sources */,
 				A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */,

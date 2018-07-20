@@ -92,7 +92,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         let startY = CGFloat((size.height / 3.5))
         let startpos = CGPoint(x: startX, y: startY)
         Circle.position = startpos
-        Circle.alpha = 0.0
+//        Circle.alpha = 0.0
         CircleImage.position = startpos
         
         Circle.size = CGSize(width: circleDiameter, height: circleDiameter)

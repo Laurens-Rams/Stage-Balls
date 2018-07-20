@@ -97,7 +97,7 @@ class StartScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
         
-        backgroundColor = .white
+        backgroundColor = .purple
         
         let startX = CGFloat((size.width / 2))
         let startY = CGFloat((size.height / 3.5))
