@@ -25,8 +25,10 @@ struct GameConstants {
     static let ballZapDuration: CGFloat = 0.15
 
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
+
     static let startingCircleScale: CGFloat = 0.55
     static let startingBallScale: CGFloat = 0.11
+
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
     static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
@@ -88,17 +90,17 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.002
+    private var _speedMultiplier: Double = 0.001
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.004
+    private var _gravityMultiplier: Double = 0.9
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
     
     // number of balls on starting row
-    private var _numberStartingBalls = 2
+    private var _numberStartingBalls = 1
     
     // number of colors to use this stage
     private var _numberBallColors = 4
@@ -243,7 +245,7 @@ class Game {
     }
     var a: Int {
         get {
-            return _blues
+            return _a
         }
     }
     
@@ -252,7 +254,7 @@ class Game {
      */
     var s: Int {
         get {
-            return _reds
+            return _s
         }
     }
     
@@ -261,7 +263,7 @@ class Game {
      */
     var d: Int {
         get {
-            return _pinks
+            return _d
         }
     }
     
@@ -270,7 +272,7 @@ class Game {
      */
     var f: Int {
         get {
-            return _yellows
+            return _f
         }
     }
     /**
@@ -278,7 +280,7 @@ class Game {
      */
     var g: Int {
         get {
-            return _greens
+            return _g
         }
     }
     /**
@@ -294,7 +296,7 @@ class Game {
      */
     var j: Int {
         get {
-            return _oranges
+            return _j
         }
     }
     
@@ -303,12 +305,12 @@ class Game {
      */
     var k: Int {
         get {
-            return _greys
+            return _k
         }
     }
     var l: Int {
         get {
-            return _blues
+            return _l
         }
     }
     
@@ -317,7 +319,7 @@ class Game {
      */
     var y: Int {
         get {
-            return _reds
+            return _y
         }
     }
     
@@ -326,7 +328,7 @@ class Game {
      */
     var x: Int {
         get {
-            return _pinks
+            return _x
         }
     }
     
@@ -335,7 +337,7 @@ class Game {
      */
     var c: Int {
         get {
-            return _yellows
+            return _c
         }
     }
     /**
@@ -343,7 +345,7 @@ class Game {
      */
     var v: Int {
         get {
-            return _greens
+            return _v
         }
     }
     /**
@@ -351,7 +353,7 @@ class Game {
      */
     var b: Int {
         get {
-            return _purples
+            return _b
         }
     }
     /**
@@ -359,7 +361,7 @@ class Game {
      */
     var n: Int {
         get {
-            return _oranges
+            return _n
         }
     }
     
@@ -368,7 +370,7 @@ class Game {
      */
     var m: Int {
         get {
-            return _greys
+            return _m
         }
     }
 
@@ -404,7 +406,7 @@ class Game {
      */
     var numberBallsInQueue: Int {
         get {
-            return (_stage + 1) * (slotsPerColumn - 1)
+            return (_stage) * (slotsPerColumn - 1)
         }
     }
     
@@ -477,15 +479,21 @@ class Game {
     var speedMultiplier: Double {
         get {
             return 1.0 - (Double(_stage - 1) * _speedMultiplier)
+            }
         }
-    }
+    
     
     /**
      Multiplier for ball falling speed ("gravity") (read-only getter).
      */
     var gravityMultiplier: Double {
+        
         get {
+            if (_stage < 40){
             return Double(_stage - 1) * _gravityMultiplier
+            }else{
+            return 4.0
+            }
         }
     }
     
@@ -598,11 +606,7 @@ class Game {
         - byValue: How much to add to the score.
      */
     func increaseScore(byValue: Int) {
-        if _isEndlessMode {
-            // call a function to add byValue to _endlessScore
-        } else {
-            _ballsFallen += byValue
-        }
+        _ballsFallen += byValue
     }
     
     /**

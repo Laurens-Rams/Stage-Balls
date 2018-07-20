@@ -21,12 +21,12 @@ import AudioToolbox
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    // MARK: class properties
-    
+    // MARK: class properties20
+    var rando: Int = 0
     var game: Game!
     var explosionpos = 0
     var spinMultiplier = CGFloat(1.0)
-
+    var spinVar: CGFloat = 15.0
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     let ring = PlayerCircle(imageNamed: "ring")
@@ -180,11 +180,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if isHolding {
                getCircleValues()
-               if (spinMultiplier < (20 / CGFloat(game.slotsOnCircle)) * 2.0) {
+               if (spinMultiplier < (spinVar / CGFloat(game.slotsOnCircle)) * 2.0) {
                    spinMultiplier += 0.3
              }
             } else {
-               spinMultiplier = (20 / CGFloat(game.slotsOnCircle))
+               spinMultiplier = (spinVar / CGFloat(game.slotsOnCircle))
                isTouching = false
            }
         }
@@ -210,7 +210,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for ball in fallingBalls {
             if !ball.inLine && !ball.stuck {
                 let newX = ball.position.x
-                let newY = ball.position.y - (4.0 + CGFloat(game.gravityMultiplier))
+                let newY = ball.position.y - (5.0)
                 ball.position = CGPoint(x: newX, y: newY)
             }
         }
@@ -221,10 +221,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
-        self.allowToMove = true
         let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
-           self.addBall()
+        self.allowToMove = true
+        self.addBall()
          self.gameDelegate?.tapleftright()
+        //self.moveCircle()
             
         })
     }
@@ -235,14 +236,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
-
+        var nums = [1,2,3,4,5,6,7,8,9,10,11,12,13]
         for i in 0..<game.numberStartingBalls {
-            let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
+            if (game.numberStartingBalls <= 13){
+                let arrayKey = Int(arc4random_uniform(UInt32(nums.count)))
+                // your random number
+                let randNum = nums[arrayKey]
+                // make sure the number isnt repeated
+                nums.remove(at: arrayKey)
+                rando = randNum
+            }else {
+                rando = i
+            }
+            let startRads = incrementRads * CGFloat(rando) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
             let newY = (startDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
             let targetPosition = CGPoint(x: newX, y: newY)
 
             let slot = BaseSlot(position: targetPosition, startPosition: startPosition, insidePosition: targetPosition, startRads: startRads, isStarter: true, distance: startDistance)
+            
             slot.diameter = game.smallDiameter
             slot.columnNumber = i
 
@@ -325,7 +337,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - returns: The SKAction to reverse animate the ball.
      */
     func getReverseAnimation(ball: SkullBall) -> SKAction {
-        return SKAction.move(to: ball.startingPos, duration: 0.8)
+        return SKAction.move(to: ball.startingPos, duration: 0.001)
     }
  
     /**
@@ -336,11 +348,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 1.0// * game.speedMultiplier
+        let interval = 0.7// * game.speedMultiplier
         fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
             timer in
             ball.inLine = false
-            self.physicsWorld.gravity = CGVector(dx: 0, dy: -0.5)
+            self.physicsWorld.gravity = CGVector(dx: 0, dy: (-self.game.gravityMultiplier)) // 3 bei stage 10 und 1.2 Speed
         })
     }
     
@@ -419,9 +431,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
             let ball = ball as? SmallBall,
             let thisExplosion = explosion.copy() as? SKEmitterNode {
-            let explosiony = size.height / 3.5 + (game.playerDiameter / 2) + (game.smallDiameter / 2)
-            let point = CGPoint(x: size.width / 2, y: explosiony)
-            thisExplosion.position = point
+            let explosiony = CGPoint(x: ball.position.x, y: ball.position.y)
+            thisExplosion.position = explosiony
             let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
             thisExplosion.particleTexture = explosionTexture
             addChild(thisExplosion)
@@ -508,7 +519,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
         
         let colSlots = getSlotsInColumn(num: colNumber)
-
         if getFirstOpenSlot(slotList: colSlots) == nil {
             game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
             
@@ -575,7 +585,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             completion()
         }
     }
-    
+    func moveCircle(){
+        let shakeTop = getMoveAction(moveX: 0.0, moveY: 100.0, totalTime: 2.0)
+        let shakeBottom = getMoveAction(moveX: 0.0, moveY: -100.0, totalTime: 2.0)
+        let shakeTopfast = getMoveAction(moveX: 0.0, moveY: 100.0, totalTime: 1.0)
+        Circle.run(SKAction.sequence([
+            shakeTop,
+            shakeBottom,
+            shakeBottom,
+            shakeTopfast,
+            shakeTopfast,
+            shakeBottom,
+            shakeBottom,
+            shakeTopfast,
+            ]))
+    }
     func addSkull(toColumn num: Int) {
         let skullSlot = getFirstSlotInColumn(num: num)
         let skullBall = makeSkullBall()
@@ -586,7 +610,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         skullBall.stuck = true
         skullBall.zPosition = -5
         skullSlot.containsSkull = true
-        
+        skullBall.alpha = 0
         // let fadeInSkull = SKAction.fadeIn(withDuration: 2.0)
       //  let moveactionSkull = SKAction.move(to: skullSlot.insidePosition, duration: 2.0)
 
@@ -600,7 +624,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        ]))
         addChild(skullBall)
     }
-    
+    func addNewBall(toColumn num: Int) {
+        let skullSlot = getFirstSlotInColumn(num: num)
+        let index = randomInteger(upperBound: game.numberBallColors) - 1
+        let skullBall = makeStartBall(index: index)
+        skullBall.insidePos = skullSlot.insidePosition
+        skullBall.startingPos = skullSlot.startPosition
+        skullSlot.ball = skullBall
+        skullBall.position = skullSlot.position
+        skullBall.stuck = true
+        skullBall.zPosition = -5
+        skullSlot.containsSkull = false
+        addChild(skullBall)
+    }
     /**
      Handle a collision between two small balls of the same color.
      - parameters:
@@ -666,8 +702,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameDelegate?.gameoverdesign()
         
         // create the camera zoom action
-        let shakeLeft = getMoveAction(moveX: -7.0, moveY: 0.0, totalTime: 0.04)
-        let shakeRight = getMoveAction(moveX: 7.0, moveY: 0.0, totalTime: 0.04)
+        let shakeLeft = getMoveAction(moveX: -9.0, moveY: 0.0, totalTime: 0.04)
+        let shakeRight = getMoveAction(moveX: 9.0, moveY: 0.0, totalTime: 0.04)
         
         camera?.run(SKAction.sequence([
             shakeLeft,
@@ -889,7 +925,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var rando = randomInteger(upperBound: game.numberBallColors) - 1
         var ballType = BallColor(rawValue: rando)!
         
-        while (game.getCountForType(type: ballType) == 0) {
+        while (game.getCountForType(type: ballType) <= 0) {
             rando = randomInteger(upperBound: game.numberBallColors) - 1
             ballType = BallColor(rawValue: rando)!
         }
@@ -961,19 +997,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if game.skulls < game.numberStartingBalls {
             let newBall = makeBall()
             var yPos = size.height
-            var moveToY = size.height - (20 + (game.smallDiameter/2))
+            var moveToY = size.height - (spinVar + (game.smallDiameter/2))
             if (Settings.isIphoneX) {
                 // adjust these to adjust fall position on iphone x
                 yPos -= 35
                 moveToY -= 35
             }
-           self.physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
-            newBall.position = CGPoint(x: size.width / 2, y: yPos)
+            self.physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
+            newBall.position = CGPoint(x: (size.width / 2), y: yPos)
             newBall.inLine = true
             newBall.alpha = 0.4
 
             let fadeIn = SKAction.fadeIn(withDuration: 0.25)
-            let moveaction = SKAction.move(to: CGPoint(x: size.width / 2, y: moveToY), duration: 0.25)
+            let moveaction = SKAction.move(to: CGPoint(x: (size.width / 2), y: moveToY), duration: 0.25)
             let popOut = SKAction.scale(to: 1.0, duration: 0.15)
             // create an action group to run simultaneous actions
             let actionGroup = SKAction.group([popOut, moveaction, fadeIn])

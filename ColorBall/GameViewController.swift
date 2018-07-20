@@ -47,6 +47,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         
     }
     override func viewDidLoad() {
+        defaults.set(50, forKey: Settings.HIGH_SCORE_KEY)
         //ads
         //      interstitial = createAndLoadInterstitial()
         super.viewDidLoad()
@@ -190,6 +191,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func increaseScore(byValue: Int) {
         scene.game.increaseScore(byValue: byValue)
         scoreLabel.text = scoreFormatter(score: scene.game.ballsRemaining)
+        print("sccooooooore", scene.game.ballsRemaining)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
         checkscorelabelsize()
     }
