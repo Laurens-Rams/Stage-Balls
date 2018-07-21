@@ -115,6 +115,16 @@ class Game {
     private var _isEndlessMode = false
     private var _endlessScore = 0
     
+    // escape stage controls
+    private var _nextEscapeStage = 0
+    
+    // memory stage controls
+    private var _nextMemoryStage = 0
+    private var _lastMemoryCount: Double = 0
+    
+    // surprise stage controls
+    private var _lastSurpriseCount: Double = 0
+
     // counts for each type of physics category on the screen
     
     private var _blues = 0
@@ -453,6 +463,80 @@ class Game {
 
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
             return highestVariableStage + multiplesOfFrequency
+        }
+    }
+    
+    var shouldUseEscapeBall: Bool {
+        get {
+            let frequencyMin = 2
+            let frequencyMax = 4
+            let highestVariableStage = 20
+            
+            if _stage < highestVariableStage {
+                return false
+            }
+
+            if _stage == _nextEscapeStage || _nextEscapeStage == 0 {
+                // set the next nextEscapeStage
+                let nextMin = _stage + frequencyMin
+                let nextMax = _stage + frequencyMax
+                _nextEscapeStage = _stage + randomInteger(lowerBound: nextMin, upperBound: nextMax)
+                // yes, we should have an escape ball this stage
+                if _stage == _nextEscapeStage {
+                    return true
+                }
+            }
+
+            return false
+        }
+    }
+    
+    var numberOfMemoryBalls: Int {
+        get {
+            let frequencyMin = 3
+            let frequencyMax = 6
+            let maxBalls: Double = 4
+            let highestVariableStage = 30
+            
+            if _stage < highestVariableStage {
+                return 0
+            }
+            
+            if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
+                // set the next nextEscapeStage
+                let nextMin = _stage + frequencyMin
+                let nextMax = _stage + frequencyMax
+                _nextMemoryStage = _stage + randomInteger(lowerBound: nextMin, upperBound: nextMax)
+                // yes, we should have an escape ball this stage
+                if _stage == _nextMemoryStage {
+                    if _lastMemoryCount < maxBalls { _lastMemoryCount += 0.5 }
+                    return Int(floor(_lastMemoryCount))
+                }
+            }
+            
+            return 0
+        }
+    }
+    
+    var numberSurpriseBalls: Int {
+        get {
+            let frequency = 2
+            let highestVariableStage = 11
+            let maxBalls: Double = 8
+
+            if _stage < highestVariableStage {
+                return 0
+            }
+
+            let stagesEllapsed = _stage - highestVariableStage
+            if stagesEllapsed % frequency == 0 {
+                if _lastSurpriseCount < maxBalls {
+                     _lastSurpriseCount += 0.5
+                }
+                return Int(floor(_lastSurpriseCount))
+            }
+            
+            return 0
         }
     }
     
@@ -872,6 +956,16 @@ class Game {
     func resetAll() {
         resetAllBallTypeCounts()
         resetBallsFallen()
+    }
+    
+    /**
+     Generate a random integer between 0 and 3.
+     - parameters:
+     - upperBound: Optional max.
+     - returns: A number.
+     */
+    func randomInteger(lowerBound: Int, upperBound: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(upperBound)) + UInt32(lowerBound))
     }
   }
 
