@@ -312,7 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupSurprises() {
-        let numberSurpriseBalls = 3 // test value, will be game.numberSurpriseBalls
+        let numberSurpriseBalls = game.numberSurpriseBalls
         for _ in 0..<numberSurpriseBalls {
             let surpriseIndex = randomInteger(upperBound: game.minStageForSurprises)
             if let existingValue = surpriseBallLocations[surpriseIndex] {

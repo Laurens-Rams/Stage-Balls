@@ -414,7 +414,7 @@ class Game {
      */
     var ballsRemaining: Int {
         get {
-            return numberBallsInQueue - ballsFallen
+            return numberBallsInQueue - ballsFallen + Int(floor(_lastSurpriseCount))
         }
     }
 
