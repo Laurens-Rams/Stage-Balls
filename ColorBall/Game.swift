@@ -441,36 +441,19 @@ class Game {
      Number of starting balls (read-only getter).
      */
     var numberStartingBalls: Int {
-//        get {
-//            let amountToAdd = _stage - 1
-//            let newStart = _numberStartingBalls + amountToAdd
-//            if newStart > 18 { return 18 }
-//            return newStart
-//        }
-            get {
-                if _stage < 13 {
-                let amountToAdd = _stage - 1
-                let newStart = _numberStartingBalls + amountToAdd // = 13
+        get {
+            let frequency = 5
+            let baseAmountToAdd = _stage - 1
+            let highestVariableStage = 13
+
+            if _stage < highestVariableStage {
+                let newStart = _numberStartingBalls + baseAmountToAdd // = 13
                 return newStart
-                    
-                }
-                else if _stage < 19 { return 14 } // = 14
-                else if _stage < 24 { return 15 } // 13-33 = 15
-                else if _stage < 29 { return 16} // 13-33 = 16
-                else if _stage < 34 { return 17 } // 13-33 = 17
-                else if _stage < 39 { return 18 } // 13-33 = 18
-                else if _stage < 44 { return 19 } // 34-53 = 19
-                else if _stage < 49 { return 20 } // 13-33 = 20
-                else if _stage < 54 { return 21 } // 54-63 = 21
-                else if _stage < 59 { return 22 } // 13-33 = 22
-                else if _stage < 64 { return 23 } // 54-63 = 23
-                else if _stage < 69 { return 24 } // 13-33 = 24
-                else if _stage < 74 { return 25 } // 13-33 = 24
-                else {
-                    return 25
-                }
             }
-        
+
+            let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
+            return highestVariableStage + multiplesOfFrequency
+        }
     }
     
     /**
