@@ -40,6 +40,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // available slots around circle
     var slots = [Slot]()
     
+    // handling variable column heights and surprises
+    var columns = [Column]()
+    var columnIndex: Int = 0
+    
     // timers
     var ballTimer: Timer?
     var fallTimer: Timer?
@@ -67,6 +71,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var popPlayer: AVAudioPlayer?
     
     var volumeOn = false
+    
+    var surpriseBallIndices = [Int]()
+    var surpriseBallLocations = [Int: Int]()
 
     // MARK: lifecycle methods and overrides
     
@@ -99,11 +106,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
 
+//        print("ALTERNATE MODE VARIABLES========")
+//        let numberMemoryBalls = game.numberOfMemoryBalls
+//        let shouldUseEscapeBall = game.shouldUseEscapeBall
+//        print(numberMemoryBalls)
+//        print(shouldUseEscapeBall)
+//        print("ALTERNATE MODE VARIABLES========")
+
+        
         //backgroundColor = game.backgroundColor
         setupPlayerCircle()
 
         game.resetAll()
 
+        setupSurprises()
         setupSlots()
 
         addChild(Circle)
@@ -267,7 +283,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 
             slots.append(slot)
-            
+
+            let numSurprises = surpriseBallLocations[rando] ?? 0 // default to 0
+            let col = Column(numberOfSlots: game.slotsPerColumn, baseIndex: columnIndex, numOfSurprises: numSurprises, baseSlot: slot)
+            // this will be useful when we have varying values for num column slots
+            columnIndex += col.numberOfSlots
+            columns.append(col)
+
             for j in 0..<game.slotsPerColumn - 1 {
                 let updatedDistance = startDistance + (game.smallDiameter + 1) * CGFloat(j + 1)
                 let slotX = (updatedDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
@@ -288,34 +310,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+
+    func setupSurprises() {
+        let numberSurpriseBalls = 3 // test value, will be game.numberSurpriseBalls
+        for _ in 0..<numberSurpriseBalls {
+            let surpriseIndex = randomInteger(upperBound: game.minStageForSurprises)
+            if let existingValue = surpriseBallLocations[surpriseIndex] {
+                surpriseBallLocations.updateValue(existingValue + 1, forKey: surpriseIndex)
+            } else {
+                surpriseBallLocations.updateValue(1, forKey: surpriseIndex)
+            }
+            surpriseBallIndices.append(surpriseIndex)
+        }
+        print("surprise ball locations", surpriseBallLocations)
+    }
+
     /**
      Teardown the stage.
      */
     func cleanupBalls() {
         //createstageexplosion()
-        let skulls = slots
-            .filter({ $0.containsSkull == true })
-            .flatMap({ $0.ball as? SkullBall })
-
-        for i in 0..<skulls.count {
-            let isLast = (i == skulls.count - 1)
-            let action = getReverseAnimation(ball: skulls[i])
-
-            skulls[i].run(action) {
-                skulls[i].removeFromParent()
-
-                if isLast {
-                    self.gameDelegate?.scorelabelalpha()
-                    self.createstageexplosion()
-                    let waittimer = SKAction.wait(forDuration: 1.0)
-                    self.run(waittimer) {
-                        self.gameDelegate?.handleNextStage()
-                        self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
-                    }
-                }
-            }
+        self.gameDelegate?.scorelabelalpha()
+        self.createstageexplosion()
+        let waittimer = SKAction.wait(forDuration: 1.0)
+        self.run(waittimer) {
+            self.gameDelegate?.handleNextStage()
+//            self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
         }
+//        let skulls = slots
+//            .filter({ $0.containsSkull == true })
+//            .flatMap({ $0.ball as? SkullBall })
+//
+//        for i in 0..<skulls.count {
+//            let isLast = (i == skulls.count - 1)
+//            let action = getReverseAnimation(ball: skulls[i])
+//
+//            skulls[i].run(action) {
+//                skulls[i].removeFromParent()
+//
+//                if isLast {
+//                    self.gameDelegate?.scorelabelalpha()
+//                    self.createstageexplosion()
+//                    let waittimer = SKAction.wait(forDuration: 1.0)
+//                    self.run(waittimer) {
+//                        self.gameDelegate?.handleNextStage()
+//                        self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
+//                    }
+//                }
+//            }
+//        }
     }
     
     /**
@@ -522,7 +565,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if getFirstOpenSlot(slotList: colSlots) == nil {
             game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
             
-
+            let currentColumn = columns[colNumber]
+            
             // map the column's slots to an array of the balls they contain
             let zapBalls = colSlots.map({ $0.ball! })
 
@@ -557,13 +601,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ball.run(waitnew) {
                         self.createExplosion(onBall: ball)
                         ball.run(waitforskull) {
-                            self.addSkull(toColumn: colNumber)
                             ball.fillColor = UIColor.clear
                             ball.strokeColor = UIColor.clear
-                            completion()
+                            ball.physicsBody = nil
+                            if currentColumn.numOfSurprises > 0 {
+                                currentColumn.numOfSurprises -= 1
+                                let ball = self.addNewBall(toColumn: colNumber)
+                                currentColumn.baseSlot.ball = ball
+                                self.game.incrementBallType(type: ball.colorType)
+                                self.addChild(ball)
+                            }
                             ball.run(SKAction.wait(forDuration: 1.2)) {
                                 self.removeChildren(in: zapBalls)
                             }
+                            completion()
                         }
                     }
                 } else {
@@ -578,6 +629,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         ball.fillColor = UIColor.clear
                         ball.strokeColor = UIColor.clear
+                        ball.physicsBody = nil
+                        colSlots[index - 1].ball = nil
                     }
                 }
             }
@@ -600,6 +653,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             shakeTopfast,
             ]))
     }
+
     func addSkull(toColumn num: Int) {
         let skullSlot = getFirstSlotInColumn(num: num)
         let skullBall = makeSkullBall()
@@ -624,7 +678,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        ]))
         addChild(skullBall)
     }
-    func addNewBall(toColumn num: Int) {
+
+    func addNewBall(toColumn num: Int) -> StartingSmallBall {
         let skullSlot = getFirstSlotInColumn(num: num)
         let index = randomInteger(upperBound: game.numberBallColors) - 1
         let skullBall = makeStartBall(index: index)
@@ -633,10 +688,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         skullSlot.ball = skullBall
         skullBall.position = skullSlot.position
         skullBall.stuck = true
-        skullBall.zPosition = -5
+        skullBall.zPosition = 100
         skullSlot.containsSkull = false
-        addChild(skullBall)
+        return skullBall
     }
+
     /**
      Handle a collision between two small balls of the same color.
      - parameters:
@@ -857,13 +913,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ballType = BallColor(rawValue: rando)!
 
         game.incrementBallType(type: ballType)
-        print("++++++ BALL COUNT FOR TYPE: \(ballType.name()) ", game.getCountForType(type: ballType))
+//        print("++++++ BALL COUNT FOR TYPE: \(ballType.name()) ", game.getCountForType(type: ballType))
 
-        slots.forEach({
-            if $0.ball != nil {
-                print("++++++ BALL COUNT FOR TYPE: \($0.ball!.colorType.name()) ", game.getCountForType(type: $0.ball!.colorType))
-            }
-        })
+//        slots.forEach({
+//            if $0.ball != nil {
+//                print("++++++ BALL COUNT FOR TYPE: \($0.ball!.colorType.name()) ", game.getCountForType(type: $0.ball!.colorType))
+//            }
+//        })
 
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
@@ -994,7 +1050,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Add a new ball to the array and to the game scene if we can.
      */
     @objc func addBall() {
-        if game.skulls < game.numberStartingBalls {
+        if game.ballsRemaining > 0 {
             let newBall = makeBall()
             var yPos = size.height
             var moveToY = size.height - (spinVar + (game.smallDiameter/2))

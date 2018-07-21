@@ -73,6 +73,7 @@ class Slot {
 
 class BaseSlot: Slot {
     var startPosition: CGPoint = CGPoint(x: 0, y: 0)
+    var coversSurpriseBall: Bool = false
 
     override var slotType: SlotType {
         get {

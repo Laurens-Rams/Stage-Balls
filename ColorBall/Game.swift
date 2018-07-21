@@ -120,10 +120,17 @@ class Game {
     
     // memory stage controls
     private var _nextMemoryStage = 0
-    private var _lastMemoryCount: Double = 0
+    private var _lastMemoryCount: Double = 0.5
     
+    // =========
     // surprise stage controls
-    private var _lastSurpriseCount: Double = 0
+    // =========
+    // minimum stage for surprises
+    private var _minStageForSurprises: Int = 13
+    // we always add 0.5 to this BEFORE returning it
+    // thus, we should start at 0.5, so the first time we hit a surprise stage,
+    // it will add and return 1, then increase by 1 every other time after that
+    private var _lastSurpriseCount: Double = 0.5
 
     // counts for each type of physics category on the screen
     
@@ -518,17 +525,27 @@ class Game {
         }
     }
     
+    // getter for private variable for minumum stage for surprise balls
+    var minStageForSurprises: Int {
+        get {
+            return _minStageForSurprises
+        }
+    }
+    
     var numberSurpriseBalls: Int {
         get {
             let frequency = 2
-            let highestVariableStage = 11
             let maxBalls: Double = 8
 
-            if _stage < highestVariableStage {
+            if _stage < _minStageForSurprises {
                 return 0
             }
 
-            let stagesEllapsed = _stage - highestVariableStage
+            let stagesEllapsed = _stage - _minStageForSurprises
+            // if we've gone 4 stages and frequency is 2,
+            // 4 % 2 will give us 0 (the remainder of 4 / 2)
+            // similarly, if we've gone 5 stages and frequency is 2,
+            // 5 % 2 will give us the remainder 1, so we'll skip that stage
             if stagesEllapsed % frequency == 0 {
                 if _lastSurpriseCount < maxBalls {
                      _lastSurpriseCount += 0.5

@@ -51,6 +51,7 @@
 		A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F71FF4702E00359FC8 /* PresentManager.swift */; };
 		A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */; };
 		A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83FB1FF4832C00359FC8 /* Settings.swift */; };
+		A16837532102C23C00F96D3B /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16837522102C23C00F96D3B /* Column.swift */; };
 		A16D697C20F3F4B8008E3771 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A16D697B20F3F4B8008E3771 /* Oregon-Regular.otf */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
 		A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A19625EA20F07DB800F43718 /* NextStageButton.xib */; };
@@ -146,6 +147,7 @@
 		A15E83F71FF4702E00359FC8 /* PresentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentManager.swift; sourceTree = "<group>"; };
 		A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRepeatingTimer.swift; sourceTree = "<group>"; };
 		A15E83FB1FF4832C00359FC8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		A16837522102C23C00F96D3B /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		A16D697B20F3F4B8008E3771 /* Oregon-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oregon-Regular.otf"; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A19625EA20F07DB800F43718 /* NextStageButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NextStageButton.xib; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				A15E83F91FF4712200359FC8 /* BackgroundRepeatingTimer.swift */,
 				A1EEAF3B1FFD1D730027A93B /* Extensions.swift */,
 				A14286B92005F2780043BC4C /* Slot.swift */,
+				A16837522102C23C00F96D3B /* Column.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				A15E83E61FF466AB00359FC8 /* Game.swift in Sources */,
 				0D4AEB3F1F19068900568F11 /* StartScene-Old.swift in Sources */,
 				A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */,
+				A16837532102C23C00F96D3B /* Column.swift in Sources */,
 				A14286BA2005F2780043BC4C /* Slot.swift in Sources */,
 				A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */,
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
