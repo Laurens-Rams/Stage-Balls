@@ -171,7 +171,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
         scene.game = game
         skView.presentScene(scene)
-        
     }
     
     func setupCamera() {

@@ -323,7 +323,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupSurprises() {
-        let numberSurpriseBalls = game.numberSurpriseBalls
+        let numberSurpriseBalls = 13
         for _ in 0..<numberSurpriseBalls {
             let surpriseIndex = randomInteger(upperBound: game.minStageForSurprises)
             if let existingValue = surpriseBallLocations[surpriseIndex] {
@@ -587,7 +587,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
         
         let colSlots = getSlotsInColumn(num: colNumber)
-        if getFirstOpenSlot(slotList: colSlots) == nil {
+        let firstOpenSlot = getFirstOpenSlot(slotList: colSlots)
+        if firstOpenSlot == nil {
             game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
             
             let currentColumn = columns[colNumber]
@@ -606,6 +607,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for _ in zapBalls {
                 // add one to the loop count
                 index += 1
+                let slotIndex = index.advanced(by: -1)
 
                 // get a reference to the ball we want to animate this iteration
                 let ball = zapBalls[zapBalls.count - index]
@@ -629,15 +631,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             ball.fillColor = UIColor.clear
                             ball.strokeColor = UIColor.clear
                             ball.physicsBody = nil
+                            colSlots[slotIndex].ball = nil
                             if currentColumn.numOfSurprises > 0 {
                                 currentColumn.numOfSurprises -= 1
-                                let ball = self.addNewBall(toColumn: colNumber)
-                                currentColumn.baseSlot.ball = ball
-                                self.game.incrementBallType(type: ball.colorType)
-                                self.addChild(ball)
+                                let b = self.addNewBall(toColumn: colNumber)
+                                currentColumn.baseSlot.ball = b
+                                self.game.incrementBallType(type: b.colorType)
+                                self.addChild(b)
                             }
                             ball.run(SKAction.wait(forDuration: 1.2)) {
-                                self.removeChildren(in: zapBalls)
+                                for b in zapBalls {
+                                    b.removeFromParent()
+                                }
                             }
                             completion()
                         }
@@ -655,7 +660,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         ball.fillColor = UIColor.clear
                         ball.strokeColor = UIColor.clear
                         ball.physicsBody = nil
-                        colSlots[index - 1].ball = nil
+                        colSlots[slotIndex].ball = nil
                     }
                 }
             }
@@ -708,15 +713,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let skullSlot = getFirstSlotInColumn(num: num)
         let index = randomInteger(upperBound: game.numberBallColors) - 1
         let skullBall = makeStartBall(index: index)
-        skullBall.insidePos = skullSlot.insidePosition
-        skullBall.startingPos = skullSlot.startPosition
+//        skullBall.insidePos = skullSlot.insidePosition
+//        skullBall.startingPos = skullSlot.startPosition
         skullSlot.ball = skullBall
-        let moveSkullBall = SKAction.move(to: skullSlot.position, duration: 2.0)
-        skullBall.run(moveSkullBall)
-        skullBall.position = skullSlot.position
+//        skullBall.position = skullSlot.insidePosition
         skullBall.stuck = true
         skullBall.zPosition = 100
         skullSlot.containsSkull = false
+//        let moveSkullBall = SKAction.move(to: skullSlot.position, duration: 1.0)
+//        skullBall.run(moveSkullBall)
         return skullBall
     }
 
@@ -733,18 +738,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // any position animations should be done here, before ball.position... and slot.ball....
             
-            let popIn = SKAction.scale(by: 1.15, duration: 0.125)
-            let popOut = SKAction.scale(by: 0.85, duration: 0.125)
+//            let popIn = SKAction.scale(by: 1.15, duration: 0.125)
+//            let popOut = SKAction.scale(by: 0.85, duration: 0.125)
 //           // let shakeBottom = getMoveAction(moveX: 0.0, moveY: 5.0, totalTime: 0.06)
 //            let shakeTop = getMoveAction(moveX: 0.0, moveY: -10.0, totalTime: 1.0)
 //            camera?.run(SKAction.sequence([
 //                //shakeBottom,
 //                shakeTop
 //                ]))
-            ball.run(SKAction.sequence([
-                popIn,
-                popOut
-            ]))
+//            ball.run(SKAction.sequence([
+//                popIn,
+//                popOut
+//            ]))
             
             ball.position = slot.position// this sets the position strictly
             slot.ball = ball // this will make that position update every frame
