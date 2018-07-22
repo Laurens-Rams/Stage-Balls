@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spinVar: CGFloat = 15.0
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
+    let skullCircle = PlayerCircle(imageNamed: "skullCircle")
     let ring = PlayerCircle(imageNamed: "ring")
     
     // direction of rotation
@@ -47,6 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // timers
     var ballTimer: Timer?
     var fallTimer: Timer?
+    var MemoryTime: Timer?
     
     // control variables
     var isTouching = false
@@ -73,7 +75,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var volumeOn = false
     
     var surpriseBallIndices = [Int]()
+    var MemoryBallIndices = [Int]()
     var surpriseBallLocations = [Int: Int]()
+    var MemoryBallLocations = [Int: Int]()
 
     // MARK: lifecycle methods and overrides
     
@@ -96,6 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         //make a last backgroundColor
         Circle.alpha = 1.0
+        skullCircle.alpha = 0.0
         let action = SKAction.fadeIn(withDuration: 0)
         Circle.run(action)
         //backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
@@ -120,9 +125,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         game.resetAll()
 
         setupSurprises()
+        setupMemory()
         setupSlots()
 
         addChild(Circle)
+        addChild(skullCircle)
         
         setupFirstFallTimer()
     }
@@ -165,6 +172,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         Circle.position = startpos
         Circle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
+        skullCircle.position = startpos
+        skullCircle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
         
         ring.position = CGPoint(x: size.width / 2, y: size.height - 60)
         ring.size = CGSize(width: 65, height: 65)
@@ -237,13 +246,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
-        self.allowToMove = true
-        self.addBall()
-         self.gameDelegate?.tapleftright()
-        //self.moveCircle()
-            
-        })
+            let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
+                self.allowToMove = true
+                self.addBall()
+                self.gameDelegate?.tapleftright()
+                //self.moveCircle()
+                
+            })
+
     }
 
     
@@ -285,7 +295,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             slots.append(slot)
 
             let numSurprises = surpriseBallLocations[rando] ?? 0 // default to 0
-            let col = Column(numberOfSlots: game.slotsPerColumn, baseIndex: columnIndex, numOfSurprises: numSurprises, baseSlot: slot)
+            let numMemory = MemoryBallLocations[rando] ?? 0 // default to 0
+            let col = Column(numberOfSlots: game.slotsPerColumn, baseIndex: columnIndex, numOfSurprises: numSurprises, numOfMemory: numMemory, baseSlot: slot)
             // this will be useful when we have varying values for num column slots
             columnIndex += col.numberOfSlots
             columns.append(col)
@@ -324,13 +335,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         print("surprise ball locations", surpriseBallLocations)
     }
-
+    
+    func setupMemory() {
+        let numbermemoryBalls = game.numberOfMemoryBalls
+        for _ in 0..<numbermemoryBalls {
+            let MemoryIndex = randomInteger(upperBound: game.minStageForSurprises)
+            if let existingValue = MemoryBallLocations[MemoryIndex] {
+                MemoryBallLocations.updateValue(existingValue + 1, forKey: MemoryIndex)
+            } else {
+                MemoryBallLocations.updateValue(1, forKey: MemoryIndex)
+            }
+            MemoryBallIndices.append(MemoryIndex)
+        }
+        print("surprise ball locations", MemoryBallLocations)
+    }
     /**
      Teardown the stage.
      */
     func cleanupBalls() {
         //createstageexplosion()
-        self.gameDelegate?.scorelabelalpha()
         self.createstageexplosion()
         let waittimer = SKAction.wait(forDuration: 1.0)
         self.run(waittimer) {
@@ -392,11 +415,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
         let interval = 0.7// * game.speedMultiplier
-        fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
-            timer in
-            ball.inLine = false
-            self.physicsWorld.gravity = CGVector(dx: 0, dy: (-self.game.gravityMultiplier)) // 3 bei stage 10 und 1.2 Speed
-        })
+            fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
+                timer in
+                ball.inLine = false
+                self.physicsWorld.gravity = CGVector(dx: 0, dy: (-self.game.gravityMultiplier)) // 3 bei stage 10 und 1.2 Speed
+            })
+
     }
     
     func getCircleValues() {
@@ -476,6 +500,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let thisExplosion = explosion.copy() as? SKEmitterNode {
             let explosiony = CGPoint(x: ball.position.x, y: ball.position.y)
             thisExplosion.position = explosiony
+            //fruit explosion
             let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
             thisExplosion.particleTexture = explosionTexture
             addChild(thisExplosion)
@@ -686,6 +711,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         skullBall.insidePos = skullSlot.insidePosition
         skullBall.startingPos = skullSlot.startPosition
         skullSlot.ball = skullBall
+        let moveSkullBall = SKAction.move(to: skullSlot.position, duration: 2.0)
+        skullBall.run(moveSkullBall)
         skullBall.position = skullSlot.position
         skullBall.stuck = true
         skullBall.zPosition = 100
@@ -745,17 +772,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGameOverSequence(newBall: SmallBall) {
         self.gameDelegate?.gameoverplayscore()
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
-        generator.impactOccurred()
-        let wait = SKAction.wait(forDuration: 0.01)
-        self.run(wait) {
-        generator.impactOccurred()
-        }
+            let generator = UIImpactFeedbackGenerator(style: .heavy)
+            generator.impactOccurred()
+            let wait = SKAction.wait(forDuration: 0.01)
+            self.run(wait) {
+                generator.impactOccurred()
+            }
+
         allowToMove = false
         canMove = false
         newBall.stuck = true
         newBall.physicsBody?.isDynamic = false
         gameDelegate?.gameoverdesign()
+        self.gameDelegate?.scorelabelalpha()
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
+        skullCircle.run(fadeIn)
         
         // create the camera zoom action
         let shakeLeft = getMoveAction(moveX: -9.0, moveY: 0.0, totalTime: 0.04)
@@ -775,10 +806,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             self.ring.alpha = 0.0
         }, completion: nil)
-        
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
-            self.handleGameOver()
-        })
+            let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
+                self.handleGameOver()
+            })
     }
     
     /**
@@ -937,15 +967,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.isDynamic = false
         newBall.physicsBody = body
         newBall.colorType = ballType
-
+       //Fruits
         newBall.lineWidth = 0.1
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
+        //fruits
+        setFruits(ball: newBall, rando: rando)
         
+        
+        if (index == 1 ){
+        checkforMemory(ball: newBall)
+        //escapeBall(ball: newBall)
+        }
         return newBall
     }
+    func setFruits(ball: SmallBall, rando: Int){
+        ball.lineWidth = 0.0
+        let currentFruitTexture = randomImageName(imageNumber: rando + 1)
+        print(rando)
+        let FruitTexture = SKTexture(imageNamed: currentFruitTexture)
+        ball.fillTexture = FruitTexture
+        ball.fillColor = .white
+    }
+    func escapeBall(ball: SmallBall){
+        //ToDo: Make the i slot, connect to collum, explosion if you hit it, game over if it's gone, make it bigger so you can see it, make physics body bigger, random time
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
+        let startRads = incrementRads * CGFloat(12) - degreesToRad(angle: 90.0)
+        let newX = (400) * cos(Circle.zRotation - startRads) + Circle.position.x
+        let newY = (400) * sin(Circle.zRotation - startRads) + Circle.position.y
+        let targetPosition = CGPoint(x: newX, y: newY)
+        let escape = SKAction.move(to: targetPosition, duration: 10.0)
+        ball.run(SKAction.sequence([
+            escape
+        ]))
+    }
     
+    func checkforMemory(ball: SmallBall){
+        //ToDO: Get a hint for money, make it random, connect to collum, show color if you're hit the same color, make it after a random sequence
+            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
+            let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
+            let fadeOutSlow = SKAction.fadeAlpha(to: 0.0, duration: 2.0)
+            ball.run(SKAction.sequence([
+                fadeOut,
+                fadeIn,
+                fadeOut,
+                fadeIn,
+                fadeOut,
+                fadeIn,
+                fadeOut,
+                fadeIn,
+                fadeOut,
+                fadeIn,
+                fadeOutSlow,
+                ]), completion: {
+                    ball.lineWidth = 12.0
+                    ball.strokeColor = UIColor(red: 180/255, green: 180/255, blue: 180/255, alpha: 1.0)
+                    ball.fillColor = .clear
+                    ball.alpha = 1.0
+                    ball.setScale(0.55)
+            })
+        }
     /**
      Create a small ball to drop from the top.
      - returns: A new SmallBall object.
@@ -1013,6 +1095,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
+        setFruits(ball: newBall, rando: rando)
         return newBall
     }
     
@@ -1105,7 +1188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - returns: Name of an image (string).
      */
     func randomImageName(imageNumber: Int) -> String {
-        return "ball-\(imageNumber)"
+        return "Fruit-\(imageNumber)"
     }
     
     /**

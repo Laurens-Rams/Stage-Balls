@@ -126,12 +126,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scene.removeFromParent()
         camera.removeFromParent()
         camera = SKCameraNode()
-        let _ = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false, block: { _ in
-            self.gameOverController?.dismiss(animated: false) {
-                self.setupGame(animateBackground: true)
-                // print("animate tooooo true")
-            }
-        })
+            let _ = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false, block: { _ in
+                self.gameOverController?.dismiss(animated: false) {
+                    self.setupGame(animateBackground: true)
+                    // print("animate tooooo true")
+                }
+            })
+
     }
     
     func setupGame(animateBackground: Bool) {
@@ -237,23 +238,24 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.textColor = UIColor.red
         var countdown = 3
         self.scoreLabel.text = "\(countdown)"
-        let _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true, block: { timer in
-            countdown -= 1
-            self.scoreLabel.text = "\(countdown)"
-            if countdown == 0 {
-                timer.invalidate()
-                if let lastBall = self.scene.fallingBalls.last {
-                    self.scene.startFallTimer(ball: lastBall)
+            let _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true, block: { timer in
+                countdown -= 1
+                self.scoreLabel.text = "\(countdown)"
+                if countdown == 0 {
+                    timer.invalidate()
+                    if let lastBall = self.scene.fallingBalls.last {
+                        self.scene.startFallTimer(ball: lastBall)
+                    }
+                    self.scene.isPaused = false
+                    self.scene.canMove = true
+                    self.scene.allowToMove = true
+                    self.scene.fallTimer?.fire()
+                    self.scoreLabel.textColor = UIColor.white
+                    self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
+                    self.scene.canpresspause = true
                 }
-                self.scene.isPaused = false
-                self.scene.canMove = true
-                self.scene.allowToMove = true
-                self.scene.fallTimer?.fire()
-                self.scoreLabel.textColor = UIColor.white
-                self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
-                self.scene.canpresspause = true
-            }
-        })
+            })
+
     }
 
     func gameover() {
@@ -328,6 +330,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func gameoverdesign() {
         // print("gameoverdesin")
+        
         UIView.animate(withDuration: 0.4, delay: 0.0, animations: {
             self.stageLabel.textColor = UIColor.white
         }, completion: nil)

@@ -62,7 +62,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     var scoreKeeper: GameScoreDelegate?
     var gameDelegate: StartGameDelegate?
     
-    let numberOfMenuBalls = 4
+    let numberOfMenuBalls = 7
     var index = 0
     var contactsMade = 0
     
@@ -156,11 +156,15 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         case .endlessMode:
             // print("noads")
             break
+        case .FruitMode:
+            // print("noads")
+            break
         case .start:
             // print("start")
             del?.launchGame()
             break
         }
+        
         
         AudioManager.only.playClickSound()
     }
@@ -238,11 +242,12 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: StartMenuBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        fallTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {
-            timer in
-            
-            ball.inLine = false
-        })
+            fallTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {
+                timer in
+                
+                ball.inLine = false
+            })
+
     }
     
     func getCircleValues() {
@@ -407,7 +412,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         if let bound = upperBound {
             return Int(arc4random_uniform(UInt32(bound)) + UInt32(1))
         }
-        return Int(arc4random_uniform(4) + UInt32(1))
+        return Int(arc4random_uniform(7) + UInt32(1))
     }
     
     /**

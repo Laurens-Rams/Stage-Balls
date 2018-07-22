@@ -142,6 +142,10 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
             // print("noads")
             //del?.launchGame(EndlessModeActivated: true)
             break
+        case .FruitMode:
+            // print("noads")
+            //del?.launchGame(EndlessModeActivated: true)
+            break
         case .start:
             // print("start")
             del?.launchGame()
@@ -209,11 +213,21 @@ class GameOverSceneOld: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: StartMenuBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        fallTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {
-            timer in
-            
-            ball.inLine = false
-        })
+        if #available(iOS 10.0, *) {
+            fallTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {
+                timer in
+                
+                ball.inLine = false
+            })
+        } else {
+            // Fallback on earlier versions
+        }
+            fallTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {
+                timer in
+                
+                ball.inLine = false
+            })
+
     }
     
     func getCircleValues() {

@@ -94,7 +94,7 @@ class Game {
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.9
+    private var _gravityMultiplier: Double = 0.0
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
@@ -548,7 +548,7 @@ class Game {
             // 5 % 2 will give us the remainder 1, so we'll skip that stage
             if stagesEllapsed % frequency == 0 {
                 if _lastSurpriseCount < maxBalls {
-                     _lastSurpriseCount += 0.5
+                     _lastSurpriseCount += 1
                 }
                 return Int(floor(_lastSurpriseCount))
             }

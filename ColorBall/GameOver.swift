@@ -22,7 +22,8 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
     
     @IBAction func likebuttonpressed(_ sender: AnyObject) {
         if let url = URL(string: "http://www.facebook.com/Stage-Ballz-1245764198880305/") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+
         }
     }
     
@@ -49,11 +50,12 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
         showPoints.text = scoreFormatter(score: endingScore)
         playedLabel.text = ("Games Played: ").appending(String(DataManager.main.played))
         highScore.text = ("Best Score: ").appending(scoreFormatter(score: DataManager.main.highScore))
-        
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
-            self.startOverBtn.isEnabled = true
-        
-        })
+
+            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
+                self.startOverBtn.isEnabled = true
+                
+            })
+
     }
     
     func scoreFormatter(score: Int) -> String {

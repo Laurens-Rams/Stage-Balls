@@ -22,7 +22,7 @@ class AlternativStart: UIViewController, GKGameCenterControllerDelegate {
     }
     @IBAction func likebuttonpressed(_ sender: AnyObject) {
         if let url = URL(string: "http://www.facebook.com/Stage-Ballz-1245764198880305/") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     

@@ -24,6 +24,7 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         SKTexture(imageNamed: "Icon-4"),
         SKTexture(imageNamed: "Icon-5"),
         SKTexture(imageNamed: "Icon-6"),
+        SKTexture(imageNamed: "Icon-7"),
     ]
     
     let names: [String] = [
@@ -31,7 +32,9 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         "volume",
         "rate",
         "share",
-        "noads",
+        "endlessMode",
+        "hardMode",
+        "FruitMode",
         "like"
     ]
     
@@ -99,11 +102,14 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                 }else if node.name == "share" {
                     // print("share")
                     del?.sharePressed()
-                }else if node.name == "noads" {
+                }else if node.name == "endlessMode" {
                     // print("no ads")
-                }else if node.name == "like" {
+                }else if node.name == "hardMode" {
+                    // print("like")
+                }else if node.name == "FruitMode" {
                     // print("like")
                 }
+                
                 AudioManager.only.playClickSound()
             }else{
                     postRestartNotification()
