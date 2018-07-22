@@ -615,9 +615,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // create the wait action (the delay before we start falling)
                 let waitDuration = Double(GameConstants.ballZapDuration * CGFloat(index))
                 let wait = SKAction.wait(forDuration: waitDuration)
-                let waitDurationforskull = Double(GameConstants.ballZapDuration + GameConstants.ballZapDuration)
-                let waitforskull = SKAction.wait(forDuration: waitDurationforskull)
-                let waitnew = SKAction.wait(forDuration: waitDuration - waitDurationforskull)
+                let waitLast = SKAction.wait(forDuration: waitDuration - Double(GameConstants.ballZapDuration))
                 ball.fallTime = GameConstants.ballZapDuration
 
                 // if we're on the last ball, we want to:
@@ -625,27 +623,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // - 2. add a skull ball to the first slot
                 // - 3. call the completion handler after finishing
                 if (index == zapBalls.count) {
-                    ball.run(waitnew) {
+                    ball.run(waitLast) {
                         self.createExplosion(onBall: ball)
-                        ball.run(waitforskull) {
-                            ball.fillColor = UIColor.clear
-                            ball.strokeColor = UIColor.clear
-                            ball.physicsBody = nil
-                            colSlots[slotIndex].ball = nil
-                            if currentColumn.numOfSurprises > 0 {
-                                currentColumn.numOfSurprises -= 1
-                                let b = self.addNewBall(toColumn: colNumber)
-                                currentColumn.baseSlot.ball = b
-                                self.game.incrementBallType(type: b.colorType)
-                                self.addChild(b)
-                            }
-                            ball.run(SKAction.wait(forDuration: 1.2)) {
-                                for b in zapBalls {
-                                    b.removeFromParent()
-                                }
-                            }
-                            completion()
+                        colSlots[slotIndex].ball = nil
+                        ball.fillColor = UIColor.clear
+                        ball.strokeColor = UIColor.clear
+                        ball.physicsBody = nil
+                        if currentColumn.numOfSurprises > 0 {
+                            currentColumn.numOfSurprises -= 1
+                            let b = self.addNewBall(toColumn: colNumber)
+                            currentColumn.baseSlot.ball = b
+                            self.game.incrementBallType(type: b.colorType)
+                            self.addChild(b)
                         }
+                        ball.run(SKAction.wait(forDuration: 1.2)) {
+                            for b in zapBalls {
+                                b.removeFromParent()
+                            }
+                        }
+                        completion()
                     }
                 } else {
                     // if we are not on the last ball yet, we want to:
@@ -978,7 +974,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         //fruits
-        setFruits(ball: newBall, rando: rando)
+        // setFruits(ball: newBall, rando: rando)
         
         
         if (index == 1 ){
@@ -1100,7 +1096,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
-        setFruits(ball: newBall, rando: rando)
+        // setFruits(ball: newBall, rando: rando)
         return newBall
     }
     
