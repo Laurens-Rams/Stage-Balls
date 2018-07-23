@@ -318,7 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             slot.ball?.isMemoryBall = numMemory > 0
 
             for j in 0..<game.slotsPerColumn - 1 {
-                let updatedDistance = startDistance + (game.smallDiameter - 5) * CGFloat(j + 1)
+                let updatedDistance = startDistance + (game.smallDiameter + 1) * CGFloat(j + 1)
                 let slotX = (updatedDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
                 let slotY = (updatedDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
                 let slotPos = CGPoint(x: slotX, y: slotY)
@@ -993,6 +993,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setFruits(ball: SmallBall, rando: Int){
+        ball.setScale(1.02)
         ball.lineWidth = 0.0
         let currentFruitTexture = randomImageName(imageNumber: rando + 1)
         print(rando)
