@@ -650,9 +650,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let positionConverted = self.convert(scenePosition, to: self.Circle)
                         b.position = positionConverted
                         self.animateNewBall(ball: b) {
-                            b.removeFromParent()
+                            b.move(toParent: self)
                             currentColumn.baseSlot.setBall(ball: b)
-                            self.addChild(b)
                         }
                     }
                     ball.run(SKAction.wait(forDuration: 1.2)) {
