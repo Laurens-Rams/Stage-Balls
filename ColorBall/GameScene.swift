@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     let skullCircle = PlayerCircle(imageNamed: "lose")
+    let winCircle = PlayerCircle(imageNamed: "win")
     let ring = PlayerCircle(imageNamed: "ring")
     
     // direction of rotation
@@ -116,6 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         Circle.alpha = 1.0
         skullCircle.alpha = 0.0
+        winCircle.alpha = 0.0
         let action = SKAction.fadeIn(withDuration: 0)
         Circle.run(action)
 
@@ -135,7 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         addChild(Circle)
         addChild(skullCircle)
-        
+        addChild(winCircle)
         setupFirstFallTimer()
     }
     
@@ -178,8 +180,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Circle.position = startpos
         Circle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
         skullCircle.position = startpos
+        winCircle.position = startpos
         skullCircle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
-        
+        winCircle.size = CGSize(width: game.playerDiameter, height: game.playerDiameter)
         ring.position = CGPoint(x: size.width / 2, y: size.height - 60)
         ring.size = CGSize(width: 65, height: 65)
         
@@ -362,10 +365,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Teardown the stage.
      */
     func cleanupBalls() {
-        self.createstageexplosion()
-        let waittimer = SKAction.wait(forDuration: 1.0)
-        self.run(waittimer) {
-            self.gameDelegate?.handleNextStage()
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
+        winCircle.run(fadeIn)
+        self.gameDelegate?.scorelabelalpha()
+        let waittimerone = SKAction.wait(forDuration: 1.5)
+        self.run(waittimerone) {
+            self.createstageexplosion()
+            let waittimer = SKAction.wait(forDuration: 1.0)
+            self.run(waittimer) {
+                self.gameDelegate?.handleNextStage()
+            }
         }
     }
     
@@ -484,6 +493,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(thisExplosion)
             run(SKAction.wait(forDuration: 0.2)) {
                 self.Circle.alpha = 0.0
+                self.winCircle.alpha = 0.0
             }
             
             

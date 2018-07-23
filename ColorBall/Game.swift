@@ -545,7 +545,6 @@ class Game {
     
     var numberSurpriseBalls: Int {
         get {
-            return 12
             let frequency = 2
             let maxBalls: Double = 8
 
