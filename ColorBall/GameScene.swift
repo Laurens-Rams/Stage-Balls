@@ -10,7 +10,6 @@ import Foundation
 import Darwin
 import SpriteKit
 import AVFoundation
-import AudioToolbox
 
 // TODOS:
 // - column snap top ball and/or distance calc points to columns - 1
@@ -70,8 +69,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let skullTexture = SKTexture(image: #imageLiteral(resourceName: "skull"))
     let invisible = SKTexture(image: #imageLiteral(resourceName: "randomimage"))
     
-    var popPlayer: AVAudioPlayer?
-    
     var volumeOn = false
     
     var surpriseBallIndices = [Int]()
@@ -82,7 +79,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var numberSurpriseBalls: Int = 0
     
     var slotsToClear = [Slot]()
-    
     var ballsNeedUpdating = false
 
     // MARK: lifecycle methods and overrides
@@ -103,7 +99,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         updateBalls(dt: dt)
         updateZaps()
         addBall()
-        
     }
     
     func updateZaps() {
@@ -112,7 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             colSlots.append(contentsOf: slotsToClear)
             slotsToClear.removeAll()
             zapBalls(colSlots: colSlots) {
-                print("settings needsUpdating to true after zap balls")
+                // called after all balls have zapped and animated
                 self.ballsNeedUpdating = true
             }
         }
@@ -360,41 +355,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             MemoryBallIndices.append(MemoryIndex)
         }
-        print("surprise ball locations", MemoryBallLocations)
+        print("memory ball locations", MemoryBallLocations)
     }
+
     /**
      Teardown the stage.
      */
     func cleanupBalls() {
-        //createstageexplosion()
         self.createstageexplosion()
         let waittimer = SKAction.wait(forDuration: 1.0)
         self.run(waittimer) {
             self.gameDelegate?.handleNextStage()
-//            self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
         }
-//        let skulls = slots
-//            .filter({ $0.containsSkull == true })
-//            .flatMap({ $0.ball as? SkullBall })
-//
-//        for i in 0..<skulls.count {
-//            let isLast = (i == skulls.count - 1)
-//            let action = getReverseAnimation(ball: skulls[i])
-//
-//            skulls[i].run(action) {
-//                skulls[i].removeFromParent()
-//
-//                if isLast {
-//                    self.gameDelegate?.scorelabelalpha()
-//                    self.createstageexplosion()
-//                    let waittimer = SKAction.wait(forDuration: 1.0)
-//                    self.run(waittimer) {
-//                        self.gameDelegate?.handleNextStage()
-//                        self.game.decrementBallType(type: BallColor.skull, byNumber: self.game.skulls)
-//                    }
-//                }
-//            }
-//        }
     }
     
     /**
@@ -484,31 +456,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-//    func createExplosion(onBody body: SKPhysicsBody) {
-//        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
-//            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
-//            let ball = body.node as? SmallBall,
-//            let thisExplosion = explosion.copy() as? SKEmitterNode {
-//            let point = CGPoint(x: ball.x, y: ball.y)
-//            thisExplosion.position = point
-//            ball.addChild(thisExplosion)
-//        }
-//    }
-//
-//    func createExplosion(onBall ball: SKNode) {
-//        if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
-//            let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
-//            let ball = ball as? SmallBall,
-//            let thisExplosion = explosion.copy() as? SKEmitterNode {
-//           let explosiony = size.width / 3 + game.playerDiameter + game.smallDiameter / 2 + (CGFloat(game.slotsPerColumn - 1 - explosionpos) * game.smallDiameter)
-//            let point = CGPoint(x: size.width / 2, y: explosiony)
-//            thisExplosion.position = point
-//            let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
-//            thisExplosion.particleTexture = explosionTexture
-//            addChild(thisExplosion)
-//            explosionpos += 1
-//        }
-//    }
     func createExplosion(onBall ball: SKNode) {
         if let explosionPath = Bundle.main.path(forResource: "Spark", ofType: "sks"),
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionPath) as? SKEmitterNode,
@@ -600,6 +547,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    /**
+     * Called only when the update method found items in the array of
+     * slots that need to be cleared
+     */
     func zapBalls(colSlots: [Slot], completion: @escaping () -> Void) {
         guard let colNumber = colSlots.first?.columnNumber,
             let ballType = colSlots.first?.ball?.colorType else { return }
@@ -607,7 +558,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let currentColumn = columns[colNumber]
 
         game.decrementBallType(type: ballType, byNumber: currentColumn.numberOfSlots)
-        print(game.getCountForType(type: ballType))
+
         // map the column's slots to an array of the balls they contain
         let zapBalls = colSlots.map({ $0.ball! })
 
@@ -650,6 +601,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let positionConverted = self.convert(scenePosition, to: self.Circle)
                         b.position = positionConverted
                         self.animateNewBall(ball: b) {
+                            // switch the parent without removing it
                             b.move(toParent: self)
                             currentColumn.baseSlot.setBall(ball: b)
                         }
@@ -670,7 +622,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ball.run(wait) {
                     if let nextBall = zapBalls.filter({ !$0.falling }).last {
                         nextBall.falling = true
-                        // AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
+                        AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
                     }
                     ball.fillColor = UIColor.clear
                     ball.strokeColor = UIColor.clear
@@ -681,47 +633,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // check if we have a full stack, and if so, add its slots to
+    // the slotsToClear array... they will get cleared as part of an
+    // `update` submethod (now we aren't mutating objects mid-loop).
+    // if we have no full stacks, this will just call the completion handler
     func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
         let colSlots = getSlotsInColumn(num: colNumber)
         let firstOpenSlot = getFirstOpenSlot(slotList: colSlots)
 
         if firstOpenSlot == nil {
-            print("found open slot")
             slotsToClear.append(contentsOf: colSlots)
         } else {
-            print("no open slots")
             completion()
         }
     }
-    
-    func V2dot(a: CGPoint, b: CGPoint) -> CGFloat {
-        return a.x*b.x + a.y*b.y;
-    }
-    
-    func V2lenSq(v: CGPoint) -> CGFloat {
-        return V2dot(a: v, b: v);
-    }
-    
-    func V2len(v: CGPoint) -> CGFloat {
-        return CGFloat(sqrt(Double(V2lenSq(v: v))))
-    }
-    
-    func V2add(a: CGPoint, b: CGPoint) -> CGPoint {
-        return CGPoint(x: b.x + a.x, y: b.y + a.y);
-    }
-    
-    func V2sub(a: CGPoint, b: CGPoint) -> CGPoint {
-        return CGPoint(x: b.x - a.x, y: b.y - a.y);
-    }
 
-    func V2mul(s: CGFloat, a: CGPoint) -> CGPoint {
-        return CGPoint(x: s*a.x, y: s*a.y);
-    }
-    
-    func V2dist(a: CGPoint, b: CGPoint) -> CGFloat {
-        return V2len(v: V2sub(a: b, b: a));
-    }
-
+    // spring animation applied to surprise balls
     func animateNewBall(ball: SmallBall, completion: @escaping () -> Void) {
         let deg = Circle.zRotation
         let x = cos(deg) * game.smallDiameter
@@ -779,16 +706,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func addNewBall(toColumn num: Int) -> StartingSmallBall {
-        let skullSlot = getFirstSlotInColumn(num: num)
+        let slot = getFirstSlotInColumn(num: num)
         let index = randomInteger(upperBound: game.numberBallColors) - 1
-        let skullBall = makeStartBall(index: index)
-        skullBall.insidePos = skullSlot.insidePosition
-        skullBall.startingPos = skullSlot.startPosition
-//        skullBall.position = CGPoint(x: skullSlot.position.x, y: skullSlot.position.y - game.smallDiameter)
-        skullBall.stuck = true
-        skullBall.zPosition = Circle.zPosition - 1
-        skullSlot.containsSkull = false
-        return skullBall
+        let newBall = makeStartBall(index: index)
+        newBall.insidePos = slot.insidePosition
+        newBall.startingPos = slot.startPosition
+        newBall.stuck = true
+        newBall.zPosition = Circle.zPosition - 1
+        slot.containsSkull = false
+        return newBall
     }
 
     /**
@@ -823,7 +749,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.physicsBody?.isDynamic = false
 
             checkForZaps(colNumber: slot.columnNumber) {
-                print("settings needsUpdating to true after check for zaps")
+                // completion called from checkForZaps, if there are
+                // no full stacks to be zapped
                 self.ballsNeedUpdating = true
             }
         }
@@ -1045,6 +972,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         return newBall
     }
+
     func setFruits(ball: SmallBall, rando: Int){
         ball.lineWidth = 0.0
         let currentFruitTexture = randomImageName(imageNumber: rando + 1)
@@ -1053,6 +981,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.fillTexture = FruitTexture
         ball.fillColor = .white
     }
+
     func escapeBall(ball: SmallBall){
         //ToDo: Make the i slot, connect to collum, explosion if you hit it, game over if it's gone, make it bigger so you can see it, make physics body bigger, random time
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
@@ -1068,29 +997,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func checkforMemory(ball: SmallBall){
         //ToDO: Get a hint for money, make it random, connect to collum, show color if you're hit the same color, make it after a random sequence
-            let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
-            let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
-            let fadeOutSlow = SKAction.fadeAlpha(to: 0.0, duration: 2.0)
-            ball.run(SKAction.sequence([
-                fadeOut,
-                fadeIn,
-                fadeOut,
-                fadeIn,
-                fadeOut,
-                fadeIn,
-                fadeOut,
-                fadeIn,
-                fadeOut,
-                fadeIn,
-                fadeOutSlow,
-                ]), completion: {
-                    ball.lineWidth = 12.0
-                    ball.strokeColor = UIColor(red: 180/255, green: 180/255, blue: 180/255, alpha: 1.0)
-                    ball.fillColor = .clear
-                    ball.alpha = 1.0
-                    ball.setScale(0.55)
-            })
-        }
+        let fadeOut = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
+        let fadeOutSlow = SKAction.fadeAlpha(to: 0.0, duration: 2.0)
+        ball.run(SKAction.sequence([
+            fadeOut,
+            fadeIn,
+            fadeOut,
+            fadeIn,
+            fadeOut,
+            fadeIn,
+            fadeOut,
+            fadeIn,
+            fadeOut,
+            fadeIn,
+            fadeOutSlow,
+            ]), completion: {
+                ball.lineWidth = 12.0
+                ball.strokeColor = UIColor(red: 180/255, green: 180/255, blue: 180/255, alpha: 1.0)
+                ball.fillColor = .clear
+                ball.alpha = 1.0
+                ball.setScale(0.55)
+        })
+    }
+
     /**
      Create a small ball to drop from the top.
      - returns: A new SmallBall object.
@@ -1198,6 +1128,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func addBall() {
         guard ballsNeedUpdating else { return }
 
+        // at this point, we are definitely going to either drop a new ball or
+        // end the level if the player zapped them all
+        // either way, the balls no longer need an update decision; set to false
         ballsNeedUpdating = false
 
         if game.ballsRemaining > 0 {
@@ -1331,7 +1264,36 @@ func distanceBetween(pointA: CGPoint, pointB: CGPoint) -> CGFloat {
     return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2))
 }
 
+// ===========
+// game utility functions from shawn
+// ===========
+func V2dot(a: CGPoint, b: CGPoint) -> CGFloat {
+    return a.x*b.x + a.y*b.y;
+}
 
+func V2lenSq(v: CGPoint) -> CGFloat {
+    return V2dot(a: v, b: v);
+}
+
+func V2len(v: CGPoint) -> CGFloat {
+    return CGFloat(sqrt(Double(V2lenSq(v: v))))
+}
+
+func V2add(a: CGPoint, b: CGPoint) -> CGPoint {
+    return CGPoint(x: b.x + a.x, y: b.y + a.y);
+}
+
+func V2sub(a: CGPoint, b: CGPoint) -> CGPoint {
+    return CGPoint(x: b.x - a.x, y: b.y - a.y);
+}
+
+func V2mul(s: CGFloat, a: CGPoint) -> CGPoint {
+    return CGPoint(x: s*a.x, y: s*a.y);
+}
+
+func V2dist(a: CGPoint, b: CGPoint) -> CGFloat {
+    return V2len(v: V2sub(a: b, b: a));
+}
 
 
 
