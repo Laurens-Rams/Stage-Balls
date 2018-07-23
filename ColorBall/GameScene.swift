@@ -78,6 +78,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var MemoryBallIndices = [Int]()
     var surpriseBallLocations = [Int: Int]()
     var MemoryBallLocations = [Int: Int]()
+    
+    var numberSurpriseBalls: Int = 0
 
     // MARK: lifecycle methods and overrides
     
@@ -121,11 +123,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //backgroundColor = game.backgroundColor
         setupPlayerCircle()
-
-        let dot = SKSpriteNode(color: UIColor.red, size: CGSize(width: 10, height: 10))
-        Circle.addChild(dot)
-        let converted = self.convert(Circle.position, to: Circle)
-        dot.position = CGPoint(x: converted.x, y: converted.y + 30)
         
         game.resetAll()
 
@@ -305,6 +302,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             columnIndex += col.numberOfSlots
             columns.append(col)
 
+            slot.ball?.isMemoryBall = numMemory > 0
+
             for j in 0..<game.slotsPerColumn - 1 {
                 let updatedDistance = startDistance + (game.smallDiameter + 1) * CGFloat(j + 1)
                 let slotX = (updatedDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
@@ -327,8 +326,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupSurprises() {
-        let numberSurpriseBalls = 13
-        for _ in 0..<numberSurpriseBalls {
+        numberSurpriseBalls = game.numberSurpriseBalls
+        let max = numberSurpriseBalls > -1 ? numberSurpriseBalls : game.numberStartingBalls
+        for _ in 0..<max {
             let surpriseIndex = randomInteger(upperBound: game.minStageForSurprises)
             if let existingValue = surpriseBallLocations[surpriseIndex] {
                 surpriseBallLocations.updateValue(existingValue + 1, forKey: surpriseIndex)
@@ -398,6 +398,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         slot.ball!.run(action, completion: {
             slot.ball!.stuck = true
         })
+        if slot.ball!.isMemoryBall {
+            checkforMemory(ball: slot.ball!)
+        }
     }
     
     /**
@@ -633,7 +636,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         ball.fillColor = UIColor.clear
                         ball.strokeColor = UIColor.clear
                         ball.physicsBody = nil
-                        if currentColumn.numOfSurprises > 0 {
+                        if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 {
                             currentColumn.numOfSurprises -= 1
                             let b = self.addNewBall(toColumn: colNumber)
                             self.game.incrementBallType(type: b.colorType)

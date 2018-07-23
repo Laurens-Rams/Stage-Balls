@@ -80,6 +80,8 @@ class SmallBall: SKShapeNode {
     var startDistance: CGFloat = 0
     var startRads: CGFloat = 0
     var inContactWith = [SmallBall]()
+    
+    var isMemoryBall = false
 
     var fallTime: CGFloat = 0
     var falling = false

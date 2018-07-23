@@ -16,6 +16,10 @@ import UIKit
  
  */
 
+enum Difficulty: Int {
+    case easy = 0, hard
+}
+
 struct GameConstants {
     // MARK: static properties
 
@@ -552,7 +556,7 @@ class Game {
                 }
                 return Int(floor(_lastSurpriseCount))
             }
-            
+
             return 0
         }
     }
