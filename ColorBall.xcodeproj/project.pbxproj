@@ -63,6 +63,7 @@
 		A198EB0220F57750004AB462 /* pop2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A198EAFE20F57750004AB462 /* pop2.mp3 */; };
 		A198EB0320F57750004AB462 /* pop1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A198EAFF20F57750004AB462 /* pop1.mp3 */; };
 		A198EB0420F57750004AB462 /* pop4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A198EB0020F57750004AB462 /* pop4.mp3 */; };
+		A19A934A21054890005F8488 /* SKActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19A934921054890005F8488 /* SKActionExtensions.swift */; };
 		A1A088312013C0C400A15983 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A088302013C0C400A15983 /* GameOverScene.swift */; };
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
@@ -159,6 +160,7 @@
 		A198EAFE20F57750004AB462 /* pop2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop2.mp3; sourceTree = "<group>"; };
 		A198EAFF20F57750004AB462 /* pop1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop1.mp3; sourceTree = "<group>"; };
 		A198EB0020F57750004AB462 /* pop4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop4.mp3; sourceTree = "<group>"; };
+		A19A934921054890005F8488 /* SKActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKActionExtensions.swift; sourceTree = "<group>"; };
 		A1A088302013C0C400A15983 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				A1EEAF3B1FFD1D730027A93B /* Extensions.swift */,
 				A14286B92005F2780043BC4C /* Slot.swift */,
 				A16837522102C23C00F96D3B /* Column.swift */,
+				A19A934921054890005F8488 /* SKActionExtensions.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */,
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
 				A19625EF20F07E1E00F43718 /* NextStageButton.swift in Sources */,
+				A19A934A21054890005F8488 /* SKActionExtensions.swift in Sources */,
 				0DC48F361F1D86B600F1EA0B /* PlayerCircle.swift in Sources */,
 				A14F7DF520FD7347001F4805 /* EndlessScene.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,

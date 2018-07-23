@@ -122,6 +122,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //backgroundColor = game.backgroundColor
         setupPlayerCircle()
 
+        let dot = SKSpriteNode(color: UIColor.red, size: CGSize(width: 10, height: 10))
+        Circle.addChild(dot)
+        let converted = self.convert(Circle.position, to: Circle)
+        dot.position = CGPoint(x: converted.x, y: converted.y + 30)
+        
         game.resetAll()
 
         setupSurprises()
@@ -290,7 +295,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.position = CGPoint(x: size.width / 2, y: Circle.position.y)
             ball.zPosition = Circle.zPosition - 1
             addChild(ball)
-
 
             slots.append(slot)
 
@@ -589,7 +593,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let colSlots = getSlotsInColumn(num: colNumber)
         let firstOpenSlot = getFirstOpenSlot(slotList: colSlots)
         if firstOpenSlot == nil {
-            game.decrementBallType(type: colSlots[0].colorType, byNumber: game.slotsPerColumn)
+            game.decrementBallType(type: colSlots[0].colorType!, byNumber: game.slotsPerColumn)
             
             let currentColumn = columns[colNumber]
             
@@ -625,16 +629,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (index == zapBalls.count) {
                     ball.run(waitLast) {
                         self.createExplosion(onBall: ball)
-                        colSlots[slotIndex].ball = nil
+                        colSlots[slotIndex].unsetBall()
                         ball.fillColor = UIColor.clear
                         ball.strokeColor = UIColor.clear
                         ball.physicsBody = nil
                         if currentColumn.numOfSurprises > 0 {
                             currentColumn.numOfSurprises -= 1
                             let b = self.addNewBall(toColumn: colNumber)
-                            currentColumn.baseSlot.ball = b
                             self.game.incrementBallType(type: b.colorType)
-                            self.addChild(b)
+                            self.Circle.addChild(b)
+                            let scenePosition = CGPoint(x: self.Circle.position.x, y: currentColumn.baseSlot.position.y - self.game.smallDiameter)
+                            let positionConverted = self.convert(scenePosition, to: self.Circle)
+                            b.position = positionConverted
+                            self.animateNewBall(ball: b) {
+                                b.removeFromParent()
+                                currentColumn.baseSlot.setBall(ball: b)
+                                self.addChild(b)
+                            }
                         }
                         ball.run(SKAction.wait(forDuration: 1.2)) {
                             for b in zapBalls {
@@ -656,7 +667,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         ball.fillColor = UIColor.clear
                         ball.strokeColor = UIColor.clear
                         ball.physicsBody = nil
-                        colSlots[slotIndex].ball = nil
+                        colSlots[slotIndex].unsetBall()
                     }
                 }
             }
@@ -664,6 +675,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             completion()
         }
     }
+    
+    func V2dot(a: CGPoint, b: CGPoint) -> CGFloat {
+        return a.x*b.x + a.y*b.y;
+    }
+    
+    func V2lenSq(v: CGPoint) -> CGFloat {
+        return V2dot(a: v, b: v);
+    }
+    
+    func V2len(v: CGPoint) -> CGFloat {
+        return CGFloat(sqrt(Double(V2lenSq(v: v))))
+    }
+    
+    func V2add(a: CGPoint, b: CGPoint) -> CGPoint {
+        return CGPoint(x: b.x + a.x, y: b.y + a.y);
+    }
+    
+    func V2sub(a: CGPoint, b: CGPoint) -> CGPoint {
+        return CGPoint(x: b.x - a.x, y: b.y - a.y);
+    }
+
+    func V2mul(s: CGFloat, a: CGPoint) -> CGPoint {
+        return CGPoint(x: s*a.x, y: s*a.y);
+    }
+    
+    func V2dist(a: CGPoint, b: CGPoint) -> CGFloat {
+        return V2len(v: V2sub(a: b, b: a));
+    }
+
+    func animateNewBall(ball: SmallBall, completion: @escaping () -> Void) {
+        let deg = Circle.zRotation
+        let x = cos(deg) * game.smallDiameter
+        let y = -sin(deg) * game.smallDiameter
+        
+        let newX = -y
+        let newY = x
+        
+        
+        let spring = SKAction.moveBy(x: newX, y: newY, duration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0)
+        ball.run(spring) {
+            completion()
+        }
+    }
+    
     func moveCircle(){
         let shakeTop = getMoveAction(moveX: 0.0, moveY: 100.0, totalTime: 2.0)
         let shakeBottom = getMoveAction(moveX: 0.0, moveY: -100.0, totalTime: 2.0)
@@ -709,15 +764,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let skullSlot = getFirstSlotInColumn(num: num)
         let index = randomInteger(upperBound: game.numberBallColors) - 1
         let skullBall = makeStartBall(index: index)
-//        skullBall.insidePos = skullSlot.insidePosition
-//        skullBall.startingPos = skullSlot.startPosition
-        skullSlot.ball = skullBall
-//        skullBall.position = skullSlot.insidePosition
+        skullBall.insidePos = skullSlot.insidePosition
+        skullBall.startingPos = skullSlot.startPosition
+//        skullBall.position = CGPoint(x: skullSlot.position.x, y: skullSlot.position.y - game.smallDiameter)
         skullBall.stuck = true
-        skullBall.zPosition = 100
+        skullBall.zPosition = Circle.zPosition - 1
         skullSlot.containsSkull = false
-//        let moveSkullBall = SKAction.move(to: skullSlot.position, duration: 1.0)
-//        skullBall.run(moveSkullBall)
         return skullBall
     }
 
@@ -944,13 +996,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ballType = BallColor(rawValue: rando)!
 
         game.incrementBallType(type: ballType)
-//        print("++++++ BALL COUNT FOR TYPE: \(ballType.name()) ", game.getCountForType(type: ballType))
-
-//        slots.forEach({
-//            if $0.ball != nil {
-//                print("++++++ BALL COUNT FOR TYPE: \($0.ball!.colorType.name()) ", game.getCountForType(type: $0.ball!.colorType))
-//            }
-//        })
 
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
@@ -961,7 +1006,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         body.categoryBitMask = categories[rando + 1]
         body.contactTestBitMask = PhysicsCategory.circleBall | PhysicsCategory.blueBall | PhysicsCategory.pinkBall | PhysicsCategory.redBall | PhysicsCategory.yellowBall | PhysicsCategory.greenBall | PhysicsCategory.orangeBall | PhysicsCategory.purpleBall | PhysicsCategory.greyBall | PhysicsCategory.a | PhysicsCategory.s | PhysicsCategory.d | PhysicsCategory.f | PhysicsCategory.g | PhysicsCategory.h | PhysicsCategory.j | PhysicsCategory.k | PhysicsCategory.l | PhysicsCategory.y | PhysicsCategory.x | PhysicsCategory.c | PhysicsCategory.v | PhysicsCategory.b | PhysicsCategory.n | PhysicsCategory.m
         body.restitution = 0
-//        categories.remove(at: rando)
         body.allowsRotation = true
         
         body.usesPreciseCollisionDetection = true
@@ -978,8 +1022,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if (index == 1 ){
-        checkforMemory(ball: newBall)
-        //escapeBall(ball: newBall)
+        // checkforMemory(ball: newBall)
+        // escapeBall(ball: newBall)
         }
         return newBall
     }

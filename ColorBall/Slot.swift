@@ -25,7 +25,7 @@ class Slot {
     var endDistance: CGFloat = 0
     var diameter: CGFloat = 0
     var startRads: CGFloat = 0
-    var colorType: BallColor!
+    var colorType: BallColor?
     var isStarter = false
     var columnNumber: Int = -1
     var ball: SmallBall?
@@ -45,6 +45,11 @@ class Slot {
     func setBall(ball: SmallBall) {
         self.ball = ball
         self.colorType = ball.colorType
+    }
+    
+    func unsetBall() {
+        self.ball = nil
+        self.colorType = nil
     }
     
     func lerp(a: CGFloat, b: CGFloat, t: CGFloat) -> CGFloat {
