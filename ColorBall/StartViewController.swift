@@ -18,6 +18,7 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     }
     let defaults = UserDefaults.standard
     @IBOutlet var moneyLabel: UILabel!
+    @IBOutlet var logo2: UIImageView!
     
     var scene: MenuScene!
     

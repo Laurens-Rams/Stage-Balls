@@ -62,6 +62,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="logo2" destination="cco-X0-RZ6" id="rCa-1g-W0M"/>
                         <outlet property="skView" destination="yIB-UD-6tm" id="QnX-De-GgL"/>
                     </connections>
                 </viewController>
@@ -128,14 +129,23 @@
                                     <constraint firstAttribute="width" constant="22" id="p02-oY-QBM"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GET REWARD LABEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhi-Gy-bbU">
+                                <rect key="frame" x="6" y="130" width="307" height="36.5"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="33"/>
+                                <color key="textColor" red="0.2196078431372549" green="0.2196078431372549" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="nhi-Gy-bbU" secondAttribute="trailing" constant="7" id="2Ze-LK-9UK"/>
                             <constraint firstItem="Wwa-a3-vJo" firstAttribute="centerY" secondItem="hcs-gc-tFs" secondAttribute="centerY" id="CZF-eT-7cs"/>
                             <constraint firstItem="hcs-gc-tFs" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="20" id="G8X-gg-dWT"/>
                             <constraint firstItem="qHh-Mt-9TT" firstAttribute="top" secondItem="Bp3-oD-1sd" secondAttribute="bottom" constant="-6" id="H0H-IU-7km"/>
+                            <constraint firstItem="nhi-Gy-bbU" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="110" id="Mht-so-4Vc"/>
                             <constraint firstAttribute="trailing" secondItem="hcs-gc-tFs" secondAttribute="trailing" constant="25" id="U5j-Ya-rUs"/>
                             <constraint firstItem="md1-6Q-GbR" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" constant="28" id="a2S-2F-XUV"/>
+                            <constraint firstItem="nhi-Gy-bbU" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" constant="6" id="aZh-EJ-N3l"/>
                             <constraint firstItem="uwH-2j-QtW" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="-20" id="ciR-3T-DXG"/>
                             <constraint firstItem="uwH-2j-QtW" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="q7X-kY-W0m"/>
                             <constraint firstItem="qHh-Mt-9TT" firstAttribute="top" secondItem="md1-6Q-GbR" secondAttribute="bottom" constant="-8" id="ySR-if-eRt"/>
@@ -145,6 +155,7 @@
                     </view>
                     <connections>
                         <outlet property="menuBtn" destination="uwH-2j-QtW" id="fbZ-hN-K46"/>
+                        <outlet property="rewardLabel" destination="nhi-Gy-bbU" id="Lze-9o-eOu"/>
                         <outlet property="scoreLabel" destination="neW-P3-VwB" id="uPq-6q-S4d"/>
                         <outlet property="stageLabel" destination="hcs-gc-tFs" id="MsK-ZG-wVR"/>
                         <outlet property="tapLeft" destination="md1-6Q-GbR" id="LfP-gH-pWi"/>
@@ -153,7 +164,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1732" y="-137.4384236453202"/>
+            <point key="canvasLocation" x="-1732.5" y="-138.38028169014083"/>
         </scene>
         <!--Game Over View Controller New-->
         <scene sceneID="QeJ-5P-T9b">

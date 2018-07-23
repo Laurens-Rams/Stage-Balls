@@ -24,13 +24,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     @IBOutlet var tapRight: UIButton!
     @IBOutlet var tapLeft: UIButton!
     
+    @IBOutlet var rewardLabel: UILabel!
     @IBOutlet var menuBtn: UIButton!
     @IBOutlet weak var stageLabel: UILabel!
 
     var scene: GameScene!
     var skView: SKView!
     var camera: SKCameraNode!
-    
+    var rewardnextstageStrings = ["Good job!", "Well done!", "Fantastic!", "Excellent!"]
+    var rewardclose = ["You'r close", "Almost finished", "Just a few more"]
     var game: Game!
     
     var gameOverController: GameOverViewControllerNew?
@@ -51,6 +53,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         super.viewWillAppear(animated)
         scoreLabel.alpha = 1.0
         scoreLabel.text = String(0)
+        rewardLabel.alpha = 0.0
     }
 
     override func viewDidLoad() {
@@ -68,6 +71,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             menuBtn.imageEdgeInsets.bottom = 25.0
         }
         stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+        rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
        // scoreLabel.alpha = 1.0
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
@@ -128,6 +132,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         camera = SKCameraNode()
        
         stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+        rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         scene.removeAllChildren()
         scene.removeAllActions()
         scene.removeFromParent()
@@ -155,6 +160,35 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         // print("white")
     }
     
+    func rewardnextstage(){
+        let randoString = Int(arc4random_uniform(UInt32(rewardnextstageStrings.count)))
+        let randNum = rewardnextstageStrings[randoString]
+        // make sure the number isnt repeated
+        if (game.stage == 1){
+            self.rewardLabel.alpha = 1.0
+            self.rewardLabel.text = "Perfect"
+        }else if game.stage == 7{
+            self.rewardLabel.alpha = 1.0
+        self.rewardLabel.text = "You Rock"
+        }else if game.stage == 14{
+            self.rewardLabel.alpha = 1.0
+            self.rewardLabel.text = "That's your day"
+        }else if game.stage == 21{
+            self.rewardLabel.alpha = 1.0
+            self.rewardLabel.text = "Fantastic"
+        }else if game.stage == 30{
+            self.rewardLabel.alpha = 1.0
+            self.rewardLabel.text = "Excellent"
+        }else if game.stage == 35{
+            self.rewardLabel.alpha = 1.0
+            self.rewardLabel.text = "Well done"
+        }else if game.stage > 40{
+            self.rewardLabel.alpha = 1.0
+            self.rewardLabel.text = randNum
+        }else{
+            self.rewardLabel.alpha = 0.0
+        }
+    }
     func setupScene(setToWhite: Bool) {
       //  scoreLabel.text = "\(game.numberBallsInQueue)"
         scoreLabel.format = "%d"
@@ -338,6 +372,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         
         UIView.animate(withDuration: 0.4, delay: 0.0, animations: {
             self.stageLabel.textColor = UIColor.white
+            // ASK EMILY IF THAT WORKS FINE
+            if ((self.game.numberStartingBalls / 10) >= self.game.ballsRemaining){
+                self.rewardLabel.textColor = .white
+                self.rewardLabel.alpha = 1.0
+                let randoString = Int(arc4random_uniform(UInt32(self.rewardclose.count)))
+                let randNum = self.rewardclose[randoString]
+                self.rewardLabel.text = randNum
+            }
+            
         }, completion: nil)
     }
     func scorelabelalpha() {
@@ -360,6 +403,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
         UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
             self.scoreLabel.alpha = 1.0
+            self.rewardLabel.alpha = 0.0
         }, completion: nil)
         adsShowNextStage = true
         handleAds()

@@ -96,11 +96,11 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.001
+    private var _speedMultiplier: Double = 0.0
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.0
+    private var _gravityMultiplier: Double = 0.075
     
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
@@ -546,7 +546,7 @@ class Game {
     var numberSurpriseBalls: Int {
         get {
             let frequency = 2
-            let maxBalls: Double = 8
+            let maxBalls: Double = 24
 
             if _stage < _minStageForSurprises {
                 return 0
@@ -561,9 +561,9 @@ class Game {
                 if _lastSurpriseCount < maxBalls {
                      _lastSurpriseCount += 1
                 }
+                print(_lastSurpriseCount)
                 return Int(floor(_lastSurpriseCount))
             }
-
             return 0
         }
     }
@@ -582,12 +582,11 @@ class Game {
      Multiplier for ball falling speed ("gravity") (read-only getter).
      */
     var gravityMultiplier: Double {
-        
         get {
             if (_stage < 40){
             return Double(_stage - 1) * _gravityMultiplier
             }else{
-            return 4.0
+            return 3.0
             }
         }
     }

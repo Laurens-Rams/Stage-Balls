@@ -243,7 +243,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for ball in fallingBalls {
             if !ball.inLine && !ball.stuck {
                 let newX = ball.position.x
-                let newY = ball.position.y - (5.0)
+                let newY = ball.position.y - (5.0 + CGFloat(game.gravityMultiplier)) // 5.0 - 8.0
                 ball.position = CGPoint(x: newX, y: newY)
             }
         }
@@ -268,6 +268,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     
     func setupSlots() {
+        print("gravityMultiplier:" , game.gravityMultiplier)
+        print("speedMultiplier:" , game.speedMultiplier)
+        print("MemoryBalls:" , game.numberOfMemoryBalls)
+        print("SurpriseBalls:" , game.numberSurpriseBalls)
+        
         // the radians to separate each starting ball by, when placing around the ring
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
@@ -313,7 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             slot.ball?.isMemoryBall = numMemory > 0
 
             for j in 0..<game.slotsPerColumn - 1 {
-                let updatedDistance = startDistance + (game.smallDiameter + 1) * CGFloat(j + 1)
+                let updatedDistance = startDistance + (game.smallDiameter - 5) * CGFloat(j + 1)
                 let slotX = (updatedDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
                 let slotY = (updatedDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
                 let slotPos = CGPoint(x: slotX, y: slotY)
@@ -369,6 +374,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         canpresspause = false
         let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
         winCircle.run(fadeIn)
+        self.gameDelegate?.rewardnextstage()
         self.gameDelegate?.scorelabelalpha()
         let waittimerone = SKAction.wait(forDuration: 1.5)
         self.run(waittimerone) {
@@ -421,7 +427,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
                 timer in
                 ball.inLine = false
-                self.physicsWorld.gravity = CGVector(dx: 0, dy: (-self.game.gravityMultiplier)) // 3 bei stage 10 und 1.2 Speed
+                self.physicsWorld.gravity = CGVector(dx: 0, dy: 0) // 3 bei stage 10 und 1.2 Speed
             })
 
     }
@@ -604,10 +610,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // - 3. call the completion handler after finishing
             if (index == zapBalls.count) {
                 ball.run(waitLast) {
-                    self.createExplosion(onBall: ball)
-                    colSlots[slotIndex].unsetBall()
                     ball.fillColor = UIColor.clear
                     ball.strokeColor = UIColor.clear
+                    self.createExplosion(onBall: ball)
+                    colSlots[slotIndex].unsetBall()
                     ball.physicsBody = nil
                     if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 {
                         currentColumn.numOfSurprises -= 1
