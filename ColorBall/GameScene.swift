@@ -44,7 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // handling variable column heights and surprises
     var columns = [Column]()
     var columnIndex: Int = 0
-    
+    var canpresspause = false
     // timers
     var ballTimer: Timer?
     var fallTimer: Timer?
@@ -57,7 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // TODO: trim one of these though:
     var allowToMove = false
     var canMove = false
-    var canpresspause = true
+
 
     // game loop update values
     var lastUpdateTime: TimeInterval = 0
@@ -256,6 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //timer sets when the first ball should fall
             let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
                 self.allowToMove = true
+                self.canpresspause = true
                 self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
@@ -365,6 +366,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Teardown the stage.
      */
     func cleanupBalls() {
+        canpresspause = false
         let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
         winCircle.run(fadeIn)
         self.gameDelegate?.scorelabelalpha()
@@ -782,6 +784,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startGameOverSequence(newBall: SmallBall) {
+        canpresspause = false
         self.gameDelegate?.gameoverplayscore()
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
             let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -977,13 +980,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         //fruits
-        // setFruits(ball: newBall, rando: rando)
-        
-        
-        if (index == 1 ){
+        setFruits(ball: newBall, rando: rando)
         // checkforMemory(ball: newBall)
-        // escapeBall(ball: newBall)
-        }
+        
         return newBall
     }
 
@@ -996,7 +995,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.fillColor = .white
     }
 
-    func escapeBall(ball: SmallBall){
+    func checkforEscape(ball: SmallBall){
         //ToDo: Make the i slot, connect to collum, explosion if you hit it, game over if it's gone, make it bigger so you can see it, make physics body bigger, random time
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
         let startRads = incrementRads * CGFloat(12) - degreesToRad(angle: 90.0)
@@ -1102,7 +1101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
-        // setFruits(ball: newBall, rando: rando)
+        setFruits(ball: newBall, rando: rando)
         return newBall
     }
     
