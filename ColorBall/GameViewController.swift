@@ -50,10 +50,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         scoreLabel.alpha = 1.0
+        scoreLabel.text = String(0)
     }
 
     override func viewDidLoad() {
-        defaults.set(50, forKey: Settings.HIGH_SCORE_KEY)
+        //defaults.set(50, forKey: Settings.HIGH_SCORE_KEY)
         //ads
         //      interstitial = createAndLoadInterstitial()
         super.viewDidLoad()
