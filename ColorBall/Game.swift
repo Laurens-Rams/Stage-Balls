@@ -23,6 +23,8 @@ enum Difficulty: Int {
 struct GameConstants {
     // MARK: static properties
 
+    static var allBallTypes = Array(BallColor.cases(removingIndices: [24]))
+
     static let initialSlotsOnCircle: CGFloat = 13
     static let initialSlotsPerColumn = 2
 
@@ -418,7 +420,12 @@ class Game {
      */
     var ballsRemaining: Int {
         get {
-            return numberBallsInQueue - ballsFallen + Int(floor(_lastSurpriseCount))
+            var total = 0
+            for type in GameConstants.allBallTypes {
+                total += getCountForType(type: type)
+            }
+            return total
+            // return numberBallsInQueue - ballsFallen + Int(floor(_lastSurpriseCount))
         }
     }
 

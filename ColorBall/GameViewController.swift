@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import EFCountingLabel
-import Firebase
+//import Firebase
 //ADS
 import GoogleMobileAds
 
@@ -83,9 +83,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         setupGame(animateBackground: false)
     }
     func setcurrentStage(){
-        Analytics.logEvent("highest_stage", parameters: [
-            "stage": defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int
-        ])
+//        Analytics.logEvent("highest_stage", parameters: [
+//            "stage": defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int
+//        ])
     }
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
@@ -197,7 +197,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func increaseScore(byValue: Int) {
         scene.game.increaseScore(byValue: byValue)
         scoreLabel.text = scoreFormatter(score: scene.game.ballsRemaining)
-        print("sccooooooore", scene.game.ballsRemaining)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
         checkscorelabelsize()
     }
@@ -353,10 +352,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
     }
     func handleNextStage() {
-        Analytics.logEvent("played_nextstage", parameters: [
-            "stage": defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int,
-            "played": defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int
-        ])
+//        Analytics.logEvent("played_nextstage", parameters: [
+//            "stage": defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int,
+//            "played": defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int
+//        ])
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
         UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
             self.scoreLabel.alpha = 1.0

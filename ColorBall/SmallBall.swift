@@ -12,7 +12,36 @@ import SpriteKit
 // EMILY TODO:
 // - outline a game ball superclass SKNode, which we can implement together
 
-enum BallColor: Int {
+protocol EnumCollection : Hashable {}
+extension EnumCollection {
+    static func cases() -> AnySequence<Self> {
+        typealias S = Self
+        return AnySequence { () -> AnyIterator<S> in
+            var raw = 0
+            return AnyIterator {
+                let current : Self = withUnsafePointer(to: &raw) { $0.withMemoryRebound(to: S.self, capacity: 1) { $0.pointee } }
+                guard current.hashValue == raw else { return nil }
+                raw += 1
+                return current
+            }
+        }
+    }
+    
+    static func cases(removingIndices indices: [Int]) -> AnySequence<Self> {
+        typealias S = Self
+        return AnySequence { () -> AnyIterator<S> in
+            var raw = 0
+            return AnyIterator {
+                let current : Self = withUnsafePointer(to: &raw) { $0.withMemoryRebound(to: S.self, capacity: 1) { $0.pointee } }
+                guard current.hashValue == raw, !indices.contains(raw) else { return nil }
+                raw += 1
+                return current
+            }
+        }
+    }
+}
+
+enum BallColor: Int, EnumCollection {
     case blue = 0, pink, red, yellow, green, orange, purple, grey, a, s, d, f, g, h, j, k, l, y, x, c, v, b, n, m, skull
     
     func name() -> String {

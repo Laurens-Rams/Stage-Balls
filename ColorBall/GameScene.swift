@@ -80,6 +80,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var MemoryBallLocations = [Int: Int]()
     
     var numberSurpriseBalls: Int = 0
+    
+    var slotsToClear = [Slot]()
+    
+    var ballsNeedUpdating = false
 
     // MARK: lifecycle methods and overrides
     
@@ -97,31 +101,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         updateSlots(dt: dt)
         updateBalls(dt: dt)
+        updateZaps()
+        addBall()
+        
     }
     
+    func updateZaps() {
+        if slotsToClear.count > 0 {
+            var colSlots = [Slot]()
+            colSlots.append(contentsOf: slotsToClear)
+            slotsToClear.removeAll()
+            zapBalls(colSlots: colSlots) {
+                print("settings needsUpdating to true after zap balls")
+                self.ballsNeedUpdating = true
+            }
+        }
+    }
+
     override func didMove(to view: SKView) {
-        //make a last backgroundColor
         Circle.alpha = 1.0
         skullCircle.alpha = 0.0
         let action = SKAction.fadeIn(withDuration: 0)
         Circle.run(action)
-        //backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        //run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.4))
+
         isPaused = false
         spinMultiplier = (20 / CGFloat(game.slotsOnCircle))
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
 
-//        print("ALTERNATE MODE VARIABLES========")
-//        let numberMemoryBalls = game.numberOfMemoryBalls
-//        let shouldUseEscapeBall = game.shouldUseEscapeBall
-//        print(numberMemoryBalls)
-//        print(shouldUseEscapeBall)
-//        print("ALTERNATE MODE VARIABLES========")
-
-        
-        //backgroundColor = game.backgroundColor
         setupPlayerCircle()
         
         game.resetAll()
@@ -250,6 +258,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //timer sets when the first ball should fall
             let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
                 self.allowToMove = true
+                self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
                 //self.moveCircle()
@@ -591,90 +600,97 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
+    func zapBalls(colSlots: [Slot], completion: @escaping () -> Void) {
+        guard let colNumber = colSlots.first?.columnNumber,
+            let ballType = colSlots.first?.ball?.colorType else { return }
         
-        let colSlots = getSlotsInColumn(num: colNumber)
-        let firstOpenSlot = getFirstOpenSlot(slotList: colSlots)
-        if firstOpenSlot == nil {
-            game.decrementBallType(type: colSlots[0].colorType!, byNumber: game.slotsPerColumn)
+        let currentColumn = columns[colNumber]
+
+        game.decrementBallType(type: ballType, byNumber: currentColumn.numberOfSlots)
+        print(game.getCountForType(type: ballType))
+        // map the column's slots to an array of the balls they contain
+        let zapBalls = colSlots.map({ $0.ball! })
+
+        zapBalls.last?.falling = true
+
+        // variable to count loop iterations
+        var index = 0
+        
+        // loop through the array of balls we should be zapping
+        for _ in colSlots {
+            // add one to the loop count
+            index += 1
+            let slotIndex = index.advanced(by: -1)
             
-            let currentColumn = columns[colNumber]
+            // get a reference to the ball we want to animate this iteration
+            let ball = zapBalls[zapBalls.count - index]
             
-            // map the column's slots to an array of the balls they contain
-            let zapBalls = colSlots.map({ $0.ball! })
-
-            if let topBall = zapBalls.last {
-                topBall.falling = true
-            }
-
-            // variable to count loop iterations
-            var index = 0
-
-            // loop through the array of balls we should be zapping
-            for _ in zapBalls {
-                // add one to the loop count
-                index += 1
-                let slotIndex = index.advanced(by: -1)
-
-                // get a reference to the ball we want to animate this iteration
-                let ball = zapBalls[zapBalls.count - index]
-
-                // create the wait action (the delay before we start falling)
-                let waitDuration = Double(GameConstants.ballZapDuration * CGFloat(index))
-                let wait = SKAction.wait(forDuration: waitDuration)
-                let waitLast = SKAction.wait(forDuration: waitDuration - Double(GameConstants.ballZapDuration))
-                ball.fallTime = GameConstants.ballZapDuration
-
-                // if we're on the last ball, we want to:
-                // - 1. make sure the whole stack is removed afterwards
-                // - 2. add a skull ball to the first slot
-                // - 3. call the completion handler after finishing
-                if (index == zapBalls.count) {
-                    ball.run(waitLast) {
-                        self.createExplosion(onBall: ball)
-                        colSlots[slotIndex].unsetBall()
-                        ball.fillColor = UIColor.clear
-                        ball.strokeColor = UIColor.clear
-                        ball.physicsBody = nil
-                        if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 {
-                            currentColumn.numOfSurprises -= 1
-                            let b = self.addNewBall(toColumn: colNumber)
-                            self.game.incrementBallType(type: b.colorType)
-                            self.Circle.addChild(b)
-                            let scenePosition = CGPoint(x: self.Circle.position.x, y: currentColumn.baseSlot.position.y - self.game.smallDiameter)
-                            let positionConverted = self.convert(scenePosition, to: self.Circle)
-                            b.position = positionConverted
-                            self.animateNewBall(ball: b) {
-                                b.removeFromParent()
-                                currentColumn.baseSlot.setBall(ball: b)
-                                self.addChild(b)
-                            }
+            // create the wait action (the delay before we start falling)
+            let waitDuration = Double(GameConstants.ballZapDuration * CGFloat(index))
+            let wait = SKAction.wait(forDuration: waitDuration)
+            let waitLast = SKAction.wait(forDuration: waitDuration - Double(GameConstants.ballZapDuration))
+            ball.fallTime = GameConstants.ballZapDuration
+            
+            // if we're on the last ball, we want to:
+            // - 1. make sure the whole stack is removed afterwards
+            // - 2. add a skull ball to the first slot
+            // - 3. call the completion handler after finishing
+            if (index == zapBalls.count) {
+                ball.run(waitLast) {
+                    self.createExplosion(onBall: ball)
+                    colSlots[slotIndex].unsetBall()
+                    ball.fillColor = UIColor.clear
+                    ball.strokeColor = UIColor.clear
+                    ball.physicsBody = nil
+                    if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 {
+                        currentColumn.numOfSurprises -= 1
+                        let b = self.addNewBall(toColumn: colNumber)
+                        self.Circle.addChild(b)
+                        let scenePosition = CGPoint(x: self.Circle.position.x, y: currentColumn.baseSlot.position.y - self.game.smallDiameter)
+                        let positionConverted = self.convert(scenePosition, to: self.Circle)
+                        b.position = positionConverted
+                        self.animateNewBall(ball: b) {
+                            b.removeFromParent()
+                            currentColumn.baseSlot.setBall(ball: b)
+                            self.addChild(b)
                         }
-                        ball.run(SKAction.wait(forDuration: 1.2)) {
-                            for b in zapBalls {
-                                b.removeFromParent()
-                            }
-                        }
-                        completion()
                     }
-                } else {
-                    // if we are not on the last ball yet, we want to:
-                    // - 1. run the delay
-                    // - 2. remove this ball
-                    // - 3. set the next ball's falling property to true
-                    ball.run(wait) {
-                        if let nextBall = zapBalls.filter({ !$0.falling }).last {
-                            nextBall.falling = true
-                            AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
+                    ball.run(SKAction.wait(forDuration: 1.2)) {
+                        for b in zapBalls {
+                            b.removeFromParent()
                         }
-                        ball.fillColor = UIColor.clear
-                        ball.strokeColor = UIColor.clear
-                        ball.physicsBody = nil
-                        colSlots[slotIndex].unsetBall()
                     }
+                    
+                    completion()
+                }
+            } else {
+                // if we are not on the last ball yet, we want to:
+                // - 1. run the delay
+                // - 2. remove this ball
+                // - 3. set the next ball's falling property to true
+                ball.run(wait) {
+                    if let nextBall = zapBalls.filter({ !$0.falling }).last {
+                        nextBall.falling = true
+                        // AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
+                    }
+                    ball.fillColor = UIColor.clear
+                    ball.strokeColor = UIColor.clear
+                    ball.physicsBody = nil
+                    colSlots[slotIndex].unsetBall()
                 }
             }
+        }
+    }
+    
+    func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
+        let colSlots = getSlotsInColumn(num: colNumber)
+        let firstOpenSlot = getFirstOpenSlot(slotList: colSlots)
+
+        if firstOpenSlot == nil {
+            print("found open slot")
+            slotsToClear.append(contentsOf: colSlots)
         } else {
+            print("no open slots")
             completion()
         }
     }
@@ -743,7 +759,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let skullBall = makeSkullBall()
         skullBall.insidePos = skullSlot.insidePosition
         skullBall.startingPos = skullSlot.startPosition
-        skullSlot.ball = skullBall
+        skullSlot.setBall(ball: skullBall)
         skullBall.position = skullSlot.position
         skullBall.stuck = true
         skullBall.zPosition = -5
@@ -802,14 +818,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                popOut
 //            ]))
             
-            ball.position = slot.position// this sets the position strictly
-            slot.ball = ball // this will make that position update every frame
+            slot.setBall(ball: ball) // this will make that position update every frame
             
             ball.stuck = true
             ball.physicsBody?.isDynamic = false
 
             checkForZaps(colNumber: slot.columnNumber) {
-                self.addBall()
+                print("settings needsUpdating to true after check for zaps")
+                self.ballsNeedUpdating = true
             }
         }
     }
@@ -1181,6 +1197,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Add a new ball to the array and to the game scene if we can.
      */
     @objc func addBall() {
+        guard ballsNeedUpdating else { return }
+
+        ballsNeedUpdating = false
+
         if game.ballsRemaining > 0 {
             let newBall = makeBall()
             var yPos = size.height
