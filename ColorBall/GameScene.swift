@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spinVar: CGFloat = 15.0
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
-    let skullCircle = PlayerCircle(imageNamed: "skullCircle")
+    let skullCircle = PlayerCircle(imageNamed: "lose")
     let ring = PlayerCircle(imageNamed: "ring")
     
     // direction of rotation
@@ -380,7 +380,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             slot.ball!.stuck = true
         })
         if slot.ball!.isMemoryBall {
-            checkforMemory(ball: slot.ball!)
+            let wait = SKAction.wait(forDuration: 2.0)
+            run(wait, completion: {
+                self.checkforMemory(ball: slot.ball!)
+            })
+            
         }
     }
     
@@ -658,7 +662,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let newY = x
         
         
-        let spring = SKAction.moveBy(x: newX, y: newY, duration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0)
+        let spring = SKAction.moveBy(x: newX, y: newY, duration: 1.0, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0)
         ball.run(spring) {
             completion()
         }
