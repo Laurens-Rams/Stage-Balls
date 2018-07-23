@@ -193,7 +193,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
       //  scoreLabel.text = "\(game.numberBallsInQueue)"
         scoreLabel.format = "%d"
         scoreLabel.method = .linear
-        scoreLabel.countFrom(CGFloat(game.ballsRemaining), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
+        scoreLabel.countFrom(CGFloat(0), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
         checkscorelabelsize()
         scene = GameScene(size: view.frame.size)
         if (setToWhite) {
@@ -231,7 +231,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func increaseScore(byValue: Int) {
         scene.game.increaseScore(byValue: byValue)
-        scoreLabel.text = scoreFormatter(score: scene.game.ballsRemaining)
+        print(game.ballsRemaining)
+        scoreLabel.text = scoreFormatter(score: scene.game.numberBallsInQueue)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
         checkscorelabelsize()
     }

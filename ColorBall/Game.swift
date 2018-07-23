@@ -127,7 +127,7 @@ class Game {
     // memory stage controls
     private var _nextMemoryStage = 0
     private var _lastMemoryCount: Double = 0.5
-    
+
     // =========
     // surprise stage controls
     // =========
@@ -434,7 +434,7 @@ class Game {
      */
     var numberBallsInQueue: Int {
         get {
-            return (_stage) * (slotsPerColumn - 1)
+            return (numberStartingBalls * _slotsPerColumn) - ballsFallen + numberSurpriseBalls
         }
     }
     
@@ -547,6 +547,7 @@ class Game {
         get {
             let frequency = 2
             let maxBalls: Double = 24
+            let initialSurpriseCount = 0.5
 
             if _stage < _minStageForSurprises {
                 return 0
@@ -559,7 +560,7 @@ class Game {
             // 5 % 2 will give us the remainder 1, so we'll skip that stage
             if stagesEllapsed % frequency == 0 {
                 if _lastSurpriseCount < maxBalls {
-                     _lastSurpriseCount += 1
+                     _lastSurpriseCount = initialSurpriseCount + (Double(stagesEllapsed) / 2)
                 }
                 print(_lastSurpriseCount)
                 return Int(floor(_lastSurpriseCount))
