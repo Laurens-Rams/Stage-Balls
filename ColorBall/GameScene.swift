@@ -275,7 +275,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("SurpriseBalls:" , game.numberSurpriseBalls)
         
         // generate the column heights for this stage
-        columnHeights = game.columnsHeights
+        game.generateColumnHeights()
 
         // the radians to separate each starting ball by, when placing around the ring
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
@@ -312,9 +312,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             slots.append(slot)
 
+            let height = game.columnsHeights.count >= i - 1 ? game.columnsHeights[i] : 2 // set to a default just in case
             let numSurprises = surpriseBallLocations[rando] ?? 0 // default to 0
             let numMemory = MemoryBallLocations[rando] ?? 0 // default to 0
-            let col = Column(numberOfSlots: columnHeights[i], baseIndex: columnIndex, numOfSurprises: numSurprises, numOfMemory: numMemory, baseSlot: slot)
+            let col = Column(numberOfSlots: height, baseIndex: columnIndex, numOfSurprises: numSurprises, numOfMemory: numMemory, baseSlot: slot)
             // this will be useful when we have varying values for num column slots
             columnIndex += col.numberOfSlots
             columns.append(col)

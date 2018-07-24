@@ -137,6 +137,8 @@ class Game {
     // thus, we should start at 0.5, so the first time we hit a surprise stage,
     // it will add and return 1, then increase by 1 every other time after that
     private var _lastSurpriseCount: Double = 0.5
+    
+    private var _columnHeights = [Int]()
 
     // counts for each type of physics category on the screen
     
@@ -612,34 +614,39 @@ class Game {
             
         }
     }
+
+    func generateColumnHeights() {
+        let minVariableStage: Double = 20
+        let maxFrequency: Double = 10
+        let minFrequency: Double = 20
+        
+        let s = Double(_stage)
+        var min: Double = 2
+        var max: Double = 3
+        _columnHeights.removeAll() // RESET WHEN WE GENERATE
+        
+        if s < minVariableStage {
+            print("MINIMUM", min)
+            print("STAGE", s)
+            min = 2
+            max = 2
+        } else {
+            let multiplesOfMax = floor((s - minVariableStage) / maxFrequency)
+            let multiplesOfMin = floor((s - minVariableStage) / minFrequency)
+            min += multiplesOfMin
+            max += multiplesOfMax
+        }
+        
+        for _ in 0..<numberStartingBalls {
+            let num = randomInteger(lowerBound: Int(min), upperBound: Int(max))
+            _columnHeights.append(num)
+        }
+        print(_columnHeights)
+    }
     
     var columnsHeights: [Int] {
         get {
-            let minVariableStage: Double = 20
-            let maxFrequency: Double = 10
-            let minFrequency: Double = 20
-            
-            let s = Double(_stage)
-            var min: Double = 2
-            var max: Double = 3
-            var heights = [Int]()
-
-            if s < minVariableStage {
-                min = 2
-                max = 3
-            } else {
-                let multiplesOfMax = floor((s - minVariableStage) / maxFrequency)
-                let multiplesOfMin = floor((s - minVariableStage) / minFrequency)
-                min += multiplesOfMin
-                max += multiplesOfMax
-            }
-
-            for _ in 0..<numberStartingBalls {
-                let num = randomInteger(lowerBound: Int(min), upperBound: Int(max))
-                heights.append(num)
-            }
-            print(heights)
-            return heights
+            return _columnHeights
         }
     }
     
