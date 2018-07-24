@@ -82,6 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var slotsToClear = [Slot]()
     var ballsNeedUpdating = false
 
+    var columnHeights: [Int]!
     // MARK: lifecycle methods and overrides
     
     // main update function (game loop)
@@ -273,6 +274,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("MemoryBalls:" , game.numberOfMemoryBalls)
         print("SurpriseBalls:" , game.numberSurpriseBalls)
         
+        // generate the column heights for this stage
+        columnHeights = game.columnsHeights
+
         // the radians to separate each starting ball by, when placing around the ring
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
@@ -310,14 +314,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             let numSurprises = surpriseBallLocations[rando] ?? 0 // default to 0
             let numMemory = MemoryBallLocations[rando] ?? 0 // default to 0
-            let col = Column(numberOfSlots: game.slotsPerColumn, baseIndex: columnIndex, numOfSurprises: numSurprises, numOfMemory: numMemory, baseSlot: slot)
+            let col = Column(numberOfSlots: columnHeights[i], baseIndex: columnIndex, numOfSurprises: numSurprises, numOfMemory: numMemory, baseSlot: slot)
             // this will be useful when we have varying values for num column slots
             columnIndex += col.numberOfSlots
             columns.append(col)
 
             slot.ball?.isMemoryBall = numMemory > 0
 
-            for j in 0..<game.slotsPerColumn - 1 {
+            for j in 0..<col.numberOfSlots - 1 {
                 let updatedDistance = startDistance + (game.smallDiameter + 1) * CGFloat(j + 1)
                 let slotX = (updatedDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
                 let slotY = (updatedDistance) * sin(Circle.zRotation - startRads) + Circle.position.y

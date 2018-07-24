@@ -10,7 +10,8 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import EFCountingLabel
-//import Firebase
+import Firebase
+
 //ADS
 import GoogleMobileAds
 
@@ -88,9 +89,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         setupGame(animateBackground: false)
     }
     func setcurrentStage(){
-//        Analytics.logEvent("highest_stage", parameters: [
-//            "stage": defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int
-//        ])
+        if let stage = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
+            Analytics.logEvent("highest_stage", parameters: [
+                "stage": stage
+                ])
+        }
     }
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
@@ -397,10 +400,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
     }
     func handleNextStage() {
-//        Analytics.logEvent("played_nextstage", parameters: [
-//            "stage": defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int,
-//            "played": defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int
-//        ])
+        if let stage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int, let played = defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int {
+            print(stage, played)
+            Analytics.logEvent("played_nextstage", parameters: [
+                "stage": stage,
+                "played": played
+            ])
+        }
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
         UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
             self.scoreLabel.alpha = 1.0

@@ -613,6 +613,36 @@ class Game {
         }
     }
     
+    var columnsHeights: [Int] {
+        get {
+            let minVariableStage: Double = 20
+            let maxFrequency: Double = 10
+            let minFrequency: Double = 20
+            
+            let s = Double(_stage)
+            var min: Double = 2
+            var max: Double = 3
+            var heights = [Int]()
+
+            if s < minVariableStage {
+                min = 2
+                max = 3
+            } else {
+                let multiplesOfMax = floor((s - minVariableStage) / maxFrequency)
+                let multiplesOfMin = floor((s - minVariableStage) / minFrequency)
+                min += multiplesOfMin
+                max += multiplesOfMax
+            }
+
+            for _ in 0..<numberStartingBalls {
+                let num = randomInteger(lowerBound: Int(min), upperBound: Int(max))
+                heights.append(num)
+            }
+            print(heights)
+            return heights
+        }
+    }
+    
     /**
      How high the balls should be able to stack (read-only getter).
      */
