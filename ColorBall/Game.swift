@@ -28,12 +28,12 @@ struct GameConstants {
     static let initialSlotsOnCircle: CGFloat = 13
     static let initialSlotsPerColumn = 2
 
-    static let ballZapDuration: CGFloat = 0.15
+    static let ballZapDuration: CGFloat = 0.125
 
     static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
 
     static let startingCircleScale: CGFloat = 0.55
-    static let startingBallScale: CGFloat = 0.11
+    static let startingBallScale: CGFloat = 0.12
 
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
@@ -83,7 +83,6 @@ class Game {
 
     // game level
     private var _stage: Int = 1
-    
     // starting player circle diameter
     private var _playerDiameter: CGFloat = GameConstants.startingCircleDiameter
     private var _outerDiameter: CGFloat = GameConstants.startingOuterDiameter
@@ -97,6 +96,11 @@ class Game {
     // this controls the frequency of things falling
     // how often things fall
     private var _speedMultiplier: Double = 0.0
+    
+    private var _rotationSpeedIncrement = CGFloat(0.0)
+    private var _spinVar = CGFloat(16.0)
+    
+    
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
@@ -132,7 +136,7 @@ class Game {
     // surprise stage controls
     // =========
     // minimum stage for surprises
-    private var _minStageForSurprises: Int = 13
+    private var _minStageForSurprises: Int = 12
     // we always add 0.5 to this BEFORE returning it
     // thus, we should start at 0.5, so the first time we hit a surprise stage,
     // it will add and return 1, then increase by 1 every other time after that
@@ -416,6 +420,17 @@ class Game {
             return _ballsFallen
         }
     }
+    var spinVar: CGFloat {
+        get {
+            return _spinVar
+        }
+    }
+    var rotationSpeedIncrement: CGFloat {
+        get {
+            return _rotationSpeedIncrement
+        }
+    }
+    
 
     /**
      The number of balls remaining to fall in the current stage.
@@ -436,7 +451,7 @@ class Game {
      */
     var numberBallsInQueue: Int {
         get {
-            return (numberStartingBalls * _slotsPerColumn) - ballsFallen + numberSurpriseBalls
+            return (numberStartingBalls + _slotsPerColumn) - ballsFallen + numberSurpriseBalls
         }
     }
     
@@ -470,9 +485,14 @@ class Game {
     /**
      Number of starting balls (read-only getter).
      */
+    
+    // min 13
+    // max 22
+    // maxStage 57
+    // f 5
     var numberStartingBalls: Int {
         get {
-            let frequency = 5
+            let frequency = 4
             let baseAmountToAdd = _stage - 1
             let highestVariableStage = 13
 
@@ -482,10 +502,14 @@ class Game {
             }
 
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
-            return highestVariableStage + multiplesOfFrequency
+            if _stage < 57{
+                return highestVariableStage + multiplesOfFrequency
+            }else{
+                return 22
+            }
         }
     }
-    
+    // not used
     var shouldUseEscapeBall: Bool {
         get {
             let frequencyMin = 2
@@ -510,7 +534,10 @@ class Game {
             return false
         }
     }
-    
+    // min 30
+    // max 22
+    // maxStage 57
+    // f 5
     var numberOfMemoryBalls: Int {
         get {
             let frequencyMin = 3
@@ -521,12 +548,12 @@ class Game {
             if _stage < highestVariableStage {
                 return 0
             }
-            
             if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
                 // set the next nextEscapeStage
                 let nextMin = _stage + frequencyMin
                 let nextMax = _stage + frequencyMax
                 _nextMemoryStage = _stage + randomInteger(lowerBound: nextMin, upperBound: nextMax)
+                print("next mem stage", _nextMemoryStage)
                 // yes, we should have an escape ball this stage
                 if _stage == _nextMemoryStage {
                     if _lastMemoryCount < maxBalls { _lastMemoryCount += 0.5 }
@@ -547,14 +574,16 @@ class Game {
     
     var numberSurpriseBalls: Int {
         get {
-            let frequency = 2
-            let maxBalls: Double = 24
+            let frequency = 1
+            let maxBalls: Double = 44
             let initialSurpriseCount = 0.5
 
             if _stage < _minStageForSurprises {
                 return 0
             }
-
+            if _stage > 101 {
+                return 44
+            }
             let stagesEllapsed = _stage - _minStageForSurprises
             // if we've gone 4 stages and frequency is 2,
             // 4 % 2 will give us 0 (the remainder of 4 / 2)
@@ -586,10 +615,12 @@ class Game {
      */
     var gravityMultiplier: Double {
         get {
-            if (_stage < 40){
-            return Double(_stage - 1) * _gravityMultiplier
+            if (_stage < 30){
+            return Double(_stage - 1) * (_gravityMultiplier + 0.015)
+            }else if (_stage < 57){
+                return Double(_stage - 1) * _gravityMultiplier
             }else{
-            return 3.0
+            return 3.0 // 4.0
             }
         }
     }
@@ -616,7 +647,8 @@ class Game {
     }
 
     func generateColumnHeights() {
-        let minVariableStage: Double = 20
+        
+        let minVariableStage: Double = 7
         let maxFrequency: Double = 10
         let minFrequency: Double = 20
         
@@ -629,16 +661,17 @@ class Game {
             print("MINIMUM", min)
             print("STAGE", s)
             min = 2
-            max = 2
+            max = 2 - 1
         } else {
             let multiplesOfMax = floor((s - minVariableStage) / maxFrequency)
             let multiplesOfMin = floor((s - minVariableStage) / minFrequency)
             min += multiplesOfMin
-            max += multiplesOfMax
+            max += multiplesOfMax - 1
         }
         
         for _ in 0..<numberStartingBalls {
             let num = randomInteger(lowerBound: Int(min), upperBound: Int(max))
+            print("num",num)
             _columnHeights.append(num)
         }
         print(_columnHeights)
@@ -649,7 +682,10 @@ class Game {
             return _columnHeights
         }
     }
-    
+    func setRotationSpeed(){
+        _rotationSpeedIncrement += 0.1
+        
+    }
     /**
      How high the balls should be able to stack (read-only getter).
      */
@@ -691,17 +727,13 @@ class Game {
     
     var numberBallColors: Int {
         get {
-            if _stage <= 24 { return _numberBallColors }
-            else if _stage <= 34 { return _numberBallColors + 1 } // = 5
-            else if _stage <= 44 { return _numberBallColors + 2 } // = 6
-            else if _stage <= 54 { return _numberBallColors + 2 }
-            else if _stage <= 64 { return _numberBallColors + 2 }
-            else if _stage <= 74 { return _numberBallColors + 3 }
-            else if _stage <= 84 { return _numberBallColors + 3 }
-            else if _stage <= 94 { return _numberBallColors + 4 } // = 8
-            else if _stage <= 99 { return _numberBallColors + 5 } // = 9
+            if _stage <= 18 { return _numberBallColors }
+            else if _stage <= 33 { return _numberBallColors + 1 } // = 5
+            else if _stage <= 48 { return _numberBallColors + 2 } // = 6
+            else if _stage <= 63 { return _numberBallColors + 3 } // 7
+            else if _stage <= 78 { return _numberBallColors + 4 } // 8
             else {
-                return 10
+                return 8
             }
         }
     }
@@ -723,6 +755,7 @@ class Game {
      */
     func increaseStage() {
         _stage += 1
+        setRotationSpeed()
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2
         }

@@ -58,7 +58,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     override func viewDidLoad() {
-        //defaults.set(50, forKey: Settings.HIGH_SCORE_KEY)
+        defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
         //ads
         //      interstitial = createAndLoadInterstitial()
         super.viewDidLoad()

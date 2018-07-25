@@ -24,8 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rando: Int = 0
     var game: Game!
     var explosionpos = 0
-    var spinMultiplier = CGFloat(1.0)
-    var spinVar: CGFloat = 15.0
+    var spinMultiplier = 0.0
     // player (large circle)
     let Circle = PlayerCircle(imageNamed: "circle")
     let skullCircle = PlayerCircle(imageNamed: "lose")
@@ -116,6 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func didMove(to view: SKView) {
+        spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle)))
         Circle.alpha = 1.0
         skullCircle.alpha = 0.0
         winCircle.alpha = 0.0
@@ -123,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Circle.run(action)
 
         isPaused = false
-        spinMultiplier = (20 / CGFloat(game.slotsOnCircle))
+        //spinMultiplier = (20 / CGFloat(game.slotsOnCircle))
         //changes gravity spped up !!!not gravity//
         physicsWorld.gravity = CGVector(dx: 0, dy: 0.0)
         physicsWorld.contactDelegate = self
@@ -203,7 +203,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func updateCircle(dt: CGFloat) {
         // change animation
-        let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt * spinMultiplier
+        let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt * CGFloat(spinMultiplier)
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
         
@@ -214,11 +214,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if isHolding {
                getCircleValues()
-               if (spinMultiplier < (spinVar / CGFloat(game.slotsOnCircle)) * 2.0) {
-                   spinMultiplier += 0.3
-             }
+               if (CGFloat(spinMultiplier) < (game.spinVar / CGFloat(game.slotsOnCircle)) * 1.5) {
+                   spinMultiplier += 0.5 // wie schnell es schneller wird
+            }
             } else {
-               spinMultiplier = (spinVar / CGFloat(game.slotsOnCircle))
+                spinMultiplier = (Double((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle)))
                isTouching = false
            }
         }
@@ -647,12 +647,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // - 2. remove this ball
                 // - 3. set the next ball's falling property to true
                 ball.run(wait) {
+                    ball.fillColor = UIColor.clear
+                    ball.strokeColor = UIColor.clear
                     if let nextBall = zapBalls.filter({ !$0.falling }).last {
                         nextBall.falling = true
                         AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)
                     }
-                    ball.fillColor = UIColor.clear
-                    ball.strokeColor = UIColor.clear
                     ball.physicsBody = nil
                     colSlots[slotIndex].unsetBall()
                 }
@@ -991,9 +991,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         //fruits
-        setFruits(ball: newBall, rando: rando)
-        // checkforMemory(ball: newBall)
-        
+        //setFruits(ball: newBall, rando: rando)
+        //checkforMemory(ball: newBall)
         return newBall
     }
 
@@ -1007,15 +1006,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.fillColor = .white
     }
 
-    func checkforEscape(ball: SmallBall){
+    func checkforEscape(ball: SmallBall, index: Int){
         //ToDo: Make the i slot, connect to collum, explosion if you hit it, game over if it's gone, make it bigger so you can see it, make physics body bigger, random time
         let incrementRads = degreesToRad(angle: 360 / CGFloat(game.slotsOnCircle))
-        let startRads = incrementRads * CGFloat(12) - degreesToRad(angle: 90.0)
-        let newX = (400) * cos(Circle.zRotation - startRads) + Circle.position.x
-        let newY = (400) * sin(Circle.zRotation - startRads) + Circle.position.y
+        let startRads = incrementRads * CGFloat(index) - degreesToRad(angle: 90.0)
+        let newX = (200) * cos(Circle.zRotation - startRads) + Circle.position.x
+        let newY = (200) * sin(Circle.zRotation - startRads) + Circle.position.y
         let targetPosition = CGPoint(x: newX, y: newY)
-        let escape = SKAction.move(to: targetPosition, duration: 10.0)
+        let escape = SKAction.move(to: targetPosition, duration: 5.0)
+        let randoInt = randomInteger(upperBound: 5)
+        let wait = SKAction.wait(forDuration: TimeInterval(randoInt))
         ball.run(SKAction.sequence([
+            wait,
             escape
         ]))
     }
@@ -1113,7 +1115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
-        setFruits(ball: newBall, rando: rando)
+       // setFruits(ball: newBall, rando: rando)
         return newBall
     }
     
@@ -1161,7 +1163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if game.ballsRemaining > 0 {
             let newBall = makeBall()
             var yPos = size.height
-            var moveToY = size.height - (spinVar + (game.smallDiameter/2))
+            var moveToY = size.height - (game.spinVar + (game.smallDiameter/2))
             if (Settings.isIphoneX) {
                 // adjust these to adjust fall position on iphone x
                 yPos -= 35
@@ -1182,7 +1184,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fallingBalls.append(newBall)
             
             addChild(newBall)
-            
             startFallTimer(ball: newBall)
         } else {
             cleanupBalls()
