@@ -10,84 +10,23 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-/* TODO:
-
- - Getting items/presents every 6 hours (the timer is done, we just to make the items)
- 
- */
-
-enum Difficulty: Int {
-    case easy = 0, hard
-}
-
-struct GameConstants {
-    // MARK: static properties
-
-    static var allBallTypes = Array(BallColor.cases(removingIndices: [24]))
-
-    static let initialSlotsOnCircle: CGFloat = 13
-    static let initialSlotsPerColumn = 2
-
-    static let ballZapDuration: CGFloat = 0.125
-
-    static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
-
-    static let startingCircleScale: CGFloat = 0.55
-    static let startingBallScale: CGFloat = 0.12
-
-    static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
-    static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
-    static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
-    
-    static let ballColors: [UIColor] = [
- //1
- UIColor(red: 255/255, green: 141/255, blue: 193/255, alpha: 1.0),
- //2
- UIColor(red: 52/255, green: 171/255, blue: 224/255, alpha: 1.0),
- //3
- UIColor(red: 255/255, green: 190/255, blue: 2/255, alpha: 1.0),
- //4
- UIColor(red: 5/255, green: 153/255, blue: 149/255, alpha: 1.0),
- //5
- UIColor(red: 112/255, green: 32/255, blue: 132/255, alpha: 1.0),
- //6
- UIColor(red: 239/255, green: 221/255, blue: 182/255, alpha: 1.0),
- //7
- UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
- //8
- UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0),
- 
- 
- //9
- UIColor(red: 232/255, green: 21/255, blue: 62/255, alpha: 1.0),
- //10
- UIColor(red: 57/255, green: 247/255, blue: 134/255, alpha: 1.0),
-    ]
-    
-    static let backgroundColors: [UIColor] = [
-        UIColor.white
-    ]
-    
-    static let colorSets: [[UIColor]] = [[UIColor]]()
-}
-
 /**
- For creating a Game object. Use to manage current game values, track the current score and level, etc. Should be instantiated or re-instantiated for each game played.
+ For creating TutorialGame object. Use to manage current tutorial values, track the current score and level, etc. Should be instantiated or re-instantiated for each tutorial played.
  */
-class Game {
+class Tutorial {
     // MARK: private properties
-
+    
     // number balls fallen in current stage
     // TODO: create a "stage" object to manage all stage-related vars
     private var _ballsFallen = 0
-
+    
     // game level
     private var _stage: Int = 1
     // starting player circle diameter
     private var _playerDiameter: CGFloat = GameConstants.startingCircleDiameter
     private var _outerDiameter: CGFloat = GameConstants.startingOuterDiameter
     private var _minOuterDiameter: CGFloat = GameConstants.startingOuterDiameter
-
+    
     
     // starting small ball diameter
     private var _smallDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingBallScale
@@ -131,7 +70,7 @@ class Game {
     // memory stage controls
     private var _nextMemoryStage = 0
     private var _lastMemoryCount: Double = 0.5
-
+    
     // =========
     // surprise stage controls
     // =========
@@ -143,7 +82,7 @@ class Game {
     private var _lastSurpriseCount: Double = 0.5
     
     private var _columnHeights = [Int]()
-
+    
     // counts for each type of physics category on the screen
     
     private var _blues = 0
@@ -171,18 +110,20 @@ class Game {
     private var _n = 0
     private var _m = 0
     private var _skulls = 0
-
-    init(startingStage: Int, isEndlessMode: Bool) {
-        _stage = startingStage
-        if isEndlessMode { initEndlessMode() }
-        // _colorSetIndex = randomColorSet()
+    
+    // MARK: tutorial specific variables
+    
+    var maxTutorialStage: Int {
+        get {
+            return 4
+        }
     }
-
+    
     func initEndlessMode() {
         // initializers for endless
         _isEndlessMode = true
     }
-
+    
     /**
      Generate a random integer between 0 and 3.
      - parameters:
@@ -192,7 +133,7 @@ class Game {
     func randomColorSet() -> Int {
         return Int(arc4random_uniform(4) + UInt32(1))
     }
-
+    
     // we'll flip this to false later to test the other option
     var endGameOnCircleCollision = true
     
@@ -402,7 +343,7 @@ class Game {
             return _m
         }
     }
-
+    
     /**
      Number of skulls in game (read-only getter).
      */
@@ -411,10 +352,10 @@ class Game {
             return _skulls
         }
     }
-
+    
     /**
      The number of balls that have dropped in current stage (read-only).
-    */
+     */
     var ballsFallen: Int {
         get {
             return _ballsFallen
@@ -431,15 +372,12 @@ class Game {
         }
     }
     
-
+    
     /**
      The number of balls remaining to fall in the current stage.
      */
     var ballsRemaining: Int {
         get {
-            if _isEndlessMode {
-                // return something different
-            }
             var total = 0
             for type in GameConstants.allBallTypes {
                 total += getCountForType(type: type)
@@ -448,7 +386,7 @@ class Game {
             // return numberBallsInQueue - ballsFallen + Int(floor(_lastSurpriseCount))
         }
     }
-
+    
     /**
      Number of balls remaining that will fall in current stage.
      */
@@ -498,12 +436,12 @@ class Game {
             let frequency = 4
             let baseAmountToAdd = _stage - 1
             let highestVariableStage = 13
-
+            
             if _stage < highestVariableStage {
                 let newStart = _numberStartingBalls + baseAmountToAdd // = 13
                 return newStart
             }
-
+            
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
             if _stage < 57{
                 return highestVariableStage + multiplesOfFrequency
@@ -522,7 +460,7 @@ class Game {
             if _stage < highestVariableStage {
                 return false
             }
-
+            
             if _stage == _nextEscapeStage || _nextEscapeStage == 0 {
                 // set the next nextEscapeStage
                 let nextMin = _stage + frequencyMin
@@ -533,7 +471,7 @@ class Game {
                     return true
                 }
             }
-
+            
             return false
         }
     }
@@ -580,7 +518,7 @@ class Game {
             let frequency = 1
             let maxBalls: Double = 44
             let initialSurpriseCount = 0.5
-
+            
             if _stage < _minStageForSurprises {
                 return 0
             }
@@ -594,7 +532,7 @@ class Game {
             // 5 % 2 will give us the remainder 1, so we'll skip that stage
             if stagesEllapsed % frequency == 0 {
                 if _lastSurpriseCount < maxBalls {
-                     _lastSurpriseCount = initialSurpriseCount + (Double(stagesEllapsed) / 2)
+                    _lastSurpriseCount = initialSurpriseCount + (Double(stagesEllapsed) / 2)
                 }
                 print(_lastSurpriseCount)
                 return Int(floor(_lastSurpriseCount))
@@ -609,8 +547,8 @@ class Game {
     var speedMultiplier: Double {
         get {
             return 1.0 - (Double(_stage - 1) * _speedMultiplier)
-            }
         }
+    }
     
     
     /**
@@ -619,11 +557,11 @@ class Game {
     var gravityMultiplier: Double {
         get {
             if (_stage < 30){
-            return Double(_stage - 1) * (_gravityMultiplier + 0.015)
+                return Double(_stage - 1) * (_gravityMultiplier + 0.015)
             }else if (_stage < 57){
                 return Double(_stage - 1) * _gravityMultiplier
             }else{
-            return 3.0 // 4.0
+                return 3.0 // 4.0
             }
         }
     }
@@ -648,7 +586,7 @@ class Game {
             
         }
     }
-
+    
     func generateColumnHeights() {
         
         let minVariableStage: Double = 7
@@ -685,16 +623,6 @@ class Game {
             return _columnHeights
         }
     }
-
-    var totalInColumns: Int {
-        get {
-            // how many will fall? return this number minus number of starting balls
-            return _columnHeights.reduce(0) { result, num in
-                return result + num
-            }
-        }
-    }
-
     func setRotationSpeed(){
         _rotationSpeedIncrement += 0.1
         
@@ -704,21 +632,22 @@ class Game {
      */
     var slotsPerColumn: Int {
         get {
-            if _stage < 13 { return _slotsPerColumn } // 1-12 = 2
-            else if _stage < 39 { return _slotsPerColumn + 1 } // 13-33 = 3
-            else if _stage < 59 { return _slotsPerColumn + 2 } // 34-53 = 4
-            else if _stage < 79 { return _slotsPerColumn + 3 } // 54-63 = 5
-            else if _stage < 99 { return _slotsPerColumn + 4 } // 54-63 = 6
-            else {
-//                let multiplesOfTwenty = Int(round(Double(_stage - 4) / 50)) // stage 54: 1 = 5
-//                let newSlots = _slotsPerColumn + 2 + multiplesOfTwenty
-//                if newSlots > 6 { return 5 }
-//                return newSlots
-                return 6
-            }
+            return 2
+//            if _stage < 13 { return _slotsPerColumn } // 1-12 = 2
+//            else if _stage < 39 { return _slotsPerColumn + 1 } // 13-33 = 3
+//            else if _stage < 59 { return _slotsPerColumn + 2 } // 34-53 = 4
+//            else if _stage < 79 { return _slotsPerColumn + 3 } // 54-63 = 5
+//            else if _stage < 99 { return _slotsPerColumn + 4 } // 54-63 = 6
+//            else {
+//                //                let multiplesOfTwenty = Int(round(Double(_stage - 4) / 50)) // stage 54: 1 = 5
+//                //                let newSlots = _slotsPerColumn + 2 + multiplesOfTwenty
+//                //                if newSlots > 6 { return 5 }
+//                //                return newSlots
+//                return 6
+//            }
         }
     }
-
+    
     
     /**
      One extra chance to beat the level. (read-only getter).
@@ -781,7 +710,7 @@ class Game {
     /**
      Increment the score by an integer value.
      - parameters:
-        - byValue: How much to add to the score.
+     - byValue: How much to add to the score.
      */
     func increaseScore(byValue: Int) {
         _ballsFallen += byValue
@@ -806,80 +735,80 @@ class Game {
      */
     func incrementBallType(type: BallColor) {
         switch (type) {
-            case .blue:
-                _blues += 1
-                break
-            case .pink:
-                _pinks += 1
-                break
-            case .red:
-                _reds += 1
-                break
-            case .yellow:
-                _yellows += 1
-                break
-            case .green:
-                _greens += 1
-                break
-            case .purple:
-                _purples += 1
-                break
-            case .orange:
-                _oranges += 1
-                break
-            case .grey:
-                _greys += 1
-                break
-            case .a:
-                _a += 1
-                break
-            case .s:
-                _s += 1
-                break
-            case .d:
-                _d += 1
-                break
-            case .f:
-                _f += 1
-                break
-            case .g:
-                _g += 1
-                break
-            case .h:
-                _h += 1
-                break
-            case .j:
-                _j += 1
-                break
-            case .k:
-                _k += 1
-                break
-            case .l:
-                _l += 1
-                break
-            case .y:
-                _y += 1
-                break
-            case .x:
-                _x += 1
-                break
-            case .c:
-                _c += 1
-                break
-            case .v:
-                _v += 1
-                break
-            case .b:
-                _b += 1
-                break
-            case .n:
-                _n += 1
-                break
-            case .m:
-                _m += 1
-                break
-            case .skull:
-                _skulls += 1
+        case .blue:
+            _blues += 1
+            break
+        case .pink:
+            _pinks += 1
+            break
+        case .red:
+            _reds += 1
+            break
+        case .yellow:
+            _yellows += 1
+            break
+        case .green:
+            _greens += 1
+            break
+        case .purple:
+            _purples += 1
+            break
+        case .orange:
+            _oranges += 1
+            break
+        case .grey:
+            _greys += 1
+            break
+        case .a:
+            _a += 1
+            break
+        case .s:
+            _s += 1
+            break
+        case .d:
+            _d += 1
+            break
+        case .f:
+            _f += 1
+            break
+        case .g:
+            _g += 1
+            break
+        case .h:
+            _h += 1
+            break
+        case .j:
+            _j += 1
+            break
+        case .k:
+            _k += 1
+            break
+        case .l:
+            _l += 1
+            break
+        case .y:
+            _y += 1
+            break
+        case .x:
+            _x += 1
+            break
+        case .c:
+            _c += 1
+            break
+        case .v:
+            _v += 1
+            break
+        case .b:
+            _b += 1
+            break
+        case .n:
+            _n += 1
+            break
+        case .m:
+            _m += 1
+            break
+        case .skull:
+            _skulls += 1
         }
     }
     
@@ -891,32 +820,32 @@ class Game {
      */
     func decrementBallType(type: BallColor, byNumber: Int) {
         switch (type) {
-            case .blue:
-                _blues -= byNumber
-                break
-            case .pink:
-                _pinks -= byNumber
-                break
-            case .red:
-                _reds -= byNumber
-                break
-            case .yellow:
-                _yellows -= byNumber
-                break
-            case .green:
-                _greens -= byNumber
-                break
-            case .purple:
-                _purples -= byNumber
-                break
-            case .orange:
-                _oranges -= byNumber
-                break
-            case .grey:
-                _greys -= byNumber
-                break
-            case .skull:
-                _skulls -= byNumber
+        case .blue:
+            _blues -= byNumber
+            break
+        case .pink:
+            _pinks -= byNumber
+            break
+        case .red:
+            _reds -= byNumber
+            break
+        case .yellow:
+            _yellows -= byNumber
+            break
+        case .green:
+            _greens -= byNumber
+            break
+        case .purple:
+            _purples -= byNumber
+            break
+        case .orange:
+            _oranges -= byNumber
+            break
+        case .grey:
+            _greys -= byNumber
+            break
+        case .skull:
+            _skulls -= byNumber
         case .a:
             _a -= byNumber
             break
@@ -976,57 +905,57 @@ class Game {
      */
     func getCountForType(type: BallColor) -> Int {
         switch (type) {
-            case .blue:
-                return blues
-            case .pink:
-                return pinks
-            case .red:
-                return reds
-            case .yellow:
-                return yellows
-            case .green:
-                return greens
-            case .orange:
-                return oranges
-            case .purple:
-                return purples
-            case .grey:
-                return greys
-            case .a:
-                return a
-            case .s:
-                return s
-            case .d:
-                return d
-            case .f:
-                return f
-            case .g:
-                return g
-            case .h:
-                return h
-            case .j:
-                return j
-            case .k:
-                return k
-            case .l:
-                return l
-            case .y:
-                return y
-            case .x:
-                return x
-            case .c:
-                return c
-            case .v:
-                return v
-            case .b:
-                return b
-            case .n:
-                return n
-            case .m:
-                return m
-            case .skull:
-                return skulls
-    }
+        case .blue:
+            return blues
+        case .pink:
+            return pinks
+        case .red:
+            return reds
+        case .yellow:
+            return yellows
+        case .green:
+            return greens
+        case .orange:
+            return oranges
+        case .purple:
+            return purples
+        case .grey:
+            return greys
+        case .a:
+            return a
+        case .s:
+            return s
+        case .d:
+            return d
+        case .f:
+            return f
+        case .g:
+            return g
+        case .h:
+            return h
+        case .j:
+            return j
+        case .k:
+            return k
+        case .l:
+            return l
+        case .y:
+            return y
+        case .x:
+            return x
+        case .c:
+            return c
+        case .v:
+            return v
+        case .b:
+            return b
+        case .n:
+            return n
+        case .m:
+            return m
+        case .skull:
+            return skulls
+        }
     }
     /**
      Reset the count of every ball type (color) to zero, e.g. on a game reset
@@ -1058,11 +987,11 @@ class Game {
         _m = 0
         _skulls = 0
     }
-
+    
     func resetBallsFallen() {
         _ballsFallen = 0
     }
-
+    
     // reset everything, e.g. on start of a new game
     func resetAll() {
         resetAllBallTypeCounts()
@@ -1078,6 +1007,6 @@ class Game {
     func randomInteger(lowerBound: Int, upperBound: Int) -> Int {
         return Int(arc4random_uniform(UInt32(upperBound)) + UInt32(lowerBound))
     }
-  }
+}
 
 

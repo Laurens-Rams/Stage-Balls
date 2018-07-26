@@ -53,6 +53,9 @@
 		A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15E83FB1FF4832C00359FC8 /* Settings.swift */; };
 		A16837532102C23C00F96D3B /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16837522102C23C00F96D3B /* Column.swift */; };
 		A16D697C20F3F4B8008E3771 /* Oregon-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A16D697B20F3F4B8008E3771 /* Oregon-Regular.otf */; };
+		A17892FE21093DFE007D6074 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17892FD21093DFD007D6074 /* TutorialViewController.swift */; };
+		A178930021094257007D6074 /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17892FF21094257007D6074 /* TutorialScene.swift */; };
+		A178930221094362007D6074 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = A178930121094362007D6074 /* Tutorial.swift */; };
 		A188BC131F1AA75E008313DF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A188BC121F1AA75E008313DF /* GameScene.swift */; };
 		A19625EB20F07DB800F43718 /* NextStageButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A19625EA20F07DB800F43718 /* NextStageButton.xib */; };
 		A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = A19625EC20F07DE300F43718 /* LastStageButton.xib */; };
@@ -150,6 +153,9 @@
 		A15E83FB1FF4832C00359FC8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		A16837522102C23C00F96D3B /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		A16D697B20F3F4B8008E3771 /* Oregon-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oregon-Regular.otf"; sourceTree = "<group>"; };
+		A17892FD21093DFD007D6074 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		A17892FF21094257007D6074 /* TutorialScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
+		A178930121094362007D6074 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		A188BC121F1AA75E008313DF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A19625EA20F07DB800F43718 /* NextStageButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NextStageButton.xib; sourceTree = "<group>"; };
 		A19625EC20F07DE300F43718 /* LastStageButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LastStageButton.xib; sourceTree = "<group>"; };
@@ -286,8 +292,8 @@
 				0DC020041F203116009A76F9 /* Podfile */,
 				A14F7DF220FD5C49001F4805 /* GoogleService-Info.plist */,
 				A13F12631EF703F700A34B16 /* AppDelegate.swift */,
-				A13F12751EF703F700A34B16 /* Info.plist */,
 				A15E83FB1FF4832C00359FC8 /* Settings.swift */,
+				A13F12751EF703F700A34B16 /* Info.plist */,
 				0D91268720EFE21E009D3A8A /* sparkstage.sks */,
 				0D91268A20EFF310009D3A8A /* sparkstagereverse2.sks */,
 				A1989F9E20E969D100218FAE /* Spark.sks */,
@@ -315,6 +321,7 @@
 		A15E83E71FF46B9600359FC8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A17892FD21093DFD007D6074 /* TutorialViewController.swift */,
 				0D4AEB461F19641500568F11 /* AlternativStart.swift */,
 				0D4AEB401F19285400568F11 /* GameOver.swift */,
 				A13F126B1EF703F700A34B16 /* GameViewController.swift */,
@@ -335,6 +342,7 @@
 				0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */,
 				A1A088302013C0C400A15983 /* GameOverScene.swift */,
 				A14F7DF420FD7347001F4805 /* EndlessScene.swift */,
+				A17892FF21094257007D6074 /* TutorialScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -365,6 +373,7 @@
 				A14286B92005F2780043BC4C /* Slot.swift */,
 				A16837522102C23C00F96D3B /* Column.swift */,
 				A19A934921054890005F8488 /* SKActionExtensions.swift */,
+				A178930121094362007D6074 /* Tutorial.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -635,6 +644,7 @@
 				0D81DD871F16C63100712F49 /* StartViewController.swift in Sources */,
 				A15E83E61FF466AB00359FC8 /* Game.swift in Sources */,
 				0D4AEB3F1F19068900568F11 /* StartScene-Old.swift in Sources */,
+				A178930221094362007D6074 /* Tutorial.swift in Sources */,
 				A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */,
 				A16837532102C23C00F96D3B /* Column.swift in Sources */,
 				A14286BA2005F2780043BC4C /* Slot.swift in Sources */,
@@ -651,10 +661,12 @@
 				0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */,
 				0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */,
 				A1A088312013C0C400A15983 /* GameOverScene.swift in Sources */,
+				A17892FE21093DFE007D6074 /* TutorialViewController.swift in Sources */,
 				A15E83FC1FF4832C00359FC8 /* Settings.swift in Sources */,
 				A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */,
 				0D245BFC1F202DE2008C04DB /* Item.swift in Sources */,
 				0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */,
+				A178930021094257007D6074 /* TutorialScene.swift in Sources */,
 				A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */,
 				0D94CA82200A53A200D6E3EA /* GameOverScene-old.swift in Sources */,
 				0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */,

@@ -19,6 +19,16 @@ struct Settings {
     static let LAST_AD_TIME = "LAST_AD_TIME"
     static let VOLUME_ON_KEY = "VOLUME_ON_KEY"
     
+    static let LAUNCHED_BEFORE_KEY = "LAUNCHED_BEFORE_KEY"
+    
+    static let PresentGameControllerNotification = Notification.Name("PresentGameController")
+
+    static let TutorialTapsCompletedNotification = Notification.Name("TutorialTapsCompleted")
+    static let TutorialStageOneCompletedNotification = Notification.Name("TutorialStageOneCompleted")
+    
+    static let TutorialSpinsCompletedNotification = Notification.Name("TutorialSpinsCompleted")
+    static let TutorialStageTwoCompletedNotification = Notification.Name("TutorialStageTwoCompleted")
+
     static var isIphoneX: Bool {
         get {
             if UIDevice().userInterfaceIdiom == .phone {

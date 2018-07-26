@@ -23,11 +23,13 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     var scene: MenuScene!
     
     var gameVC: GameViewController?
+    var tutorialVC: TutorialViewController?
+    
     @IBOutlet weak var skView: SKView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        listenForNotifications()
+        listenForNotifications()
         // authenticateLocalPlayer()
         scene = MenuScene(size: view.bounds.size)
 //        scene.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
@@ -36,6 +38,21 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         skView.showsNodeCount = false
         scene.scaleMode = .fill
         skView.presentScene(scene)
+    }
+
+    func listenForNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchTutorialForGame), name: Settings.PresentGameControllerNotification, object: nil)
+    }
+    
+    @objc func handleSwitchTutorialForGame() {
+        UserDefaults.standard.set(true, forKey: Settings.LAUNCHED_BEFORE_KEY)
+        UserDefaults.standard.synchronize()
+        dismissTutorial()
+        launchGameViewController()
+    }
+    
+    func dismissTutorial() {
+        tutorialVC?.dismiss(animated: false, completion: nil)
     }
 
     func authenticateLocalPlayer() {
@@ -68,23 +85,6 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         return true
     }
 
-//    func listenForNotifications() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleGameRestartRequest), name: Notification.Name(rawValue: "gameRestartRequested"), object: nil)
-//    }
-//
-//    @objc func handleGameRestartRequest() {
-//        // print("restart?")
-//        gameVC?.gameOverController?.dismiss(animated: false, completion: {
-//            self.gameVC?.scene.removeAllChildren()
-//            self.gameVC?.scene.removeAllActions()
-//            self.gameVC?.scene.removeFromParent()
-//            self.gameVC?.dismiss(animated: false, completion: {
-//                self.gameVC = nil
-//                self.launchGameViewController()
-//            })
-//        })
-//    }
-
     func scoreFormatter(score: Int) -> String {
         if score < 10 {
             return "0\(score)"
@@ -103,10 +103,15 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect
 
     func launchGameViewController() {
-        gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as? GameViewController
-        scene.isPaused = true
-//        removeFromParentViewController()
-        present(gameVC!, animated: false, completion: nil)
+        if let _ = UserDefaults.standard.object(forKey: Settings.LAUNCHED_BEFORE_KEY) as? Bool {
+            gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as? GameViewController
+            scene.isPaused = true
+            present(gameVC!, animated: false, completion: nil)
+        } else {
+            tutorialVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tutorialVC") as? TutorialViewController
+            scene.isPaused = true
+            present(tutorialVC!, animated: false, completion: nil)
+        }
     }
     
     @IBAction func volumeONOFF(_ sender: AnyObject) {

@@ -58,6 +58,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     override func viewDidLoad() {
+        // grab the default
         defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
         //ads
         //      interstitial = createAndLoadInterstitial()
@@ -192,6 +193,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             self.rewardLabel.alpha = 0.0
         }
     }
+
     func setupScene(setToWhite: Bool) {
       //  scoreLabel.text = "\(game.numberBallsInQueue)"
         scoreLabel.format = "%d"

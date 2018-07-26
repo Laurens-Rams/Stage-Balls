@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="FaceOffM55-Regula.ttf">
             <string>FaceOffM54-Regular</string>
         </array>
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
         <array key="Oregon-Regular.otf">
             <string>Oregon-Regular</string>
-        </array>
-        <array key="SinhalaSangamMN.ttc">
-            <string>SinhalaSangamMN-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -69,6 +63,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wYv-33-toj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2404" y="-137.4384236453202"/>
+        </scene>
+        <!--Tutorial View Controller-->
+        <scene sceneID="0FI-We-Q2f">
+            <objects>
+                <viewController storyboardIdentifier="tutorialVC" id="14i-av-oMd" customClass="TutorialViewController" customModule="ColorBall" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UDE-PM-7lx"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ke4-sR-eZM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ma6-zI-TYx" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stop! It's tutorial time." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amy-WY-qQC">
+                                <rect key="frame" x="0.0" y="86" width="320" height="22"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="20"/>
+                                <color key="textColor" red="0.21960784310000001" green="0.21960784310000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="amy-WY-qQC" firstAttribute="width" secondItem="ma6-zI-TYx" secondAttribute="width" id="5cn-MZ-4rv"/>
+                            <constraint firstItem="amy-WY-qQC" firstAttribute="top" secondItem="UDE-PM-7lx" secondAttribute="bottom" constant="66" id="6VF-ar-7fb"/>
+                            <constraint firstItem="amy-WY-qQC" firstAttribute="centerX" secondItem="ma6-zI-TYx" secondAttribute="centerX" id="w9d-NW-YRT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="instructLabel" destination="amy-WY-qQC" id="3bu-6u-y3j"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bL0-o7-Obj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2407.5" y="567.25352112676057"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -690,7 +718,7 @@
         <image name="logo2" width="451" height="256"/>
         <image name="menu" width="50" height="50"/>
         <image name="play" width="227" height="227"/>
-        <image name="rotateLeft" width="138" height="175"/>
+        <image name="rotateLeft" width="139" height="176"/>
         <image name="rotateRight" width="138" height="175"/>
         <image name="share" width="173" height="169"/>
         <image name="watchVideo" width="362" height="239"/>
