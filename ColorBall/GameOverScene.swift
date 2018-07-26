@@ -138,11 +138,11 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         var balls = [StartingSmallBall]();
 
         // the radians to separate each starting ball by, when placing around the ring
-        let incrementRads = degreesToRad(angle: 360 / CGFloat(4))
+        let incrementRads = degreesToRad(angle: 360 / CGFloat(6))
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance: CGFloat = ((0.55 * GameConstants.screenWidth) / 2) + (GameConstants.screenWidth * GameConstants.startingBallScale * 0.5) + 6
         
-        for i in 0..<4 {
+        for i in 0..<6 {
             // print(i)
             let startRads = incrementRads * CGFloat(i) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x

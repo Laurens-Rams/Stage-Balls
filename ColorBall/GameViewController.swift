@@ -77,11 +77,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
        // scoreLabel.alpha = 1.0
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
-            game = Game(startingStage: currentStage, isEndlessMode: true)
+            game = Game(startingStage: currentStage, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
             // print("updatedstage: ------------ \(currentStage)")
         }else {
             // fallback to level 1 (first time players or after a reset)
-            game = Game(startingStage: 1, isEndlessMode: true)
+            game = Game(startingStage: 1, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
             defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }
@@ -123,11 +123,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         //background/ color also for this
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
-            game = Game(startingStage: currentStage, isEndlessMode: true)
+            game = Game(startingStage: currentStage, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
             // print("updatedstage: ------------ \(currentStage)")
         }else {
             // fallback to level 1 (first time players or after a reset)
-            game = Game(startingStage: 1, isEndlessMode: true)
+            game = Game(startingStage: 1, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
             defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }

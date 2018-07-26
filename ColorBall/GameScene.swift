@@ -213,16 +213,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Circle.zRotation = Circle.nextTickPosition
             
             if isHolding {
-               getCircleValues()
-               if (CGFloat(spinMultiplier) < (game.spinVar / CGFloat(game.slotsOnCircle)) * 1.5) {
-                   spinMultiplier += 0.5 // wie schnell es schneller wird
-            }
+                getCircleValues()
+                if (CGFloat(spinMultiplier) < (game.spinVar / CGFloat(game.slotsOnCircle)) * 1.5) {
+                    spinMultiplier += 0.5 // wie schnell es schneller wird
+                }
             } else {
                 spinMultiplier = (Double((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle)))
-               isTouching = false
-           }
+                isTouching = false
+            }
         }
     }
+
     
     /**
      Update the position of every applicable slot around the circle.
@@ -244,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for ball in fallingBalls {
             if !ball.inLine && !ball.stuck {
                 let newX = ball.position.x
-                let newY = ball.position.y - (5.0 + CGFloat(game.gravityMultiplier)) // 5.0 - 8.0
+                let newY = ball.position.y - CGFloat((game.startgravity + game.gravityMultiplier)) // 5.0 - 8.0
                 ball.position = CGPoint(x: newX, y: newY)
             }
         }
@@ -428,7 +429,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 0.7// * game.speedMultiplier
+        let interval = 0.8// * game.speedMultiplier
             fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
                 timer in
                 ball.inLine = false
@@ -685,7 +686,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let newY = x
         
         
-        let spring = SKAction.moveBy(x: newX, y: newY, duration: 1.0, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0)
+        let spring = SKAction.moveBy(x: newX, y: newY, duration: 1.3, delay: 0.2, usingSpringWithDamping: 0.3, initialSpringVelocity: 0)
         ball.run(spring) {
             completion()
         }
