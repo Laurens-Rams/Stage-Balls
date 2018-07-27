@@ -318,7 +318,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
-        let _ = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false, block: {timer in
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {timer in
             self.canpresspause = true
             self.ballsNeedUpdating = true
             self.addBall()
