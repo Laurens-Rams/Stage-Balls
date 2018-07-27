@@ -16,7 +16,9 @@ class BallsViewController: UIViewController {
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     @IBAction func colorBalls(_ sender: Any) {
         UserDefaults.standard.set(Settings.TEXTURE_KEY_COLORS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
@@ -36,11 +38,11 @@ class BallsViewController: UIViewController {
         UserDefaults.standard.synchronize()
         if let textureMode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String {
             if textureMode == Settings.TEXTURE_KEY_FRUITS {
-                fruitsButton.backgroundColor = UIColor.gray
+                fruitsButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 colorsButton.backgroundColor = UIColor.clear
             } else {
                 fruitsButton.backgroundColor = UIColor.clear
-                colorsButton.backgroundColor = UIColor.gray
+                colorsButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
             }
         }
     }

@@ -21,6 +21,8 @@ import AVFoundation
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: class properties20
+    var fruitBool: Bool = false
+    let defaults = UserDefaults.standard
     var rando: Int = 0
     var game: Game!
     var explosionpos = 0
@@ -491,10 +493,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let explosiony = CGPoint(x: ball.position.x, y: ball.position.y)
             thisExplosion.position = explosiony
             //fruit explosion
-            let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
-            thisExplosion.particleTexture = explosionTexture
+            if ball.colorType.name() == "blue"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-1")
+                thisExplosion.particleTexture = explosionTexture
+            }else if ball.colorType.name() == "pink"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-2")
+                thisExplosion.particleTexture = explosionTexture
+            }else if ball.colorType.name() == "red"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-3")
+                thisExplosion.particleTexture = explosionTexture
+            }else if ball.colorType.name() == "yellow"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-4")
+                thisExplosion.particleTexture = explosionTexture
+            }else if ball.colorType.name() == "green"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-5")
+                thisExplosion.particleTexture = explosionTexture
+            }else if ball.colorType.name() == "orange"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-6")
+                thisExplosion.particleTexture = explosionTexture
+            }else if ball.colorType.name() == "purple"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-7")
+                thisExplosion.particleTexture = explosionTexture
+            }else if ball.colorType.name() == "grey"{
+                let explosionTexture = SKTexture(imageNamed: "Fruit-8")
+                thisExplosion.particleTexture = explosionTexture
+            }
             addChild(thisExplosion)
-            
             }
     }
     func createstageexplosion(){
@@ -992,7 +1016,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         //fruits
-        //setFruits(ball: newBall, rando: rando)
+        setFruits(ball: newBall, rando: rando)
         //checkforMemory(ball: newBall)
         return newBall
     }
@@ -1116,7 +1140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
-       // setFruits(ball: newBall, rando: rando)
+        setFruits(ball: newBall, rando: rando)
         return newBall
     }
     

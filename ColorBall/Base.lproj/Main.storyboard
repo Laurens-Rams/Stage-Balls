@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,8 +13,14 @@
         <array key="FaceOffM55-Regula.ttf">
             <string>FaceOffM54-Regular</string>
         </array>
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
         <array key="Oregon-Regular.otf">
             <string>Oregon-Regular</string>
+        </array>
+        <array key="SinhalaSangamMN.ttc">
+            <string>SinhalaSangamMN-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -77,19 +83,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stop! It's tutorial time." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amy-WY-qQC">
-                                <rect key="frame" x="0.0" y="86" width="320" height="22"/>
-                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP LEFT OR RIGHT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amy-WY-qQC">
+                                <rect key="frame" x="0.0" y="86" width="320" height="40.5"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="37"/>
                                 <color key="textColor" red="0.21960784310000001" green="0.21960784310000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AiD-uZ-BaX">
-                                <rect key="frame" x="99" y="397" width="122" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AiD-uZ-BaX">
+                                <rect key="frame" x="109" y="518" width="102" height="30"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
                                 </accessibility>
-                                <state key="normal" title="Got It!"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="26"/>
+                                <state key="normal" title="GOT IT">
+                                    <color key="titleColor" red="0.21957963705062866" green="0.21962407231330872" blue="0.21957683563232422" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="tappedFinishButton:" destination="14i-av-oMd" eventType="touchUpInside" id="3xT-06-wQl"/>
                                 </connections>
@@ -99,6 +107,8 @@
                         <constraints>
                             <constraint firstItem="amy-WY-qQC" firstAttribute="width" secondItem="ma6-zI-TYx" secondAttribute="width" id="5cn-MZ-4rv"/>
                             <constraint firstItem="amy-WY-qQC" firstAttribute="top" secondItem="UDE-PM-7lx" secondAttribute="bottom" constant="66" id="6VF-ar-7fb"/>
+                            <constraint firstItem="Ke4-sR-eZM" firstAttribute="top" secondItem="AiD-uZ-BaX" secondAttribute="bottom" constant="20" id="K2V-dX-suH"/>
+                            <constraint firstItem="AiD-uZ-BaX" firstAttribute="centerX" secondItem="ma6-zI-TYx" secondAttribute="centerX" id="laf-ZY-dEi"/>
                             <constraint firstItem="amy-WY-qQC" firstAttribute="centerX" secondItem="ma6-zI-TYx" secondAttribute="centerX" id="w9d-NW-YRT"/>
                         </constraints>
                     </view>
@@ -144,7 +154,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="VtP-dU-c2r" secondAttribute="height" multiplier="313:81" id="VnU-x0-sAv"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="ballFruits"/>
+                                <state key="normal" title="Button" image="unlockballFruits"/>
                                 <connections>
                                     <action selector="deliciousFruits:" destination="WfV-jU-0J7" eventType="touchUpInside" id="9r7-3S-nRZ"/>
                                 </connections>
@@ -213,11 +223,10 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJC-n1-p4n">
                                 <rect key="frame" x="16" y="213" width="296" height="106"/>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="LJC-n1-p4n" secondAttribute="height" multiplier="296:97" constant="-27.463917525773184" id="fhE-jF-5CS"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="endlessMode"/>
+                                <state key="normal" title="Button" image="unlockendlessMode"/>
                                 <connections>
                                     <action selector="endlessMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="NgD-5v-0SV"/>
                                 </connections>
@@ -231,11 +240,10 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eC3-0z-1lE">
                                 <rect key="frame" x="16" y="326" width="296" height="107"/>
-                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eC3-0z-1lE" secondAttribute="height" multiplier="296:97" constant="-30.515463917525778" id="sFF-sW-xQ4"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="memoryMode"/>
+                                <state key="normal" title="Button" image="unlockmemoryMode"/>
                                 <connections>
                                     <action selector="memoryMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="F4i-14-hRe"/>
                                 </connections>
@@ -259,6 +267,11 @@
                             <constraint firstAttribute="trailing" secondItem="YUZ-QX-lBI" secondAttribute="trailing" constant="8" id="yWf-mK-bFp"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="endlessButton" destination="LJC-n1-p4n" id="bqX-Ui-Fcl"/>
+                        <outlet property="memoryButton" destination="eC3-0z-1lE" id="Wuh-Yn-liP"/>
+                        <outlet property="stageButton" destination="v9D-C8-kmF" id="PtI-V9-K9h"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a9c-Lf-xgf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -877,22 +890,22 @@
         <image name="addpicture" width="387" height="256"/>
         <image name="back" width="50" height="50"/>
         <image name="ballColor" width="750" height="191"/>
-        <image name="ballFruits" width="750" height="191"/>
         <image name="circle" width="227" height="227"/>
-        <image name="endlessMode" width="750" height="264"/>
         <image name="home" width="177" height="176"/>
         <image name="item-1" width="412" height="274"/>
         <image name="item-2" width="413" height="273"/>
         <image name="item-3" width="412" height="273"/>
         <image name="item-4" width="412" height="273"/>
         <image name="logo2" width="451" height="256"/>
-        <image name="memoryMode" width="750" height="264"/>
         <image name="menu" width="50" height="50"/>
         <image name="play" width="227" height="227"/>
-        <image name="rotateLeft" width="139" height="176"/>
+        <image name="rotateLeft" width="138" height="175"/>
         <image name="rotateRight" width="138" height="175"/>
         <image name="share" width="173" height="169"/>
         <image name="stageMode" width="750" height="264"/>
+        <image name="unlockballFruits" width="750" height="191"/>
+        <image name="unlockendlessMode" width="750" height="264"/>
+        <image name="unlockmemoryMode" width="750" height="264"/>
         <image name="watchVideo" width="362" height="239"/>
     </resources>
     <inferredMetricsTieBreakers>

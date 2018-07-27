@@ -89,7 +89,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
 
         // grab the defaults
-        defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
+        //defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
         if let modeSetting = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
             gameMode = modeSetting
         }
@@ -126,13 +126,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         } else {
             // fallback to level 1 (first time players or after a reset)
             game = Game(
-                startingStage: 1,
+                startingStage: 3,
                 isEndlessMode: gameMode == Settings.GAME_MODE_KEY_ENDLESS,
                 isMemoryMode: gameMode == Settings.GAME_MODE_KEY_MEMORY,
                 isStageMode: gameMode == Settings.GAME_MODE_KEY_STAGE
             )
-            defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
-            stageLabel.text = "STAGE 1"
+            defaults.set(3, forKey: Settings.CURRENT_STAGE_KEY)
+            stageLabel.text = "STAGE 3"
         }
 
         defaults.synchronize()

@@ -28,6 +28,11 @@ struct Settings {
     static let TEXTURE_KEY_COLORS = "TEXTURE_KEY_COLORS"
     static let TEXTURE_KEY_FRUITS = "TEXTURE_KEY_FRUITS"
     
+    static let TEXTURE_KEY_MODE = "TEXTURE_KEY_MODE"
+    static let TEXTURE_KEY_STAGE = "TEXTURE_KEY_STAGE"
+    static let TEXTURE_KEY_ENDLESS = "TEXTURE_KEY_ENDLESS"
+    static let TEXTURE_KEY_MEMORY = "TEXTURE_KEY_MEMORY"
+    
     static let LAUNCHED_BEFORE_KEY = "LAUNCHED_BEFORE_KEY"
     
     static let PresentGameControllerNotification = Notification.Name("PresentGameController")

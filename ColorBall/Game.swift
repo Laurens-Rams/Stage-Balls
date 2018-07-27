@@ -123,7 +123,7 @@ class Game {
     
     private var _slotsPerColumn = GameConstants.initialSlotsPerColumn
     
-    private var _isEndlessMode = true
+    private var _isEndlessMode = false
     private var _isMemoryMode = false
     private var _isStageMode = false
     
@@ -187,18 +187,21 @@ class Game {
     func initEndlessMode() {
         // initializers for endless
         _isEndlessMode = true
-        
+        print("endlessMode")
     }
     
     func initMemoryMode() {
         // initializers for endless
         _isMemoryMode = true
+        print("memoryMode")
         
     }
     
     func initStageMode() {
         // initializers for endless
         _isStageMode = true
+        print("StageMode")
+        
     }
     
     /**
@@ -654,6 +657,7 @@ class Game {
     var numberSurpriseBalls: Int {
         get {
             if _isEndlessMode{
+                print("wroooooong")
                 return -1
             }
             let frequency = 1

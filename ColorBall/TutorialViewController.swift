@@ -15,10 +15,10 @@ class TutorialViewController: UIViewController {
     var skView: SKView!
     var camera: SKCameraNode!
     var instructions = [
-        "Tap to move",
-        "Clear the ball",
-        "Hold to spin",
-        "Clear it again"
+        "TAP LEFT OR RIGHT",
+        "CLEAR THE BALL",
+        "HOLD TO SPIN",
+        "GOOD JOB!"
     ]
     var tutorial: Tutorial!
     
@@ -61,14 +61,14 @@ class TutorialViewController: UIViewController {
         setupGame(animateBackground: false)
     }
     
-    func showFinishButton() {
-        finishedButton.isHidden = false
-        finishedButton.isUserInteractionEnabled = true
-    }
-
-    @IBAction func tappedFinishButton(_ sender: Any) {
-        startRealGame()
-    }
+//    func showFinishButton() {
+//        finishedButton.isHidden = false
+//        finishedButton.isUserInteractionEnabled = true
+//    }
+//
+//    @IBAction func tappedFinishButton(_ sender: Any) {
+//        startRealGame()
+//    }
     
     func removeNotificationListeners() {
         NotificationCenter.default.removeObserver(self, name: Settings.TutorialStageOneCompletedNotification, object: nil)
@@ -115,7 +115,9 @@ class TutorialViewController: UIViewController {
     func nextStageOrStartRealGame(startGame: Bool) {
         // make decisions about whether we should continue in the tutorial, or whether it's game time
         if startGame {
-            showFinishButton()
+            let _ = Timer.scheduledTimer(withTimeInterval: 4.5, repeats: false, block: { _ in
+                self.startRealGame()
+            })
         } else {
             scene.game.increaseStage()
             teardownGame()

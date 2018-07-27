@@ -855,6 +855,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startGameOverSequence(newBall: SmallBall) {
+
         canpresspause = false
         self.gameDelegate?.gameoverplayscore()
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
@@ -864,7 +865,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         self.run(wait) {
             generator.impactOccurred()
         }
-        
+
         allowToMove = false
         canMove = false
         newBall.stuck = true
@@ -873,11 +874,11 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         self.gameDelegate?.scorelabelalpha()
         let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
         skullCircle.run(fadeIn)
-        
+
         // create the camera zoom action
         let shakeLeft = getMoveAction(moveX: -9.0, moveY: 0.0, totalTime: 0.04)
         let shakeRight = getMoveAction(moveX: 9.0, moveY: 0.0, totalTime: 0.04)
-        
+
         camera?.run(SKAction.sequence([
             shakeLeft,
             shakeRight,
@@ -893,7 +894,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
             self.ring.alpha = 0.0
         }, completion: nil)
         let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
-            
+
         })
     }
     

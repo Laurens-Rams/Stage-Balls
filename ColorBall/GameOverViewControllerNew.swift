@@ -12,6 +12,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     
     @IBOutlet var RemainingBalls: UILabel!
     var game: Game!
+    var modeVC: ModeViewController?
+    var ballVC: BallsViewController?
     var endingScore: Int = 0
     var endingStage: Int = 1
     let LEADERBOARD_ID = "stageid"
@@ -63,6 +65,23 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         } else {
             stageLabel.text = stageFormatter(stage: endingStage)
         }
+    }
+    func modePressed() {
+        launchModeViewController()
+    }
+    
+    func ballsPressed() {
+        launchBallsViewController()
+    }
+    
+    func launchModeViewController() {
+        modeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "modeVC") as? ModeViewController
+        present(modeVC!, animated: false, completion: nil)
+    }
+    
+    func launchBallsViewController() {
+        ballVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ballVC") as? BallsViewController
+        present(ballVC!, animated: false, completion: nil)
     }
     func showHideStageButtons() {
         if Int(scoreFormatter(score: endingScore))! < 100 {
@@ -129,15 +148,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         let width = UIScreen.main.bounds.width
         showpoints.frame = CGRect(x: 0, y: startY, width: width, height: showpoints.frame.height)
     }
-    
-    func modePressed() {
-        
-    }
-
-    func ballsPressed() {
-        
-    }
-    
     override var prefersStatusBarHidden: Bool {
         return true
     }

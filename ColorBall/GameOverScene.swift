@@ -103,9 +103,9 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                     del?.sharePressed()
                 }else if node.name == "mode" {
                     // print("no ads")
-                    // call del method
+                    del?.modePressed()
                 }else if node.name == "balls" {
-                    // print("like")
+                    del?.ballsPressed()
                 }
                 
                 AudioManager.only.playClickSound()
