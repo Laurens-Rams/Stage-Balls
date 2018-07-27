@@ -28,6 +28,8 @@ struct Settings {
     
     static let TutorialSpinsCompletedNotification = Notification.Name("TutorialSpinsCompleted")
     static let TutorialStageTwoCompletedNotification = Notification.Name("TutorialStageTwoCompleted")
+    
+    static let ResetTutorialLevelNotification = Notification.Name("ResetTutorialLevel")
 
     static var isIphoneX: Bool {
         get {

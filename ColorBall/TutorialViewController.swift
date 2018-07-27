@@ -28,7 +28,8 @@ class TutorialViewController: UIViewController {
     var adsShowNextStage = false
     
     @IBOutlet weak var instructLabel: UILabel!
-
+    @IBOutlet weak var finishedButton: UIButton!
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -37,6 +38,7 @@ class TutorialViewController: UIViewController {
         super.viewDidLoad()
         defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
         defaults.synchronize()
+        tutorial = Tutorial()
         camera = SKCameraNode()
         setupGame(animateBackground: false)
         setupInstructions()
@@ -47,8 +49,27 @@ class TutorialViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleTutorialStageTwoComplete), name: Settings.TutorialStageTwoCompletedNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateInstructionsAfterTaps), name: Settings.TutorialTapsCompletedNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateInstructionsAfterSpins), name: Settings.TutorialSpinsCompletedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resetTutorialStage), name: Settings.ResetTutorialLevelNotification, object: nil)
     }
 
+    @objc func resetTutorialStage() {
+        let stage = tutorial.stage
+        teardownGame()
+        tutorial = Tutorial()
+        tutorial.setStage(toStage: stage)
+        setupInstructions()
+        setupGame(animateBackground: false)
+    }
+    
+    func showFinishButton() {
+        finishedButton.isHidden = false
+        finishedButton.isUserInteractionEnabled = true
+    }
+
+    @IBAction func tappedFinishButton(_ sender: Any) {
+        startRealGame()
+    }
+    
     func removeNotificationListeners() {
         NotificationCenter.default.removeObserver(self, name: Settings.TutorialStageOneCompletedNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: Settings.TutorialStageTwoCompletedNotification, object: nil)
@@ -60,6 +81,10 @@ class TutorialViewController: UIViewController {
     
     @objc func updateInstructionsAfterSpins() {
         instructLabel.text = instructions[3]
+    }
+    
+    @objc func updateInstructionsAfterStageOne() {
+        instructLabel.text = instructions[2]
     }
     
     @objc func handleTutorialStageOneComplete() {
@@ -90,11 +115,11 @@ class TutorialViewController: UIViewController {
     func nextStageOrStartRealGame(startGame: Bool) {
         // make decisions about whether we should continue in the tutorial, or whether it's game time
         if startGame {
-            startRealGame()
+            showFinishButton()
         } else {
-            tutorial.increaseStage()
+            scene.game.increaseStage()
             teardownGame()
-            setupInstructions()
+            updateInstructionsAfterStageOne()
             setupGame(animateBackground: false)
         }
     }
@@ -109,7 +134,6 @@ class TutorialViewController: UIViewController {
     }
 
     func setupGame(animateBackground: Bool) {
-        tutorial = Tutorial()
         setupScene(setToWhite: !animateBackground)
         if (animateBackground) {
             scene.fadeBackgroundBackToWhite()
@@ -119,6 +143,7 @@ class TutorialViewController: UIViewController {
     
     func setupScene(setToWhite: Bool) {
         scene = TutorialScene(size: view.frame.size)
+        scene.game = tutorial
         if (setToWhite) {
             scene.backgroundColor = UIColor.white
         }
@@ -126,7 +151,6 @@ class TutorialViewController: UIViewController {
         skView.showsFPS = false
         skView.showsNodeCount = false
         scene.scaleMode = .resizeFill
-        scene.game = tutorial
         skView.presentScene(scene)
     }
     

@@ -47,12 +47,13 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     @objc func handleSwitchTutorialForGame() {
         UserDefaults.standard.set(true, forKey: Settings.LAUNCHED_BEFORE_KEY)
         UserDefaults.standard.synchronize()
-        dismissTutorial()
-        launchGameViewController()
+        dismissTutorial {
+            self.launchGameViewController()
+        }
     }
     
-    func dismissTutorial() {
-        tutorialVC?.dismiss(animated: false, completion: nil)
+    func dismissTutorial(completion: @escaping () -> Void) {
+        tutorialVC?.dismiss(animated: false, completion: completion)
     }
 
     func authenticateLocalPlayer() {

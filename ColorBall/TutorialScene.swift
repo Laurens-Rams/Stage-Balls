@@ -134,6 +134,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         if playerTappedRight, playerTappedLeft {
             if tutorialColumnsCleared <= 0, !notifiedTaps {
                 notifiedTaps = true
+                setupFirstFallTimer()
                 NotificationCenter.default.post(name: Settings.TutorialTapsCompletedNotification, object: nil, userInfo: nil)
             } else if tutorialColumnsCleared > 0, !notifiedStageOne {
                 notifiedStageOne = true
@@ -146,6 +147,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         if playerDidSpin, playerDidSpinFast {
             if tutorialColumnsCleared <= 0, !notifiedSpins {
                 notifiedSpins = true
+                setupFirstFallTimer()
                 NotificationCenter.default.post(name: Settings.TutorialSpinsCompletedNotification, object: nil, userInfo: nil)
             } else if tutorialColumnsCleared > 0, !notifiedStageTwo {
                 notifiedStageTwo = true
@@ -193,7 +195,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         addChild(skullCircle)
         addChild(winCircle)
         allowToMove = true
-        setupFirstFallTimer()
+//        setupFirstFallTimer()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -891,7 +893,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
             self.ring.alpha = 0.0
         }, completion: nil)
         let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
-            self.handleGameOver()
+            
         })
     }
     
