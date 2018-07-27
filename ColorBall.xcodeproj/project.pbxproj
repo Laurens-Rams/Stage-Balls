@@ -73,6 +73,7 @@
 		A1EEAF3C1FFD1D730027A93B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EEAF3B1FFD1D730027A93B /* Extensions.swift */; };
 		A1F83F63210AA5E7002F43BE /* ModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F83F62210AA5E7002F43BE /* ModeViewController.swift */; };
 		A1F83F65210AA5F2002F43BE /* BallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F83F64210AA5F2002F43BE /* BallsViewController.swift */; };
+		A1F83F67210AB2B0002F43BE /* RemoteDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1F83F66210AB2B0002F43BE /* RemoteDefaults.plist */; };
 		A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FD9EF91F18240500EEF8C5 /* Planet.swift */; };
 		ADA7739F8D9A56A75A08C3D2 /* Pods_ColorBall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F4C1CA45F72F2EFF3838654 /* Pods_ColorBall.framework */; };
 /* End PBXBuildFile section */
@@ -175,6 +176,7 @@
 		A1EEAF3B1FFD1D730027A93B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A1F83F62210AA5E7002F43BE /* ModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeViewController.swift; sourceTree = "<group>"; };
 		A1F83F64210AA5F2002F43BE /* BallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallsViewController.swift; sourceTree = "<group>"; };
+		A1F83F66210AB2B0002F43BE /* RemoteDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteDefaults.plist; sourceTree = "<group>"; };
 		A1FD9EF91F18240500EEF8C5 /* Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		B187BD7DA662D08450920679 /* Pods-ColorBall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorBall.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall.release.xcconfig"; sourceTree = "<group>"; };
 		D72C616257F8C36CA8679B81 /* Pods-ColorBall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorBall.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall.debug.xcconfig"; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				0D91268720EFE21E009D3A8A /* sparkstage.sks */,
 				0D91268A20EFF310009D3A8A /* sparkstagereverse2.sks */,
 				A1989F9E20E969D100218FAE /* Spark.sks */,
+				A1F83F66210AB2B0002F43BE /* RemoteDefaults.plist */,
 			);
 			path = ColorBall;
 			sourceTree = "<group>";
@@ -575,6 +578,7 @@
 				0D54F0B720EA730C00BBBDBB /* Assets.xcassets in Resources */,
 				A19625ED20F07DE300F43718 /* LastStageButton.xib in Resources */,
 				A1989F9F20E969D200218FAE /* Spark.sks in Resources */,
+				A1F83F67210AB2B0002F43BE /* RemoteDefaults.plist in Resources */,
 				A14F7DF320FD5C49001F4805 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,6 +627,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/EFCountingLabel/EFCountingLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -631,6 +636,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EFCountingLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",

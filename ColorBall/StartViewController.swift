@@ -32,7 +32,7 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     override func viewDidLoad() {
         super.viewDidLoad()
         listenForNotifications()
-        // authenticateLocalPlayer()
+        authenticateLocalPlayer()
         scene = MenuScene(size: view.bounds.size)
 //        scene.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
         scene.del = self

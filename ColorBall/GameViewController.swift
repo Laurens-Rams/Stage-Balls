@@ -42,6 +42,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     var adsShowGameOver = false
     var adsShowNextStage = false
+    
+    var remoteConfig: RemoteConfig!
 
     // store the game mode type
     var gameMode = Settings.GAME_MODE_KEY_STAGE
@@ -60,9 +62,31 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.text = String(0)
         rewardLabel.alpha = 0.0
     }
+    
+    func getRewardMessages() {
+        let remoteMessages = remoteConfig[Settings.RewardMessagesConfigKey].stringValue
+        if let array = remoteMessages?.split(separator: ",") {
+            let strings = array.map({ String($0) })
+            rewardnextstageStrings.removeAll()
+            rewardnextstageStrings.append(contentsOf: strings)
+        }
+        // convert string to integer
+        // let str = "0"
+        // let num = Int(str)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        remoteConfig = RemoteConfig.remoteConfig()
+        remoteConfig.setDefaults(fromPlist: "RemoteDefaults")
+        remoteConfig.fetch { status, error in
+            if status == .success {
+                self.remoteConfig.activateFetched()
+                self.getRewardMessages()
+            } else {
+                // error happened
+            }
+        }
 
         // grab the defaults
         defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)

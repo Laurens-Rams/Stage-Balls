@@ -40,6 +40,8 @@ struct Settings {
     
     static let ResetTutorialLevelNotification = Notification.Name("ResetTutorialLevel")
     
+    static let RewardMessagesConfigKey = "rewardMessages"
+    
     static var isIphoneX: Bool {
         get {
             if UIDevice().userInterfaceIdiom == .phone {

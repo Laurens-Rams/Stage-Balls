@@ -10,5 +10,6 @@ target 'ColorBall' do
   pod 'EFCountingLabel'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
+  pod 'Firebase/RemoteConfig'
 
 end
