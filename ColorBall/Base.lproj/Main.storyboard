@@ -111,10 +111,10 @@
             </objects>
             <point key="canvasLocation" x="-2407.5" y="567.25352112676057"/>
         </scene>
-        <!--View Controller-->
+        <!--Balls View Controller-->
         <scene sceneID="gm6-dN-5ts">
             <objects>
-                <viewController id="WfV-jU-0J7" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ballVC" id="WfV-jU-0J7" customClass="BallsViewController" customModule="ColorBall" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="thj-1U-kfE"/>
                         <viewControllerLayoutGuide type="bottom" id="L1U-j9-dQj"/>
@@ -129,12 +129,15 @@
                                 <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f9X-t0-QwJ">
+                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f9X-t0-QwJ">
                                 <rect key="frame" x="3" y="87" width="313" height="81"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="f9X-t0-QwJ" secondAttribute="height" multiplier="313:81" id="ia3-6S-Kre"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="ballColor"/>
+                                <connections>
+                                    <action selector="colorBalls:" destination="WfV-jU-0J7" eventType="touchUpInside" id="9HR-El-kqR"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VtP-dU-c2r">
                                 <rect key="frame" x="3" y="167" width="313" height="81"/>
@@ -142,10 +145,16 @@
                                     <constraint firstAttribute="width" secondItem="VtP-dU-c2r" secondAttribute="height" multiplier="313:81" id="VnU-x0-sAv"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="ballFruits"/>
+                                <connections>
+                                    <action selector="deliciousFruits:" destination="WfV-jU-0J7" eventType="touchUpInside" id="9r7-3S-nRZ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZJl-xq-LHb">
                                 <rect key="frame" x="16" y="43" width="32" height="32"/>
                                 <state key="normal" image="back"/>
+                                <connections>
+                                    <action selector="backButton:" destination="WfV-jU-0J7" eventType="touchUpInside" id="mqP-df-gkT"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -165,15 +174,19 @@
                             <constraint firstItem="VtP-dU-c2r" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="3" id="zSG-4s-KQG"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="colorsButton" destination="f9X-t0-QwJ" id="aaM-G2-thW"/>
+                        <outlet property="fruitsButton" destination="VtP-dU-c2r" id="AgB-8r-w44"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kDX-eZ-DHY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1753" y="567"/>
         </scene>
-        <!--View Controller-->
+        <!--Mode View Controller-->
         <scene sceneID="6YQ-oj-RqX">
             <objects>
-                <viewController id="aST-DU-7gb" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="modeVC" id="aST-DU-7gb" customClass="ModeViewController" customModule="ColorBall" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wru-Qi-C38"/>
                         <viewControllerLayoutGuide type="bottom" id="8LE-xQ-UYa"/>
@@ -194,6 +207,9 @@
                                     <constraint firstAttribute="width" secondItem="v9D-C8-kmF" secondAttribute="height" multiplier="296:97" constant="-27.463917525773184" id="yfe-mQ-msS"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="stageMode"/>
+                                <connections>
+                                    <action selector="stageMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="zSI-tA-umd"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJC-n1-p4n">
                                 <rect key="frame" x="16" y="213" width="296" height="106"/>
@@ -202,10 +218,16 @@
                                     <constraint firstAttribute="width" secondItem="LJC-n1-p4n" secondAttribute="height" multiplier="296:97" constant="-27.463917525773184" id="fhE-jF-5CS"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="endlessMode"/>
+                                <connections>
+                                    <action selector="endlessMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="NgD-5v-0SV"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="siT-LO-WL1">
                                 <rect key="frame" x="16" y="43" width="32" height="32"/>
                                 <state key="normal" image="back"/>
+                                <connections>
+                                    <action selector="backButton:" destination="aST-DU-7gb" eventType="touchUpInside" id="jyK-Nu-t6c"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eC3-0z-1lE">
                                 <rect key="frame" x="16" y="326" width="296" height="107"/>
@@ -214,6 +236,9 @@
                                     <constraint firstAttribute="width" secondItem="eC3-0z-1lE" secondAttribute="height" multiplier="296:97" constant="-30.515463917525778" id="sFF-sW-xQ4"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="memoryMode"/>
+                                <connections>
+                                    <action selector="memoryMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="F4i-14-hRe"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

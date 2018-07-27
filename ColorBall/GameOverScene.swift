@@ -32,9 +32,8 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         "volume",
         "rate",
         "share",
-        "endlessMode",
-        "hardMode",
-        "FruitMode",
+        "mode",
+        "balls",
         "like"
     ]
     
@@ -102,11 +101,10 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                 }else if node.name == "share" {
                     // print("share")
                     del?.sharePressed()
-                }else if node.name == "endlessMode" {
+                }else if node.name == "mode" {
                     // print("no ads")
-                }else if node.name == "hardMode" {
-                    // print("like")
-                }else if node.name == "FruitMode" {
+                    // call del method
+                }else if node.name == "balls" {
                     // print("like")
                 }
                 

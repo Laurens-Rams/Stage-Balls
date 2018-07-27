@@ -153,11 +153,11 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             // print("share")
             del?.sharePressed()
             break
-        case .endlessMode:
-            // print("noads")
+        case .mode:
+            del?.modePressed()
             break
-        case .FruitMode:
-            // print("noads")
+        case .balls:
+            del?.ballsPressed()
             break
         case .start:
             // print("start")

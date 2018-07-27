@@ -24,6 +24,8 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     
     var gameVC: GameViewController?
     var tutorialVC: TutorialViewController?
+    var modeVC: ModeViewController?
+    var ballVC: BallsViewController?
     
     @IBOutlet weak var skView: SKView!
 
@@ -127,8 +129,26 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     
     // start scene delegate protocol methods
     
+    func modePressed() {
+        launchModeViewController()
+    }
+    
+    func ballsPressed() {
+        launchBallsViewController()
+    }
+    
     func launchGame() {
         launchGameViewController()
+    }
+    
+    func launchModeViewController() {
+        modeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "modeVC") as? ModeViewController
+        present(modeVC!, animated: false, completion: nil)
+    }
+    
+    func launchBallsViewController() {
+        ballVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ballVC") as? BallsViewController
+        present(ballVC!, animated: false, completion: nil)
     }
     
     func launchShop() {

@@ -129,7 +129,14 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         let width = UIScreen.main.bounds.width
         showpoints.frame = CGRect(x: 0, y: startY, width: width, height: showpoints.frame.height)
     }
+    
+    func modePressed() {
+        
+    }
 
+    func ballsPressed() {
+        
+    }
     
     override var prefersStatusBarHidden: Bool {
         return true

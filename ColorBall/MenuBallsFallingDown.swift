@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 enum MenuOptionType: Int {
-    case gameCenter = 0, volume, rate, share, endlessMode, FruitMode, start
+    case gameCenter = 0, volume, rate, share, mode, balls, start
 
     func toName() -> String {
         switch self {
@@ -22,10 +22,10 @@ enum MenuOptionType: Int {
             return "rate"
         case .share:
             return "share"
-        case .endlessMode:
-            return "endlessMode"
-        case .FruitMode:
-            return "FruitMode"
+        case .mode:
+            return "mode"
+        case .balls:
+            return "balls"
         case .start:
             return "start"
     }

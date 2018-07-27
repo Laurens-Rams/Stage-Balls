@@ -71,6 +71,8 @@
 		A1AF062F1F19AEB100811992 /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1AF062E1F19AEB100811992 /* PauseView.xib */; };
 		A1AF06311F19AECE00811992 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF06301F19AECE00811992 /* PauseView.swift */; };
 		A1EEAF3C1FFD1D730027A93B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1EEAF3B1FFD1D730027A93B /* Extensions.swift */; };
+		A1F83F63210AA5E7002F43BE /* ModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F83F62210AA5E7002F43BE /* ModeViewController.swift */; };
+		A1F83F65210AA5F2002F43BE /* BallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F83F64210AA5F2002F43BE /* BallsViewController.swift */; };
 		A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FD9EF91F18240500EEF8C5 /* Planet.swift */; };
 		ADA7739F8D9A56A75A08C3D2 /* Pods_ColorBall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F4C1CA45F72F2EFF3838654 /* Pods_ColorBall.framework */; };
 /* End PBXBuildFile section */
@@ -171,6 +173,8 @@
 		A1AF062E1F19AEB100811992 /* PauseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PauseView.xib; sourceTree = "<group>"; };
 		A1AF06301F19AECE00811992 /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		A1EEAF3B1FFD1D730027A93B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A1F83F62210AA5E7002F43BE /* ModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeViewController.swift; sourceTree = "<group>"; };
+		A1F83F64210AA5F2002F43BE /* BallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallsViewController.swift; sourceTree = "<group>"; };
 		A1FD9EF91F18240500EEF8C5 /* Planet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		B187BD7DA662D08450920679 /* Pods-ColorBall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorBall.release.xcconfig"; path = "Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall.release.xcconfig"; sourceTree = "<group>"; };
 		D72C616257F8C36CA8679B81 /* Pods-ColorBall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColorBall.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall.debug.xcconfig"; sourceTree = "<group>"; };
@@ -328,6 +332,8 @@
 				0D81DD861F16C63100712F49 /* StartViewController.swift */,
 				0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */,
 				A12CC1E3200116F600A70204 /* StartupViewController.swift */,
+				A1F83F62210AA5E7002F43BE /* ModeViewController.swift */,
+				A1F83F64210AA5F2002F43BE /* BallsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -641,6 +647,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1F83F65210AA5F2002F43BE /* BallsViewController.swift in Sources */,
 				0D81DD871F16C63100712F49 /* StartViewController.swift in Sources */,
 				A15E83E61FF466AB00359FC8 /* Game.swift in Sources */,
 				0D4AEB3F1F19068900568F11 /* StartScene-Old.swift in Sources */,
@@ -666,6 +673,7 @@
 				A15E83FA1FF4712200359FC8 /* BackgroundRepeatingTimer.swift in Sources */,
 				0D245BFC1F202DE2008C04DB /* Item.swift in Sources */,
 				0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */,
+				A1F83F63210AA5E7002F43BE /* ModeViewController.swift in Sources */,
 				A178930021094257007D6074 /* TutorialScene.swift in Sources */,
 				A13F126C1EF703F700A34B16 /* GameViewController.swift in Sources */,
 				0D94CA82200A53A200D6E3EA /* GameOverScene-old.swift in Sources */,

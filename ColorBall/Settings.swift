@@ -19,6 +19,15 @@ struct Settings {
     static let LAST_AD_TIME = "LAST_AD_TIME"
     static let VOLUME_ON_KEY = "VOLUME_ON_KEY"
     
+    static let GAME_MODE_KEY = "GAME_MODE_KEY"
+    static let GAME_MODE_KEY_STAGE = "GAME_MODE_KEY_STAGE"
+    static let GAME_MODE_KEY_ENDLESS = "GAME_MODE_KEY_ENDLESS"
+    static let GAME_MODE_KEY_MEMORY = "GAME_MODE_KEY_MEMORY"
+    
+    static let TEXTURE_KEY = "TEXTURE_KEY"
+    static let TEXTURE_KEY_COLORS = "TEXTURE_KEY_COLORS"
+    static let TEXTURE_KEY_FRUITS = "TEXTURE_KEY_FRUITS"
+    
     static let LAUNCHED_BEFORE_KEY = "LAUNCHED_BEFORE_KEY"
     
     static let PresentGameControllerNotification = Notification.Name("PresentGameController")
@@ -30,7 +39,7 @@ struct Settings {
     static let TutorialStageTwoCompletedNotification = Notification.Name("TutorialStageTwoCompleted")
     
     static let ResetTutorialLevelNotification = Notification.Name("ResetTutorialLevel")
-
+    
     static var isIphoneX: Bool {
         get {
             if UIDevice().userInterfaceIdiom == .phone {

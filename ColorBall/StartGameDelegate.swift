@@ -27,5 +27,7 @@ protocol StartSceneDelegate {
     func ratePressed()
     func sharePressed()
     func gameCenterPressed()
+    func modePressed()
+    func ballsPressed()
 }
 

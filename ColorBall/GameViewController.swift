@@ -42,7 +42,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     var adsShowGameOver = false
     var adsShowNextStage = false
-    
+
+    // store the game mode type
+    var gameMode = Settings.GAME_MODE_KEY_STAGE
+    var gameTexture = Settings.TEXTURE_KEY_COLORS
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -58,34 +62,57 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     override func viewDidLoad() {
-        // grab the default
+        super.viewDidLoad()
+
+        // grab the defaults
         defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
+        if let modeSetting = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
+            gameMode = modeSetting
+        }
+
+        if let texture = defaults.object(forKey: Settings.TEXTURE_KEY) as? String {
+            gameTexture = texture
+        }
+
         //ads
         //      interstitial = createAndLoadInterstitial()
-        super.viewDidLoad()
         setcurrentStage()
         listenForNotifications()
         layoutUI()
+
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             menuBtn.imageEdgeInsets.top = 5.0
             menuBtn.imageEdgeInsets.bottom = 25.0
         }
+
         stageLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
-       // scoreLabel.alpha = 1.0
+
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
-            game = Game(startingStage: currentStage, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
+            game = Game(
+                startingStage: currentStage,
+                isEndlessMode: gameMode == Settings.GAME_MODE_KEY_ENDLESS, // if endless mode string, evaluates to true
+                isMemoryMode: gameMode == Settings.GAME_MODE_KEY_MEMORY, // if memory string, evaluates true
+                isStageMode: gameMode == Settings.GAME_MODE_KEY_STAGE // if stage string, evaluates true
+            )
             // print("updatedstage: ------------ \(currentStage)")
-        }else {
+        } else {
             // fallback to level 1 (first time players or after a reset)
-            game = Game(startingStage: 1, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
+            game = Game(
+                startingStage: 1,
+                isEndlessMode: gameMode == Settings.GAME_MODE_KEY_ENDLESS,
+                isMemoryMode: gameMode == Settings.GAME_MODE_KEY_MEMORY,
+                isStageMode: gameMode == Settings.GAME_MODE_KEY_STAGE
+            )
             defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }
+
         defaults.synchronize()
+
         camera = SKCameraNode()
         setupGame(animateBackground: false)
     }
@@ -123,11 +150,21 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         //background/ color also for this
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
-            game = Game(startingStage: currentStage, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
+            game = Game(
+                startingStage: currentStage,
+                isEndlessMode: gameMode == Settings.GAME_MODE_KEY_ENDLESS,
+                isMemoryMode: gameMode == Settings.GAME_MODE_KEY_MEMORY,
+                isStageMode: gameMode == Settings.GAME_MODE_KEY_STAGE
+            )
             // print("updatedstage: ------------ \(currentStage)")
         }else {
             // fallback to level 1 (first time players or after a reset)
-            game = Game(startingStage: 1, isEndlessMode: false, isMemoryMode: true, isStageMode: false)
+            game = Game(
+                startingStage: 1,
+                isEndlessMode: gameMode == Settings.GAME_MODE_KEY_ENDLESS,
+                isMemoryMode: gameMode == Settings.GAME_MODE_KEY_MEMORY,
+                isStageMode: gameMode == Settings.GAME_MODE_KEY_STAGE
+            )
             defaults.set(1, forKey: Settings.CURRENT_STAGE_KEY)
             stageLabel.text = "STAGE 1"
         }
@@ -304,9 +341,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func gameover() {
-            let playspergame = defaults.integer(forKey: Settings.PLAYS_PER_GAME)
-            defaults.set(playspergame + 1, forKey: Settings.PLAYS_PER_GAME)
-            print("print", playspergame)
+        let playspergame = defaults.integer(forKey: Settings.PLAYS_PER_GAME)
+        defaults.set(playspergame + 1, forKey: Settings.PLAYS_PER_GAME)
+        print("print", playspergame)
         // save the high score if we just set it!
         if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
             if game.stage > highScore {
