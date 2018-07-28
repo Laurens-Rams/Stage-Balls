@@ -807,12 +807,20 @@ class Game {
     }
     var totalInColumns: Int {
         get {
-            // how many will fall? return this number minus number of starting balls
-            return _columnHeights.reduce(0) { result, num in
-                return result + (num - 2)
+            var total = 0
+            for height in _columnHeights {
+                total += (height - 1)
             }
+            return total
+            // how many will fall? return this number minus number of starting balls
+//            let inCols = _columnHeights.reduce(0) { result, num in
+//                return result + (num - 1)
+//            }
+//            print(inCols)
+//            return inCols
         }
     }
+
     func setRotationSpeed(){
         _rotationSpeedIncrement += 0.1
         
