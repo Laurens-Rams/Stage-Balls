@@ -520,13 +520,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let explosionTexture = SKTexture(imageNamed: "Fruit-8")
                         thisExplosion.particleTexture = explosionTexture
                     }
-                }else{
+                }else if mode == Settings.TEXTURE_KEY_POOL{
+                    if ball.colorType.name() == "blue"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-1")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "pink"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-2")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "red"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-3")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "yellow"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-4")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "green"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-5")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "orange"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-6")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "purple"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-7")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "grey"{
+                        let explosionTexture = SKTexture(imageNamed: "Pool-8")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else{
                     let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
                     thisExplosion.particleTexture = explosionTexture
                 }
             }
             addChild(thisExplosion)
             }
+    }
     }
     func createstageexplosion(){
         if let explosionPath = Bundle.main.path(forResource: "sparkstage", ofType: "sks"),
@@ -1038,6 +1064,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let FruitTexture = SKTexture(imageNamed: currentFruitTexture)
                 ball.fillTexture = FruitTexture
                 ball.fillColor = .white
+            }else if mode == Settings.TEXTURE_KEY_POOL{
+                ball.setScale(1.02)
+                ball.lineWidth = 0.0
+                let currentPoolTexture = randomImageNamePool(imageNumber: rando + 1)
+                print(rando)
+                let PoolTexture = SKTexture(imageNamed: currentPoolTexture)
+                ball.fillTexture = PoolTexture
+                ball.fillColor = .white
             }
         }
     }
@@ -1252,6 +1286,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func randomImageName(imageNumber: Int) -> String {
         return "Fruit-\(imageNumber)"
     }
+        func randomImageNamePool(imageNumber: Int) -> String {
+            return "Pool-\(imageNumber)"
+        }
     
     /**
      Get the ideal position for a ball, based on the ball that it just hit.

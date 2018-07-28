@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="HRY-vh-eAL">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,8 +13,14 @@
         <array key="FaceOffM55-Regula.ttf">
             <string>FaceOffM54-Regular</string>
         </array>
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
         <array key="Oregon-Regular.otf">
             <string>Oregon-Regular</string>
+        </array>
+        <array key="SinhalaSangamMN.ttc">
+            <string>SinhalaSangamMN-Bold</string>
         </array>
     </customFonts>
     <scenes>
@@ -160,20 +166,33 @@
                                     <action selector="backButton:" destination="WfV-jU-0J7" eventType="touchUpInside" id="mqP-df-gkT"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOg-i9-3HD">
+                                <rect key="frame" x="3" y="246" width="313" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="mOg-i9-3HD" secondAttribute="height" multiplier="313:81" id="gnz-CY-c9N"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="unlockpoolColor"/>
+                                <connections>
+                                    <action selector="poolBalls:" destination="WfV-jU-0J7" eventType="touchDown" id="ImD-18-9mh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="VtP-dU-c2r" secondAttribute="trailing" constant="4" id="0n0-84-lRR"/>
                             <constraint firstAttribute="trailing" secondItem="f9X-t0-QwJ" secondAttribute="trailing" constant="4" id="45p-MH-WVV"/>
                             <constraint firstItem="QMe-kY-Amg" firstAttribute="top" secondItem="thj-1U-kfE" secondAttribute="bottom" constant="17" id="CEc-Sy-D6K"/>
+                            <constraint firstItem="mOg-i9-3HD" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="3" id="Nrz-TI-dpk"/>
                             <constraint firstItem="VtP-dU-c2r" firstAttribute="centerX" secondItem="snt-Lf-avd" secondAttribute="centerX" id="Vt3-Gj-b4A"/>
                             <constraint firstAttribute="trailing" secondItem="QMe-kY-Amg" secondAttribute="trailing" constant="8" id="bT6-as-lCD"/>
                             <constraint firstItem="f9X-t0-QwJ" firstAttribute="top" secondItem="QMe-kY-Amg" secondAttribute="bottom" constant="5" id="cKS-gP-uUl"/>
                             <constraint firstItem="QMe-kY-Amg" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="9" id="diX-mW-DDd"/>
                             <constraint firstItem="ZJl-xq-LHb" firstAttribute="centerY" secondItem="QMe-kY-Amg" secondAttribute="centerY" id="gXl-sV-q22"/>
                             <constraint firstItem="ZJl-xq-LHb" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="16" id="gtm-hn-DUF"/>
+                            <constraint firstAttribute="trailing" secondItem="mOg-i9-3HD" secondAttribute="trailing" constant="4" id="nBU-8d-s07"/>
                             <constraint firstItem="f9X-t0-QwJ" firstAttribute="centerX" secondItem="snt-Lf-avd" secondAttribute="centerX" id="nY7-XD-ap7"/>
                             <constraint firstItem="f9X-t0-QwJ" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="3" id="ncD-pc-hdy"/>
+                            <constraint firstItem="mOg-i9-3HD" firstAttribute="top" secondItem="VtP-dU-c2r" secondAttribute="bottom" constant="-2" id="tZA-Dt-6d7"/>
                             <constraint firstItem="VtP-dU-c2r" firstAttribute="top" secondItem="f9X-t0-QwJ" secondAttribute="bottom" constant="-1" id="x6n-tZ-TAo"/>
                             <constraint firstItem="VtP-dU-c2r" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="3" id="zSG-4s-KQG"/>
                         </constraints>
@@ -181,6 +200,7 @@
                     <connections>
                         <outlet property="colorsButton" destination="f9X-t0-QwJ" id="aaM-G2-thW"/>
                         <outlet property="fruitsButton" destination="VtP-dU-c2r" id="AgB-8r-w44"/>
+                        <outlet property="poolButton" destination="mOg-i9-3HD" id="T4p-aP-rn6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kDX-eZ-DHY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -893,13 +913,14 @@
         <image name="logo2" width="451" height="256"/>
         <image name="menu" width="50" height="50"/>
         <image name="play" width="227" height="227"/>
-        <image name="rotateLeft" width="139" height="176"/>
+        <image name="rotateLeft" width="138" height="175"/>
         <image name="rotateRight" width="138" height="175"/>
         <image name="share" width="173" height="169"/>
         <image name="stageMode" width="750" height="264"/>
         <image name="unlockballFruits" width="750" height="191"/>
         <image name="unlockendlessMode" width="750" height="264"/>
         <image name="unlockmemoryMode" width="750" height="264"/>
+        <image name="unlockpoolColor" width="750" height="191"/>
         <image name="watchVideo" width="362" height="239"/>
     </resources>
     <inferredMetricsTieBreakers>

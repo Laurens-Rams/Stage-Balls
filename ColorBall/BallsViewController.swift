@@ -12,6 +12,7 @@ class BallsViewController: UIViewController {
     
     @IBOutlet weak var fruitsButton: UIButton!
     @IBOutlet weak var colorsButton: UIButton!
+    @IBOutlet weak var poolButton: UIButton!
     
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -30,6 +31,10 @@ class BallsViewController: UIViewController {
         toggleTextureButtons()
     }
     
+    @IBAction func poolBalls(_ sender: Any) {
+        UserDefaults.standard.set(Settings.TEXTURE_KEY_POOL, forKey: Settings.TEXTURE_KEY)
+        toggleTextureButtons()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         toggleTextureButtons()
@@ -55,9 +60,15 @@ class BallsViewController: UIViewController {
             if textureMode == Settings.TEXTURE_KEY_FRUITS {
                 fruitsButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 colorsButton.backgroundColor = UIColor.clear
+                poolButton.backgroundColor = UIColor.clear
+            }else if textureMode == Settings.TEXTURE_KEY_POOL {
+                poolButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                colorsButton.backgroundColor = UIColor.clear
+                fruitsButton.backgroundColor = UIColor.clear
             } else {
                 fruitsButton.backgroundColor = UIColor.clear
                 colorsButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                poolButton.backgroundColor = UIColor.clear
             }
         }
     }
