@@ -649,10 +649,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         currentColumn.numOfSurprises -= 1
                         let b = self.addNewBall(toColumn: colNumber)
                         self.Circle.addChild(b)
-                        let scenePosition = CGPoint(x: self.Circle.position.x, y: currentColumn.baseSlot.position.y - self.game.smallDiameter)
+                        let scenePosition = CGPoint(x: currentColumn.baseSlot.position.x, y: currentColumn.baseSlot.position.y - self.game.smallDiameter)
                         let positionConverted = self.convert(scenePosition, to: self.Circle)
                         b.position = positionConverted
-                        self.animateNewBall(ball: b) {
+                        self.animateNewBall(ball: b, deg: self.Circle.zRotation) {
                             // switch the parent without removing it
                             b.move(toParent: self)
                             currentColumn.baseSlot.setBall(ball: b)
@@ -701,8 +701,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     // spring animation applied to surprise balls
-    func animateNewBall(ball: SmallBall, completion: @escaping () -> Void) {
-        let deg = Circle.zRotation
+    func animateNewBall(ball: SmallBall, deg: CGFloat, completion: @escaping () -> Void) {
+//        let deg = Circle.zRotation
         let x = cos(deg) * game.smallDiameter
         let y = -sin(deg) * game.smallDiameter
         
@@ -710,7 +710,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let newY = x
         
         
-        let spring = SKAction.moveBy(x: newX, y: newY, duration: 1.3, delay: 0.2, usingSpringWithDamping: 0.3, initialSpringVelocity: 0)
+        let spring = SKAction.moveBy(x: newX, y: newY, duration: 0.5, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0)
         ball.run(spring) {
             completion()
         }
@@ -1313,6 +1313,15 @@ func radiansToDeg(angle: CGFloat) -> CGFloat {
  */
 func distanceBetween(pointA: CGPoint, pointB: CGPoint) -> CGFloat {
     return sqrt(pow(pointB.x - pointA.x, 2) + pow(pointB.y - pointA.y, 2))
+}
+
+func getPoint(a: CGPoint, b: CGPoint, d: CGFloat) -> CGPoint {
+    let v = V2sub(a: b, b: a)
+    let dist = V2len(v: v)
+    let v1 = V2mul(s: 1/dist, a: v)
+    let v2 = V2mul(s: -d, a: v1)
+    let v3 = V2add(a: a, b: v2)
+    return v3
 }
 
 // ===========

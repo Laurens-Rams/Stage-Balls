@@ -154,6 +154,8 @@ class StartMenuBall: SKSpriteNode {
 }
 
 struct PhysicsCategory {
+    
+    static let neutral: UInt32 = 11111111
 
     static let circleBall: UInt32 = 11101110
     static let blueBall: UInt32 = 10101000
