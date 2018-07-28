@@ -172,6 +172,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     @objc func handleGameRestartRequest() {
         //background/ color also for this
+        if let modeSetting = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
+            gameMode = modeSetting
+        }
+        
+        if let texture = defaults.object(forKey: Settings.TEXTURE_KEY) as? String {
+            gameTexture = texture
+        }
+
         if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
             stageLabel.text = "STAGE \(currentStage)"
             game = Game(
