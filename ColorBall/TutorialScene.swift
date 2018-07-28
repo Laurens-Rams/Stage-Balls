@@ -626,12 +626,10 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
      - newBody: The dynamic body (dynamic body has a larger category bitmask, but represents a small ball).
      */
     func handleLargeCollisionWith(newBody: SKPhysicsBody) {
-        if let ball = newBody.node as? SkullBall {
-            // add 3 points to the skull's y position
-            ball.position = CGPoint(x: ball.position.x, y: ball.position.y + 3)
-        } else if let ball = newBody.node as? SmallBall, game.endGameOnCircleCollision {
-            startGameOverSequence(newBall: ball)
-        }
+//        if let ball = newBody.node as? SmallBall, game.endGameOnCircleCollision {
+//            startGameOverSequence(newBall: ball)
+//        }
+        handleGameOver()
     }
     
     /**
@@ -855,9 +853,8 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startGameOverSequence(newBall: SmallBall) {
-
         canpresspause = false
-        self.gameDelegate?.gameoverplayscore()
+//        self.gameDelegate?.gameoverplayscore()
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
@@ -871,31 +868,31 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         newBall.stuck = true
         newBall.physicsBody?.isDynamic = false
         gameDelegate?.gameoverdesign()
-        self.gameDelegate?.scorelabelalpha()
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
-        skullCircle.run(fadeIn)
+//        self.gameDelegate?.scorelabelalpha()
+//        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
+//        skullCircle.run(fadeIn)
 
         // create the camera zoom action
-        let shakeLeft = getMoveAction(moveX: -9.0, moveY: 0.0, totalTime: 0.04)
-        let shakeRight = getMoveAction(moveX: 9.0, moveY: 0.0, totalTime: 0.04)
-
-        camera?.run(SKAction.sequence([
-            shakeLeft,
-            shakeRight,
-            shakeRight,
-            shakeLeft,
-            shakeLeft,
-            shakeRight,
-            shakeRight,
-            shakeLeft
-            ]))
-        // start the timer
-        UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
-            self.ring.alpha = 0.0
-        }, completion: nil)
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
-
-        })
+//        let shakeLeft = getMoveAction(moveX: -9.0, moveY: 0.0, totalTime: 0.04)
+//        let shakeRight = getMoveAction(moveX: 9.0, moveY: 0.0, totalTime: 0.04)
+//
+//        camera?.run(SKAction.sequence([
+//            shakeLeft,
+//            shakeRight,
+//            shakeRight,
+//            shakeLeft,
+//            shakeLeft,
+//            shakeRight,
+//            shakeRight,
+//            shakeLeft
+//            ]))
+//        // start the timer
+//        UIView.animate(withDuration: 0.8, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: {
+//            self.ring.alpha = 0.0
+//        }, completion: nil)
+//        let _ = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: false, block: { t in
+//
+//        })
     }
     
     /**
@@ -905,9 +902,10 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
      - stuckBody: The non-dynamic body.
      */
     func handleDifferentColorCollision(newBody: SKPhysicsBody, stuckBody: SKPhysicsBody) {
-        if let newBall = newBody.node as? SmallBall {
-            startGameOverSequence(newBall: newBall)
-        }
+//        if let newBall = newBody.node as? SmallBall {
+//            startGameOverSequence(newBall: newBall)
+//        }
+        handleGameOver()
     }
     
     func getMoveAction(moveX: CGFloat, moveY: CGFloat, totalTime: Double) -> SKAction {
@@ -961,7 +959,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
     func handleGameOver() {
         isPaused = true
         ballTimer?.invalidate()
-        gameDelegate?.gameover()
+        NotificationCenter.default.post(Notification(name: Settings.ResetTutorialLevelNotification))
     }
     
     /**

@@ -27,6 +27,8 @@ class TutorialViewController: UIViewController {
     var adsShowGameOver = false
     var adsShowNextStage = false
     
+    var tutorialStage = 1
+    
     @IBOutlet weak var instructLabel: UILabel!
     @IBOutlet weak var finishedButton: UIButton!
     
@@ -89,6 +91,7 @@ class TutorialViewController: UIViewController {
     
     @objc func handleTutorialStageOneComplete() {
         print("completed a tutorial stage")
+        tutorialStage = 2
         // handler function (calls other functions that do things)
         nextStageOrStartRealGame(startGame: false)
     }
@@ -119,7 +122,7 @@ class TutorialViewController: UIViewController {
                 self.startRealGame()
             })
         } else {
-            scene.game.increaseStage()
+            scene.game.setStage(toStage: tutorialStage)
             teardownGame()
             updateInstructionsAfterStageOne()
             setupGame(animateBackground: false)

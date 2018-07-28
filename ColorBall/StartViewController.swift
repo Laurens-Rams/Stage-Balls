@@ -49,8 +49,12 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     @objc func handleSwitchTutorialForGame() {
         UserDefaults.standard.set(true, forKey: Settings.LAUNCHED_BEFORE_KEY)
         UserDefaults.standard.synchronize()
+        scene.alpha = 0.0
+        logo2.alpha = 0.0
         dismissTutorial {
             self.launchGameViewController()
+            self.scene.alpha = 1.0
+            self.logo2.alpha = 1.0
         }
     }
     

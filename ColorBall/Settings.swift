@@ -14,6 +14,9 @@ struct Settings {
     // 21600 == 6 hours in seconds (6 * 60 * 60)
     static let PRESENT_INTERVAL: Double = 21600
     static let CURRENT_STAGE_KEY = "CURRENT_STAGE"
+    static let CURRENT_STAGE_KEY_MEMORY = "CURRENT_STAGE_KEY_MEMORY"
+    static let CURRENT_STAGE_KEY_ENDLESS = "CURRENT_STAGE_KEY_ENDLESS"
+
     static let HIGH_SCORE_KEY = "HIGH_SCORE"
     static let PLAYS_PER_GAME = "PLAYS_PER_GAME"
     static let LAST_AD_TIME = "LAST_AD_TIME"

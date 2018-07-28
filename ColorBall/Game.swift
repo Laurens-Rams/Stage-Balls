@@ -80,6 +80,7 @@ class Game {
     // number balls fallen in current stage
     // TODO: create a "stage" object to manage all stage-related vars
     private var _ballsFallen = 0
+    private var _stageMemoryMode = 0
     
     // game level
     private var _stage: Int = 1
@@ -439,6 +440,11 @@ class Game {
     var ballsFallen: Int {
         get {
             return _ballsFallen
+        }
+    }
+    var stageMemoryMode: Int {
+        get {
+            return _stageMemoryMode
         }
     }
     var spinVar: CGFloat {
@@ -890,7 +896,11 @@ class Game {
      Increment the game level by 1.
      */
     func increaseStage() {
-        _stage += 1
+        if _isMemoryMode{
+            _stageMemoryMode += 1
+        }else{
+            _stage += 1
+        }
         setRotationSpeed()
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2

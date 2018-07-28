@@ -1022,13 +1022,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setFruits(ball: SmallBall, rando: Int){
-        ball.setScale(1.02)
-        ball.lineWidth = 0.0
-        let currentFruitTexture = randomImageName(imageNumber: rando + 1)
-        print(rando)
-        let FruitTexture = SKTexture(imageNamed: currentFruitTexture)
-        ball.fillTexture = FruitTexture
-        ball.fillColor = .white
+        if let mode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String{
+            if mode == Settings.TEXTURE_KEY_FRUITS{
+                ball.setScale(1.02)
+                ball.lineWidth = 0.0
+                let currentFruitTexture = randomImageName(imageNumber: rando + 1)
+                print(rando)
+                let FruitTexture = SKTexture(imageNamed: currentFruitTexture)
+                ball.fillTexture = FruitTexture
+                ball.fillColor = .white
+            }
+        }
     }
 
     func checkforEscape(ball: SmallBall, index: Int){
