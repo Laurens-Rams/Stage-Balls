@@ -25,6 +25,7 @@ class BallsViewController: UIViewController {
     }
     
     @IBAction func deliciousFruits(_ sender: Any) {
+        IAPHandler.shared.purchaseMyProduct(index: 2)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_FRUITS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
     }
@@ -32,6 +33,20 @@ class BallsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         toggleTextureButtons()
+        
+        // inAppPurchase
+        IAPHandler.shared.fetchAvailableProducts()
+        IAPHandler.shared.purchaseStatusBlock = {[weak self] (type) in
+            guard let strongSelf = self else{ return }
+            if type == .purchased {
+                let alertView = UIAlertController(title: "", message: type.message(), preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default, handler: { (alert) in
+                    
+                })
+                alertView.addAction(action)
+                strongSelf.present(alertView, animated: true, completion: nil)
+            }
+        }
     }
     
     func toggleTextureButtons() {

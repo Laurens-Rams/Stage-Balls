@@ -17,6 +17,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     var endingScore: Int = 0
     var endingStage: Int = 1
     let LEADERBOARD_ID = "stageid"
+    let LEADERBOARD_ID_MEMORY = "memoryid"
+    let LEADERBOARD_ID_ENDLESS = "endlessid"
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     @IBOutlet weak var lastStageButton: UIButton!
@@ -47,7 +49,12 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         RemainingBalls.text = "BALLS \(scoreFormatter(score: endingScore))"
         setStageLabel()
         let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
+        let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY)
+//        let scoreGameCenterEndless = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS)
         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+        let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
+//        let bestScoreIntEndless = GKScore(leaderboardIdentifier: LEADERBOARD_ID_ENDLESS)
+        
         bestScoreInt.value = scoreGameCenter as! Int64
         GKScore.report([bestScoreInt]) { (error) in
             if error != nil {
@@ -56,6 +63,22 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                 // print("Best Score submitted to your Leaderboard!")
             }
         }
+        bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
+        GKScore.report([bestScoreIntMemory]) { (error) in
+            if error != nil {
+                // print(error!.localizedDescription)
+            } else {
+                // print("Best Score submitted to your Leaderboard!")
+            }
+        }
+//        bestScoreIntEndless.value = scoreGameCenterEndless as! Int64
+//        GKScore.report([bestScoreIntEndless]) { (error) in
+//            if error != nil {
+//                // print(error!.localizedDescription)
+//            } else {
+//                // print("Best Score submitted to your Leaderboard!")
+//            }
+//        }
         showHideStageButtons()
     }
 

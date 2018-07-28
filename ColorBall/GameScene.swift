@@ -431,7 +431,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startFallTimer(ball: SmallBall) {
         //for how long they stay up (0.0 - 1.8)
         // if you don't want these to be linked, create a new variable in the game object for the fall multiplier (this could cause in-air crashes though)
-        let interval = 0.8// * game.speedMultiplier
+        let interval = 0.7// * game.speedMultiplier
             fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
                 timer in
                 ball.inLine = false
@@ -493,30 +493,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let explosiony = CGPoint(x: ball.position.x, y: ball.position.y)
             thisExplosion.position = explosiony
             //fruit explosion
-            if ball.colorType.name() == "blue"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-1")
-                thisExplosion.particleTexture = explosionTexture
-            }else if ball.colorType.name() == "pink"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-2")
-                thisExplosion.particleTexture = explosionTexture
-            }else if ball.colorType.name() == "red"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-3")
-                thisExplosion.particleTexture = explosionTexture
-            }else if ball.colorType.name() == "yellow"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-4")
-                thisExplosion.particleTexture = explosionTexture
-            }else if ball.colorType.name() == "green"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-5")
-                thisExplosion.particleTexture = explosionTexture
-            }else if ball.colorType.name() == "orange"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-6")
-                thisExplosion.particleTexture = explosionTexture
-            }else if ball.colorType.name() == "purple"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-7")
-                thisExplosion.particleTexture = explosionTexture
-            }else if ball.colorType.name() == "grey"{
-                let explosionTexture = SKTexture(imageNamed: "Fruit-8")
-                thisExplosion.particleTexture = explosionTexture
+            if let mode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String{
+                if mode == Settings.TEXTURE_KEY_FRUITS{
+                    if ball.colorType.name() == "blue"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-1")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "pink"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-2")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "red"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-3")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "yellow"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-4")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "green"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-5")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "orange"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-6")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "purple"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-7")
+                        thisExplosion.particleTexture = explosionTexture
+                    }else if ball.colorType.name() == "grey"{
+                        let explosionTexture = SKTexture(imageNamed: "Fruit-8")
+                        thisExplosion.particleTexture = explosionTexture
+                    }
+                }else{
+                    let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
+                    thisExplosion.particleTexture = explosionTexture
+                }
             }
             addChild(thisExplosion)
             }

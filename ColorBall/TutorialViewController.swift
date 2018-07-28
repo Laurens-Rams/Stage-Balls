@@ -38,7 +38,7 @@ class TutorialViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
+        //defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
         defaults.synchronize()
         tutorial = Tutorial()
         camera = SKCameraNode()

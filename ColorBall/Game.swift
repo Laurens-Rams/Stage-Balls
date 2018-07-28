@@ -527,16 +527,16 @@ class Game {
             }
             if _isMemoryMode{
                 let frequency = 5
-                let baseAmountToAdd = _stage - 1
+                let baseAmountToAdd = _stageMemoryMode - 1
                 let highestVariableStage = 13
                 
-                if _stage < highestVariableStage {
+                if _stageMemoryMode < highestVariableStage {
                     let newStart = _numberStartingBalls + baseAmountToAdd // = 13
                     return newStart
                 }
                 
-                let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
-                if _stage < 50{
+                let multiplesOfFrequency = Int(round(Double((_stageMemoryMode - highestVariableStage) / frequency)))
+                if _stageMemoryMode < 50{
                     return highestVariableStage + multiplesOfFrequency
                 }else{
                     return 24
@@ -588,36 +588,36 @@ class Game {
     // max 22
     // maxStage 57
     // f 5
-    var numberOfMemoryBallsAlt: Int {
-        get {
-            if _isMemoryMode == true{
-                
-            }
-            let frequencyMin = 3
-            let frequencyMax = 6
-            let maxBalls: Double = 4
-            let highestVariableStage = 30
-            
-            if _stage < highestVariableStage {
-                return 0
-            }
-            
-            if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
-                // set the next nextEscapeStage
-                let nextMin = _stage + frequencyMin
-                let nextMax = _stage + frequencyMax
-                _nextMemoryStage = _stage + randomInteger(lowerBound: nextMin, upperBound: nextMax)
-                print("next mem stage", _nextMemoryStage)
-                // yes, we should have an escape ball this stage
-                if _stage == _nextMemoryStage {
-                    if _lastMemoryCount < maxBalls { _lastMemoryCount += 0.5 }
-                    return Int(floor(_lastMemoryCount))
-                }
-            }
-            
-            return 0
-        }
-    }
+//    var numberOfMemoryBallsAlt: Int {
+//        get {
+//            if _isMemoryMode == true{
+//
+//            }
+//            let frequencyMin = 3
+//            let frequencyMax = 6
+//            let maxBalls: Double = 4
+//            let highestVariableStage = 30
+//
+//            if _stage < highestVariableStage {
+//                return 0
+//            }
+//
+//            if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
+//                // set the next nextEscapeStage
+//                let nextMin = _stage + frequencyMin
+//                let nextMax = _stage + frequencyMax
+//                _nextMemoryStage = _stage + randomInteger(lowerBound: nextMin, upperBound: nextMax)
+//                print("next mem stage", _nextMemoryStage)
+//                // yes, we should have an escape ball this stage
+//                if _stage == _nextMemoryStage {
+//                    if _lastMemoryCount < maxBalls { _lastMemoryCount += 0.5 }
+//                    return Int(floor(_lastMemoryCount))
+//                }
+//            }
+//
+//            return 0
+//        }
+//    }
     
     var numberOfMemoryBalls: Int {
         get {
@@ -626,11 +626,11 @@ class Game {
                 let maxBalls = 4
                 let highestVariableStage: Double = 5
                 
-                if Double(_stage) < highestVariableStage {
+                if Double(_stageMemoryMode) < highestVariableStage {
                     return 0
                 }
                 
-                let elapsed = Double(_stage) - highestVariableStage
+                let elapsed = Double(_stageMemoryMode) - highestVariableStage
                 let multiples = Int(floor(elapsed / frequency))
                 return multiples > maxBalls ? maxBalls : multiples
                 /*if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
@@ -718,14 +718,14 @@ class Game {
                 return Double(_ballsFallen) * (_gravityMultiplier)
             }
             if _isMemoryMode {
-                if (_stage < 70){
-                    return Double(_stage - 1) * (_gravityMultiplier)
+                if (_stageMemoryMode < 70){
+                    return Double(_stageMemoryMode - 1) * (_gravityMultiplier)
                 }else {
                     return 8.0
                 }
             }
             if (_stage < 30){
-                return Double(_stage - 1) * (_gravityMultiplier + 0.015)
+                return Double(_stage - 1) * (_gravityMultiplier + 0.02)
             }else if (_stage < 57){
                 return Double(_stage - 1) * _gravityMultiplier
             }else{
@@ -738,7 +738,7 @@ class Game {
             if _isEndlessMode{
                 return 6.0
             }
-            return 4.0
+            return 5.0
         }
     }
     
