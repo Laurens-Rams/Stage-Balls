@@ -148,7 +148,9 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
             if tutorialColumnsCleared <= 0, !notifiedSpins {
                 notifiedSpins = true
                 setupFirstFallTimer()
-                NotificationCenter.default.post(name: Settings.TutorialSpinsCompletedNotification, object: nil, userInfo: nil)
+                let _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: {timer in
+                    NotificationCenter.default.post(name: Settings.TutorialSpinsCompletedNotification, object: nil, userInfo: nil)
+                })
             } else if tutorialColumnsCleared > 0, !notifiedStageTwo {
                 notifiedStageTwo = true
                 NotificationCenter.default.post(name: Settings.TutorialStageTwoCompletedNotification, object: nil, userInfo: nil)
@@ -274,9 +276,8 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
                 getCircleValues()
                 if (CGFloat(spinMultiplier) < (game.spinVar / CGFloat(game.slotsOnCircle)) * 1.5) {
                     spinMultiplier += 0.5 // wie schnell es schneller wird
-                    if spinMultiplier >= 1 {
                         playerDidSpin = true
-                    }
+                    
                 } else {
                     playerDidSpinFast = true
                 }
@@ -318,7 +319,7 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
-        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {timer in
+        let _ = Timer.scheduledTimer(withTimeInterval: 0.0, repeats: false, block: {timer in
             self.canpresspause = true
             self.ballsNeedUpdating = true
             self.addBall()

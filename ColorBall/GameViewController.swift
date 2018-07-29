@@ -61,6 +61,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         scoreLabel.alpha = 1.0
         scoreLabel.text = String(0)
         rewardLabel.alpha = 0.0
+        checkscorelabelsize()
     }
     
     func getRewardMessages() {
@@ -89,7 +90,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
 
         // grab the defaults
-        //defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
+        defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
         if let modeSetting = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
             gameMode = modeSetting
         }
@@ -131,7 +132,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 isStageMode: gameMode == Settings.GAME_MODE_KEY_STAGE
             )
             defaults.set(3, forKey: Settings.CURRENT_STAGE_KEY)
-            stageLabel.text = gameMode == Settings.GAME_MODE_KEY_ENDLESS ? "∞" : "STAGE )"
+            stageLabel.text = gameMode == Settings.GAME_MODE_KEY_ENDLESS ? "∞" : "STAGE 3)"
         }
 
         defaults.synchronize()
@@ -229,6 +230,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         setupUI()
         addPlayedGame()
         layoutAfterSetup()
+        checkscorelabelsize()
         scoreLabel.countFrom(CGFloat(0), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
         // print("white")
     }
@@ -323,9 +325,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func checkscorelabelsize(){
-        if game.ballsRemaining < 100 {
+        if game.numberBallsInQueue < 100 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 140)
-        } else if game.ballsRemaining < 1000 {
+        } else if game.numberBallsInQueue < 1000 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }
     }
@@ -501,8 +503,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         if let stage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int, let played = defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int {
             print(stage, played)
             Analytics.logEvent("played_nextstage", parameters: [
-                "stage": stage,
-                "played": played
+                "Value": "stage: \(stage) played: \(played)",
             ])
         }
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)

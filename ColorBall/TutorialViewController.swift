@@ -15,10 +15,10 @@ class TutorialViewController: UIViewController {
     var skView: SKView!
     var camera: SKCameraNode!
     var instructions = [
-        "TAP LEFT OR RIGHT",
+        "TAP LEFT OR RIGHT TO TURN",
         "CLEAR THE BALL",
-        "HOLD TO SPIN",
-        "GOOD JOB!"
+        "HOLD LEFT OR RIGHT TO SPIN",
+        "Excellent!"
     ]
     var tutorial: Tutorial!
     

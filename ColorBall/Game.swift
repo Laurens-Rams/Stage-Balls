@@ -98,7 +98,7 @@ class Game {
     // how often things fall
     private var _speedMultiplier: Double = 0.005
     
-    private var _rotationSpeedIncrement = CGFloat(0.0)
+    private var _rotationSpeedIncrement = CGFloat(0.1)
     private var _spinVar = CGFloat(16.0)
     
     
@@ -454,7 +454,7 @@ class Game {
     }
     var rotationSpeedIncrement: CGFloat {
         get {
-            return _rotationSpeedIncrement
+            return _rotationSpeedIncrement * CGFloat(_stage)
         }
     }
     
@@ -821,10 +821,7 @@ class Game {
         }
     }
 
-    func setRotationSpeed(){
-        _rotationSpeedIncrement += 0.1
-        
-    }
+
     /**
      How high the balls should be able to stack (read-only getter).
      */
@@ -909,7 +906,6 @@ class Game {
         }else{
             _stage += 1
         }
-        setRotationSpeed()
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2
         }

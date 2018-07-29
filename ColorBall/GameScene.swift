@@ -205,6 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func updateCircle(dt: CGFloat) {
         // change animation
+        print("rot", game.rotationSpeedIncrement)
         let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt * CGFloat(spinMultiplier)
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
@@ -216,7 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if isHolding {
                 getCircleValues()
-                if (CGFloat(spinMultiplier) < (game.spinVar / CGFloat(game.slotsOnCircle)) * 1.5) {
+                if (CGFloat(spinMultiplier) < ((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle) * 1.2)) {
                     spinMultiplier += 0.5 // wie schnell es schneller wird
                 }
             } else {
@@ -545,13 +546,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }else if ball.colorType.name() == "grey"{
                         let explosionTexture = SKTexture(imageNamed: "Pool-8")
                         thisExplosion.particleTexture = explosionTexture
-                    }else{
+                    }
+                }else{
                     let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
                     thisExplosion.particleTexture = explosionTexture
-                }
             }
             addChild(thisExplosion)
-            }
+        }
     }
     }
     func createstageexplosion(){

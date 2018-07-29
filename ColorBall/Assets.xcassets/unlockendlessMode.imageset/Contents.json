@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "unlockendlessMode.png",
+      "filename" : "freeendlessMode.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "unlockendlessMode@2x.png",
+      "filename" : "freeendlessMode@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "unlockendlessMode@3x.png",
+      "filename" : "freeendlessMode@3x.png",
       "scale" : "3x"
     }
   ],

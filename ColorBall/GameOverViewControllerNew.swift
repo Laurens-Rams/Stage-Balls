@@ -63,14 +63,14 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                 // print("Best Score submitted to your Leaderboard!")
             }
         }
-        bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
-        GKScore.report([bestScoreIntMemory]) { (error) in
-            if error != nil {
-                // print(error!.localizedDescription)
-            } else {
-                // print("Best Score submitted to your Leaderboard!")
-            }
-        }
+//        bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
+//        GKScore.report([bestScoreIntMemory]) { (error) in
+//            if error != nil {
+//                // print(error!.localizedDescription)
+//            } else {
+//                // print("Best Score submitted to your Leaderboard!")
+//            }
+//        }
 //        bestScoreIntEndless.value = scoreGameCenterEndless as! Int64
 //        GKScore.report([bestScoreIntEndless]) { (error) in
 //            if error != nil {
