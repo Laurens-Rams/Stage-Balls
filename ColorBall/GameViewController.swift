@@ -501,9 +501,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     func handleNextStage() {
         if let stage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int, let played = defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int {
-            print(stage, played)
-            Analytics.logEvent("played_nextstage", parameters: [
-                "Value": "stage: \(stage) played: \(played)",
+            print("works")
+            Analytics.logEvent("STAGEMETRIC", parameters: [
+                "Stage\(stage)": played
             ])
         }
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
