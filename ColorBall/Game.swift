@@ -80,7 +80,11 @@ class Game {
     // number balls fallen in current stage
     // TODO: create a "stage" object to manage all stage-related vars
     private var _ballsFallen = 0
-    private var _stageMemoryMode = 0
+    
+    // using the user defaults keys let us track values for different modes, but
+    // it also means we don't have to have separate variables for the stage,
+    // since the _stage variable will always represent the stage for the current mode
+    // private var _stageMemoryMode = 0
     
     // game level
     private var _stage: Int = 1
@@ -179,10 +183,15 @@ class Game {
     
     init(startingStage: Int, isEndlessMode: Bool, isMemoryMode: Bool, isStageMode: Bool) {
         _stage = startingStage
+
+        // thanks to our user defaults setup, only one of these
+        // should be able to be true at any given moment
         if isEndlessMode { initEndlessMode() }
         if isMemoryMode { initMemoryMode() }
         if isStageMode { initStageMode() }
-        _colorSetIndex = randomColorSet()
+
+        // if you decide to use color sets someday, you can bring this back and make use of it :)
+        // _colorSetIndex = randomColorSet()
     }
     
     func initEndlessMode() {
@@ -442,11 +451,14 @@ class Game {
             return _ballsFallen
         }
     }
-    var stageMemoryMode: Int {
-        get {
-            return _stageMemoryMode
-        }
-    }
+
+    // see comment by `var _stageMemoryMode` up top, for why this is currently commented out
+    //    var stageMemoryMode: Int {
+    //        get {
+    //            return _stageMemoryMode
+    //        }
+    //    }
+
     var spinVar: CGFloat {
         get {
             return _spinVar
@@ -478,9 +490,10 @@ class Game {
      */
     var numberBallsInQueue: Int {
         get {
-            if _isEndlessMode == true{
+            if _isEndlessMode {
                 return _ballsFallen
             }
+
             return (numberStartingBalls + totalInColumns) - ballsFallen + numberSurpriseBalls
         }
     }
@@ -522,26 +535,28 @@ class Game {
     // f 5
     var numberStartingBalls: Int {
         get {
-            if _isEndlessMode == true{
+            if _isEndlessMode {
                 return 15
             }
-            if _isMemoryMode{
+
+            if _isMemoryMode {
                 let frequency = 5
-                let baseAmountToAdd = _stageMemoryMode - 1
+                let baseAmountToAdd = _stage - 1
                 let highestVariableStage = 13
                 
-                if _stageMemoryMode < highestVariableStage {
+                if _stage < highestVariableStage {
                     let newStart = _numberStartingBalls + baseAmountToAdd // = 13
                     return newStart
                 }
                 
-                let multiplesOfFrequency = Int(round(Double((_stageMemoryMode - highestVariableStage) / frequency)))
-                if _stageMemoryMode < 50{
+                let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
+                if _stage < 50{
                     return highestVariableStage + multiplesOfFrequency
                 }else{
                     return 24
                 }
             }
+
             let frequency = 4
             let baseAmountToAdd = _stage - 1
             let highestVariableStage = 13
@@ -626,11 +641,11 @@ class Game {
                 let maxBalls = 4
                 let highestVariableStage: Double = 5
                 
-                if Double(_stageMemoryMode) < highestVariableStage {
+                if Double(_stage) < highestVariableStage {
                     return 0
                 }
                 
-                let elapsed = Double(_stageMemoryMode) - highestVariableStage
+                let elapsed = Double(_stage) - highestVariableStage
                 let multiples = Int(floor(elapsed / frequency))
                 return multiples > maxBalls ? maxBalls : multiples
                 /*if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
@@ -717,13 +732,15 @@ class Game {
             if _isEndlessMode {
                 return Double(_ballsFallen) * (_gravityMultiplier)
             }
+
             if _isMemoryMode {
-                if (_stageMemoryMode < 70){
-                    return Double(_stageMemoryMode - 1) * (_gravityMultiplier)
+                if (_stage < 70){
+                    return Double(_stage - 1) * (_gravityMultiplier)
                 }else {
                     return 8.0
                 }
             }
+
             if (_stage < 30){
                 return Double(_stage - 1) * (_gravityMultiplier + 0.02)
             }else if (_stage < 57){
@@ -901,11 +918,7 @@ class Game {
      Increment the game level by 1.
      */
     func increaseStage() {
-        if _isMemoryMode{
-            _stageMemoryMode += 1
-        }else{
-            _stage += 1
-        }
+        _stage += 1
         if _outerDiameter > _minOuterDiameter {
             _outerDiameter -= 2
         }

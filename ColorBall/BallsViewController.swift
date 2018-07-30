@@ -17,28 +17,36 @@ class BallsViewController: UIViewController {
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
+
     @IBAction func colorBalls(_ sender: Any) {
-        UserDefaults.standard.set(Settings.TEXTURE_KEY_COLORS, forKey: Settings.TEXTURE_KEY)
+        UserDefaults.standard.set(Settings.TEXTURE_COLORS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
     }
     
     @IBAction func deliciousFruits(_ sender: Any) {
         IAPHandler.shared.purchaseMyProduct(index: 2)
-        UserDefaults.standard.set(Settings.TEXTURE_KEY_FRUITS, forKey: Settings.TEXTURE_KEY)
+        UserDefaults.standard.set(Settings.TEXTURE_FRUITS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
     }
     
     @IBAction func poolBalls(_ sender: Any) {
-        UserDefaults.standard.set(Settings.TEXTURE_KEY_POOL, forKey: Settings.TEXTURE_KEY)
+        UserDefaults.standard.set(Settings.TEXTURE_POOL, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
         toggleTextureButtons()
         
+        setupIAP()
+    }
+
+    func setupIAP() {
         // inAppPurchase
         IAPHandler.shared.fetchAvailableProducts()
         IAPHandler.shared.purchaseStatusBlock = {[weak self] (type) in
@@ -53,15 +61,15 @@ class BallsViewController: UIViewController {
             }
         }
     }
-    
+
     func toggleTextureButtons() {
         UserDefaults.standard.synchronize()
         if let textureMode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String {
-            if textureMode == Settings.TEXTURE_KEY_FRUITS {
+            if textureMode == Settings.TEXTURE_FRUITS {
                 fruitsButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 colorsButton.backgroundColor = UIColor.clear
                 poolButton.backgroundColor = UIColor.clear
-            }else if textureMode == Settings.TEXTURE_KEY_POOL {
+            } else if textureMode == Settings.TEXTURE_POOL {
                 poolButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 colorsButton.backgroundColor = UIColor.clear
                 fruitsButton.backgroundColor = UIColor.clear
