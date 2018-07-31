@@ -98,7 +98,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         setupRemoteConfig()
 
         // development god-mode
-        defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
+        //defaults.set(99, forKey: Settings.HIGH_SCORE_KEY)
 
         // grab the game mode and texture we should be using
         // this should be called before a game begins (new game, new level, etc)
@@ -443,7 +443,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
                 // if we've saved a high score for endless before, check if this one was higher
                 if game.ballsFallen > highScore {
-                    defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_MEMORY)
+                    defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_ENDLESS)
                 }
             } else {
                 // if we've never saved a high score for endless, start saving it now
@@ -586,7 +586,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         // create and present the game over view controller
         gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
         // set the ending "score" to how many balls you cleared (number fallen)
-        gameOverController!.endingScore = scene.game.ballsRemaining
+        gameOverController!.endingScore = scene.game.numberBallsInQueue
+        gameOverController!.endingScoreEndless = scene.game.ballsFallen
         gameOverController!.endingStage = scene.game.stage
         present(gameOverController!, animated: false, completion: nil)
     }

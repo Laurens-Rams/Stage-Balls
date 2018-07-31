@@ -100,7 +100,7 @@ class Game {
     // multiplier for speeds
     // this controls the frequency of things falling
     // how often things fall
-    private var _speedMultiplier: Double = 0.005
+    private var _speedMultiplier: Double = 0.002
     
     private var _rotationSpeedIncrement = CGFloat(0.1)
     private var _spinVar = CGFloat(16.0)
@@ -109,7 +109,7 @@ class Game {
     
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
-    private var _gravityMultiplier: Double = 0.075
+    private var _gravityMultiplier: Double = 0.04
     private var _startgravity: Double = 4.0
     
     // starting value for how often balls are added
@@ -540,7 +540,7 @@ class Game {
             }
 
             if _isMemoryMode {
-                let frequency = 5
+                let frequency = 3
                 let baseAmountToAdd = _stage - 1
                 let highestVariableStage = 13
                 
@@ -550,7 +550,7 @@ class Game {
                 }
                 
                 let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
-                if _stage < 50{
+                if _stage < 46{
                     return highestVariableStage + multiplesOfFrequency
                 }else{
                     return 24
@@ -567,7 +567,7 @@ class Game {
             }
             
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
-            if _stage < 57{
+            if _stage < 50{
                 return highestVariableStage + multiplesOfFrequency
             }else{
                 return 22
@@ -638,8 +638,8 @@ class Game {
         get {
             if _isMemoryMode == true{
                 let frequency: Double = 5
-                let maxBalls = 4
-                let highestVariableStage: Double = 5
+                let maxBalls = 3
+                let highestVariableStage: Double = 7
                 
                 if Double(_stage) < highestVariableStage {
                     return 0
@@ -683,13 +683,13 @@ class Game {
             }
             let frequency = 1
             let maxBalls: Double = 44
-            let initialSurpriseCount = 0.5
+            let initialSurpriseCount = 1.0
             
             if _stage < _minStageForSurprises {
                 return 0
             }
-            if _stage > 101 {
-                return 44
+            if _stage > 40 {
+                return 53
             }
             let stagesEllapsed = _stage - _minStageForSurprises
             // if we've gone 4 stages and frequency is 2,
@@ -730,19 +730,19 @@ class Game {
     var gravityMultiplier: Double {
         get {
             if _isEndlessMode {
-                return Double(_ballsFallen) * (_gravityMultiplier)
+                return Double(_ballsFallen) * (_gravityMultiplier - 0.04)
             }
 
             if _isMemoryMode {
                 if (_stage < 70){
                     return Double(_stage - 1) * (_gravityMultiplier)
                 }else {
-                    return 8.0
+                    return 5.0
                 }
             }
 
             if (_stage < 30){
-                return Double(_stage - 1) * (_gravityMultiplier + 0.02)
+                return Double(_stage - 1) * (_gravityMultiplier + 0.01)
             }else if (_stage < 57){
                 return Double(_stage - 1) * _gravityMultiplier
             }else{
@@ -788,8 +788,8 @@ class Game {
             }
         }else{
             let minVariableStage: Double = 7
-            let maxFrequency: Double = 10
-            let minFrequency: Double = 20
+            let maxFrequency: Double = 15
+            let minFrequency: Double = 25
             
             let s = Double(_stage)
             var min: Double = 2
@@ -804,8 +804,13 @@ class Game {
             } else {
                 let multiplesOfMax = floor((s - minVariableStage) / maxFrequency)
                 let multiplesOfMin = floor((s - minVariableStage) / minFrequency)
-                min += multiplesOfMin
-                max += multiplesOfMax - 1
+                if max > 5{
+                    max = 5
+                    min = 3
+                }else {
+                    min += multiplesOfMin
+                    max += multiplesOfMax - 1
+                }
             }
             
             for _ in 0..<numberStartingBalls {
@@ -883,10 +888,10 @@ class Game {
             if _isEndlessMode == true{
                 if _ballsFallen <= 10 { return 3 }
                 else if _ballsFallen <= 20 { return _numberBallColors } // = 5
-                else if _ballsFallen <= 40 { return _numberBallColors + 1 } // = 5
-                else if _ballsFallen <= 60 { return _numberBallColors + 2 } // = 6
-                else if _ballsFallen <= 80 { return _numberBallColors + 3 } // 7
-                else if _ballsFallen <= 100 { return _numberBallColors + 4 } // 8
+                else if _ballsFallen <= 35 { return _numberBallColors + 1 } // = 5
+                else if _ballsFallen <= 50 { return _numberBallColors + 2 } // = 6
+                else if _ballsFallen <= 65 { return _numberBallColors + 3 } // 7
+                else if _ballsFallen <= 80 { return _numberBallColors + 4 } // 8
                 else {
                     return 8
                 }

@@ -14,8 +14,10 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     var game: Game!
     var modeVC: ModeViewController?
     var ballVC: BallsViewController?
+    var gameMode = Settings.GAME_MODE_STAGE
     var endingScore: Int = 0
     var endingStage: Int = 1
+    var endingScoreEndless: Int = 0
     let LEADERBOARD_ID = "stageid"
     let LEADERBOARD_ID_MEMORY = "memoryid"
     let LEADERBOARD_ID_ENDLESS = "endlessid"
@@ -46,15 +48,11 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         skView.presentScene(scene)
         showpoints.text = scoreFormatter(score: endingScore)
         showpoints.alpha = 0
-        RemainingBalls.text = "BALLS \(scoreFormatter(score: endingScore))"
+        setRemainingBalls()
+        checkMode()
         setStageLabel()
         let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
-        let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY)
-//        let scoreGameCenterEndless = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS)
         let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
-        let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
-//        let bestScoreIntEndless = GKScore(leaderboardIdentifier: LEADERBOARD_ID_ENDLESS)
-        
         bestScoreInt.value = scoreGameCenter as! Int64
         GKScore.report([bestScoreInt]) { (error) in
             if error != nil {
@@ -63,30 +61,70 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                 // print("Best Score submitted to your Leaderboard!")
             }
         }
-//        bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
-//        GKScore.report([bestScoreIntMemory]) { (error) in
-//            if error != nil {
-//                // print(error!.localizedDescription)
-//            } else {
-//                // print("Best Score submitted to your Leaderboard!")
-//            }
-//        }
-//        bestScoreIntEndless.value = scoreGameCenterEndless as! Int64
-//        GKScore.report([bestScoreIntEndless]) { (error) in
-//            if error != nil {
-//                // print(error!.localizedDescription)
-//            } else {
-//                // print("Best Score submitted to your Leaderboard!")
-//            }
-//        }
+        if let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY){
+            let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
+            bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
+            GKScore.report([bestScoreIntMemory]) { (error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Best Score submitted to your Leaderboard!")
+                }
+            }
+        }
+        
+        
+        if let scoreGameCenterEndless = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS){
+             let bestScoreIntEndless = GKScore(leaderboardIdentifier: LEADERBOARD_ID_ENDLESS)
+            bestScoreIntEndless.value = scoreGameCenterEndless as! Int64
+            GKScore.report([bestScoreIntEndless]) { (error) in
+                if error != nil {
+                    // print(error!.localizedDescription)
+                } else {
+                    // print("Best Score submitted to your Leaderboard!")
+                }
+            }
+        }
+        
         showHideStageButtons()
     }
-
+    func checkMode(){
+        if let savedMode = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
+            gameMode = savedMode
+        }
+    }
+    func setRemainingBalls(){
+        // Balls for Memory and Stage Mode same
+        RemainingBalls.text = "BALLS \(scoreFormatter(score: endingScore))"
+        if gameMode == Settings.GAME_MODE_ENDLESS {
+        RemainingBalls.alpha = 0.0
+        }
+    }
     func setStageLabel() {
-        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
-            stageLabel.text = stageFormatter(stage: currentStage)
+        if gameMode == Settings.GAME_MODE_ENDLESS {
+            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
+                stageLabel.text = stageFormatterEndless(scorehigh: highScore)
+            }
+           // stageLabel.text = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as! String
+            
+            
+//            if let currentStage = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
+//                stageLabel.text = stageFormatterEndless(scorehigh: currentStage)
+//            } else {
+//                stageLabel.text = stageFormatterEndless(scorehigh: endingScoreEndless)
+//            }
+        } else if gameMode == Settings.GAME_MODE_MEMORY {
+            if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_MEMORY) as? Int {
+                stageLabel.text = stageFormatter(stage: currentStage)
+            } else {
+                stageLabel.text = stageFormatter(stage: endingStage)
+            }
         } else {
-            stageLabel.text = stageFormatter(stage: endingStage)
+            if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+                stageLabel.text = stageFormatter(stage: currentStage)
+            } else {
+                stageLabel.text = stageFormatter(stage: endingStage)
+            }
         }
     }
     func modePressed() {
@@ -106,40 +144,46 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         ballVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ballVC") as? BallsViewController
         present(ballVC!, animated: false, completion: nil)
     }
+    
     func showHideStageButtons() {
         if Int(scoreFormatter(score: endingScore))! < 100 {
             showpoints.font = UIFont(name: "Oregon-Regular", size: 140)
         } else if Int(scoreFormatter(score: endingScore))! < 1000 {
             showpoints.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }
-        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
-            // print("high score", highScore)
-            // print("current stage", currentStage)
-            if currentStage >= highScore {
-                nextStageButton.alpha = 0
-                nextStageButton.isUserInteractionEnabled = false
-                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
-              // stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width + 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
-            } else {
-                nextStageButton.alpha = 1
-                nextStageButton.isUserInteractionEnabled = true
-                stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
-                //stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
-            }
-            if currentStage <= 1 {
-                lastStageButton.alpha = 0
-                lastStageButton.isUserInteractionEnabled = false
-            } else {
-                lastStageButton.alpha = 1
-                lastStageButton.isUserInteractionEnabled = true
-            }
-        } else if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int{
-            if currentStage <= 1 {
-                lastStageButton.alpha = 0
-                lastStageButton.isUserInteractionEnabled = false
-            } else {
-                lastStageButton.alpha = 1
-                lastStageButton.isUserInteractionEnabled = true
+        if gameMode == Settings.GAME_MODE_ENDLESS  {
+            nextStageButton.alpha = 0
+            lastStageButton.alpha = 0
+        }else {
+            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+                // print("high score", highScore)
+                // print("current stage", currentStage)
+                if currentStage >= highScore {
+                    nextStageButton.alpha = 0
+                    nextStageButton.isUserInteractionEnabled = false
+                    stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
+                    // stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width + 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
+                } else {
+                    nextStageButton.alpha = 1
+                    nextStageButton.isUserInteractionEnabled = true
+                    stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
+                    //stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
+                }
+                if currentStage <= 1 {
+                    lastStageButton.alpha = 0
+                    lastStageButton.isUserInteractionEnabled = false
+                } else {
+                    lastStageButton.alpha = 1
+                    lastStageButton.isUserInteractionEnabled = true
+                }
+            } else if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int{
+                if currentStage <= 1 {
+                    lastStageButton.alpha = 0
+                    lastStageButton.isUserInteractionEnabled = false
+                } else {
+                    lastStageButton.alpha = 1
+                    lastStageButton.isUserInteractionEnabled = true
+                }
             }
         }
     }
@@ -181,6 +225,9 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
 
     func stageFormatter(stage: Int) -> String {
         return "STAGE \(stage)"
+    }
+    func stageFormatterEndless(scorehigh: Int) -> String {
+        return "HIGH SCORE: \(scorehigh)"
     }
     
     @IBOutlet var scoreLabel: UILabel!
