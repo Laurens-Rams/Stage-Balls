@@ -21,6 +21,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let LEADERBOARD_ID = "stageid"
     let LEADERBOARD_ID_MEMORY = "memoryid"
     let LEADERBOARD_ID_ENDLESS = "endlessid"
+    
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     @IBOutlet weak var lastStageButton: UIButton!
@@ -51,40 +52,11 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         setRemainingBalls()
         checkMode()
         setStageLabel()
-        let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
-        let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
-        bestScoreInt.value = scoreGameCenter as! Int64
-        GKScore.report([bestScoreInt]) { (error) in
-            if error != nil {
-                // print(error!.localizedDescription)
-            } else {
-                // print("Best Score submitted to your Leaderboard!")
-            }
-        }
-        if let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY){
-            let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
-            bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
-            GKScore.report([bestScoreIntMemory]) { (error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    print("Best Score submitted to your Leaderboard!")
-                }
-            }
-        }
+        submitGameCenter()
+    
         
+
         
-        if let scoreGameCenterEndless = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS){
-             let bestScoreIntEndless = GKScore(leaderboardIdentifier: LEADERBOARD_ID_ENDLESS)
-            bestScoreIntEndless.value = scoreGameCenterEndless as! Int64
-            GKScore.report([bestScoreIntEndless]) { (error) in
-                if error != nil {
-                    // print(error!.localizedDescription)
-                } else {
-                    // print("Best Score submitted to your Leaderboard!")
-                }
-            }
-        }
         
         showHideStageButtons()
     }
@@ -100,26 +72,56 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         RemainingBalls.alpha = 0.0
         }
     }
+    func submitGameCenter(){
+        if gameMode == Settings.GAME_MODE_ENDLESS {
+            //GC
+            let scoreGameCenterEndless = scoreFormatter(score: endingScore)
+            let bestScoreIntEndless = GKScore(leaderboardIdentifier: LEADERBOARD_ID_ENDLESS)
+            bestScoreIntEndless.value = Int64(scoreGameCenterEndless)!
+            GKScore.report([bestScoreIntEndless]) { (error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Best Score Endless submitted to your Leaderboard!")
+                }
+            }
+        }else if gameMode == Settings.GAME_MODE_MEMORY {
+            //GC
+            let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY)
+            let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
+            bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
+            GKScore.report([bestScoreIntMemory]) { (error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Best Score Memory submitted to your Leaderboard!")
+                }
+            }
+        }else{
+            let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
+            let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+            bestScoreInt.value = scoreGameCenter as! Int64
+            GKScore.report([bestScoreInt]) { (error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Best Score Stage submitted to your Leaderboard!")
+                }
+            }
+        }
+    }
     func setStageLabel() {
         if gameMode == Settings.GAME_MODE_ENDLESS {
             if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
                 stageLabel.text = stageFormatterEndless(scorehigh: highScore)
             }
-           // stageLabel.text = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as! String
-            
-            
-//            if let currentStage = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
-//                stageLabel.text = stageFormatterEndless(scorehigh: currentStage)
-//            } else {
-//                stageLabel.text = stageFormatterEndless(scorehigh: endingScoreEndless)
-//            }
-        } else if gameMode == Settings.GAME_MODE_MEMORY {
+        }else if gameMode == Settings.GAME_MODE_MEMORY {
             if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_MEMORY) as? Int {
                 stageLabel.text = stageFormatter(stage: currentStage)
             } else {
                 stageLabel.text = stageFormatter(stage: endingStage)
             }
-        } else {
+        }else {
             if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
                 stageLabel.text = stageFormatter(stage: currentStage)
             } else {
@@ -271,9 +273,15 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards
-        gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
+        
+        if gameMode == Settings.GAME_MODE_ENDLESS {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_ENDLESS
+        }else if gameMode == Settings.GAME_MODE_MEMORY {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_MEMORY
+        }else {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
+        }
         self.present(gcVC, animated: true, completion: nil)
-        // print("also in del")
 }
     
 

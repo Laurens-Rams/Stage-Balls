@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import GoogleMobileAds
+import Firebase
 
-class BallsViewController: UIViewController {
-    
+class BallsViewController: UIViewController, GADInterstitialDelegate {
     @IBOutlet weak var fruitsButton: UIButton!
     @IBOutlet weak var colorsButton: UIButton!
     @IBOutlet weak var poolButton: UIButton!
+    
+    var Interstitial: GADInterstitial?
     
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -40,12 +43,14 @@ class BallsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+       
         toggleTextureButtons()
         
         setupIAP()
     }
 
+    
     func setupIAP() {
         // inAppPurchase
         IAPHandler.shared.fetchAvailableProducts()
@@ -61,7 +66,7 @@ class BallsViewController: UIViewController {
             }
         }
     }
-
+    
     func toggleTextureButtons() {
         UserDefaults.standard.synchronize()
         if let textureMode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String {
@@ -70,7 +75,7 @@ class BallsViewController: UIViewController {
                 colorsButton.backgroundColor = UIColor.clear
                 poolButton.backgroundColor = UIColor.clear
             } else if textureMode == Settings.TEXTURE_POOL {
-                poolButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                poolButton.backgroundColor = UIColor(red: 225/255, green:225/255, blue: 225/255, alpha: 1.0)
                 colorsButton.backgroundColor = UIColor.clear
                 fruitsButton.backgroundColor = UIColor.clear
             } else {

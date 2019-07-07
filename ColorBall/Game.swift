@@ -104,7 +104,7 @@ class Game {
     private var _speedMultiplier: Double = 0.002
     
     private var _rotationSpeedIncrement = CGFloat(0.1)
-    private var _spinVar = CGFloat(16.0)
+    private var _spinVar = CGFloat(18.0)
     
     
     
@@ -146,7 +146,7 @@ class Game {
     // surprise stage controls
     // =========
     // minimum stage for surprises
-    private var _minStageForSurprises: Int = 12
+    private var _minStageForSurprises: Int = 6
     // we always add 0.5 to this BEFORE returning it
     // thus, we should start at 0.5, so the first time we hit a surprise stage,
     // it will add and return 1, then increase by 1 every other time after that
@@ -232,7 +232,9 @@ class Game {
     
     var slotsOnCircle: Int {
         get {
-            return numberStartingBalls <= 13 ? 13 : numberStartingBalls
+
+                return numberStartingBalls <= 13 ? 13 : numberStartingBalls
+          
         }
     }
     
@@ -494,8 +496,9 @@ class Game {
             if _isEndlessMode {
                 return _ballsFallen
             }
-
-            return (numberStartingBalls + totalInColumns) - ballsFallen + numberSurpriseBalls
+            print(numberStartingBalls, totalInColumns, ballsFallen, numberSurpriseBalls)
+            
+            return numberStartingBalls + totalInColumns - ballsFallen + numberSurpriseBalls
         }
     }
     
@@ -537,7 +540,7 @@ class Game {
     var numberStartingBalls: Int {
         get {
             if _isEndlessMode {
-                return 15
+                return 13
             }
 
             if _isMemoryMode {
@@ -562,9 +565,25 @@ class Game {
             let baseAmountToAdd = _stage - 1
             let highestVariableStage = 13
             
-            if _stage < highestVariableStage {
-                let newStart = _numberStartingBalls + baseAmountToAdd // = 13
+            if _stage <= 4 {
+                let newStart = _numberStartingBalls + baseAmountToAdd  // = 13
                 return newStart
+            }else if (_stage == 5) {
+                let newStart = 7 // = 13
+                return newStart
+                
+            }else if (_stage == 6) {
+                let newStart = 9 // = 13
+                return newStart
+                
+            }else if (_stage == 7) {
+                let newStart = 11 // = 13
+                return newStart
+                
+            }else if (_stage == 8) {
+                let newStart = 13 // = 13
+                return newStart
+                
             }
             
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
@@ -731,7 +750,19 @@ class Game {
     var gravityMultiplier: Double {
         get {
             if _isEndlessMode {
-                return Double(_ballsFallen) * (_gravityMultiplier - 0.04)
+                if (_stage < 50){
+                    return Double(_ballsFallen) * (_gravityMultiplier) + 1.5
+                }else if (_stage < 70){
+                    return Double(50) * (_gravityMultiplier) + 1.5 // 1.5 damit am start schneller
+                }else if (_stage < 90){
+                    return Double(60) * (_gravityMultiplier) + 1.5
+                }else if (_stage < 120){
+                    return Double(70) * (_gravityMultiplier) + 1.5
+                }else if (_stage < 140){
+                    return Double(75) * (_gravityMultiplier) + 1.5
+                }else {
+                    return Double(80) * (_gravityMultiplier) + 1.5
+                }
             }
 
             if _isMemoryMode {
@@ -887,12 +918,11 @@ class Game {
     var numberBallColors: Int {
         get {
             if _isEndlessMode == true{
-                if _ballsFallen <= 10 { return 3 }
-                else if _ballsFallen <= 20 { return _numberBallColors } // = 5
-                else if _ballsFallen <= 35 { return _numberBallColors + 1 } // = 5
-                else if _ballsFallen <= 50 { return _numberBallColors + 2 } // = 6
-                else if _ballsFallen <= 65 { return _numberBallColors + 3 } // 7
-                else if _ballsFallen <= 80 { return _numberBallColors + 4 } // 8
+                if _ballsFallen <= 5 { return 4 }
+                else if _ballsFallen <= 15 { return _numberBallColors } // = 5
+                else if _ballsFallen <= 30 { return _numberBallColors + 1} // = 6
+                else if _ballsFallen <= 45 { return _numberBallColors + 2 } // = 7
+                else if _ballsFallen <= 60 { return _numberBallColors + 3 } // = 8
                 else {
                     return 8
                 }

@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import StoreKit
 
-class ModeViewController: UIViewController {
+class ModeViewController: UIViewController{
 
+    
     @IBOutlet var endlessButton: UIButton!
     @IBOutlet var memoryButton: UIButton!
     @IBOutlet var stageButton: UIButton!
@@ -17,6 +19,7 @@ class ModeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         toggleModeButtons()
+        
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -36,6 +39,7 @@ class ModeViewController: UIViewController {
     }
 
     @IBAction func endlessMode(_ sender: Any) {
+        
         UserDefaults.standard.set(Settings.GAME_MODE_ENDLESS, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_ENDLESS, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
@@ -68,6 +72,9 @@ class ModeViewController: UIViewController {
                 memoryButton.backgroundColor = UIColor.clear
             }
         }
+    }
+    func enableEndlessMode(){
+        
     }
 
 }

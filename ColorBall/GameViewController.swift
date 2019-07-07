@@ -105,7 +105,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         checkUserDefaultsValues()
 
         // ads
-        // interstitial = createAndLoadInterstitial()
+        
+        interstitial = createAndLoadInterstitial()
 
         setcurrentStage()
         listenForNotifications()
@@ -178,9 +179,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
-        // interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7915824718")
-        // to test
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7915824718")
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-1616902070996876/9190621471")
         let request = GADRequest()
         interstitial.load(request)
         interstitial.delegate = self
@@ -480,26 +479,25 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func handleAds() {
 //ads
-        //var shouldShowAds = false
+        var shouldShowAds = false
         
-//        if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
-//            let now = Date().timeIntervalSince1970
-//            // print("=====> last ad time", now, lastAdTime, now - lastAdTime)
-//            if now - lastAdTime >= 300 && scene.game.stage >= 13 && interstitial.isReady {
-//                shouldShowAds = true
-//            }
-//        } else if scene.game.stage >= 13 {
-//            // print("====> no last ad time found")
-//            shouldShowAds = true
-//        }
+        if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
+            let now = Date().timeIntervalSince1970
+            // print("=====> last ad time", now, lastAdTime, now - lastAdTime)
+            if now - lastAdTime >= 180 && scene.game.stage >= 10 && interstitial.isReady {
+                shouldShowAds = true
+            }
+        } else if scene.game.stage >= 10 {
+            // print("====> no last ad time found")
+            shouldShowAds = true
+        }
         
-//        if interstitial.isReady && shouldShowAds {
-//shows ads
-//            interstitial.present(fromRootViewController: self)
-//            defaults.set(Date().timeIntervalSince1970, forKey: Settings.LAST_AD_TIME)
-//            defaults.synchronize()
-//        } else {
-//            // print("Ad wasn't ready")
+        if interstitial.isReady && shouldShowAds {
+            interstitial.present(fromRootViewController: self)
+            defaults.set(Date().timeIntervalSince1970, forKey: Settings.LAST_AD_TIME)
+            defaults.synchronize()
+        } else {
+            // print("Ad wasn't ready")
             if adsShowGameOver {
                 AudioManager.only.playGameOverSOund()
                 adsShowGameOver = false
@@ -509,23 +507,22 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 adsShowNextStage = false
                 startNextStage()
             }
-//        }
+        }
     }
-    
-//    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-//        // print("interstitialDidDismissScreen")
-//        interstitial = createAndLoadInterstitial()
-//        if adsShowGameOver {
-//            AudioManager.only.playGameOverSOund()
-//            showGameOverViewController()
-//            adsShowGameOver = false
-//        } else if adsShowNextStage {
-//            AudioManager.only.playNextStageSound()
-//            startNextStage()
-//            adsShowNextStage = false
-//        }
-//
-//    }
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        // print("interstitialDidDismissScreen")
+        interstitial = createAndLoadInterstitial()
+        if adsShowGameOver {
+            AudioManager.only.playGameOverSOund()
+            showGameOverViewController()
+            adsShowGameOver = false
+        } else if adsShowNextStage {
+            AudioManager.only.playNextStageSound()
+            startNextStage()
+            adsShowNextStage = false
+        }
+
+    }
 
     func gameoverdesign() {
         // print("gameoverdesin")
