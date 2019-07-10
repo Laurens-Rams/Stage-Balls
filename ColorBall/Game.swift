@@ -653,12 +653,12 @@ class Game {
     var numberOfMemoryBalls: Int {
         get {
             if _isMemoryMode == true{
-                if _stage <= 3{
+                if _stage == 1{
+                    return 1
+                }else if _stage == 2 {
                     return 2
-                }else if _stage <= 5{
+                }else if _stage <= 3{
                     return 3
-                }else if _stage <= 7{
-                    return 4
                 }else if _stage <= 8{
                     return 5
                 }else if _stage <= 9{
