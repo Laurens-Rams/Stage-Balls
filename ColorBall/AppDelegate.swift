@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GADMobileAds.configure(withApplicationID: "ca-app-pub-8530735287041699~2180707337")
         FirebaseApp.configure()
         setupAudio()
+        print("app started!")
         // Override point for customization after application launch.
         return true
     }
