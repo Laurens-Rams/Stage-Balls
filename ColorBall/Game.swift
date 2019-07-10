@@ -545,11 +545,11 @@ class Game {
 
             if _isMemoryMode {
                 let frequency = 3
-                let baseAmountToAdd = _stage - 1
+              //  let baseAmountToAdd = _stage - 1
                 let highestVariableStage = 13
                 
                 if _stage < highestVariableStage {
-                    let newStart = _numberStartingBalls + baseAmountToAdd // = 13
+                    let newStart = 13 //_numberStartingBalls + baseAmountToAdd --> if you want to start with 1-13
                     return newStart
                 }
                 
@@ -566,21 +566,17 @@ class Game {
             let highestVariableStage = 13
             
             if _stage <= 4 {
-                let newStart = _numberStartingBalls + baseAmountToAdd  // = 13
+                let newStart = _numberStartingBalls + baseAmountToAdd + 2  // = 13
                 return newStart
             }else if (_stage == 5) {
-                let newStart = 7 // = 13
-                return newStart
-                
-            }else if (_stage == 6) {
                 let newStart = 9 // = 13
                 return newStart
                 
-            }else if (_stage == 7) {
+            }else if (_stage == 6) {
                 let newStart = 11 // = 13
                 return newStart
                 
-            }else if (_stage == 8) {
+            }else if (_stage == 7) {
                 let newStart = 13 // = 13
                 return newStart
                 
@@ -657,17 +653,35 @@ class Game {
     var numberOfMemoryBalls: Int {
         get {
             if _isMemoryMode == true{
-                let frequency: Double = 5
-                let maxBalls = 3
-                let highestVariableStage: Double = 7
-                
-                if Double(_stage) < highestVariableStage {
-                    return 0
+                if _stage <= 3{
+                    return 2
+                }else if _stage <= 5{
+                    return 3
+                }else if _stage <= 7{
+                    return 4
+                }else if _stage <= 8{
+                    return 5
+                }else if _stage <= 9{
+                    return 6
+                }else if _stage <= 10{
+                    return 7
+                }else if _stage <= 11{
+                    return 8
+                }else{
+                    return 9
                 }
-                
-                let elapsed = Double(_stage) - highestVariableStage
-                let multiples = Int(floor(elapsed / frequency))
-                return multiples > maxBalls ? maxBalls : multiples
+            
+//                let frequency: Double = 5
+//                let maxBalls = 3
+//                let highestVariableStage: Double = 2
+////
+////                if Double(_stage) < highestVariableStage {
+////                    return 0
+////                } --> if you dont want to start with 1 stage
+//
+//                let elapsed = Double(_stage) - highestVariableStage
+//                let multiples = Int(floor(elapsed / frequency))
+//                return multiples > maxBalls ? maxBalls : multiples
                 /*if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
                  // set the next nextEscapeStage
                  let nextMin = _stage + frequencyMin

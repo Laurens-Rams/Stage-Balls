@@ -204,8 +204,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - dt: Last calculated delta time
      */
     func updateCircle(dt: CGFloat) {
-        // change animation
-        print("rot", game.rotationSpeedIncrement)
         let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt * CGFloat(spinMultiplier)
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
@@ -259,6 +257,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
+        let currentmode = UserDefaults.standard.object(forKey: Settings.GAME_MODE_KEY) as? String
+        if currentmode == Settings.GAME_MODE_MEMORY{
+            let _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false, block: {timer in
+                
+                self.allowToMove = true
+                self.canpresspause = true
+                self.ballsNeedUpdating = true
+                self.addBall()
+                self.gameDelegate?.tapleftright()
+                //self.moveCircle()
+            })
+        }else{
             let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
                 self.allowToMove = true
                 self.canpresspause = true
@@ -266,8 +276,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addBall()
                 self.gameDelegate?.tapleftright()
                 //self.moveCircle()
-                
             })
+            }
 
     }
 
@@ -385,7 +395,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         winCircle.run(fadeIn)
         self.gameDelegate?.rewardnextstage()
         self.gameDelegate?.scorelabelalpha()
-        let waittimerone = SKAction.wait(forDuration: 1.5)
+        let waittimerone = SKAction.wait(forDuration: 0.4)
         self.run(waittimerone) {
             self.createstageexplosion()
             let waittimer = SKAction.wait(forDuration: 1.0)
@@ -874,8 +884,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         skullCircle.run(fadeIn)
         
         // create the camera zoom action
-        let shakeLeft = getMoveAction(moveX: -9.0, moveY: 0.0, totalTime: 0.04)
-        let shakeRight = getMoveAction(moveX: 9.0, moveY: 0.0, totalTime: 0.04)
+        let shakeLeft = getMoveAction(moveX: -10.0, moveY: 0.0, totalTime: 0.04)
+        let shakeRight = getMoveAction(moveX: 10.0, moveY: 0.0, totalTime: 0.04)
         
         camera?.run(SKAction.sequence([
             shakeLeft,

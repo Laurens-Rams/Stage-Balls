@@ -153,6 +153,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             // fallback to level 1 (first time players or after a reset)
             currentStageValue = fallbackLevel
             defaults.set(fallbackLevel, forKey: keyForSavedCurrentStage)
+            // maybee not so good?
+            UserDefaults.standard.set(Settings.TEXTURE_COLORS, forKey: Settings.TEXTURE_KEY)
         }
         
         game = Game(
@@ -264,19 +266,19 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }else if game.stage == 7{
             self.rewardLabel.alpha = 1.0
         self.rewardLabel.text = "You Rock"
-        }else if game.stage == 14{
+        }else if game.stage == 10{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "That's your day"
-        }else if game.stage == 21{
+        }else if game.stage == 15{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "Fantastic"
-        }else if game.stage == 30{
+        }else if game.stage == 25{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "Excellent"
-        }else if game.stage == 35{
+        }else if game.stage == 30{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "Well done"
-        }else if game.stage > 40{
+        }else if game.stage > 35{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = randNum
         }else{
@@ -562,13 +564,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         
         // NOTE: i added a parameter to this analytics call so you can distinguish between modes
         // if this is not desired behavior, just delete that line
-        if let stage = defaults.object(forKey: keyForSavedCurrentStage) as? Int,
-            let played = defaults.object(forKey: Settings.PLAYS_PER_GAME) as? Int {
-            print("works")
-            Analytics.logEvent("STAGEMETRIC", parameters: [
-                "Stage\(stage)": played,
-                "Mode": gameMode
-            ])
+        if let stage = defaults.object(forKey: keyForSavedCurrentStage) as? Int {
+            Analytics.logEvent(AnalyticsEventLevelUp, parameters: [
+                AnalyticsParameterCharacter: gameMode,
+                AnalyticsParameterLevel: stage
+                ])
         }
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
         UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
@@ -591,7 +591,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func startNextStage() {
         game.increaseStage()
-
         // save the current stage into the correct defaults object
         if gameMode == Settings.GAME_MODE_MEMORY {
             // if we're in memory mode, save stage under the memory key
