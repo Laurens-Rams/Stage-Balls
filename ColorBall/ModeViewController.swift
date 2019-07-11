@@ -44,6 +44,17 @@ enum GameMode: String {
                 return "Stage Mode"
         }
     }
+  
+    static func modeForId(id: String) -> GameMode? {
+        switch id {
+            case StageBallsProducts.EndlessModeProductId:
+                return .endless
+            case StageBallsProducts.MemoryModeProductId:
+                return .memory
+            default:
+                return nil
+        }
+    }
 }
 
 class ModeViewController: UIViewController{
@@ -59,8 +70,19 @@ class ModeViewController: UIViewController{
         super.viewDidLoad()
         toggleModeButtons()
         getProductData()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handlePurchaseNotification),
+                                           name: .IAPHelperPurchaseNotification,
+                                           object: nil)
     }
   
+    @objc func handlePurchaseNotification(_ notification: Notification) {
+        guard let productId = notification.object as? String else { return }
+      
+        if let mode = GameMode.modeForId(id: productId) {
+            selectMode(mode: mode)
+        }
+    }
+
     func getProductData() {
         StageBallsProducts.store.requestProducts() { success, products in
             if success {
@@ -130,10 +152,10 @@ class ModeViewController: UIViewController{
               setModeToEndless()
               break
             case .memory:
-              setModeToEndless()
+              setModeToMemory()
               break
             case .stage:
-              setModeToEndless()
+              setModeToStage()
               break
         }
     }
