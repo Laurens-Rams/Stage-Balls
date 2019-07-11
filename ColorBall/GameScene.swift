@@ -691,7 +691,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ball.physicsBody = nil
                     if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 {
                         currentColumn.numOfSurprises -= 1
-                        let b = self.addNewBall(toColumn: colNumber)
+                        let b = self.addNewBall(toColumn: colNumber, isSurprise: true)
                         self.Circle.addChild(b)
                         let scenePosition = CGPoint(x: currentColumn.baseSlot.position.x, y: currentColumn.baseSlot.position.y - self.game.smallDiameter)
                         let positionConverted = self.convert(scenePosition, to: self.Circle)
@@ -735,9 +735,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // if we have no full stacks, this will just call the completion handler
     func checkForZaps(colNumber: Int, completion: @escaping () -> Void) {
         let colSlots = getSlotsInColumn(num: colNumber)
+        let column = columns[colNumber]
         let firstOpenSlot = getFirstOpenSlot(slotList: colSlots)
 
-        if firstOpenSlot == nil {
+        if column.hasSurprise && column.baseSlot.ball != nil && column.baseSlot.ball!.isSurprise {
+            slotsToClear.append(contentsOf: Array(colSlots[0..<2]))
+        }else  if firstOpenSlot == nil {
             slotsToClear.append(contentsOf: colSlots)
         } else {
             completion()
@@ -801,10 +804,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(skullBall)
     }
 
-    func addNewBall(toColumn num: Int) -> StartingSmallBall {
+    func addNewBall(toColumn num: Int, isSurprise: Bool = false) -> StartingSmallBall {
         let slot = getFirstSlotInColumn(num: num)
         let index = randomInteger(upperBound: game.numberBallColors) - 1
         let newBall = makeStartBall(index: index)
+        newBall.isSurprise = isSurprise
         newBall.insidePos = slot.insidePosition
         newBall.startingPos = slot.startPosition
         newBall.stuck = true
@@ -1241,7 +1245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // either way, the balls no longer need an update decision; set to false
         ballsNeedUpdating = false
 
-        if game.ballsRemaining > 0 {
+        if game.numberBallsInQueue > 0 {
             let newBall = makeBall()
             var yPos = size.height
             var moveToY = size.height - (game.spinVar + (game.smallDiameter/2))

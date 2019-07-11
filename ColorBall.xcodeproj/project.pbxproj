@@ -22,6 +22,9 @@
 		0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */; };
 		0D94CA82200A53A200D6E3EA /* GameOverScene-old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */; };
 		0D987BC920F8501000A91D78 /* lose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0D987BC820F8501000A91D78 /* lose.mp3 */; };
+		0DA33C7122D6B199005690F9 /* StageBallsProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA33C7022D6B199005690F9 /* StageBallsProducts.swift */; };
+		0DA33C7322D6B210005690F9 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA33C7222D6B210005690F9 /* IAPHelper.swift */; };
+		0DA33C7522D6B38A005690F9 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA33C7422D6B38A005690F9 /* ProductCell.swift */; };
 		0DC020051F203116009A76F9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0DC020041F203116009A76F9 /* Podfile */; };
 		0DC020081F2035B3009A76F9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC020071F2035B3009A76F9 /* DataManager.swift */; };
 		0DC48F2C1F1AF8AE00F1EA0B /* StartGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */; };
@@ -117,6 +120,9 @@
 		0D94CA7F200A531A00D6E3EA /* GameOverViewControllerNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewControllerNew.swift; sourceTree = "<group>"; };
 		0D94CA81200A53A200D6E3EA /* GameOverScene-old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameOverScene-old.swift"; sourceTree = "<group>"; };
 		0D987BC820F8501000A91D78 /* lose.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lose.mp3; sourceTree = "<group>"; };
+		0DA33C7022D6B199005690F9 /* StageBallsProducts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageBallsProducts.swift; sourceTree = "<group>"; };
+		0DA33C7222D6B210005690F9 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		0DA33C7422D6B38A005690F9 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		0DC020041F203116009A76F9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		0DC020071F2035B3009A76F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		0DC48F2B1F1AF8AE00F1EA0B /* StartGameDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartGameDelegate.swift; sourceTree = "<group>"; };
@@ -374,6 +380,9 @@
 		A15E83EA1FF46BFC00359FC8 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				0DA33C7222D6B210005690F9 /* IAPHelper.swift */,
+				0DA33C7422D6B38A005690F9 /* ProductCell.swift */,
+				0DA33C7022D6B199005690F9 /* StageBallsProducts.swift */,
 				A15E83E51FF466AB00359FC8 /* Game.swift */,
 				0DC48F351F1D86B600F1EA0B /* PlayerCircle.swift */,
 				0DC48F371F1EE48900F1EA0B /* MenuBallsFallingDown.swift */,
@@ -661,6 +670,7 @@
 				A15E83E61FF466AB00359FC8 /* Game.swift in Sources */,
 				0D4AEB3F1F19068900568F11 /* StartScene-Old.swift in Sources */,
 				A178930221094362007D6074 /* Tutorial.swift in Sources */,
+				0DA33C7122D6B199005690F9 /* StageBallsProducts.swift in Sources */,
 				0D40FDBA210BDF910014B31D /* InAppPurchase.swift in Sources */,
 				A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */,
 				A16837532102C23C00F96D3B /* Column.swift in Sources */,
@@ -673,6 +683,7 @@
 				A14F7DF520FD7347001F4805 /* EndlessScene.swift in Sources */,
 				A1FD9EFA1F18240500EEF8C5 /* Planet.swift in Sources */,
 				A19625F120F07E4400F43718 /* LastStageButton.swift in Sources */,
+				0DA33C7522D6B38A005690F9 /* ProductCell.swift in Sources */,
 				A10B5BA020F05A3000C5F823 /* AudioManager.swift in Sources */,
 				A15E83F81FF4702E00359FC8 /* PresentManager.swift in Sources */,
 				0D94CA80200A531A00D6E3EA /* GameOverViewControllerNew.swift in Sources */,
@@ -693,6 +704,7 @@
 				A13F12641EF703F700A34B16 /* AppDelegate.swift in Sources */,
 				A15E83F21FF46C9D00359FC8 /* CustomImage.swift in Sources */,
 				A15E83EC1FF46C2200359FC8 /* Money.swift in Sources */,
+				0DA33C7322D6B210005690F9 /* IAPHelper.swift in Sources */,
 				A1EEAF3C1FFD1D730027A93B /* Extensions.swift in Sources */,
 				A15E83EE1FF46C5B00359FC8 /* HighScore.swift in Sources */,
 				A1AF06311F19AECE00811992 /* PauseView.swift in Sources */,

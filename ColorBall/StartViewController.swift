@@ -30,7 +30,9 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     @IBOutlet weak var skView: SKView!
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        view.backgroundColor = .white
         listenForNotifications()
         authenticateLocalPlayer()
         scene = MenuScene(size: view.bounds.size)
@@ -49,12 +51,9 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     @objc func handleSwitchTutorialForGame() {
         UserDefaults.standard.set(true, forKey: Settings.LAUNCHED_BEFORE_KEY)
         UserDefaults.standard.synchronize()
-        scene.alpha = 0.0
-        logo2.alpha = 0.0
+    
         dismissTutorial {
             self.launchGameViewController()
-            self.scene.alpha = 1.0
-            self.logo2.alpha = 1.0
         }
     }
     
@@ -117,7 +116,10 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         } else {
             tutorialVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tutorialVC") as? TutorialViewController
             scene.isPaused = true
-            present(tutorialVC!, animated: false, completion: nil)
+            present(tutorialVC!, animated: false){
+                self.skView.alpha = 0
+                self.scene.alpha = 0
+            }
         }
     }
     

@@ -181,7 +181,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-1616902070996876/9190621471")
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-1616902070996876/9389624538")
         let request = GADRequest()
         interstitial.load(request)
         interstitial.delegate = self

@@ -39,7 +39,6 @@ class ModeViewController: UIViewController{
     }
 
     @IBAction func endlessMode(_ sender: Any) {
-        
         UserDefaults.standard.set(Settings.GAME_MODE_ENDLESS, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_ENDLESS, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()

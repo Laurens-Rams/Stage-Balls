@@ -29,5 +29,9 @@ class Column {
         self.numOfSurprises = numOfSurprises
         self.numOfMemory = numOfMemory
         self.baseSlot = baseSlot
+        
+        if numOfSurprises > 0 {
+            self.hasSurprise = true
+        }
     }
 }

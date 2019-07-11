@@ -120,6 +120,7 @@ class SmallBall: SKShapeNode {
     var isStarter: Bool {
         return false
     }
+    var isSurprise = false
 }
 
 class StartingSmallBall: SmallBall {

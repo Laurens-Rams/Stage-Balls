@@ -498,7 +498,7 @@ class Game {
             }
             print(numberStartingBalls, totalInColumns, ballsFallen, numberSurpriseBalls)
             
-            return numberStartingBalls + totalInColumns - ballsFallen + numberSurpriseBalls
+            return  totalInColumns - ballsFallen + numberSurpriseBalls
         }
     }
     

@@ -40,12 +40,12 @@ class GameOver: UIViewController, GKGameCenterControllerDelegate, GADBannerViewD
     override func viewDidLoad() {
         authenticateLocalPlayer()
         
-        let request = GADRequest()
-        request.testDevices = [kGADSimulatorID]
-        myBannerBottom.delegate = self
-        myBannerBottom.adUnitID = "ca-app-pub-1616902070996876/2360545943"
-        myBannerBottom.rootViewController = self
-        myBannerBottom.load(request)
+//        let request = GADRequest()
+//        request.testDevices = [kGADSimulatorID]
+//        myBannerBottom.delegate = self
+//        myBannerBottom.adUnitID = "ca-app-pub-1616902070996876/2360545943"
+//        myBannerBottom.rootViewController = self
+//        myBannerBottom.load(request)
         
         showPoints.text = scoreFormatter(score: endingScore)
         playedLabel.text = ("Games Played: ").appending(String(DataManager.main.played))
