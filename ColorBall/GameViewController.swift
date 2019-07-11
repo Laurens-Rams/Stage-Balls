@@ -181,7 +181,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func createAndLoadInterstitial() -> GADInterstitial {
         // ---> THIS IS FOR ADS AT ADMOB.com
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-1616902070996876/9389624538")
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-8530735287041699/7825261421")
         let request = GADRequest()
         interstitial.load(request)
         interstitial.delegate = self
@@ -486,10 +486,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
             let now = Date().timeIntervalSince1970
             // print("=====> last ad time", now, lastAdTime, now - lastAdTime)
-            if now - lastAdTime >= 180 && scene.game.stage >= 10 && interstitial.isReady {
+            if now - lastAdTime >= 180 && scene.game.stage >= 4 && interstitial.isReady {
                 shouldShowAds = true
             }
-        } else if scene.game.stage >= 10 {
+        } else if scene.game.stage >= 4 {
             // print("====> no last ad time found")
             shouldShowAds = true
         }
