@@ -15,13 +15,24 @@ class ModeViewController: UIViewController{
     @IBOutlet var endlessButton: UIButton!
     @IBOutlet var memoryButton: UIButton!
     @IBOutlet var stageButton: UIButton!
-    
+  
+    var products = [SKProduct]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         toggleModeButtons()
-        
+        getProductData()
     }
-    
+  
+    func getProductData() {
+        StageBallsProducts.store.requestProducts() { success, products in
+            if success {
+                self.products = products!
+            }
+            print(success, self.products)
+        }
+    }
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -39,6 +50,31 @@ class ModeViewController: UIViewController{
     }
 
     @IBAction func endlessMode(_ sender: Any) {
+        showPurchaseAlert()
+    }
+  
+    func productPurchase(identifier: String) {
+        for p in products {
+            print(p)
+            if p.productIdentifier == identifier {
+                print("found endless mode product")
+            }
+        }
+    }
+
+    func showPurchaseAlert() {
+        let alert = UIAlertController(title: "Purchase Endless Mode?", message: "Do you want tp purhcase endless mode?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Buy", style: .default, handler: { action in
+            self.productPurchase(identifier: StageBallsProducts.EndlessModeProduct)
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+
+    func setModeToEndless() {
         UserDefaults.standard.set(Settings.GAME_MODE_ENDLESS, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_ENDLESS, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()

@@ -10,10 +10,10 @@ import Foundation
 
 public struct StageBallsProducts {
     
-    public static let EndlessModeShoping = "com.RamsenthalerLaurens.StageBallz.1234"
+    public static let EndlessModeProduct = "1234"
     
-    private static let productIdentifiers: Set<ProductIdentifier> = [StageBallsProducts.EndlessModeShoping]
-    
+    private static let productIdentifiers: Set<ProductIdentifier> = [StageBallsProducts.EndlessModeProduct]
+  
     public static let store = IAPHelper(productIds: StageBallsProducts.productIdentifiers)
 }
 

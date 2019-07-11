@@ -467,6 +467,7 @@ class Game {
             return _spinVar
         }
     }
+
     var rotationSpeedIncrement: CGFloat {
         get {
             return _rotationSpeedIncrement * CGFloat(_stage)
