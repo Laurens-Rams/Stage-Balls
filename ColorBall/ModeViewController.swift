@@ -96,9 +96,9 @@ class ModeViewController: UIViewController{
   
     func productPurchase(identifier: String) {
         for p in products {
-            print(p)
             if p.productIdentifier == identifier {
-                print("found endless mode product")
+                print("purchasing product with id \(identifier)")
+                StageBallsProducts.store.buyProduct(p)
             }
         }
     }
@@ -114,7 +114,7 @@ class ModeViewController: UIViewController{
                     alert.dismiss(animated: true, completion: nil)
                 }))
                 alert.addAction(UIAlertAction(title: "Buy", style: .default, handler: { action in
-                    self.productPurchase(identifier: StageBallsProducts.EndlessModeProductId)
+                    self.productPurchase(identifier: mode.productId()!)
                     alert.dismiss(animated: true, completion: nil)
                 }))
                 present(alert, animated: true, completion: nil)
