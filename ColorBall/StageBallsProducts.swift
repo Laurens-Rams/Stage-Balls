@@ -10,9 +10,10 @@ import Foundation
 
 public struct StageBallsProducts {
     
-    public static let EndlessModeProduct = "1234"
+    public static let EndlessModeProductId = "1234"
+    public static let MemoryModeProductId = "memorymodeid"
     
-    private static let productIdentifiers: Set<ProductIdentifier> = [StageBallsProducts.EndlessModeProduct]
+    private static let productIdentifiers: Set<ProductIdentifier> = [StageBallsProducts.EndlessModeProductId]
   
     public static let store = IAPHelper(productIds: StageBallsProducts.productIdentifiers)
 }

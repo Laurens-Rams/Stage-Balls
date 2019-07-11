@@ -9,6 +9,43 @@
 import UIKit
 import StoreKit
 
+enum GameMode: String {
+    case stage = "stage", endless = "endless", memory = "memory"
+  
+    func canPurchase() -> Bool {
+        switch self {
+            case .endless:
+                return true
+            case .memory:
+                return true
+            default:
+                return false
+        }
+    }
+
+    func productId() -> String? {
+        switch self {
+            case .endless:
+                return StageBallsProducts.EndlessModeProductId
+            case .memory:
+                return StageBallsProducts.MemoryModeProductId
+            default:
+                return nil
+        }
+    }
+  
+    func modeName() -> String {
+        switch self {
+            case .endless:
+                return "Endless Mode"
+            case .memory:
+                return "Memory Mode"
+            case .stage:
+                return "Stage Mode"
+        }
+    }
+}
+
 class ModeViewController: UIViewController{
 
     
@@ -43,6 +80,10 @@ class ModeViewController: UIViewController{
     }
 
     @IBAction func stageMode(_ sender: Any) {
+        setModeToStage()
+    }
+
+    func setModeToStage() {
         UserDefaults.standard.set(Settings.GAME_MODE_STAGE, forKey: Settings.GAME_MODE_KEY)
         // are all the modes going to have their own sets of textures? that's cool.
         UserDefaults.standard.set(Settings.TEXTURE_KEY_STAGE, forKey: Settings.TEXTURE_KEY_MODE)
@@ -50,7 +91,7 @@ class ModeViewController: UIViewController{
     }
 
     @IBAction func endlessMode(_ sender: Any) {
-        showPurchaseAlert()
+        showPurchaseAlertOrSelect(mode: .endless)
     }
   
     func productPurchase(identifier: String) {
@@ -62,16 +103,39 @@ class ModeViewController: UIViewController{
         }
     }
 
-    func showPurchaseAlert() {
-        let alert = UIAlertController(title: "Purchase Endless Mode?", message: "Do you want tp purhcase endless mode?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Buy", style: .default, handler: { action in
-            self.productPurchase(identifier: StageBallsProducts.EndlessModeProduct)
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        present(alert, animated: true, completion: nil)
+    func showPurchaseAlertOrSelect(mode: GameMode) {
+        // first, check if this user has already purchased the product with the given identifier
+        if (mode.canPurchase() && mode.productId() != nil) {
+            if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
+                selectMode(mode: mode)
+            } else {
+                let alert = UIAlertController(title: "Purchase \(mode.modeName())", message: "Do you want tp purchase \(mode.modeName().lowercased())?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+                    alert.dismiss(animated: true, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Buy", style: .default, handler: { action in
+                    self.productPurchase(identifier: StageBallsProducts.EndlessModeProductId)
+                    alert.dismiss(animated: true, completion: nil)
+                }))
+                present(alert, animated: true, completion: nil)
+            }
+        } else {
+            selectMode(mode: mode)
+        }
+    }
+
+    func selectMode(mode: GameMode) {
+        switch mode {
+            case .endless:
+              setModeToEndless()
+              break
+            case .memory:
+              setModeToEndless()
+              break
+            case .stage:
+              setModeToEndless()
+              break
+        }
     }
 
     func setModeToEndless() {
@@ -81,11 +145,15 @@ class ModeViewController: UIViewController{
     }
     
     @IBAction func memoryMode(_ sender: Any) {
+        showPurchaseAlertOrSelect(mode: .memory)
+    }
+
+    func setModeToMemory() {
         UserDefaults.standard.set(Settings.GAME_MODE_MEMORY, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_MEMORY, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
     }
-    
+
     func toggleModeButtons() {
         UserDefaults.standard.synchronize()
         // question: why are you checking against texture keys here and not game mode keys?
