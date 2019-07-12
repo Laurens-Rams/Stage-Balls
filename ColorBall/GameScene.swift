@@ -1245,7 +1245,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // either way, the balls no longer need an update decision; set to false
         ballsNeedUpdating = false
 
-        if game.numberBallsInQueue > 0 {
+        let shouldAddBall = game.isEndlessMode || game.numberBallsInQueue > 0
+
+        if shouldAddBall {
             let newBall = makeBall()
             var yPos = size.height
             var moveToY = size.height - (game.spinVar + (game.smallDiameter/2))
