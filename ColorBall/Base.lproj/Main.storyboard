@@ -240,7 +240,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="LJC-n1-p4n" secondAttribute="height" multiplier="296:97" constant="-27.463917525773184" id="fhE-jF-5CS"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="unlockendlessMode"/>
+                                <state key="normal" title="Button" image="unlockEndless"/>
                                 <connections>
                                     <action selector="endlessMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="NgD-5v-0SV"/>
                                 </connections>
@@ -257,7 +257,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eC3-0z-1lE" secondAttribute="height" multiplier="296:97" constant="-30.515463917525778" id="sFF-sW-xQ4"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="unlockmemoryMode"/>
+                                <state key="normal" title="Button" image="unlockMemory"/>
                                 <connections>
                                     <action selector="memoryMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="F4i-14-hRe"/>
                                 </connections>
@@ -917,9 +917,9 @@
         <image name="rotateRight" width="138" height="175"/>
         <image name="share" width="173" height="169"/>
         <image name="stageMode" width="750" height="264"/>
+        <image name="unlockEndless" width="750" height="267"/>
+        <image name="unlockMemory" width="750" height="267"/>
         <image name="unlockballFruits" width="750" height="191"/>
-        <image name="unlockendlessMode" width="750" height="264"/>
-        <image name="unlockmemoryMode" width="750" height="264"/>
         <image name="unlockpoolColor" width="750" height="191"/>
         <image name="watchVideo" width="362" height="239"/>
     </resources>

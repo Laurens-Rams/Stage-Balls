@@ -163,6 +163,7 @@ class ModeViewController: UIViewController{
     func setModeToEndless() {
         UserDefaults.standard.set(Settings.GAME_MODE_ENDLESS, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_ENDLESS, forKey: Settings.TEXTURE_KEY_MODE)
+
         toggleModeButtons()
     }
     
@@ -173,6 +174,7 @@ class ModeViewController: UIViewController{
     func setModeToMemory() {
         UserDefaults.standard.set(Settings.GAME_MODE_MEMORY, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_MEMORY, forKey: Settings.TEXTURE_KEY_MODE)
+
         toggleModeButtons()
     }
 
@@ -186,11 +188,14 @@ class ModeViewController: UIViewController{
                 stageButton.backgroundColor = UIColor.clear
                 endlessButton.backgroundColor = UIColor.clear
                 memoryButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+           //     memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
                 
             } else if textureMode == Settings.TEXTURE_KEY_ENDLESS{
                 stageButton.backgroundColor = UIColor.clear
                 endlessButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+            //    endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
                 memoryButton.backgroundColor = UIColor.clear
+                
             } else {
                 stageButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 endlessButton.backgroundColor = UIColor.clear
