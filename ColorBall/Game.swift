@@ -229,7 +229,15 @@ class Game {
     var endGameOnCircleCollision = true
     
     // MARK: properties' public getters
-    
+  
+    var isEndlessMode: Bool {
+        return _isEndlessMode
+    }
+
+    var isMemoryMode: Bool {
+        return _isMemoryMode
+    }
+
     var slotsOnCircle: Int {
         get {
 
