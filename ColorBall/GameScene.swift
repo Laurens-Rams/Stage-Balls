@@ -653,7 +653,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let currentColumn = columns[colNumber]
 
-        game.decrementBallType(type: ballType, byNumber: currentColumn.numberOfSlots)
+        game.decrementBallType(type: ballType, byNumber: colSlots.count)
 
         // map the column's slots to an array of the balls they contain
         let zapBalls = colSlots.map({ $0.ball! })
