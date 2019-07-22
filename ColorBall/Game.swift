@@ -663,21 +663,21 @@ class Game {
         get {
             if _isMemoryMode == true{
                 if _stage == 1{
-                    return 1
-                }else if _stage == 2 {
                     return 2
-                }else if _stage <= 3{
+                }else if _stage == 2 {
                     return 3
+                }else if _stage <= 3{
+                    return 4
                 }else if _stage <= 8{
-                    return 5
-                }else if _stage <= 9{
                     return 6
-                }else if _stage <= 10{
-                    return 7
-                }else if _stage <= 11{
+                }else if _stage <= 9{
                     return 8
-                }else{
+                }else if _stage <= 10{
                     return 9
+                }else if _stage <= 11{
+                    return 10
+                }else{
+                    return 11
                 }
             
 //                let frequency: Double = 5
@@ -721,7 +721,6 @@ class Game {
     var numberSurpriseBalls: Int {
         get {
             if _isEndlessMode{
-                print("wroooooong")
                 return -1
             }
             let frequency = 1
