@@ -516,7 +516,7 @@ class Game {
      */
     var stage: Int {
         get {
-            return 30
+            return _stage
         }
     }
     

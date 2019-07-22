@@ -53,7 +53,7 @@ extension IAPHelper {
     public func isProductPurchased(_ productIdentifier: ProductIdentifier) -> Bool {
         return purchasedProductIdentifiers.contains(productIdentifier)
     }
-    
+
     public class func canMakePayments() -> Bool {
         return SKPaymentQueue.canMakePayments()
     }

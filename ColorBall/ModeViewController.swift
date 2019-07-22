@@ -88,6 +88,7 @@ class ModeViewController: UIViewController{
             if success {
                 self.products = products!
             }
+            self.checkForPurchased()
             print(success, self.products)
         }
     }
@@ -126,24 +127,28 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-        // first, check if this user has already purchased the product with the given identifier
-        if (mode.canPurchase() && mode.productId() != nil) {
-            if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
-                selectMode(mode: mode)
-            } else {
-                let alert = UIAlertController(title: "Purchase \(mode.modeName())", message: "Do you want tp purchase \(mode.modeName().lowercased())?", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "Buy", style: .default, handler: { action in
-                    self.productPurchase(identifier: mode.productId()!)
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                present(alert, animated: true, completion: nil)
-            }
-        } else {
-            selectMode(mode: mode)
-        }
+//        #if DEBUG
+//          selectMode(mode: mode)
+//        #else
+          // first, check if this user has already purchased the product with the given identifier
+          if (mode.canPurchase() && mode.productId() != nil) {
+              if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
+                  selectMode(mode: mode)
+              } else {
+                  let alert = UIAlertController(title: "Purchase \(mode.modeName())", message: "Do you want tp purchase \(mode.modeName().lowercased())?", preferredStyle: .alert)
+                  alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+                      alert.dismiss(animated: true, completion: nil)
+                  }))
+                  alert.addAction(UIAlertAction(title: "Buy", style: .default, handler: { action in
+                      self.productPurchase(identifier: mode.productId()!)
+                      alert.dismiss(animated: true, completion: nil)
+                  }))
+                  present(alert, animated: true, completion: nil)
+              }
+          } else {
+              selectMode(mode: mode)
+          }
+//        #endif
     }
 
     func selectMode(mode: GameMode) {
@@ -163,10 +168,9 @@ class ModeViewController: UIViewController{
     func setModeToEndless() {
         UserDefaults.standard.set(Settings.GAME_MODE_ENDLESS, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_ENDLESS, forKey: Settings.TEXTURE_KEY_MODE)
-
         toggleModeButtons()
     }
-    
+
     @IBAction func memoryMode(_ sender: Any) {
         showPurchaseAlertOrSelect(mode: .memory)
     }
@@ -174,8 +178,16 @@ class ModeViewController: UIViewController{
     func setModeToMemory() {
         UserDefaults.standard.set(Settings.GAME_MODE_MEMORY, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_MEMORY, forKey: Settings.TEXTURE_KEY_MODE)
-
         toggleModeButtons()
+    }
+
+    func checkForPurchased() {
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) {
+            memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
+        }
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) {
+            endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
+        }
     }
 
     func toggleModeButtons() {
@@ -188,14 +200,10 @@ class ModeViewController: UIViewController{
                 stageButton.backgroundColor = UIColor.clear
                 endlessButton.backgroundColor = UIColor.clear
                 memoryButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-           //     memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
-                
             } else if textureMode == Settings.TEXTURE_KEY_ENDLESS{
                 stageButton.backgroundColor = UIColor.clear
                 endlessButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-            //    endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
                 memoryButton.backgroundColor = UIColor.clear
-                
             } else {
                 stageButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 endlessButton.backgroundColor = UIColor.clear
