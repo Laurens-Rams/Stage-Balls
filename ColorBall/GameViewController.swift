@@ -156,12 +156,27 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             // maybee not so good?
             UserDefaults.standard.set(Settings.TEXTURE_COLORS, forKey: Settings.TEXTURE_KEY)
         }
-        
+      
+        var mode: GameMode!
+
+        switch gameMode {
+            case Settings.GAME_MODE_ENDLESS:
+                mode = .endless
+                break
+            case Settings.GAME_MODE_MEMORY:
+                mode = .memory
+                break
+            case Settings.GAME_MODE_REVERSED:
+                mode = .reversed
+                break
+            default:
+                mode = .stage
+                break
+        }
+
         game = Game(
             startingStage: currentStageValue,
-            isEndlessMode: gameMode == Settings.GAME_MODE_ENDLESS, // if endless mode string, evaluates to true
-            isMemoryMode: gameMode == Settings.GAME_MODE_MEMORY, // if memory string, evaluates true
-            isStageMode: gameMode == Settings.GAME_MODE_STAGE // if stage string, evaluates true
+            mode: mode
         )
 
         setStageLabel(currentStage: currentStageValue)

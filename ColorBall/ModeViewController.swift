@@ -10,7 +10,7 @@ import UIKit
 import StoreKit
 
 enum GameMode: String {
-    case stage = "stage", endless = "endless", memory = "memory"
+    case stage = "stage", endless = "endless", memory = "memory", reversed = "reversed"
   
     func canPurchase() -> Bool {
         switch self {
@@ -18,6 +18,8 @@ enum GameMode: String {
                 return true
             case .memory:
                 return true
+            case .reversed:
+              return true
             default:
                 return false
         }
@@ -29,6 +31,8 @@ enum GameMode: String {
                 return StageBallsProducts.EndlessModeProductId
             case .memory:
                 return StageBallsProducts.MemoryModeProductId
+            case .reversed:
+                return StageBallsProducts.ReversedModeProductId
             default:
                 return nil
         }
@@ -40,6 +44,8 @@ enum GameMode: String {
                 return "Endless Mode"
             case .memory:
                 return "Memory Mode"
+            case .reversed:
+                return "Reversed Mode"
             case .stage:
                 return "Stage Mode"
         }
@@ -51,6 +57,8 @@ enum GameMode: String {
                 return .endless
             case StageBallsProducts.MemoryModeProductId:
                 return .memory
+            case StageBallsProducts.ReversedModeProductId:
+                return .reversed
             default:
                 return nil
         }
@@ -59,11 +67,11 @@ enum GameMode: String {
 
 class ModeViewController: UIViewController{
 
-    
     @IBOutlet var endlessButton: UIButton!
     @IBOutlet var memoryButton: UIButton!
     @IBOutlet var stageButton: UIButton!
-  
+    @IBOutlet weak var reversedButton: UIButton!
+
     var products = [SKProduct]()
 
     override func viewDidLoad() {
@@ -127,9 +135,9 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-//        #if DEBUG
-//          selectMode(mode: mode)
-//        #else
+        #if DEBUG
+          selectMode(mode: mode)
+        #else
           // first, check if this user has already purchased the product with the given identifier
           if (mode.canPurchase() && mode.productId() != nil) {
               if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
@@ -148,7 +156,7 @@ class ModeViewController: UIViewController{
           } else {
               selectMode(mode: mode)
           }
-//        #endif
+        #endif
     }
 
     func selectMode(mode: GameMode) {
@@ -158,6 +166,9 @@ class ModeViewController: UIViewController{
               break
             case .memory:
               setModeToMemory()
+              break
+            case .reversed:
+              setModeToReversed()
               break
             case .stage:
               setModeToStage()
@@ -178,6 +189,16 @@ class ModeViewController: UIViewController{
     func setModeToMemory() {
         UserDefaults.standard.set(Settings.GAME_MODE_MEMORY, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_MEMORY, forKey: Settings.TEXTURE_KEY_MODE)
+        toggleModeButtons()
+    }
+
+    @IBAction func reversedMode(_ sender: Any) {
+        showPurchaseAlertOrSelect(mode: .reversed)
+    }
+  
+    func setModeToReversed() {
+        UserDefaults.standard.set(Settings.GAME_MODE_REVERSED, forKey: Settings.GAME_MODE_KEY)
+        UserDefaults.standard.set(Settings.TEXTURE_KEY_REVERSED, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
     }
 

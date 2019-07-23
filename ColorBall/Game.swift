@@ -132,6 +132,7 @@ class Game {
     private var _isEndlessMode = false
     private var _isMemoryMode = false
     private var _isStageMode = false
+    private var _isReversedMode = false
     
     private var _endlessScore = 0
     
@@ -182,14 +183,25 @@ class Game {
     private var _m = 0
     private var _skulls = 0
     
-    init(startingStage: Int, isEndlessMode: Bool, isMemoryMode: Bool, isStageMode: Bool) {
+    init(startingStage: Int, mode: GameMode) {
         _stage = startingStage
 
         // thanks to our user defaults setup, only one of these
         // should be able to be true at any given moment
-        if isEndlessMode { initEndlessMode() }
-        if isMemoryMode { initMemoryMode() }
-        if isStageMode { initStageMode() }
+       switch mode {
+            case .endless:
+                initEndlessMode()
+                break
+            case .memory:
+                initMemoryMode()
+                break
+            case .reversed:
+                initReversedMode()
+                break
+            default:
+                initStageMode()
+                break
+        }
 
         // if you decide to use color sets someday, you can bring this back and make use of it :)
         // _colorSetIndex = randomColorSet()
@@ -202,19 +214,24 @@ class Game {
     }
     
     func initMemoryMode() {
-        // initializers for endless
+        // initializers for memory
         _isMemoryMode = true
         print("memoryMode")
         
     }
     
     func initStageMode() {
-        // initializers for endless
+        // initializers for stage
         _isStageMode = true
         print("StageMode")
-        
     }
-    
+  
+    func initReversedMode() {
+        // initializers for reversed
+        _isReversedMode = true
+        print("ReversedMode")
+    }
+  
     /**
      Generate a random integer between 0 and 3.
      - parameters:
@@ -224,12 +241,12 @@ class Game {
     func randomColorSet() -> Int {
         return Int(arc4random_uniform(4) + UInt32(1))
     }
-    
+
     // we'll flip this to false later to test the other option
     var endGameOnCircleCollision = true
-    
+
     // MARK: properties' public getters
-  
+
     var isEndlessMode: Bool {
         return _isEndlessMode
     }
@@ -237,15 +254,17 @@ class Game {
     var isMemoryMode: Bool {
         return _isMemoryMode
     }
+  
+    var isReversedMode: Bool {
+        return _isReversedMode
+    }
 
     var slotsOnCircle: Int {
         get {
-
-                return numberStartingBalls <= 13 ? 13 : numberStartingBalls
-          
+            return numberStartingBalls <= 13 ? 13 : numberStartingBalls
         }
     }
-    
+
     /**
      Number of blues in game (read-only getter).
      */
@@ -548,7 +567,7 @@ class Game {
     // f 5
     var numberStartingBalls: Int {
         get {
-            if _isEndlessMode {
+            if _isEndlessMode || _isReversedMode {
                 return 13
             }
 
@@ -835,7 +854,7 @@ class Game {
     }
     
     func generateColumnHeights() {
-        if _isEndlessMode == true{
+        if _isEndlessMode || _isReversedMode {
             for _ in 0..<numberStartingBalls {
                 let num = 2
                 _columnHeights.append(num)

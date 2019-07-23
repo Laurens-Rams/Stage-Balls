@@ -94,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         dt = 1.0/CGFloat(currentFPS)
         lastUpdateTime = currentTime
         
-        if canMove {
+        if canMove || game.isReversedMode {
             updateCircle(dt: dt)
         }
 
@@ -117,7 +117,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func didMove(to view: SKView) {
-        spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle)))
+        if game.isReversedMode {
+            spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle))) / 2
+        } else {
+            spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle)))
+        }
         Circle.alpha = 1.0
         skullCircle.alpha = 0.0
         winCircle.alpha = 0.0
@@ -145,7 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-       if allowToMove == true && !isTouching && !isHolding {
+       if !game.isReversedMode && allowToMove == true && !isTouching && !isHolding {
             isTouching = true
             isHolding = true
 
@@ -163,7 +167,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 getCircleValues()
             }
         }
-        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -213,10 +216,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             Circle.distance = 0
             Circle.zRotation = Circle.nextTickPosition
             
-            if isHolding {
+            if isHolding || game.isReversedMode {
                 getCircleValues()
                 if (CGFloat(spinMultiplier) < ((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle) * 1.2)) {
-                    spinMultiplier += 0.5 // wie schnell es schneller wird
+                    if !game.isReversedMode {
+                        spinMultiplier += 0.5 // wie schnell es schneller wird
+                    }
                 }
             } else {
                 spinMultiplier = (Double((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle)))

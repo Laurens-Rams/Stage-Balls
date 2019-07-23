@@ -262,9 +262,18 @@
                                     <action selector="memoryMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="F4i-14-hRe"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHX-Ze-545">
+                                <rect key="frame" x="16" y="440" width="296" height="107"/>
+                                <state key="normal" title="REVERSED"/>
+                                <connections>
+                                    <action selector="reversedMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="mpr-9l-eqC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="fHX-Ze-545" firstAttribute="top" secondItem="eC3-0z-1lE" secondAttribute="bottom" constant="7" id="0TD-hH-FQt"/>
+                            <constraint firstItem="fHX-Ze-545" firstAttribute="leading" secondItem="eC3-0z-1lE" secondAttribute="leading" id="EKV-LV-ZFf"/>
                             <constraint firstItem="eC3-0z-1lE" firstAttribute="top" secondItem="LJC-n1-p4n" secondAttribute="bottom" constant="7" id="HxO-h6-RRF"/>
                             <constraint firstAttribute="trailing" secondItem="v9D-C8-kmF" secondAttribute="trailing" constant="12" id="IAR-wF-4dE"/>
                             <constraint firstItem="YUZ-QX-lBI" firstAttribute="top" secondItem="wru-Qi-C38" secondAttribute="bottom" constant="17" id="JYM-vJ-rxP"/>
@@ -272,11 +281,13 @@
                             <constraint firstAttribute="trailing" secondItem="eC3-0z-1lE" secondAttribute="trailing" constant="8" id="SP4-vh-MsM"/>
                             <constraint firstItem="LJC-n1-p4n" firstAttribute="top" secondItem="v9D-C8-kmF" secondAttribute="bottom" constant="7" id="XX3-9L-UOQ"/>
                             <constraint firstItem="v9D-C8-kmF" firstAttribute="leading" secondItem="Oh4-mW-xzx" secondAttribute="leading" constant="12" id="aAf-TP-LQF"/>
+                            <constraint firstItem="fHX-Ze-545" firstAttribute="trailing" secondItem="eC3-0z-1lE" secondAttribute="trailing" id="dPh-VI-9WS"/>
                             <constraint firstAttribute="trailing" secondItem="LJC-n1-p4n" secondAttribute="trailing" constant="8" id="dma-AX-2rq"/>
                             <constraint firstItem="v9D-C8-kmF" firstAttribute="top" secondItem="YUZ-QX-lBI" secondAttribute="bottom" constant="18" id="lP2-Lq-1wL"/>
                             <constraint firstItem="eC3-0z-1lE" firstAttribute="leading" secondItem="Oh4-mW-xzx" secondAttribute="leading" constant="16" id="mTi-6A-CqQ"/>
                             <constraint firstItem="YUZ-QX-lBI" firstAttribute="leading" secondItem="Oh4-mW-xzx" secondAttribute="leading" constant="9" id="mvD-um-ka0"/>
                             <constraint firstItem="siT-LO-WL1" firstAttribute="leading" secondItem="Oh4-mW-xzx" secondAttribute="leading" constant="16" id="xWE-Ot-0pr"/>
+                            <constraint firstItem="fHX-Ze-545" firstAttribute="height" secondItem="eC3-0z-1lE" secondAttribute="height" id="xZn-36-oA9"/>
                             <constraint firstItem="siT-LO-WL1" firstAttribute="centerY" secondItem="YUZ-QX-lBI" secondAttribute="centerY" id="yT2-fc-RKs"/>
                             <constraint firstAttribute="trailing" secondItem="YUZ-QX-lBI" secondAttribute="trailing" constant="8" id="yWf-mK-bFp"/>
                         </constraints>
@@ -284,6 +295,7 @@
                     <connections>
                         <outlet property="endlessButton" destination="LJC-n1-p4n" id="bqX-Ui-Fcl"/>
                         <outlet property="memoryButton" destination="eC3-0z-1lE" id="Wuh-Yn-liP"/>
+                        <outlet property="reversedButton" destination="fHX-Ze-545" id="8ww-Ar-UNn"/>
                         <outlet property="stageButton" destination="v9D-C8-kmF" id="PtI-V9-K9h"/>
                     </connections>
                 </viewController>
@@ -913,7 +925,7 @@
         <image name="logo2" width="451" height="256"/>
         <image name="menu" width="50" height="50"/>
         <image name="play" width="227" height="227"/>
-        <image name="rotateLeft" width="138" height="175"/>
+        <image name="rotateLeft" width="139" height="176"/>
         <image name="rotateRight" width="138" height="175"/>
         <image name="share" width="173" height="169"/>
         <image name="stageMode" width="750" height="264"/>
