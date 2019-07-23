@@ -176,28 +176,44 @@
                                     <action selector="poolBalls:" destination="WfV-jU-0J7" eventType="touchDown" id="ImD-18-9mh"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ydy-Qb-dNZ" userLabel="BallButton">
+                                <rect key="frame" x="3" y="326" width="313" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Ydy-Qb-dNZ" secondAttribute="height" multiplier="313:81" id="DAO-o6-38z"/>
+                                </constraints>
+                                <state key="normal" title="BallButton" image="setballsBall"/>
+                                <connections>
+                                    <action selector="BallBalls:" destination="WfV-jU-0J7" eventType="touchDown" id="tLR-GX-2Hh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="VtP-dU-c2r" secondAttribute="trailing" constant="4" id="0n0-84-lRR"/>
                             <constraint firstAttribute="trailing" secondItem="f9X-t0-QwJ" secondAttribute="trailing" constant="4" id="45p-MH-WVV"/>
                             <constraint firstItem="QMe-kY-Amg" firstAttribute="top" secondItem="thj-1U-kfE" secondAttribute="bottom" constant="17" id="CEc-Sy-D6K"/>
+                            <constraint firstItem="Ydy-Qb-dNZ" firstAttribute="height" secondItem="mOg-i9-3HD" secondAttribute="height" id="EBc-Bm-DBu"/>
                             <constraint firstItem="mOg-i9-3HD" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="3" id="Nrz-TI-dpk"/>
                             <constraint firstItem="VtP-dU-c2r" firstAttribute="centerX" secondItem="snt-Lf-avd" secondAttribute="centerX" id="Vt3-Gj-b4A"/>
+                            <constraint firstItem="Ydy-Qb-dNZ" firstAttribute="trailing" secondItem="mOg-i9-3HD" secondAttribute="trailing" id="ajy-1u-mdW"/>
                             <constraint firstAttribute="trailing" secondItem="QMe-kY-Amg" secondAttribute="trailing" constant="8" id="bT6-as-lCD"/>
                             <constraint firstItem="f9X-t0-QwJ" firstAttribute="top" secondItem="QMe-kY-Amg" secondAttribute="bottom" constant="5" id="cKS-gP-uUl"/>
                             <constraint firstItem="QMe-kY-Amg" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="9" id="diX-mW-DDd"/>
                             <constraint firstItem="ZJl-xq-LHb" firstAttribute="centerY" secondItem="QMe-kY-Amg" secondAttribute="centerY" id="gXl-sV-q22"/>
                             <constraint firstItem="ZJl-xq-LHb" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="16" id="gtm-hn-DUF"/>
+                            <constraint firstItem="Ydy-Qb-dNZ" firstAttribute="leading" secondItem="mOg-i9-3HD" secondAttribute="leading" id="h7F-Dg-wId"/>
                             <constraint firstAttribute="trailing" secondItem="mOg-i9-3HD" secondAttribute="trailing" constant="4" id="nBU-8d-s07"/>
                             <constraint firstItem="f9X-t0-QwJ" firstAttribute="centerX" secondItem="snt-Lf-avd" secondAttribute="centerX" id="nY7-XD-ap7"/>
                             <constraint firstItem="f9X-t0-QwJ" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="3" id="ncD-pc-hdy"/>
+                            <constraint firstItem="Ydy-Qb-dNZ" firstAttribute="top" secondItem="mOg-i9-3HD" secondAttribute="bottom" constant="-1" id="oZr-ke-kxk"/>
                             <constraint firstItem="mOg-i9-3HD" firstAttribute="top" secondItem="VtP-dU-c2r" secondAttribute="bottom" constant="-2" id="tZA-Dt-6d7"/>
                             <constraint firstItem="VtP-dU-c2r" firstAttribute="top" secondItem="f9X-t0-QwJ" secondAttribute="bottom" constant="-1" id="x6n-tZ-TAo"/>
+                            <constraint firstItem="Ydy-Qb-dNZ" firstAttribute="width" secondItem="Ydy-Qb-dNZ" secondAttribute="height" multiplier="313:81" id="yAj-PG-xOl"/>
                             <constraint firstItem="VtP-dU-c2r" firstAttribute="leading" secondItem="snt-Lf-avd" secondAttribute="leading" constant="3" id="zSG-4s-KQG"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="BallButton" destination="Ydy-Qb-dNZ" id="8Ee-dj-xIA"/>
                         <outlet property="colorsButton" destination="f9X-t0-QwJ" id="aaM-G2-thW"/>
                         <outlet property="fruitsButton" destination="VtP-dU-c2r" id="AgB-8r-w44"/>
                         <outlet property="poolButton" destination="mOg-i9-3HD" id="T4p-aP-rn6"/>
@@ -915,6 +931,7 @@
         <image name="play" width="227" height="227"/>
         <image name="rotateLeft" width="138" height="175"/>
         <image name="rotateRight" width="138" height="175"/>
+        <image name="setballsBall" width="2251" height="575"/>
         <image name="share" width="173" height="169"/>
         <image name="stageMode" width="750" height="264"/>
         <image name="unlockEndless" width="750" height="267"/>

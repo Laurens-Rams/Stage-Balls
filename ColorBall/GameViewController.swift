@@ -531,7 +531,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         
         UIView.animate(withDuration: 0.4, delay: 0.0, animations: {
             self.stageLabel.textColor = UIColor.white
-            // ASK EMILY IF THAT WORKS FINE
             if ((self.game.numberStartingBalls / 10) >= self.game.ballsRemaining){
                 self.rewardLabel.textColor = .white
                 self.rewardLabel.alpha = 1.0

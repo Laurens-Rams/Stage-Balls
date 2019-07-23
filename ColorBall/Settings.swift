@@ -34,6 +34,7 @@ struct Settings {
     static let TEXTURE_KEY = "TEXTURE_KEY"
     static let TEXTURE_COLORS = "TEXTURE_COLORS"
     static let TEXTURE_FRUITS = "TEXTURE_FRUITS"
+    static let TEXTURE_BALLS = "TEXTURE_BALLS"
     static let TEXTURE_POOL = "TEXTURE_POOL"
     static let POOL_REWARED = "POOL_REWARED"
     
