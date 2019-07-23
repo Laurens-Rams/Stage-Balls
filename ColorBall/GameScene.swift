@@ -85,6 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var columnHeights: [Int]!
     // MARK: lifecycle methods and overrides
+
+    var nextBall: SmallBall?
     
     // main update function (game loop)
     override func update(_ currentTime: TimeInterval) {
@@ -122,6 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle)))
         }
+
         Circle.alpha = 1.0
         skullCircle.alpha = 0.0
         winCircle.alpha = 0.0
@@ -166,6 +169,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                 getCircleValues()
             }
+        } else if game.isReversedMode {
+          if let nextBall = nextBall {
+              dropBall(nextBall)
+              self.nextBall = nil
+          }
         }
     }
     
@@ -262,10 +270,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func setupFirstFallTimer() {
         //timer sets when the first ball should fall
-        let currentmode = UserDefaults.standard.object(forKey: Settings.GAME_MODE_KEY) as? String
-        if currentmode == Settings.GAME_MODE_MEMORY{
+        if game.isMemoryMode {
             let _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false, block: {timer in
-                
                 self.allowToMove = true
                 self.canpresspause = true
                 self.ballsNeedUpdating = true
@@ -273,7 +279,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.gameDelegate?.tapleftright()
                 //self.moveCircle()
             })
-        }else{
+        } else {
             let _ = Timer.scheduledTimer(withTimeInterval: 1.7, repeats: false, block: {timer in
                 self.allowToMove = true
                 self.canpresspause = true
@@ -282,10 +288,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.gameDelegate?.tapleftright()
                 //self.moveCircle()
             })
-            }
-
+        }
     }
-
     
     func setupSlots() {
         print("gravityMultiplier:" , game.gravityMultiplier)
@@ -450,10 +454,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let interval = 0.7// * game.speedMultiplier
             fallTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false, block: {
                 timer in
-                ball.inLine = false
-                self.physicsWorld.gravity = CGVector(dx: 0, dy: 0) // 3 bei stage 10 und 1.2 Speed
-            })
-
+            self.dropBall(ball)
+        })
+    }
+  
+    func dropBall(_ ball: SmallBall) {
+        ball.inLine = false
     }
     
     func getCircleValues() {
@@ -1284,7 +1290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // either way, the balls no longer need an update decision; set to false
         ballsNeedUpdating = false
 
-        let shouldAddBall = game.isEndlessMode || game.numberBallsInQueue > 0
+        let shouldAddBall = game.isEndlessMode || game.isReversedMode || game.numberBallsInQueue > 0
 
         if shouldAddBall {
             let newBall = makeBall()
@@ -1310,7 +1316,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fallingBalls.append(newBall)
             
             addChild(newBall)
-            startFallTimer(ball: newBall)
+
+            if !game.isReversedMode { startFallTimer(ball: newBall) }
+            else { nextBall = newBall }
         } else {
             cleanupBalls()
         }

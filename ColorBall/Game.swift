@@ -790,7 +790,9 @@ class Game {
      */
     var gravityMultiplier: Double {
         get {
-            if _isEndlessMode {
+            if _isReversedMode {
+                return Double(300) * (_gravityMultiplier) + 1.5
+            } else if _isEndlessMode {
                 if (_stage < 50){
                     return Double(_ballsFallen) * (_gravityMultiplier) + 1.5
                 }else if (_stage < 70){
@@ -804,23 +806,19 @@ class Game {
                 }else {
                     return Double(80) * (_gravityMultiplier) + 1.5
                 }
-            }
-
-            if _isMemoryMode {
+            } else if _isMemoryMode {
                 if (_stage < 70){
                     return Double(_stage - 1) * (_gravityMultiplier)
                 }else {
                     return 5.0
                 }
+            } else if (_stage < 30){
+                return Double(_stage - 1) * (_gravityMultiplier + 0.01)
+            } else if (_stage < 57){
+                return Double(_stage - 1) * _gravityMultiplier
             }
 
-            if (_stage < 30){
-                return Double(_stage - 1) * (_gravityMultiplier + 0.01)
-            }else if (_stage < 57){
-                return Double(_stage - 1) * _gravityMultiplier
-            }else{
-                return 3.0 // 4.0
-            }
+            return 3.0 // 4.0
         }
     }
     var startgravity: Double {
