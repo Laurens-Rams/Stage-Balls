@@ -89,6 +89,8 @@ class ModeViewController: UIViewController{
         if let mode = GameMode.modeForId(id: productId) {
             selectMode(mode: mode)
         }
+
+        checkForPurchased()
     }
 
     func getProductData() {
@@ -135,28 +137,20 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-        #if DEBUG
-          selectMode(mode: mode)
-        #else
+//        #if DEBUG
+//          selectMode(mode: mode)
+//        #else
           // first, check if this user has already purchased the product with the given identifier
           if (mode.canPurchase() && mode.productId() != nil) {
               if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
                   selectMode(mode: mode)
               } else {
-                  let alert = UIAlertController(title: "Purchase \(mode.modeName())", message: "Do you want tp purchase \(mode.modeName().lowercased())?", preferredStyle: .alert)
-                  alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-                      alert.dismiss(animated: true, completion: nil)
-                  }))
-                  alert.addAction(UIAlertAction(title: "Buy", style: .default, handler: { action in
-                      self.productPurchase(identifier: mode.productId()!)
-                      alert.dismiss(animated: true, completion: nil)
-                  }))
-                  present(alert, animated: true, completion: nil)
+                  self.productPurchase(identifier: mode.productId()!)
               }
           } else {
               selectMode(mode: mode)
           }
-        #endif
+//        #endif
     }
 
     func selectMode(mode: GameMode) {
@@ -232,6 +226,7 @@ class ModeViewController: UIViewController{
             }
         }
     }
+
     func enableEndlessMode(){
         
     }

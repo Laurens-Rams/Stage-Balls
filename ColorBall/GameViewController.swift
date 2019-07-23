@@ -28,7 +28,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     @IBOutlet var rewardLabel: UILabel!
     @IBOutlet var menuBtn: UIButton!
     @IBOutlet weak var stageLabel: UILabel!
-
+    @IBOutlet weak var menuImage: UIImageView!
+  
     var scene: GameScene!
     var skView: SKView!
     var camera: SKCameraNode!
@@ -172,6 +173,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             default:
                 mode = .stage
                 break
+        }
+
+        if mode == .reversed {
+            menuBtn.isHidden = true
+            menuImage.alpha = 0
+        } else {
+            menuBtn.isHidden = false
+            menuImage.alpha = 1
         }
 
         game = Game(

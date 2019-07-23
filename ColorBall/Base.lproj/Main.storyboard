@@ -404,6 +404,7 @@
                     </view>
                     <connections>
                         <outlet property="menuBtn" destination="uwH-2j-QtW" id="fbZ-hN-K46"/>
+                        <outlet property="menuImage" destination="Wwa-a3-vJo" id="Iv6-hx-Iat"/>
                         <outlet property="rewardLabel" destination="nhi-Gy-bbU" id="Lze-9o-eOu"/>
                         <outlet property="scoreLabel" destination="neW-P3-VwB" id="uPq-6q-S4d"/>
                         <outlet property="stageLabel" destination="hcs-gc-tFs" id="MsK-ZG-wVR"/>

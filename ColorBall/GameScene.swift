@@ -87,6 +87,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: lifecycle methods and overrides
 
     var nextBall: SmallBall?
+    var stopSpinOverride = false
+    var reversedModeSpinMultMax: Double = 5
     
     // main update function (game loop)
     override func update(_ currentTime: TimeInterval) {
@@ -96,7 +98,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         dt = 1.0/CGFloat(currentFPS)
         lastUpdateTime = currentTime
         
-        if canMove || game.isReversedMode {
+        if canMove || (game.isReversedMode && !stopSpinOverride) {
             updateCircle(dt: dt)
         }
 
@@ -219,17 +221,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
         
-        if (fabs(Circle.distance) >= fabs(Circle.nextTickPosition - Circle.lastTickPosition)) {
+        if fabs(Circle.distance) >= fabs(Circle.nextTickPosition - Circle.lastTickPosition) {
             canMove = false
             Circle.distance = 0
             Circle.zRotation = Circle.nextTickPosition
             
             if isHolding || game.isReversedMode {
                 getCircleValues()
-                if (CGFloat(spinMultiplier) < ((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle) * 1.2)) {
-                    if !game.isReversedMode {
-                        spinMultiplier += 0.5 // wie schnell es schneller wird
-                    }
+                if !game.isReversedMode {
+                  if (CGFloat(spinMultiplier) < ((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle) * 1.2)) {
+                      spinMultiplier += 0.5 // wie schnell es schneller wird
+                  }
                 }
             } else {
                 spinMultiplier = (Double((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle)))
@@ -905,6 +907,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func startGameOverSequence(newBall: SmallBall) {
+        stopSpinOverride = true
         canpresspause = false
         self.gameDelegate?.gameoverplayscore()
         run(SKAction.colorize(with: UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
@@ -1318,7 +1321,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(newBall)
 
             if !game.isReversedMode { startFallTimer(ball: newBall) }
-            else { nextBall = newBall }
+            else {
+                nextBall = newBall
+                // if multiplier is less than the max allowed
+                if spinMultiplier < reversedModeSpinMultMax {
+                    spinMultiplier += 0.05 // spin the circle faster with each ball dropped
+                }
+          }
         } else {
             cleanupBalls()
         }
