@@ -203,6 +203,9 @@ class ModeViewController: UIViewController{
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) {
             endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
         }
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) {
+            reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
+        }
     }
 
     func toggleModeButtons() {
@@ -214,21 +217,24 @@ class ModeViewController: UIViewController{
             if textureMode == Settings.TEXTURE_KEY_MEMORY {
                 stageButton.backgroundColor = UIColor.clear
                 endlessButton.backgroundColor = UIColor.clear
+                reversedButton.backgroundColor = UIColor.clear
                 memoryButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
             } else if textureMode == Settings.TEXTURE_KEY_ENDLESS{
                 stageButton.backgroundColor = UIColor.clear
                 endlessButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                reversedButton.backgroundColor = UIColor.clear
+                memoryButton.backgroundColor = UIColor.clear
+            } else if textureMode == Settings.TEXTURE_KEY_REVERSED {
+                stageButton.backgroundColor = UIColor.clear
+                endlessButton.backgroundColor = UIColor.clear
+                reversedButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 memoryButton.backgroundColor = UIColor.clear
             } else {
                 stageButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 endlessButton.backgroundColor = UIColor.clear
+                reversedButton.backgroundColor = UIColor.clear
                 memoryButton.backgroundColor = UIColor.clear
             }
         }
     }
-
-    func enableEndlessMode(){
-        
-    }
-
 }

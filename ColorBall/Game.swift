@@ -521,11 +521,10 @@ class Game {
      */
     var numberBallsInQueue: Int {
         get {
-            if _isEndlessMode {
+            if _isEndlessMode || _isReversedMode {
                 return _ballsFallen
             }
-            print(numberStartingBalls, totalInColumns, ballsFallen, numberSurpriseBalls)
-            
+          
             return  totalInColumns - ballsFallen + numberSurpriseBalls
         }
     }
@@ -604,7 +603,7 @@ class Game {
                 let newStart = 11 // = 13
                 return newStart
                 
-            }else if (_stage == 7) {
+            } else if (_stage == 7) {
                 let newStart = 13 // = 13
                 return newStart
                 
@@ -761,7 +760,6 @@ class Game {
                 if _lastSurpriseCount < maxBalls {
                     _lastSurpriseCount = initialSurpriseCount + (Double(stagesEllapsed) / 2)
                 }
-                print(_lastSurpriseCount)
                 return Int(floor(_lastSurpriseCount))
             }
             return 0
@@ -889,7 +887,6 @@ class Game {
                 print("num",num)
                 _columnHeights.append(num)
             }
-            print(_columnHeights)
         }
     }
     

@@ -246,7 +246,9 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="v9D-C8-kmF" secondAttribute="height" multiplier="296:97" constant="-27.463917525773184" id="yfe-mQ-msS"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="stageMode"/>
+                                <state key="normal" title="STAGE" image="stageMode">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="stageMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="zSI-tA-umd"/>
                                 </connections>
@@ -256,7 +258,9 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="LJC-n1-p4n" secondAttribute="height" multiplier="296:97" constant="-27.463917525773184" id="fhE-jF-5CS"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="unlockEndless"/>
+                                <state key="normal" title="ENDLESS" image="unlockEndless">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="endlessMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="NgD-5v-0SV"/>
                                 </connections>
@@ -273,14 +277,18 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eC3-0z-1lE" secondAttribute="height" multiplier="296:97" constant="-30.515463917525778" id="sFF-sW-xQ4"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="unlockMemory"/>
+                                <state key="normal" title="MEMORY" image="unlockMemory">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="memoryMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="F4i-14-hRe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHX-Ze-545">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHX-Ze-545">
                                 <rect key="frame" x="16" y="440" width="296" height="107"/>
-                                <state key="normal" title="REVERSED"/>
+                                <state key="normal" title="REVERSED" image="unlockReversed">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="reversedMode:" destination="aST-DU-7gb" eventType="touchUpInside" id="mpr-9l-eqC"/>
                                 </connections>
@@ -949,6 +957,7 @@
         <image name="stageMode" width="750" height="264"/>
         <image name="unlockEndless" width="750" height="267"/>
         <image name="unlockMemory" width="750" height="267"/>
+        <image name="unlockReversed" width="750" height="267"/>
         <image name="unlockballFruits" width="750" height="191"/>
         <image name="unlockpoolColor" width="750" height="191"/>
         <image name="watchVideo" width="362" height="239"/>

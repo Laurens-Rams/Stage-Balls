@@ -21,7 +21,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let LEADERBOARD_ID = "stageid"
     let LEADERBOARD_ID_MEMORY = "memoryid"
     let LEADERBOARD_ID_ENDLESS = "endlessid"
-    
+    let LEADERBOARD_ID_REVERSED = "reversedid"
+
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     @IBOutlet weak var lastStageButton: UIButton!
@@ -50,28 +51,33 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         showpoints.text = scoreFormatter(score: endingScore)
         showpoints.alpha = 0
         setRemainingBalls()
+//        checkMode()
+//        setStageLabel()
+        submitGameCenter()
+//        showHideStageButtons()
+    }
+  
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         checkMode()
         setStageLabel()
-        submitGameCenter()
-    
-        
-
-        
-        
         showHideStageButtons()
     }
+
     func checkMode(){
         if let savedMode = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
             gameMode = savedMode
         }
     }
+
     func setRemainingBalls(){
         // Balls for Memory and Stage Mode same
         RemainingBalls.text = "BALLS \(scoreFormatter(score: endingScore))"
         if gameMode == Settings.GAME_MODE_ENDLESS {
-        RemainingBalls.alpha = 0.0
+          RemainingBalls.alpha = 0.0
         }
     }
+
     func submitGameCenter(){
         if gameMode == Settings.GAME_MODE_ENDLESS {
             //GC
@@ -85,7 +91,19 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                     print("Best Score Endless submitted to your Leaderboard!")
                 }
             }
-        }else if gameMode == Settings.GAME_MODE_MEMORY {
+        } else if gameMode == Settings.GAME_MODE_REVERSED {
+            //GC
+            let scoreGameCenterRev = scoreFormatter(score: endingScore)
+            let bestScoreIntRev = GKScore(leaderboardIdentifier: LEADERBOARD_ID_REVERSED)
+            bestScoreIntRev.value = Int64(scoreGameCenterRev)!
+            GKScore.report([bestScoreIntRev]) { (error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Best Score reversed submitted to your Leaderboard!")
+                }
+            }
+        } else if gameMode == Settings.GAME_MODE_MEMORY {
             //GC
             let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY)
             let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
@@ -110,18 +128,23 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             }
         }
     }
+
     func setStageLabel() {
         if gameMode == Settings.GAME_MODE_ENDLESS {
             if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
                 stageLabel.text = stageFormatterEndless(scorehigh: highScore)
             }
-        }else if gameMode == Settings.GAME_MODE_MEMORY {
+        } else if gameMode == Settings.GAME_MODE_REVERSED {
+            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_REVERSED) as? Int {
+                stageLabel.text = stageFormatterEndless(scorehigh: highScore)
+            }
+        } else if gameMode == Settings.GAME_MODE_MEMORY {
             if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_MEMORY) as? Int {
                 stageLabel.text = stageFormatter(stage: currentStage)
             } else {
                 stageLabel.text = stageFormatter(stage: endingStage)
             }
-        }else {
+        } else {
             if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
                 stageLabel.text = stageFormatter(stage: currentStage)
             } else {
@@ -129,6 +152,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             }
         }
     }
+
     func modePressed() {
         launchModeViewController()
     }
@@ -153,10 +177,11 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         } else if Int(scoreFormatter(score: endingScore))! < 1000 {
             showpoints.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }
-        if gameMode == Settings.GAME_MODE_ENDLESS  {
+
+        if gameMode == Settings.GAME_MODE_ENDLESS || gameMode == Settings.GAME_MODE_REVERSED  {
             nextStageButton.alpha = 0
             lastStageButton.alpha = 0
-        }else {
+        } else {
             if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
                 // print("high score", highScore)
                 // print("current stage", currentStage)

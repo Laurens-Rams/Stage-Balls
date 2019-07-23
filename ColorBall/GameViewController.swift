@@ -192,7 +192,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setStageLabel(currentStage: Int) {
-        stageLabel.text = (gameMode == Settings.GAME_MODE_ENDLESS) ? "∞" : "STAGE \(currentStage)"
+        stageLabel.text = (gameMode == Settings.GAME_MODE_ENDLESS || gameMode == Settings.GAME_MODE_REVERSED) ? "∞" : "STAGE \(currentStage)"
     }
 
     func setcurrentStage(){
@@ -472,7 +472,17 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 }
             } else {
                 // if we've never saved a high score for endless, start saving it now
-                defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_MEMORY)
+                defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_ENDLESS)
+            }
+        } else if gameMode == Settings.GAME_MODE_REVERSED {
+            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_REVERSED) as? Int {
+                // if we've saved a high score for endless before, check if this one was higher
+                if game.ballsFallen > highScore {
+                    defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_REVERSED)
+                }
+            } else {
+                // if we've never saved a high score for endless, start saving it now
+                defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_REVERSED)
             }
         } else {
             if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
