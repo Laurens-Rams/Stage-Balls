@@ -14,6 +14,8 @@ class BallsViewController: UIViewController, GADInterstitialDelegate {
     @IBOutlet weak var fruitsButton: UIButton!
     @IBOutlet weak var colorsButton: UIButton!
     @IBOutlet weak var poolButton: UIButton!
+    @IBOutlet weak var BallButton: UIButton!
+    
     
     var Interstitial: GADInterstitial?
     
@@ -31,7 +33,7 @@ class BallsViewController: UIViewController, GADInterstitialDelegate {
     }
     
     @IBAction func deliciousFruits(_ sender: Any) {
-        IAPHandler.shared.purchaseMyProduct(index: 2)
+//        IAPHandler.shared.purchaseMyProduct(index: 2)
         UserDefaults.standard.set(Settings.TEXTURE_FRUITS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
     }
@@ -41,6 +43,10 @@ class BallsViewController: UIViewController, GADInterstitialDelegate {
         toggleTextureButtons()
     }
 
+    @IBAction func BallBalls(_ sender: Any) {
+        UserDefaults.standard.set(Settings.TEXTURE_BALLS, forKey: Settings.TEXTURE_KEY)
+        toggleTextureButtons()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -74,14 +80,22 @@ class BallsViewController: UIViewController, GADInterstitialDelegate {
                 fruitsButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 colorsButton.backgroundColor = UIColor.clear
                 poolButton.backgroundColor = UIColor.clear
+                BallButton.backgroundColor = UIColor.clear
             } else if textureMode == Settings.TEXTURE_POOL {
                 poolButton.backgroundColor = UIColor(red: 225/255, green:225/255, blue: 225/255, alpha: 1.0)
                 colorsButton.backgroundColor = UIColor.clear
                 fruitsButton.backgroundColor = UIColor.clear
-            } else {
+                BallButton.backgroundColor = UIColor.clear
+            } else if textureMode == Settings.TEXTURE_BALLS {
+                BallButton.backgroundColor = UIColor(red: 225/255, green:225/255, blue: 225/255, alpha: 1.0)
+                colorsButton.backgroundColor = UIColor.clear
+                fruitsButton.backgroundColor = UIColor.clear
+                poolButton.backgroundColor = UIColor.clear
+            }else {
                 fruitsButton.backgroundColor = UIColor.clear
                 colorsButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 poolButton.backgroundColor = UIColor.clear
+                BallButton.backgroundColor = UIColor.clear
             }
         }
     }
