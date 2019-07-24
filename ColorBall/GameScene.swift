@@ -274,24 +274,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - dt: Last calculated delta time
      */
     func setupDirectionTimer() {
-        if game.isReversedMode {
-            let _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: {timer in
-                if self.direction == 1 {
-                    self.direction = -1
-                } else {
-                   self.direction = 1
-                }
-                self.getCircleValues()
-                self.isTouching = true
-                self.isHolding = true
-            })
-        }
+//        if game.isReversedMode {
+//            let _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: {timer in
+//                if self.direction == 1 {
+//                    self.direction = -1
+//                } else {
+//                   self.direction = 1
+//                }
+//                self.getCircleValues()
+//                self.isTouching = true
+//                self.isHolding = true
+//            })
+//        }
     }
 
     /**
      Set the timer for dropping the first ball.
      */
     func setupFirstFallTimer() {
+        Metadata.shared.trackUserStageEnd(stage: game.stage, mode: game.mode.modeName())
+
         //timer sets when the first ball should fall
         if game.isMemoryMode {
             let _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false, block: {timer in
@@ -341,14 +343,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var nums = [1,2,3,4,5,6,7,8,9,10,11,12,13]
 
         for i in 0..<game.numberStartingBalls {
-            if (game.numberStartingBalls <= 13){
+            if (game.numberStartingBalls <= 13) {
                 let arrayKey = Int(arc4random_uniform(UInt32(nums.count)))
                 // your random number
                 let randNum = nums[arrayKey]
                 // make sure the number isnt repeated
                 nums.remove(at: arrayKey)
                 rando = randNum
-            }else {
+            } else {
                 rando = i
             }
 
@@ -358,7 +360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let targetPosition = CGPoint(x: newX, y: newY)
 
             let slot = BaseSlot(position: targetPosition, startPosition: startPosition, insidePosition: targetPosition, startRads: startRads, isStarter: true, distance: startDistance)
-            
+          
             slot.diameter = game.smallDiameter
             slot.columnNumber = i
 
@@ -387,7 +389,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let slotY = (updatedDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
                 let slotPos = CGPoint(x: slotX, y: slotY)
                 let slot = Slot(position: slotPos, startRads: startRads, isStarter: false, distance: updatedDistance)
-
+              
                 slot.diameter = game.smallDiameter
                 slot.columnNumber = i
                 slots.append(slot)
@@ -435,6 +437,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Teardown the stage.
      */
     func cleanupBalls() {
+        Metadata.shared.trackUserStageEnd(stage: game.stage, mode: game.mode.modeName())
+
         canpresspause = false
         let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
         winCircle.run(fadeIn)
@@ -761,7 +765,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.createExplosion(onBall: ball)
                     colSlots[slotIndex].unsetBall()
                     ball.physicsBody = nil
-                    if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 {
+                    if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 || self.game.isReversedMode {
                         currentColumn.numOfSurprises -= 1
                         let b = self.addNewBall(toColumn: colNumber, isSurprise: true)
                         self.Circle.addChild(b)

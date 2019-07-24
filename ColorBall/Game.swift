@@ -133,6 +133,7 @@ class Game {
     private var _isMemoryMode = false
     private var _isStageMode = false
     private var _isReversedMode = false
+    private var _mode: GameMode!
     
     private var _endlessScore = 0
     
@@ -185,6 +186,7 @@ class Game {
     
     init(startingStage: Int, mode: GameMode) {
         _stage = startingStage
+        _mode = mode
 
         // thanks to our user defaults setup, only one of these
         // should be able to be true at any given moment
@@ -265,6 +267,11 @@ class Game {
         }
     }
 
+    var mode: GameMode {
+        get {
+            return _mode
+        }
+    }
     /**
      Number of blues in game (read-only getter).
      */
@@ -789,7 +796,7 @@ class Game {
     var gravityMultiplier: Double {
         get {
             if _isReversedMode {
-                return Double(300) * (_gravityMultiplier) + 1.5
+                return Double(800) * (_gravityMultiplier) + 1.5
             } else if _isEndlessMode {
                 if (_stage < 50){
                     return Double(_ballsFallen) * (_gravityMultiplier) + 1.5

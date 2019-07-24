@@ -211,7 +211,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         interstitial.delegate = self
         return interstitial
     }
-
     
     func layoutAfterSetup() {
         view.bringSubview(toFront: menuBtn)
@@ -587,6 +586,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             print("finish")
         }
     }
+
     func handleNextStage() {
         var keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY
         if gameMode == Settings.GAME_MODE_ENDLESS {
@@ -601,7 +601,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             Analytics.logEvent(AnalyticsEventLevelUp, parameters: [
                 AnalyticsParameterCharacter: gameMode,
                 AnalyticsParameterLevel: stage
-                ])
+            ])
+
         }
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
         UIView.animate(withDuration: 0.2, delay: 0.0, animations: {

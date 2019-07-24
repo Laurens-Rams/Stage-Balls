@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 import GoogleMobileAds
 import AVFoundation
 
@@ -20,6 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GADMobileAds.configure(withApplicationID: "ca-app-pub-8530735287041699~2180707337")
         FirebaseApp.configure()
         setupAudio()
+
+        if Auth.auth().currentUser == nil {
+            Auth.auth().signInAnonymously { authResult, error in
+                Metadata.shared.setUser(user: authResult?.user)
+            }
+        } else {
+            Metadata.shared.setUser(user: Auth.auth().currentUser)
+        }
+
         print("app started!")
         // Override point for customization after application launch.
         return true
