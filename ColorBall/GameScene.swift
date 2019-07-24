@@ -50,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var ballTimer: Timer?
     var fallTimer: Timer?
     var MemoryTime: Timer?
+    var directionFlipTimer: Timer?
     
     // control variables
     var isTouching = false
@@ -58,7 +59,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // TODO: trim one of these though:
     var allowToMove = false
     var canMove = false
-
 
     // game loop update values
     var lastUpdateTime: TimeInterval = 0
@@ -104,6 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         updateSlots(dt: dt)
         updateBalls(dt: dt)
+
         updateZaps()
         addBall()
     }
@@ -220,12 +221,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let increment = (((CGFloat(Double.pi) * 1.0) * direction)) * dt * CGFloat(spinMultiplier)
         Circle.zRotation = Circle.zRotation + increment
         Circle.distance = Circle.distance + increment
-        
+
         if fabs(Circle.distance) >= fabs(Circle.nextTickPosition - Circle.lastTickPosition) {
             canMove = false
             Circle.distance = 0
             Circle.zRotation = Circle.nextTickPosition
-            
+
             if isHolding || game.isReversedMode {
                 getCircleValues()
                 if !game.isReversedMode {
@@ -266,7 +267,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+
+    /**
+     Update the position of every ball on the screen that is NOT stuck to a column slot.
+     - parameters:
+        - dt: Last calculated delta time
+     */
+    func setupDirectionTimer() {
+        if game.isReversedMode {
+            let _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: {timer in
+                if self.direction == 1 {
+                    self.direction = -1
+                } else {
+                   self.direction = 1
+                }
+                self.getCircleValues()
+                self.isTouching = true
+                self.isHolding = true
+            })
+        }
+    }
+
     /**
      Set the timer for dropping the first ball.
      */
@@ -279,6 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
+                self.setupDirectionTimer()
                 //self.moveCircle()
             })
         } else {
@@ -288,11 +310,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
+                self.setupDirectionTimer()
                 //self.moveCircle()
             })
         }
     }
-    
+  
+//    func postFirstFallTimerActions() {
+//        self.allowToMove = true
+//          self.canpresspause = true
+//          self.ballsNeedUpdating = true
+//          self.addBall()
+//          self.gameDelegate?.tapleftright()
+//          self.setupDirectionTimer()
+//    }
+  
     func setupSlots() {
         print("gravityMultiplier:" , game.gravityMultiplier)
         print("speedMultiplier:" , game.speedMultiplier)
@@ -307,6 +339,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startPosition = CGPoint(x: size.width / 2, y: Circle.position.y)
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
         var nums = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+
         for i in 0..<game.numberStartingBalls {
             if (game.numberStartingBalls <= 13){
                 let arrayKey = Int(arc4random_uniform(UInt32(nums.count)))
@@ -318,6 +351,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }else {
                 rando = i
             }
+
             let startRads = incrementRads * CGFloat(rando) - degreesToRad(angle: 90.0)
             let newX = (startDistance) * cos(Circle.zRotation - startRads) + Circle.position.x
             let newY = (startDistance) * sin(Circle.zRotation - startRads) + Circle.position.y
@@ -359,7 +393,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 slots.append(slot)
             }
         }
-        
+
         for slot in slots {
             // only animate the slots closest to the circle when starting the scene
             if let slot = slot as? BaseSlot {
@@ -431,7 +465,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             run(wait, completion: {
                 self.checkforMemory(ball: slot.ball!)
             })
-            
         }
     }
     
@@ -689,7 +722,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func zapBalls(colSlots: [Slot], completion: @escaping () -> Void) {
         guard let colNumber = colSlots.first?.columnNumber,
             let ballType = colSlots.first?.ball?.colorType else { return }
-        
+
         let currentColumn = columns[colNumber]
 
         game.decrementBallType(type: ballType, byNumber: colSlots.count)
