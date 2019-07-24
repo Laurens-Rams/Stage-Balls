@@ -11,5 +11,6 @@ target 'ColorBall' do
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
   pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Auth'
 
 end
