@@ -102,7 +102,7 @@ class Game {
     // this controls the frequency of things falling
     // how often things fall
     private var _speedMultiplier: Double = 0.002
-    
+    private var _ballzapduration: CGFloat = 0.0
     private var _rotationSpeedIncrement = CGFloat(0.1)
     private var _spinVar = CGFloat(18.0)
     
@@ -574,7 +574,7 @@ class Game {
     var numberStartingBalls: Int {
         get {
             if _isEndlessMode || _isReversedMode {
-                return 13
+                return 14
             }
 
             if _isMemoryMode {
@@ -788,6 +788,17 @@ class Game {
             return 1.0 - (Double(_stage - 1) * _speedMultiplier) // 200 * 0.02 = 1. 1-1 = 0.5
         }
     }
+    var ballzapduration: CGFloat {
+        get {
+            if isReversedMode{
+                return 0.0
+            }else if isEndlessMode{
+                return 0.02
+            }else{
+                return 0.05
+            }
+        }
+    }
     
     
     /**
@@ -796,7 +807,7 @@ class Game {
     var gravityMultiplier: Double {
         get {
             if _isReversedMode {
-                return Double(800) * (_gravityMultiplier) + 1.5
+                return Double(700) * (_gravityMultiplier) + 1.5
             } else if _isEndlessMode {
                 if (_stage < 50){
                     return Double(_ballsFallen) * (_gravityMultiplier) + 1.5
@@ -970,6 +981,7 @@ class Game {
                     return 8
                 }
             }
+            if _isReversedMode == true{return 8}
             if _stage <= 18 { return _numberBallColors }
             else if _stage <= 33 { return _numberBallColors + 1 } // = 5
             else if _stage <= 48 { return _numberBallColors + 2 } // = 6

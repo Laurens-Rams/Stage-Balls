@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D245BF71F202333008C04DB /* GameScoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BF61F202333008C04DB /* GameScoreDelegate.swift */; };
 		0D245BFC1F202DE2008C04DB /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D245BFB1F202DE2008C04DB /* Item.swift */; };
+		0D3C854E22E7F9AB00EFB09D /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C854D22E7F9AB00EFB09D /* Metadata.swift */; };
 		0D40FDBA210BDF910014B31D /* InAppPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D40FDB9210BDF900014B31D /* InAppPurchase.swift */; };
 		0D40FDBD210BF72D0014B31D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D40FDBB210BF5CB0014B31D /* StoreKit.framework */; };
 		0D4AEB3F1F19068900568F11 /* StartScene-Old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4AEB3E1F19068900568F11 /* StartScene-Old.swift */; };
@@ -107,6 +108,7 @@
 		0D34DBF220F59EA90073E795 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0D34DBF420F59EAF0073E795 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0D34DBF620F59FCF0073E795 /* GameAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameAnalytics.framework; path = "Pods/GA-SDK-IOS/GameAnalytics.framework"; sourceTree = "<group>"; };
+		0D3C854D22E7F9AB00EFB09D /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
 		0D40FDB9210BDF900014B31D /* InAppPurchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchase.swift; sourceTree = "<group>"; };
 		0D40FDBB210BF5CB0014B31D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0D4AEB3E1F19068900568F11 /* StartScene-Old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StartScene-Old.swift"; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 		A15E83EA1FF46BFC00359FC8 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				0D3C854D22E7F9AB00EFB09D /* Metadata.swift */,
 				0DA33C7222D6B210005690F9 /* IAPHelper.swift */,
 				0DA33C7422D6B38A005690F9 /* ProductCell.swift */,
 				0DA33C7022D6B199005690F9 /* StageBallsProducts.swift */,
@@ -638,6 +641,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ColorBall/Pods-ColorBall-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/EFCountingLabel/EFCountingLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -647,6 +651,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EFCountingLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -675,6 +680,7 @@
 				A13F126A1EF703F700A34B16 /* GameScene-Old.swift in Sources */,
 				A16837532102C23C00F96D3B /* Column.swift in Sources */,
 				A14286BA2005F2780043BC4C /* Slot.swift in Sources */,
+				0D3C854E22E7F9AB00EFB09D /* Metadata.swift in Sources */,
 				A12CC1E4200116F600A70204 /* StartupViewController.swift in Sources */,
 				A15E83F01FF46C7800359FC8 /* Played.swift in Sources */,
 				A19625EF20F07E1E00F43718 /* NextStageButton.swift in Sources */,

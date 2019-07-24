@@ -123,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func didMove(to view: SKView) {
         if game.isReversedMode {
-            spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle))) / 2
+            spinMultiplier = 0.6
         } else {
             spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle)))
         }
@@ -632,12 +632,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }else if ball.colorType.name() == "grey"{
                         let explosionTexture = SKTexture(imageNamed: "ball-8")
                         thisExplosion.particleTexture = explosionTexture
-                    }else{
+                    }
+                    
+                }else{
                     let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
                     thisExplosion.particleTexture = explosionTexture
-            }
-            addChild(thisExplosion)
-        }
+                    }
+        
+        addChild(thisExplosion)
     }
     }
     }
@@ -749,11 +751,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let ball = zapBalls[zapBalls.count - index]
             
             // create the wait action (the delay before we start falling)
-            let waitDuration = Double(GameConstants.ballZapDuration * CGFloat(index))
-            let wait = SKAction.wait(forDuration: waitDuration)
-            let waitLast = SKAction.wait(forDuration: waitDuration - Double(GameConstants.ballZapDuration))
-            ball.fallTime = GameConstants.ballZapDuration
-            
+                let waitDuration = Double(game.ballzapduration * CGFloat(index))
+                let wait = SKAction.wait(forDuration: waitDuration)
+                let waitLast = SKAction.wait(forDuration: waitDuration - Double(game.ballzapduration))
+                ball.fallTime = game.ballzapduration
+       
             // if we're on the last ball, we want to:
             // - 1. make sure the whole stack is removed afterwards
             // - 2. add a skull ball to the first slot
@@ -833,7 +835,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let newY = x
         
         
-        let spring = SKAction.moveBy(x: newX, y: newY, duration: 0.5, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0)
+        let spring = SKAction.moveBy(x: newX, y: newY, duration: 1.2 , delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0)
         ball.run(spring) {
             completion()
         }
@@ -1362,7 +1364,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 nextBall = newBall
                 // if multiplier is less than the max allowed
                 if spinMultiplier < reversedModeSpinMultMax {
-                    spinMultiplier += 0.05 // spin the circle faster with each ball dropped
+                    spinMultiplier += 0.02 // spin the circle faster with each ball dropped
                 }
           }
         } else {
