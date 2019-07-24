@@ -37,7 +37,11 @@ class Metadata {
         params[Metadata.propName_stage] = stage
         params[Metadata.propName_mode] = mode
         params[Metadata.propName_startTime] = Date().timeIntervalSince1970
-        Analytics.logEvent(Metadata.eventName_userStageStart, parameters: params)
+        Analytics.logEvent("user_stage_start", parameters: [
+          "stage": stage,
+          "mode": mode,
+          "start_time": Date().timeIntervalSince1970
+        ])
     }
   
     func trackUserStageEnd(stage: Int, mode: String) {
@@ -45,6 +49,10 @@ class Metadata {
         params[Metadata.propName_stage] = stage
         params[Metadata.propName_mode] = mode
         params[Metadata.propName_startTime] = Date().timeIntervalSince1970
-        Analytics.logEvent(Metadata.eventName_userStageEnd, parameters: params)
+        Analytics.logEvent("user_stage_end", parameters: [
+          "stage": stage,
+          "mode": mode,
+          "start_time": Date().timeIntervalSince1970
+        ])
     }
 }
