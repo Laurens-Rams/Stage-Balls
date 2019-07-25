@@ -937,25 +937,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setBackgroundToDark() {
         backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
     }
-    
+  
+    func transitionToBgColor(color: UIColor) {
+          run(SKAction.colorize(with: color, colorBlendFactor: 1.0, duration: 1.0))
+    }
+
     func fadeBackgroundBackToWhite() {
-//        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
-          var actions = [SKAction]()
-          for i in 0..<4 {
-            actions.append(SKAction.colorize(with: GameConstants.ballColors[i], colorBlendFactor: 1.0, duration: 1.0))
-          }
-          let seq = SKAction.sequence(actions)
-          run(seq)
+        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
     }
 
     func BackgroundBackToWhite() {
-//        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.0))
-          var actions = [SKAction]()
-          for i in 0..<4 {
-            actions.append(SKAction.colorize(with: GameConstants.ballColors[i], colorBlendFactor: 1.0, duration: 1.0))
-          }
-          let seq = SKAction.sequence(actions)
-          run(seq)
+        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.0))
     }
     
     func startGameOverSequence(newBall: SmallBall) {
@@ -1349,6 +1341,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         if shouldAddBall {
             let newBall = makeBall()
+
+            transitionToBgColor(color: newBall.fillColor)
+
             var yPos = size.height
             var moveToY = size.height - (game.spinVar + (game.smallDiameter/2))
             if (Settings.isIphoneX) {
