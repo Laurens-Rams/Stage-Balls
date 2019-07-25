@@ -88,6 +88,10 @@ class Metadata {
         Mixpanel.mainInstance().track(event: "Share setting pressed")
     }
   
+    func trackUserPressedRateSetting() {
+        Mixpanel.mainInstance().track(event: "Rate setting pressed")
+    }
+  
     func trackStageScore(stage: Int, score: Int, mode: GameMode) {
         switch mode {
             case .stage:

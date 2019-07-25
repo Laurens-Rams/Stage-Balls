@@ -90,21 +90,26 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
 
                 } else if node.name == "gameCenter" {
                     // print("gameCenter")
+                    Metadata.shared.trackUserPressedGameCenterSetting()
                     del?.gameCenterPressed()
                 }else if node.name == "volume" {
                     // print("volume")
                     AudioManager.only.toggleVolume()
                     setVolumeTexture()
                 }else if node.name == "rate" {
+                    Metadata.shared.trackUserPressedRateSetting()
                     // print("rate")
                     del?.ratePressed()
                 }else if node.name == "share" {
                     // print("share")
+                    Metadata.shared.trackUserPressedShareSetting()
                     del?.sharePressed()
                 }else if node.name == "mode" {
                     // print("no ads")
+                    Metadata.shared.trackUserPressedModesSetting()
                     del?.modePressed()
                 }else if node.name == "balls" {
+                    Metadata.shared.trackUserPressedBallsSetting()
                     del?.ballsPressed()
                 }
                 
