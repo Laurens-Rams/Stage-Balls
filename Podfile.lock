@@ -38,6 +38,9 @@ PODS:
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GTMSessionFetcher/Core (1.2.2)
+  - Mixpanel-swift (2.2.2):
+    - Mixpanel-swift/Complete (= 2.2.2)
+  - Mixpanel-swift/Complete (2.2.2)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -56,6 +59,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/RemoteConfig
   - Google-Mobile-Ads-SDK
+  - Mixpanel-swift (from `https://github.com/mixpanel/mixpanel-swift.git`, branch `swift4`)
   - RealmSwift
 
 SPEC REPOS:
@@ -76,6 +80,16 @@ SPEC REPOS:
     - Realm
     - RealmSwift
 
+EXTERNAL SOURCES:
+  Mixpanel-swift:
+    :branch: swift4
+    :git: https://github.com/mixpanel/mixpanel-swift.git
+
+CHECKOUT OPTIONS:
+  Mixpanel-swift:
+    :commit: a057763547eeac578e1effe05a4e26319c8197bd
+    :git: https://github.com/mixpanel/mixpanel-swift.git
+
 SPEC CHECKSUMS:
   EFCountingLabel: 1beb6707761ad00b97efc8bde5c3fceaa7cb9eec
   Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
@@ -88,11 +102,12 @@ SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
+  Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   Realm: ba6144c74f835f7497791f6599d63a7755377b83
   RealmSwift: 7d13b1ac4b6022a13f841e3143e7789c9e40ad0d
 
-PODFILE CHECKSUM: dbde87e214ecc98907e769f81e28c775e6ec53d2
+PODFILE CHECKSUM: a444395695250cf95504286bcd37ca68c2619aba
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

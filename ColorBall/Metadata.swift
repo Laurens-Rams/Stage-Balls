@@ -9,15 +9,12 @@
 import Foundation
 import FirebaseAnalytics
 import FirebaseAuth
+import Mixpanel
 
 class Metadata {
     static let shared = Metadata()
     static let eventName_userStageStart = "user_stage_start"
     static let eventName_userStageEnd = "user_stage_end"
-    static let propName_stage = "stage"
-    static let propName_mode = "mode"
-    static let propName_startTime = "start_time"
-    static let propName_endTime = "end_time"
 
     private var _user: User?
 
@@ -28,31 +25,48 @@ class Metadata {
     func setUser(user: User?) {
         _user = user
         if let user = user {
+            Mixpanel.mainInstance().identify(distinctId: user.uid)
             Analytics.setUserID(user.uid)
         }
     }
   
     func trackUserStageStart(stage: Int, mode: String) {
-        var params: [String: Any] = [:]
-        params[Metadata.propName_stage] = stage
-        params[Metadata.propName_mode] = mode
-        params[Metadata.propName_startTime] = Date().timeIntervalSince1970
+        let time = Date().timeIntervalSince1970
+        Mixpanel.mainInstance().track(event: "User stage start", properties: [
+          "stage": stage,
+          "mode": mode,
+          "start_time": time
+        ])
         Analytics.logEvent("user_stage_start", parameters: [
           "stage": stage,
           "mode": mode,
-          "start_time": Date().timeIntervalSince1970
+          "start_time": time
         ])
     }
   
     func trackUserStageEnd(stage: Int, mode: String) {
-        var params: [String: Any] = [:]
-        params[Metadata.propName_stage] = stage
-        params[Metadata.propName_mode] = mode
-        params[Metadata.propName_startTime] = Date().timeIntervalSince1970
+        let time = Date().timeIntervalSince1970
+        Mixpanel.mainInstance().track(event: "User stage start", properties: [
+          "stage": stage,
+          "mode": mode,
+          "start_time": time
+        ])
         Analytics.logEvent("user_stage_end", parameters: [
           "stage": stage,
           "mode": mode,
-          "start_time": Date().timeIntervalSince1970
+          "start_time": time
+        ])
+    }
+  
+    func trackUserSelectedMode(mode: String) {
+        let time = Date().timeIntervalSince1970
+        Mixpanel.mainInstance().track(event: "User selected mode", properties: [
+          "mode": mode,
+          "start_time": time
+        ])
+        Analytics.logEvent("user_selected_mode", parameters: [
+          "mode": mode,
+          "start_time": time
         ])
     }
 }

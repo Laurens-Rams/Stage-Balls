@@ -11,6 +11,7 @@ import Firebase
 import FirebaseAuth
 import GoogleMobileAds
 import AVFoundation
+import Mixpanel
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             Metadata.shared.setUser(user: Auth.auth().currentUser)
         }
+      
+        Mixpanel.initialize(token: "f0dba7d0cae51844515005b108706b06")
 
         print("app started!")
         // Override point for customization after application launch.

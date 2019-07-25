@@ -751,10 +751,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let ball = zapBalls[zapBalls.count - index]
             
             // create the wait action (the delay before we start falling)
-                let waitDuration = Double(game.ballzapduration * CGFloat(index))
-                let wait = SKAction.wait(forDuration: waitDuration)
-                let waitLast = SKAction.wait(forDuration: waitDuration - Double(game.ballzapduration))
-                ball.fallTime = game.ballzapduration
+            let waitDuration = Double(game.ballzapduration * CGFloat(index))
+            let wait = SKAction.wait(forDuration: waitDuration)
+            let waitLast = SKAction.wait(forDuration: waitDuration - Double(game.ballzapduration))
+            ball.fallTime = game.ballzapduration
        
             // if we're on the last ball, we want to:
             // - 1. make sure the whole stack is removed afterwards
