@@ -338,7 +338,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         checkscorelabelsize()
         scene = GameScene(size: view.frame.size)
         if (setToWhite) {
-            scene.backgroundColor = UIColor.white
+//            scene.backgroundColor = UIColor.white
+            scene.BackgroundBackToWhite()
         } else {
 //            scene.backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         }
@@ -648,9 +649,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         stageLabel.text = "STAGE \(game.stage)"
         camera.removeFromParent()
         camera = SKCameraNode()
-        setupGame(animateBackground: false)
+        setupGame(animateBackground: true)
     }
-    
+
     func showaltmenu() {
         restartGame()
         scene.isPaused = true

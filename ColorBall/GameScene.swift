@@ -939,10 +939,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func fadeBackgroundBackToWhite() {
-        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
+//        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.3))
+          var actions = [SKAction]()
+          for i in 0..<4 {
+            actions.append(SKAction.colorize(with: GameConstants.ballColors[i], colorBlendFactor: 1.0, duration: 1.0))
+          }
+          let seq = SKAction.sequence(actions)
+          run(seq)
     }
+
     func BackgroundBackToWhite() {
-        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.0))
+//        run(SKAction.colorize(with: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), colorBlendFactor: 1.0, duration: 0.0))
+          var actions = [SKAction]()
+          for i in 0..<4 {
+            actions.append(SKAction.colorize(with: GameConstants.ballColors[i], colorBlendFactor: 1.0, duration: 1.0))
+          }
+          let seq = SKAction.sequence(actions)
+          run(seq)
     }
     
     func startGameOverSequence(newBall: SmallBall) {
