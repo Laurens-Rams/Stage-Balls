@@ -938,8 +938,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
     }
   
-    func transitionToBgColor(color: UIColor) {
-          run(SKAction.colorize(with: color, colorBlendFactor: 1.0, duration: 1.0))
+    // duration is 1 sec by default; use this param when calling to change
+    func transitionToBgColor(color: UIColor, duration: TimeInterval = 1) {
+          run(SKAction.colorize(with: color, colorBlendFactor: 1.0, duration: duration))
     }
 
     func fadeBackgroundBackToWhite() {
