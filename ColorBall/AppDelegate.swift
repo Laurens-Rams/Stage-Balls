@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         setupAudio()
 
+        Mixpanel.initialize(token: "f0dba7d0cae51844515005b108706b06")
+
         if Auth.auth().currentUser == nil {
             Auth.auth().signInAnonymously { authResult, error in
                 Metadata.shared.setUser(user: authResult?.user)
@@ -30,9 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             Metadata.shared.setUser(user: Auth.auth().currentUser)
         }
-      
-        Mixpanel.initialize(token: "f0dba7d0cae51844515005b108706b06")
-
+    
         print("app started!")
         // Override point for customization after application launch.
         return true

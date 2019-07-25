@@ -30,26 +30,30 @@ class BallsViewController: UIViewController, GADInterstitialDelegate {
     @IBAction func colorBalls(_ sender: Any) {
         UserDefaults.standard.set(Settings.TEXTURE_COLORS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
+        Metadata.shared.trackUserSelectedBalls(type: "Colors")
     }
     
     @IBAction func deliciousFruits(_ sender: Any) {
 //        IAPHandler.shared.purchaseMyProduct(index: 2)
         UserDefaults.standard.set(Settings.TEXTURE_FRUITS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
+        Metadata.shared.trackUserSelectedBalls(type: "Fruits")
     }
     
     @IBAction func poolBalls(_ sender: Any) {
         UserDefaults.standard.set(Settings.TEXTURE_POOL, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
+        Metadata.shared.trackUserSelectedBalls(type: "Pool")
     }
 
     @IBAction func BallBalls(_ sender: Any) {
         UserDefaults.standard.set(Settings.TEXTURE_BALLS, forKey: Settings.TEXTURE_KEY)
         toggleTextureButtons()
+        Metadata.shared.trackUserSelectedBalls(type: "Ball")
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
        
         toggleTextureButtons()
         

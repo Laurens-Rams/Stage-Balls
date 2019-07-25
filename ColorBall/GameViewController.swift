@@ -620,6 +620,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         gameOverController!.endingScore = scene.game.numberBallsInQueue
         gameOverController!.endingScoreEndless = scene.game.ballsFallen
         gameOverController!.endingStage = scene.game.stage
+
+        if scene.game.isEndlessMode || scene.game.isReversedMode {
+            Metadata.shared.trackStageScore(stage: scene.game.stage, score: scene.game.ballsFallen, mode: scene.game.mode)
+        } else {
+            Metadata.shared.trackStageScore(stage: scene.game.stage, score: scene.game.numberBallsInQueue, mode: scene.game.mode)
+        }
+
         present(gameOverController!, animated: false, completion: nil)
     }
     

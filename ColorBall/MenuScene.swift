@@ -138,12 +138,13 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         switch option {
         case .gameCenter:
             // print("game center")
+            Metadata.shared.trackUserPressedGameCenterSetting()
             del?.gameCenterPressed()
             break
         case .volume:
 //             print("volume")
-             AudioManager.only.toggleVolume()
-             setVolumeTexture(ballNode: ballNode)
+            AudioManager.only.toggleVolume()
+            setVolumeTexture(ballNode: ballNode)
             break
         case .rate:
             // print("rate")
@@ -151,12 +152,15 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             break
         case .share:
             // print("share")
+            Metadata.shared.trackUserPressedShareSetting()
             del?.sharePressed()
             break
         case .mode:
+            Metadata.shared.trackUserPressedModesSetting()
             del?.modePressed()
             break
         case .balls:
+            Metadata.shared.trackUserPressedBallsSetting()
             del?.ballsPressed()
             break
         case .start:

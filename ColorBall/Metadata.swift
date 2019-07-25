@@ -32,41 +32,82 @@ class Metadata {
   
     func trackUserStageStart(stage: Int, mode: String) {
         let time = Date().timeIntervalSince1970
-        Mixpanel.mainInstance().track(event: "User stage start", properties: [
+        Mixpanel.mainInstance().track(event: "Stage start", properties: [
           "stage": stage,
           "mode": mode,
           "start_time": time
         ])
-        Analytics.logEvent("user_stage_start", parameters: [
-          "stage": stage,
-          "mode": mode,
-          "start_time": time
-        ])
+//        Analytics.logEvent("user_stage_start", parameters: [
+//          "stage": stage,
+//          "mode": mode,
+//          "start_time": time
+//        ])
     }
   
     func trackUserStageEnd(stage: Int, mode: String) {
         let time = Date().timeIntervalSince1970
-        Mixpanel.mainInstance().track(event: "User stage start", properties: [
+        Mixpanel.mainInstance().track(event: "Stage end", properties: [
           "stage": stage,
           "mode": mode,
           "start_time": time
         ])
-        Analytics.logEvent("user_stage_end", parameters: [
-          "stage": stage,
+//        Analytics.logEvent("user_stage_end", parameters: [
+//          "stage": stage,
+//          "mode": mode,
+//          "start_time": time
+//        ])
+    }
+  
+    func trackUserSelectedMode(mode: String) {
+        let time = Date().timeIntervalSince1970
+        Mixpanel.mainInstance().track(event: "Mode selected", properties: [
           "mode": mode,
           "start_time": time
         ])
     }
   
-    func trackUserSelectedMode(mode: String) {
-        let time = Date().timeIntervalSince1970
-        Mixpanel.mainInstance().track(event: "User selected mode", properties: [
-          "mode": mode,
-          "start_time": time
-        ])
-        Analytics.logEvent("user_selected_mode", parameters: [
-          "mode": mode,
-          "start_time": time
+    func trackUserSelectedBalls(type: String) {
+        Mixpanel.mainInstance().track(event: "Balls selected", properties: [
+          "type": type,
         ])
     }
+  
+    func trackUserPressedGameCenterSetting() {
+        Mixpanel.mainInstance().track(event: "Game center setting pressed")
+    }
+  
+    func trackUserPressedBallsSetting() {
+        Mixpanel.mainInstance().track(event: "Balls setting pressed")
+    }
+  
+    func trackUserPressedModesSetting() {
+        Mixpanel.mainInstance().track(event: "Modes setting pressed")
+    }
+  
+    func trackUserPressedShareSetting() {
+        Mixpanel.mainInstance().track(event: "Share setting pressed")
+    }
+  
+    func trackStageScore(stage: Int, score: Int, mode: GameMode) {
+        switch mode {
+            case .stage:
+                Mixpanel.mainInstance().people.set(property: "Stage mode score", to: score)
+                break
+            case .memory:
+                Mixpanel.mainInstance().people.set(property: "Memory mode score", to: score)
+                break
+            case .endless:
+                Mixpanel.mainInstance().people.set(property: "Endless mode score", to: score)
+                break
+            case .reversed:
+                Mixpanel.mainInstance().people.set(property: "Reversed mode score", to: score)
+                break
+        }
+    }
 }
+
+
+
+
+
+
