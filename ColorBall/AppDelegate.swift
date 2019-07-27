@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         setupAudio()
 
-        Mixpanel.initialize(token: "f0dba7d0cae51844515005b108706b06")
+        // Mixpanel.initialize(token: "f0dba7d0cae51844515005b108706b06") // ONLINE KEY HERE :)
+        Mixpanel.initialize(token: "f0dba7d0cae51844515005b108706b06") // DEV MODE KEY
 
         if Auth.auth().currentUser == nil {
             Auth.auth().signInAnonymously { authResult, error in
