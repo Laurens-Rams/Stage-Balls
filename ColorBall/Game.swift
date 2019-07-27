@@ -791,11 +791,11 @@ class Game {
     var ballzapduration: CGFloat {
         get {
             if isReversedMode{
-                return 0.0
+                return 0.03
             }else if isEndlessMode{
-                return 0.02
-            }else{
                 return 0.05
+            }else{
+                return 0.125
             }
         }
     }

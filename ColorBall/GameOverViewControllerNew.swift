@@ -21,7 +21,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let LEADERBOARD_ID = "stageid"
     let LEADERBOARD_ID_MEMORY = "memoryid"
     let LEADERBOARD_ID_ENDLESS = "endlessid"
-    let LEADERBOARD_ID_REVERSED = "reversedid"
+    let LEADERBOARD_ID_REVERSED = "reversedmodeid"
+    
 
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
@@ -53,13 +54,13 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         setRemainingBalls()
 //        checkMode()
 //        setStageLabel()
-        submitGameCenter()
 //        showHideStageButtons()
     }
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkMode()
+        submitGameCenter()
         setStageLabel()
         showHideStageButtons()
     }
@@ -115,7 +116,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                     print("Best Score Memory submitted to your Leaderboard!")
                 }
             }
-        }else{
+        }else if gameMode == Settings.GAME_MODE_STAGE{
             let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
             let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
             bestScoreInt.value = scoreGameCenter as! Int64
@@ -266,9 +267,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     func launchShop() {}
 
     func ratePressed() {
-        // print("works")
         rateApp(appId: "1408563085") { success in
-            // print("RateApp \(success)")
         }
     }
 
@@ -303,6 +302,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_ENDLESS
         }else if gameMode == Settings.GAME_MODE_MEMORY {
             gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_MEMORY
+        }else if gameMode == Settings.GAME_MODE_REVERSED {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_REVERSED
         }else {
             gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
         }

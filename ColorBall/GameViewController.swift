@@ -197,9 +197,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func setcurrentStage(){
         if let stage = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
-            Analytics.logEvent("highest_stage", parameters: [
-                "stage": stage
-                ])
         }
     }
 

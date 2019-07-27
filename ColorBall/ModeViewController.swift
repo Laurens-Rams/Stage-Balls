@@ -137,9 +137,9 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-//        #if DEBUG
-//          selectMode(mode: mode)
-//        #else
+        #if DEBUG
+          selectMode(mode: mode)
+        #else
           // first, check if this user has already purchased the product with the given identifier
           if (mode.canPurchase() && mode.productId() != nil) {
               if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
@@ -150,7 +150,7 @@ class ModeViewController: UIViewController{
           } else {
               selectMode(mode: mode)
           }
-//        #endif
+        #endif
     }
 
     func selectMode(mode: GameMode) {

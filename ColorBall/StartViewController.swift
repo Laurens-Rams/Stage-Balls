@@ -13,15 +13,17 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     var gcDefaultLeaderBoard = String() // Check the default leaderboardI
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect)
     let LEADERBOARD_ID = "stageid"
+    let LEADERBOARD_ID_MEMORY = "memoryid"
+    let LEADERBOARD_ID_ENDLESS = "endlessid"
+    let LEADERBOARD_ID_REVERSED = "reversedmodeid"
     deinit {
-        // print("start view controller deinit")
     }
     let defaults = UserDefaults.standard
     @IBOutlet var moneyLabel: UILabel!
     @IBOutlet var logo2: UIImageView!
     
     var scene: MenuScene!
-    
+    var gameMode = Settings.GAME_MODE_STAGE
     var gameVC: GameViewController?
     var tutorialVC: TutorialViewController?
     var modeVC: ModeViewController?
@@ -192,9 +194,17 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards
-        gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
+        
+        if gameMode == Settings.GAME_MODE_ENDLESS {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_ENDLESS
+        }else if gameMode == Settings.GAME_MODE_MEMORY {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_MEMORY
+        }else if gameMode == Settings.GAME_MODE_REVERSED {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_REVERSED
+        }else {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
+        }
         self.present(gcVC, animated: true, completion: nil)
-        //print("also in del")
     }
 
 }

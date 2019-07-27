@@ -153,7 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(winCircle)
         setupFirstFallTimer()
       
-        cycleThroughBgColors()
+    //    cycleThroughBgColors()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -941,15 +941,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   
     // duration is 1 sec by default; use this param when calling to change
-    func transitionToBgColor(color: UIColor, duration: TimeInterval = 1) {
+    func transitionToBgColor(color: UIColor, duration: TimeInterval = 1.1) {
           run(SKAction.colorize(with: color, colorBlendFactor: 1.0, duration: duration))
     }
   
     // duration is 1 sec by default; use this param when calling to change
-    func cycleThroughBgColors(duration: TimeInterval = 3) {
+    func cycleThroughBgColors(duration: TimeInterval = 2.5) {
         var actions = [SKAction]()
-        for i in 0..<4 {
-          actions.append(SKAction.colorize(with: GameConstants.ballColors[i], colorBlendFactor: 1.0, duration: duration))
+        for i in 0..<game.numberBallColors {
+            actions.append(SKAction.colorize(with: GameConstants.ballColors[i], colorBlendFactor: 1.0, duration: duration))
         }
         run(SKAction.sequence(actions)) {
             self.cycleThroughBgColors()
@@ -1356,7 +1356,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if shouldAddBall {
             let newBall = makeBall()
 
-//            transitionToBgColor(color: newBall.fillColor)
+            transitionToBgColor(color: newBall.fillColor)
 
             var yPos = size.height
             var moveToY = size.height - (game.spinVar + (game.smallDiameter/2))
