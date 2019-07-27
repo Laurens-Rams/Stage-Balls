@@ -13,8 +13,9 @@ public struct StageBallsProducts {
     public static let EndlessModeProductId = "1234"
     public static let MemoryModeProductId = "memorymodeid"
     public static let ReversedModeProductId = "reversedmodeid"
+    public static let InvisibleModeProductId = "invisiblemodeid"
 
-    private static let productIdentifiers: Set<ProductIdentifier> = [StageBallsProducts.EndlessModeProductId, StageBallsProducts.MemoryModeProductId, StageBallsProducts.ReversedModeProductId]
+    private static let productIdentifiers: Set<ProductIdentifier> = [StageBallsProducts.EndlessModeProductId, StageBallsProducts.MemoryModeProductId, StageBallsProducts.ReversedModeProductId, StageBallsProducts.InvisibleModeProductId]
   
     public static let store = IAPHelper(productIds: StageBallsProducts.productIdentifiers)
 }

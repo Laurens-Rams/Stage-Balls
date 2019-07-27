@@ -10,7 +10,7 @@ import UIKit
 import StoreKit
 
 enum GameMode: String {
-    case stage = "stage", endless = "endless", memory = "memory", reversed = "reversed"
+    case stage = "stage", endless = "endless", memory = "memory", reversed = "reversed", invisible = "invisible"
   
     func canPurchase() -> Bool {
         switch self {
@@ -19,6 +19,8 @@ enum GameMode: String {
             case .memory:
                 return true
             case .reversed:
+              return true
+            case .invisible:
               return true
             default:
                 return false
@@ -33,6 +35,8 @@ enum GameMode: String {
                 return StageBallsProducts.MemoryModeProductId
             case .reversed:
                 return StageBallsProducts.ReversedModeProductId
+            case .invisible:
+                return StageBallsProducts.InvisibleModeProductId
             default:
                 return nil
         }
@@ -46,6 +50,8 @@ enum GameMode: String {
                 return "Memory Mode"
             case .reversed:
                 return "Reversed Mode"
+            case .invisible:
+                return "Invisible Mode"
             case .stage:
                 return "Stage Mode"
         }
@@ -59,6 +65,8 @@ enum GameMode: String {
                 return .memory
             case StageBallsProducts.ReversedModeProductId:
                 return .reversed
+            case StageBallsProducts.InvisibleModeProductId:
+                return .invisible
             default:
                 return nil
         }
@@ -130,7 +138,6 @@ class ModeViewController: UIViewController{
     func productPurchase(identifier: String) {
         for p in products {
             if p.productIdentifier == identifier {
-                print("purchasing product with id \(identifier)")
                 StageBallsProducts.store.buyProduct(p)
             }
         }
@@ -164,6 +171,9 @@ class ModeViewController: UIViewController{
             case .reversed:
               setModeToReversed()
               break
+            case .invisible:
+              setModeToInvisible()
+              break
             case .stage:
               setModeToStage()
               break
@@ -195,6 +205,17 @@ class ModeViewController: UIViewController{
         UserDefaults.standard.set(Settings.TEXTURE_KEY_REVERSED, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
     }
+  
+    // TODO: Connect this action to invisible button
+    @IBAction func invisibleMode(_ sender: Any) {
+        showPurchaseAlertOrSelect(mode: .invisible)
+    }
+
+    func setModeToInvisible() {
+        UserDefaults.standard.set(Settings.GAME_MODE_INVISIBLE, forKey: Settings.GAME_MODE_KEY)
+        UserDefaults.standard.set(Settings.TEXTURE_KEY_INVISIBLE, forKey: Settings.TEXTURE_KEY_MODE)
+        toggleModeButtons()
+    }
 
     func checkForPurchased() {
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) {
@@ -204,6 +225,10 @@ class ModeViewController: UIViewController{
             endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
         }
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) {
+            reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
+        }
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) {
+            // TODO: Set invisible button and image here
             reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
         }
     }
