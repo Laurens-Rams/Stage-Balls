@@ -57,6 +57,21 @@ enum GameMode: String {
         }
     }
   
+     func modeDefaultsKey() -> String {
+        switch self {
+            case .endless:
+                return Settings.GAME_MODE_ENDLESS
+            case .memory:
+                return Settings.GAME_MODE_MEMORY
+            case .reversed:
+                return Settings.GAME_MODE_REVERSED
+            case .invisible:
+                return Settings.GAME_MODE_INVISIBLE
+            default:
+                return Settings.GAME_MODE_STAGE
+        }
+    }
+
     static func modeForId(id: String) -> GameMode? {
         switch id {
             case StageBallsProducts.EndlessModeProductId:
@@ -66,6 +81,21 @@ enum GameMode: String {
             case StageBallsProducts.ReversedModeProductId:
                 return .reversed
             case StageBallsProducts.InvisibleModeProductId:
+                return .invisible
+            default:
+                return nil
+        }
+    }
+  
+    static func modeForDefaultsKey(id: String) -> GameMode? {
+        switch id {
+            case Settings.GAME_MODE_ENDLESS:
+                return .endless
+            case Settings.GAME_MODE_MEMORY:
+                return .memory
+            case Settings.GAME_MODE_REVERSED:
+                return .reversed
+            case Settings.GAME_MODE_INVISIBLE:
                 return .invisible
             default:
                 return nil
