@@ -108,7 +108,8 @@ class ModeViewController: UIViewController{
     @IBOutlet weak var memoryButton: UIButton!
     @IBOutlet weak var stageButton: UIButton!
     @IBOutlet weak var reversedButton: UIButton!
-
+    @IBOutlet weak var invisibleButton: UIButton!
+  
     var products = [SKProduct]()
 
     override func viewDidLoad() {
