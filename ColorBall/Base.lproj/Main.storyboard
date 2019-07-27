@@ -226,7 +226,7 @@
         <!--Mode View Controller-->
         <scene sceneID="NEo-Go-nc5">
             <objects>
-                <viewController id="KGa-ws-1eK" customClass="ModeViewController" customModule="ColorBall" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="modeVC" id="KGa-ws-1eK" customClass="ModeViewController" customModule="ColorBall" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jT4-8h-fXr"/>
                         <viewControllerLayoutGuide type="bottom" id="Sov-Hx-6WZ"/>
@@ -275,7 +275,6 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="reversedMode:" destination="KGa-ws-1eK" eventType="touchUpInside" id="GcJ-yT-eOM"/>
-                                                    <segue destination="KGa-ws-1eK" kind="show" id="uLX-wZ-LQL"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9D-C8-kmF">
@@ -327,6 +326,30 @@
                                                     <action selector="backButton:" destination="KGa-ws-1eK" eventType="touchUpInside" id="77e-8r-TfE"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Tries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GFO-Bk-c7I" customClass="TriesLabel" customModule="ColorBall" customModuleProvider="target">
+                                                <rect key="frame" x="36" y="200" width="272" height="19"/>
+                                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Tries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yU7-eh-x0P" customClass="TriesLabel" customModule="ColorBall" customModuleProvider="target">
+                                                <rect key="frame" x="36" y="317" width="276" height="19"/>
+                                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Tries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5c-OY-68g" customClass="TriesLabel" customModule="ColorBall" customModuleProvider="target">
+                                                <rect key="frame" x="36" y="427" width="276" height="19"/>
+                                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Tries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7DM-91-FZk" customClass="TriesLabel" customModule="ColorBall" customModuleProvider="target">
+                                                <rect key="frame" x="36" y="544" width="260" height="19"/>
+                                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="17"/>
+                                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -334,17 +357,29 @@
                                             <constraint firstItem="v9D-C8-kmF" firstAttribute="leading" secondItem="54S-Fs-yoF" secondAttribute="leading" constant="17" id="2Ig-Sg-0cj"/>
                                             <constraint firstItem="LJC-n1-p4n" firstAttribute="leading" secondItem="54S-Fs-yoF" secondAttribute="leading" constant="16" id="2UN-aw-oYL"/>
                                             <constraint firstItem="eC3-0z-1lE" firstAttribute="leading" secondItem="54S-Fs-yoF" secondAttribute="leading" constant="16" id="3Xa-Ww-Ab7"/>
+                                            <constraint firstItem="l5c-OY-68g" firstAttribute="top" secondItem="fHX-Ze-545" secondAttribute="top" constant="17" id="E37-bc-Dr8"/>
                                             <constraint firstItem="siT-LO-WL1" firstAttribute="leading" secondItem="54S-Fs-yoF" secondAttribute="leading" constant="13" id="EBH-bh-v91"/>
+                                            <constraint firstItem="7DM-91-FZk" firstAttribute="trailing" secondItem="SK3-sb-pdZ" secondAttribute="trailing" id="EH9-Ld-Za9"/>
+                                            <constraint firstItem="GFO-Bk-c7I" firstAttribute="trailing" secondItem="LJC-n1-p4n" secondAttribute="trailing" constant="-4" id="HGW-mk-iXe"/>
                                             <constraint firstItem="eC3-0z-1lE" firstAttribute="top" secondItem="LJC-n1-p4n" secondAttribute="bottom" constant="7" id="HbR-BO-IS2"/>
                                             <constraint firstAttribute="trailing" secondItem="SK3-sb-pdZ" secondAttribute="trailing" constant="24" id="IHo-xL-Wm0"/>
                                             <constraint firstItem="SK3-sb-pdZ" firstAttribute="top" secondItem="fHX-Ze-545" secondAttribute="bottom" constant="13" id="JFR-zi-mFn"/>
+                                            <constraint firstItem="7DM-91-FZk" firstAttribute="top" secondItem="SK3-sb-pdZ" secondAttribute="top" constant="14" id="JxZ-KV-QvK"/>
                                             <constraint firstAttribute="trailing" secondItem="fHX-Ze-545" secondAttribute="trailing" constant="8" id="JyS-dZ-Wkd"/>
+                                            <constraint firstItem="7DM-91-FZk" firstAttribute="leading" secondItem="SK3-sb-pdZ" secondAttribute="leading" constant="12" id="KjV-2e-kTk"/>
                                             <constraint firstItem="SK3-sb-pdZ" firstAttribute="leading" secondItem="54S-Fs-yoF" secondAttribute="leading" constant="24" id="NAm-yi-teh"/>
+                                            <constraint firstItem="yU7-eh-x0P" firstAttribute="trailing" secondItem="eC3-0z-1lE" secondAttribute="trailing" id="NJM-Rr-P09"/>
                                             <constraint firstAttribute="trailing" secondItem="v9D-C8-kmF" secondAttribute="trailing" constant="25" id="NjC-tj-unE"/>
                                             <constraint firstAttribute="bottom" secondItem="SK3-sb-pdZ" secondAttribute="bottom" constant="72" id="Thf-z6-kxZ"/>
                                             <constraint firstItem="LJC-n1-p4n" firstAttribute="top" secondItem="v9D-C8-kmF" secondAttribute="bottom" constant="8" id="XET-E0-ZIb"/>
+                                            <constraint firstItem="yU7-eh-x0P" firstAttribute="leading" secondItem="eC3-0z-1lE" secondAttribute="leading" constant="20" id="ZSM-if-NcM"/>
+                                            <constraint firstItem="yU7-eh-x0P" firstAttribute="top" secondItem="eC3-0z-1lE" secondAttribute="top" constant="21" id="hcK-6N-HuE"/>
+                                            <constraint firstItem="l5c-OY-68g" firstAttribute="leading" secondItem="fHX-Ze-545" secondAttribute="leading" constant="20" id="iWb-O7-syY"/>
                                             <constraint firstAttribute="trailing" secondItem="eC3-0z-1lE" secondAttribute="trailing" constant="8" id="jer-P1-K0H"/>
+                                            <constraint firstItem="GFO-Bk-c7I" firstAttribute="top" secondItem="LJC-n1-p4n" secondAttribute="top" constant="17" id="njo-W8-adY"/>
+                                            <constraint firstItem="GFO-Bk-c7I" firstAttribute="leading" secondItem="LJC-n1-p4n" secondAttribute="leading" constant="20" id="skK-Rx-MbI"/>
                                             <constraint firstItem="fHX-Ze-545" firstAttribute="leading" secondItem="54S-Fs-yoF" secondAttribute="leading" constant="16" id="vDw-u4-T4S"/>
+                                            <constraint firstItem="l5c-OY-68g" firstAttribute="trailing" secondItem="fHX-Ze-545" secondAttribute="trailing" id="x7f-Hu-KgA"/>
                                             <constraint firstItem="v9D-C8-kmF" firstAttribute="top" secondItem="54S-Fs-yoF" secondAttribute="top" constant="76" id="yAh-A4-gBk"/>
                                             <constraint firstAttribute="trailing" secondItem="LJC-n1-p4n" secondAttribute="trailing" constant="8" id="zEs-ia-kHN"/>
                                         </constraints>
@@ -378,15 +413,19 @@
                     <size key="freeformSize" width="320" height="700"/>
                     <connections>
                         <outlet property="endlessButton" destination="LJC-n1-p4n" id="dDD-AD-PqL"/>
+                        <outlet property="endlessTriesLabel" destination="GFO-Bk-c7I" id="dNT-DT-l2I"/>
                         <outlet property="invisibleButton" destination="SK3-sb-pdZ" id="EzK-q7-JyG"/>
+                        <outlet property="invisibleTriesLabel" destination="7DM-91-FZk" id="fpO-XS-RJo"/>
                         <outlet property="memoryButton" destination="eC3-0z-1lE" id="7Zf-mT-bra"/>
-                        <outlet property="reversedButton" destination="fHX-Ze-545" id="fyE-7X-FQk"/>
+                        <outlet property="memoryTriesLabel" destination="yU7-eh-x0P" id="eTA-Rd-om4"/>
+                        <outlet property="reversedButton" destination="fHX-Ze-545" id="PE6-cx-zkr"/>
+                        <outlet property="reversedTriesLabel" destination="l5c-OY-68g" id="DO1-3R-WrQ"/>
                         <outlet property="stageButton" destination="v9D-C8-kmF" id="VHD-T1-Dxh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zaD-c2-L8B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1065" y="636"/>
+            <point key="canvasLocation" x="-1065" y="635.91549295774644"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">

@@ -55,8 +55,25 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         submitGameCenter()
         setStageLabel()
         showHideStageButtons()
+        // when thie view controller appears on screen, we should check if we're in a valid game mode:
+        checkIfModeIsValid()
     }
-  
+
+    func checkIfModeIsValid() {
+        if Settings.DEV_MODE {
+            return
+        }
+
+        if let mode = GameMode.modeForDefaultsKey(id: gameMode) {
+            if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
+                if triesLeft <= 0 {
+                    // if we've gotten down to zero tries left, show the mode selection view controller
+                    launchModeViewController()
+                }
+            }
+        }
+    }
+
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: false, completion: nil)
     }
@@ -303,7 +320,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         
     }
 
-    
     func gameCenterPressed() {
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
@@ -321,7 +337,12 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
         }
         self.present(gcVC, animated: true, completion: nil)
-}
-    
+    }
+  
+  
 
 }
+
+
+
+

@@ -152,8 +152,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(skullCircle)
         addChild(winCircle)
         setupFirstFallTimer()
-      
-    //    cycleThroughBgColors()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -1356,7 +1354,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if shouldAddBall {
             let newBall = makeBall()
 
-            transitionToBgColor(color: newBall.fillColor)
+            if game.isInvisibleMode {
+                transitionToBgColor(color: newBall.fillColor)
+            }
 
             var yPos = size.height
             var moveToY = size.height - (game.spinVar + (game.smallDiameter/2))

@@ -275,6 +275,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         layoutAfterSetup()
         checkscorelabelsize()
         scoreLabel.countFrom(CGFloat(0), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
+      
+        if let mode = GameMode.modeForDefaultsKey(id: gameMode) {
+            Settings.decrementTriesForMode(mode: mode)
+        }
     }
     
     func rewardnextstage(){

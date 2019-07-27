@@ -12,7 +12,19 @@ import UIKit
 struct Settings {
     // interval for giving presents
     // 21600 == 6 hours in seconds (6 * 60 * 60)
+  
+    #if DEBUG
+      static let DEV_MODE = true
+    #else
+      static let DEV_MODE = false
+    #endif
+  
     static let PRESENT_INTERVAL: Double = 21600
+
+    static let TRIES_LEFT_KEY_MEMORY = "TRIES_LEFT_KEY_MEMORY"
+    static let TRIES_LEFT_KEY_ENDLESS = "TRIES_LEFT_KEY_ENDLESS"
+    static let TRIES_LEFT_KEY_REVERSED = "TRIES_LEFT_KEY_REVERSED"
+    static let TRIES_LEFT_KEY_INVISIBLE = "TRIES_LEFT_KEY_INVISIBLE"
 
     static let CURRENT_STAGE_KEY = "CURRENT_STAGE"
     static let CURRENT_STAGE_KEY_MEMORY = "CURRENT_STAGE_MEMORY"
@@ -78,4 +90,33 @@ struct Settings {
             return false
         }
     }
+  
+    static func decrementTriesForMode(mode: GameMode) {
+        var nextNumTries = 3
+
+        if let triesKey = mode.modeTriesLeftDefaultsKey() {
+            if let numTries = UserDefaults.standard.object(forKey: triesKey) as? Int, numTries > 0 {
+                nextNumTries = numTries - 1
+            }
+
+            UserDefaults.standard.set(nextNumTries, forKey: triesKey)
+        }
+    }
+  
+    static func getTriesLeftForMode(mode: GameMode) -> Int? {
+        if let triesKey = mode.modeTriesLeftDefaultsKey() {
+            if let numTries = UserDefaults.standard.object(forKey: triesKey) as? Int {
+                return numTries
+            }
+        }
+
+        return nil
+    }
 }
+
+
+
+
+
+
+

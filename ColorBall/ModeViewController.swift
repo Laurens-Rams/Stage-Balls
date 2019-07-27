@@ -71,6 +71,21 @@ enum GameMode: String {
                 return Settings.GAME_MODE_STAGE
         }
     }
+  
+    func modeTriesLeftDefaultsKey() -> String? {
+        switch self {
+            case .endless:
+                return Settings.TRIES_LEFT_KEY_ENDLESS
+            case .memory:
+                return Settings.TRIES_LEFT_KEY_MEMORY
+            case .reversed:
+                return Settings.TRIES_LEFT_KEY_REVERSED
+            case .invisible:
+                return Settings.TRIES_LEFT_KEY_INVISIBLE
+            default:
+                return nil
+        }
+    }
 
     static func modeForId(id: String) -> GameMode? {
         switch id {
@@ -97,9 +112,15 @@ enum GameMode: String {
                 return .reversed
             case Settings.GAME_MODE_INVISIBLE:
                 return .invisible
+            case Settings.GAME_MODE_STAGE:
+                return .stage
             default:
                 return nil
         }
+    }
+  
+    static func allModesWithFreeTries() -> [GameMode] {
+        return [.endless, .memory, .reversed, .invisible]
     }
 }
 
@@ -109,6 +130,11 @@ class ModeViewController: UIViewController{
     @IBOutlet weak var stageButton: UIButton!
     @IBOutlet weak var reversedButton: UIButton!
     @IBOutlet weak var invisibleButton: UIButton!
+  
+    @IBOutlet weak var endlessTriesLabel: TriesLabel!
+    @IBOutlet weak var memoryTriesLabel: TriesLabel!
+    @IBOutlet weak var reversedTriesLabel: TriesLabel!
+    @IBOutlet weak var invisibleTriesLabel: TriesLabel!
   
     var products = [SKProduct]()
 
@@ -122,8 +148,27 @@ class ModeViewController: UIViewController{
             name: .IAPHelperPurchaseNotification,
             object: nil
         )
+
+        for mode in GameMode.allModesWithFreeTries() {
+            if let label = triesLabelForGameMode(mode: mode) {
+                label.configureForMode(mode)
+            }
+        }
     }
   
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+      
+        if let savedMode = UserDefaults.standard.object(forKey: Settings.GAME_MODE_KEY) as? String {
+            if let gameMode = GameMode.modeForDefaultsKey(id: savedMode) {
+                let shouldShowAlert = checkIfShouldAutoShowPurchaseAlert(mode: gameMode)
+                if shouldShowAlert {
+                    showPurchaseAlertOrSelect(mode: gameMode)
+                }
+            }
+        }
+    }
+
     @objc func handlePurchaseNotification(_ notification: Notification) {
         guard let productId = notification.object as? String else { return }
       
@@ -132,6 +177,50 @@ class ModeViewController: UIViewController{
         }
 
         checkForPurchased()
+    }
+
+    func checkIfShouldAutoShowPurchaseAlert(mode: GameMode) -> Bool {
+        if GameMode.allModesWithFreeTries().contains(mode) {
+            if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
+                if triesLeft > 0 {
+                    return false
+                }
+
+                return true
+            }
+        }
+
+        return false
+    }
+
+    func triesLabelForGameMode(mode: GameMode) -> TriesLabel? {
+        switch mode {
+            case .memory:
+                return memoryTriesLabel
+            case .endless:
+                return endlessTriesLabel
+            case .invisible:
+                return invisibleTriesLabel
+            case .reversed:
+                return reversedTriesLabel
+            default:
+                return nil
+        }
+    }
+
+    func buttonForGameMode(mode: GameMode) -> UIButton {
+        switch mode {
+            case .stage:
+                return stageButton
+            case .memory:
+                return memoryButton
+            case .endless:
+                return endlessButton
+            case .invisible:
+                return invisibleButton
+            case .reversed:
+                return reversedButton
+        }
     }
 
     func getProductData() {
@@ -177,20 +266,35 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-        #if DEBUG
-          selectMode(mode: mode)
-        #else
-          // first, check if this user has already purchased the product with the given identifier
-          if (mode.canPurchase() && mode.productId() != nil) {
-              if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
-                  selectMode(mode: mode)
-              } else {
-                  self.productPurchase(identifier: mode.productId()!)
-              }
-          } else {
-              selectMode(mode: mode)
-          }
-        #endif
+        if Settings.DEV_MODE {
+            // if dev mode is true, select the mode
+            selectMode(mode: mode)
+            return
+        }
+
+        if GameMode.allModesWithFreeTries().contains(mode) {
+            if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
+                if triesLeft > 0 {
+                    // if we're tracking tries left for this mode, and we have more than 0 left, select it
+                    selectMode(mode: mode)
+                    return
+                }
+            }
+        }
+
+        // first, check if this user has already purchased the product with the given identifier
+        if mode.canPurchase() && mode.productId() != nil {
+            if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
+                // already purchased? select it
+                selectMode(mode: mode)
+            } else {
+                // show the purchase alert
+                self.productPurchase(identifier: mode.productId()!)
+            }
+        } else {
+            // not purchasable? must be stage mode; select it
+            selectMode(mode: mode)
+        }
     }
 
     func selectMode(mode: GameMode) {
@@ -239,7 +343,6 @@ class ModeViewController: UIViewController{
         toggleModeButtons()
     }
   
-    // TODO: Connect this action to invisible button
     @IBAction func invisibleMode(_ sender: Any) {
         showPurchaseAlertOrSelect(mode: .invisible)
     }
@@ -264,14 +367,12 @@ class ModeViewController: UIViewController{
         }
 
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) {
-            // TODO: Set invisible button and image here
-            reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
+            invisibleButton.setImage(#imageLiteral(resourceName: "unlockInvisible"), for: .normal)
         }
     }
 
     func setButtonTextures(activeButton: UIButton) {
-        // TODO: Add the invisible button to this array
-        let buttons = [stageButton, endlessButton, reversedButton, memoryButton]
+        let buttons = [stageButton, endlessButton, reversedButton, memoryButton, invisibleButton]
         for button in buttons {
             if let button = button {
                 if button == activeButton {
@@ -294,8 +395,7 @@ class ModeViewController: UIViewController{
             } else if textureMode == Settings.TEXTURE_KEY_REVERSED {
                 setButtonTextures(activeButton: reversedButton)
             } else if textureMode == Settings.TEXTURE_KEY_INVISIBLE {
-                // TODO: Pass in invisible button here
-                setButtonTextures(activeButton: reversedButton)
+                setButtonTextures(activeButton: invisibleButton)
             } else {
                 setButtonTextures(activeButton: stageButton)
             }

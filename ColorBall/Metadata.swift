@@ -106,6 +106,9 @@ class Metadata {
             case .reversed:
                 Mixpanel.mainInstance().people.set(property: "Reversed mode score", to: score)
                 break
+            case .invisible:
+                Mixpanel.mainInstance().people.set(property: "Invisible mode score", to: score)
+                break
         }
     }
 }
