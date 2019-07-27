@@ -294,7 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Set the timer for dropping the first ball.
      */
     func setupFirstFallTimer() {
-        Metadata.shared.trackUserStageEnd(stage: game.stage, mode: game.mode.modeName())
+        Metadata.shared.trackUserStageStart(stage: game.stage, mode: game.mode.modeName())
 
         //timer sets when the first ball should fall
         if game.isMemoryMode {
