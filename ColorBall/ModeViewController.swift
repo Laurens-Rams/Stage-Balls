@@ -105,9 +105,9 @@ enum GameMode: String {
 
 class ModeViewController: UIViewController{
 
-    @IBOutlet var endlessButton: UIButton!
-    @IBOutlet var memoryButton: UIButton!
-    @IBOutlet var stageButton: UIButton!
+    @IBOutlet weak var endlessButton: UIButton!
+    @IBOutlet weak var memoryButton: UIButton!
+    @IBOutlet weak var stageButton: UIButton!
     @IBOutlet weak var reversedButton: UIButton!
 
     var products = [SKProduct]()
@@ -116,9 +116,12 @@ class ModeViewController: UIViewController{
         super.viewDidLoad()
         toggleModeButtons()
         getProductData()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handlePurchaseNotification),
-                                           name: .IAPHelperPurchaseNotification,
-                                           object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.handlePurchaseNotification),
+            name: .IAPHelperPurchaseNotification,
+            object: nil
+        )
     }
   
     @objc func handlePurchaseNotification(_ notification: Notification) {
@@ -263,32 +266,35 @@ class ModeViewController: UIViewController{
         }
     }
 
+    func setButtonTextures(activeButton: UIButton) {
+        // TODO: Add the invisible button to this array
+        let buttons = [stageButton, endlessButton, reversedButton, memoryButton]
+        for button in buttons {
+            if let button = button {
+                if button == activeButton {
+                    button.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                } else {
+                    button.backgroundColor = UIColor.clear
+                }
+            }
+        }
+    }
+
     func toggleModeButtons() {
         UserDefaults.standard.synchronize()
-        // question: why are you checking against texture keys here and not game mode keys?
-        // the end result is that it won't toggle the game mode buttons unless a texture key is set...
-        // this seems like a poor choice. ¯\_(ツ)_/¯
+
         if let textureMode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY_MODE) as? String {
             if textureMode == Settings.TEXTURE_KEY_MEMORY {
-                stageButton.backgroundColor = UIColor.clear
-                endlessButton.backgroundColor = UIColor.clear
-                reversedButton.backgroundColor = UIColor.clear
-                memoryButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                setButtonTextures(activeButton: memoryButton)
             } else if textureMode == Settings.TEXTURE_KEY_ENDLESS{
-                stageButton.backgroundColor = UIColor.clear
-                endlessButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-                reversedButton.backgroundColor = UIColor.clear
-                memoryButton.backgroundColor = UIColor.clear
+                setButtonTextures(activeButton: endlessButton)
             } else if textureMode == Settings.TEXTURE_KEY_REVERSED {
-                stageButton.backgroundColor = UIColor.clear
-                endlessButton.backgroundColor = UIColor.clear
-                reversedButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-                memoryButton.backgroundColor = UIColor.clear
+                setButtonTextures(activeButton: reversedButton)
+            } else if textureMode == Settings.TEXTURE_KEY_INVISIBLE {
+                // TODO: Pass in invisible button here
+                setButtonTextures(activeButton: reversedButton)
             } else {
-                stageButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-                endlessButton.backgroundColor = UIColor.clear
-                reversedButton.backgroundColor = UIColor.clear
-                memoryButton.backgroundColor = UIColor.clear
+                setButtonTextures(activeButton: stageButton)
             }
         }
     }

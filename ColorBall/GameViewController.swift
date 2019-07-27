@@ -170,6 +170,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             case Settings.GAME_MODE_REVERSED:
                 mode = .reversed
                 break
+            case Settings.GAME_MODE_INVISIBLE:
+                mode = .invisible
+                break
             default:
                 mode = .stage
                 break
@@ -264,7 +267,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
         if (animateBackground) {
             scene.fadeBackgroundBackToWhite()
-            // print("daaaaaaaark")
         }
 
         setupCamera()
@@ -273,7 +275,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         layoutAfterSetup()
         checkscorelabelsize()
         scoreLabel.countFrom(CGFloat(0), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
-        // print("white")
     }
     
     func rewardnextstage(){
@@ -307,38 +308,48 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func setGameStage() {
-        // set the game stage based on our defaults keys
-        if gameMode == Settings.GAME_MODE_MEMORY {
-            print("memory mode")
-            // if we're in memory mode, grab the stage from user defaults using the memory key
-            if let currentStageMemory = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_MEMORY) as? Int {
-                print("current memory stage", currentStageMemory)
-                game.setStage(toStage: currentStageMemory)
-            }
-        } else if gameMode == Settings.GAME_MODE_ENDLESS {
-            // if we're in endless mode, grab the stage from user defaults using the endless key
-            if let currentStageEndless = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_ENDLESS) as? Int {
-                game.setStage(toStage: currentStageEndless)
-            }
-        } else {
-            // if neither of the other modes are active, grab the stage from user defaults with the normal key
-            if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
-                game.setStage(toStage: currentStage)
-            }
+        switch gameMode {
+            case Settings.GAME_MODE_MEMORY:
+                // if we're in memory mode, grab the stage from user defaults using the memory key
+                if let currentStageMemory = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_MEMORY) as? Int {
+                    print("current memory stage", currentStageMemory)
+                    game.setStage(toStage: currentStageMemory)
+                }
+                break
+            case Settings.GAME_MODE_ENDLESS:
+                // if we're in endless mode, grab the stage from user defaults using the endless key
+                if let currentStageEndless = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_ENDLESS) as? Int {
+                    game.setStage(toStage: currentStageEndless)
+                }
+                break
+            case Settings.GAME_MODE_REVERSED:
+                // if we're in reversed mode, grab the stage from user defaults using the reversed key
+                if let currentStageReversed = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_REVERSED) as? Int {
+                    game.setStage(toStage: currentStageReversed)
+                }
+                break
+            case Settings.GAME_MODE_INVISIBLE:
+                // if we're in invisible mode, grab the stage from user defaults using the invisible key
+                if let currentStageInvisible = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_INVISIBLE) as? Int {
+                    game.setStage(toStage: currentStageInvisible)
+                }
+                break
+            default:
+                // if none of the other modes are active, grab the stage from user defaults with the normal key
+                if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+                    game.setStage(toStage: currentStage)
+                }
+                break
         }
     }
 
     func setupScene(setToWhite: Bool) {
-      //  scoreLabel.text = "\(game.numberBallsInQueue)"
         scoreLabel.format = "%d"
         scoreLabel.method = .linear
         checkscorelabelsize()
         scene = GameScene(size: view.frame.size)
         if (setToWhite) {
-//            scene.backgroundColor = UIColor.white
             scene.BackgroundBackToWhite()
-        } else {
-//            scene.backgroundColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
         }
         scene.gameDelegate = self
         scene.scoreKeeper = self
@@ -427,70 +438,79 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func unpauseGame() {
         scoreLabel.textColor = UIColor.red
-        var countdown = 3
-        self.scoreLabel.text = "\(countdown)"
-            let _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true, block: { timer in
-                countdown -= 1
-                self.scoreLabel.text = "\(countdown)"
-                if countdown == 0 {
-                    timer.invalidate()
-                    if let lastBall = self.scene.fallingBalls.last {
-                        self.scene.startFallTimer(ball: lastBall)
-                    }
-                    self.scene.isPaused = false
-                    self.scene.canMove = true
-                    self.scene.allowToMove = true
-                    self.scene.fallTimer?.fire()
-                    self.scoreLabel.textColor = UIColor.white
-                    self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
-                    self.scene.canpresspause = true
-                }
-            })
 
+        var countdown = 3
+
+        self.scoreLabel.text = "\(countdown)"
+
+        let _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true, block: { timer in
+            countdown -= 1
+            self.scoreLabel.text = "\(countdown)"
+            if countdown == 0 {
+                timer.invalidate()
+                if let lastBall = self.scene.fallingBalls.last {
+                    self.scene.startFallTimer(ball: lastBall)
+                }
+                self.scene.isPaused = false
+                self.scene.canMove = true
+                self.scene.allowToMove = true
+                self.scene.fallTimer?.fire()
+                self.scoreLabel.textColor = UIColor.white
+                self.scoreLabel.text = self.scoreFormatter(score: self.scene.game.ballsRemaining)
+                self.scene.canpresspause = true
+            }
+        })
     }
 
     func setHighScoreIfNeeded() {
         // save the high score if we just set it!
-        if gameMode == Settings.GAME_MODE_MEMORY {
-            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY) as? Int {
-                // if we've saved a high score for memory before, check if this one was higher
-                if game.stage > highScore {
+        switch gameMode {
+            case Settings.GAME_MODE_MEMORY:
+                if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY) as? Int {
+                    // if we've saved a high score for memory before, check if this one was higher
+                    if game.stage > highScore {
+                        defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY_MEMORY)
+                    }
+                } else {
+                    // if we've never saved a high score for memory, start saving it now
                     defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY_MEMORY)
                 }
-            } else {
-                // if we've never saved a high score for memory, start saving it now
-                defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY_MEMORY)
-            }
-        } else if gameMode == Settings.GAME_MODE_ENDLESS {
-            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
-                // if we've saved a high score for endless before, check if this one was higher
-                if game.ballsFallen > highScore {
+                break
+            case Settings.GAME_MODE_ENDLESS:
+                if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int {
+                    // if we've saved a high score for endless before, check if this one was higher
+                    if game.ballsFallen > highScore {
+                        defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_ENDLESS)
+                    }
+                } else {
+                    // if we've never saved a high score for endless, start saving it now
                     defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_ENDLESS)
                 }
-            } else {
-                // if we've never saved a high score for endless, start saving it now
-                defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_ENDLESS)
-            }
-        } else if gameMode == Settings.GAME_MODE_REVERSED {
-            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_REVERSED) as? Int {
-                // if we've saved a high score for endless before, check if this one was higher
-                if game.ballsFallen > highScore {
+                break
+            case Settings.GAME_MODE_REVERSED:
+                if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_REVERSED) as? Int {
+                    // if we've saved a high score for reversed before, check if this one was higher
+                    if game.ballsFallen > highScore {
+                        defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_REVERSED)
+                    }
+                } else {
+                    // if we've never saved a high score for reversed, start saving it now
                     defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_REVERSED)
                 }
-            } else {
-                // if we've never saved a high score for endless, start saving it now
-                defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_REVERSED)
-            }
-        } else {
-            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
-                // if we've saved a high score for regular mode before, check if this one was higher
-                if game.stage > highScore {
-                    defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY)
+                break
+            case Settings.GAME_MODE_INVISIBLE:
+                if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY_INVISIBLE) as? Int {
+                    // if we've saved a high score for invisible before, check if this one was higher
+                    if game.ballsFallen > highScore {
+                        defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_INVISIBLE)
+                    }
+                } else {
+                    // if we've never saved a high score for invisible, start saving it now
+                    defaults.set(game.ballsFallen, forKey: Settings.HIGH_SCORE_KEY_INVISIBLE)
                 }
-            } else {
-                // if we've never saved a high score, start saving it now
-                defaults.set(game.stage, forKey: Settings.HIGH_SCORE_KEY)
-            }
+                break
+            default:
+                break;
         }
     }
 
@@ -511,7 +531,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func handleAds() {
-//ads
+        //ads
         var shouldShowAds = false
         
         if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
@@ -591,6 +611,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_ENDLESS
         } else if gameMode == Settings.GAME_MODE_MEMORY {
             keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_MEMORY
+        } else if gameMode == Settings.GAME_MODE_REVERSED {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_REVERSED
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_INVISIBLE
         }
         
         // NOTE: i added a parameter to this analytics call so you can distinguish between modes
@@ -637,6 +661,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         } else if gameMode == Settings.GAME_MODE_ENDLESS {
             // if we're in endless mode, save stage under the endless key
             defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY_ENDLESS)
+        } else if gameMode == Settings.GAME_MODE_REVERSED {
+            // if we're in reversed mode, save stage under the reversed key
+            defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY_REVERSED)
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            // if we're in invisible mode, save stage under the invisible key
+            defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY_INVISIBLE)
         } else {
             // if we're in normal stage mode, save under the normal stage key
             defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY)
