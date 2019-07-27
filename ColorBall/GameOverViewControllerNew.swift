@@ -22,6 +22,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let LEADERBOARD_ID_MEMORY = "memoryid"
     let LEADERBOARD_ID_ENDLESS = "endlessid"
     let LEADERBOARD_ID_REVERSED = "reversedmodeid"
+    let LEADERBOARD_ID_INVISIBLE = "invisibleGameCenterid"
+    
     
 
     @IBOutlet var stageLabel: UILabel!
@@ -104,7 +106,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                     print("Best Score reversed submitted to your Leaderboard!")
                 }
             }
-        } else if gameMode == Settings.GAME_MODE_MEMORY {
+        }else if gameMode == Settings.GAME_MODE_MEMORY {
             //GC
             let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY)
             let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
@@ -114,6 +116,18 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                     print(error!.localizedDescription)
                 } else {
                     print("Best Score Memory submitted to your Leaderboard!")
+                }
+            }
+        }else if gameMode == Settings.GAME_MODE_INVISIBLE { // what else?
+            //GC
+            let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_INVISIBLE)
+            let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_INVISIBLE)
+            bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
+            GKScore.report([bestScoreIntMemory]) { (error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                } else {
+                    print("Best Score Invisible submitted to your Leaderboard!")
                 }
             }
         }else if gameMode == Settings.GAME_MODE_STAGE{
@@ -145,7 +159,13 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             } else {
                 stageLabel.text = stageFormatter(stage: endingStage)
             }
-        } else {
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY_INVISIBLE) as? Int {
+                stageLabel.text = stageFormatter(stage: currentStage)
+            } else {
+                stageLabel.text = stageFormatter(stage: endingStage)
+            }
+        }else {
             if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
                 stageLabel.text = stageFormatter(stage: currentStage)
             } else {
@@ -304,6 +324,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_MEMORY
         }else if gameMode == Settings.GAME_MODE_REVERSED {
             gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_REVERSED
+        }else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            gcVC.leaderboardIdentifier = self.LEADERBOARD_ID_INVISIBLE
         }else {
             gcVC.leaderboardIdentifier = self.LEADERBOARD_ID
         }
