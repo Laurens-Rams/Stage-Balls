@@ -266,11 +266,11 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-//        if Settings.DEV_MODE {
-//            // if dev mode is true, select the mode
-//            selectMode(mode: mode)
-//            return
-//        }
+        if Settings.DEV_MODE {
+            // if dev mode is true, select the mode
+            selectMode(mode: mode)
+            return
+        }
 
         if GameMode.allModesWithFreeTries().contains(mode) {
             if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
@@ -281,6 +281,10 @@ class ModeViewController: UIViewController{
                 }
             }
         }
+
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("we would show the purchase alert here")
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
         // first, check if this user has already purchased the product with the given identifier
         if mode.canPurchase() && mode.productId() != nil {
