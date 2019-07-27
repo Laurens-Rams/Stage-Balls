@@ -5,12 +5,6 @@ import GameplayKit
 import GameKit
 
 class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCenterControllerDelegate {
-    
-    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
-        gameCenterViewController.dismiss(animated: false, completion: nil)
-    }
-    
-    @IBOutlet var RemainingBalls: UILabel!
     var game: Game!
     var modeVC: ModeViewController?
     var ballVC: BallsViewController?
@@ -23,9 +17,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     let LEADERBOARD_ID_ENDLESS = "endlessid"
     let LEADERBOARD_ID_REVERSED = "reversedmodeid"
     let LEADERBOARD_ID_INVISIBLE = "invisibleGameCenterid"
-    
-    
 
+    @IBOutlet var RemainingBalls: UILabel!
     @IBOutlet var stageLabel: UILabel!
     @IBOutlet var showpoints: UILabel!
     @IBOutlet weak var lastStageButton: UIButton!
@@ -54,9 +47,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         showpoints.text = scoreFormatter(score: endingScore)
         showpoints.alpha = 0
         setRemainingBalls()
-//        checkMode()
-//        setStageLabel()
-//        showHideStageButtons()
     }
   
     override func viewDidAppear(_ animated: Bool) {
@@ -65,6 +55,10 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         submitGameCenter()
         setStageLabel()
         showHideStageButtons()
+    }
+  
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: false, completion: nil)
     }
 
     func checkMode(){
@@ -76,8 +70,9 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     func setRemainingBalls(){
         // Balls for Memory and Stage Mode same
         RemainingBalls.text = "BALLS \(scoreFormatter(score: endingScore))"
-        if gameMode == Settings.GAME_MODE_ENDLESS {
-          RemainingBalls.alpha = 0.0
+
+        if gameMode == Settings.GAME_MODE_ENDLESS || gameMode == Settings.GAME_MODE_REVERSED {
+            RemainingBalls.alpha = 0.0
         }
     }
 
@@ -118,7 +113,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                     print("Best Score Memory submitted to your Leaderboard!")
                 }
             }
-        }else if gameMode == Settings.GAME_MODE_INVISIBLE { // what else?
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
             //GC
             let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_INVISIBLE)
             let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_INVISIBLE)
@@ -130,7 +125,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                     print("Best Score Invisible submitted to your Leaderboard!")
                 }
             }
-        }else if gameMode == Settings.GAME_MODE_STAGE{
+        } else if gameMode == Settings.GAME_MODE_STAGE{
             let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
             let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
             bestScoreInt.value = scoreGameCenter as! Int64
@@ -204,8 +199,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             lastStageButton.alpha = 0
         } else {
             if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
-                // print("high score", highScore)
-                // print("current stage", currentStage)
                 if currentStage >= highScore {
                     nextStageButton.alpha = 0
                     nextStageButton.isUserInteractionEnabled = false
@@ -255,14 +248,13 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         showHideStageButtons()
         setStageLabel()
     }
-    
-    // MARK: - AUTHENTICATE LOCAL PL
+
     func layoutUI() {
-        //showpoints.layer.zPosition = -1
         let startY = CGFloat((view.frame.height / 2.8) * 2) - (showpoints.frame.height / 2) // wieso 2.8
         let width = UIScreen.main.bounds.width
         showpoints.frame = CGRect(x: 0, y: startY, width: width, height: showpoints.frame.height)
     }
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -280,8 +272,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     
     @IBOutlet var scoreLabel: UILabel!
     
-    // start scene delegate protocol methods
-    
+    // MARK: StartSceneDelegate protocol methods
     func launchGame() {}
 
     func launchShop() {}

@@ -11,12 +11,6 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-/* TODO:
- 
- - Getting items/presents every 6 hours (the timer is done, we just to make the items)
- 
- */
-
 enum Difficulty: Int {
     case easy = 0, hard
 }
@@ -105,34 +99,34 @@ class Game {
     private var _ballzapduration: CGFloat = 0.0
     private var _rotationSpeedIncrement = CGFloat(0.1)
     private var _spinVar = CGFloat(18.0)
-    
-    
-    
+
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
     private var _gravityMultiplier: Double = 0.04
     private var _startgravity: Double = 4.0
-    
+
     // starting value for how often balls are added
     private var _ballInterval = TimeInterval(1.8)
-    
+
     // number of balls on starting row
     private var _numberStartingBalls = 1
-    
+
     // number of colors to use this stage
     private var _numberBallColors = 4
-    
+
     private var _colorSetIndex = 0
-    
+
     // keep track of extra chance
     private var _extraChance = 1
-    
+
     private var _slotsPerColumn = GameConstants.initialSlotsPerColumn
-    
+
     private var _isEndlessMode = false
     private var _isMemoryMode = false
     private var _isStageMode = false
     private var _isReversedMode = false
+    private var _isInvisibleMode = false
+
     private var _mode: GameMode!
     
     private var _endlessScore = 0
@@ -200,6 +194,9 @@ class Game {
             case .reversed:
                 initReversedMode()
                 break
+            case .invisible:
+                initInvisibleMode()
+                break
             default:
                 initStageMode()
                 break
@@ -234,6 +231,12 @@ class Game {
         print("ReversedMode")
     }
   
+    func initInvisibleMode() {
+        // initializers for reversed
+        _isInvisibleMode = true
+        print("InvisibleMode")
+    }
+  
     /**
      Generate a random integer between 0 and 3.
      - parameters:
@@ -260,6 +263,10 @@ class Game {
     var isReversedMode: Bool {
         return _isReversedMode
     }
+  
+    var isInvisibleMode: Bool {
+        return _isInvisibleMode
+    }
 
     var slotsOnCircle: Int {
         get {
@@ -272,6 +279,7 @@ class Game {
             return _mode
         }
     }
+
     /**
      Number of blues in game (read-only getter).
      */
@@ -489,13 +497,6 @@ class Game {
         }
     }
 
-    // see comment by `var _stageMemoryMode` up top, for why this is currently commented out
-    //    var stageMemoryMode: Int {
-    //        get {
-    //            return _stageMemoryMode
-    //        }
-    //    }
-
     var spinVar: CGFloat {
         get {
             return _spinVar
@@ -507,22 +508,22 @@ class Game {
             return _rotationSpeedIncrement * CGFloat(_stage)
         }
     }
-    
-    
+
     /**
      The number of balls remaining to fall in the current stage.
      */
     var ballsRemaining: Int {
         get {
             var total = 0
+
             for type in GameConstants.allBallTypes {
                 total += getCountForType(type: type)
             }
+
             return total
-            // return numberBallsInQueue - ballsFallen + Int(floor(_lastSurpriseCount))
         }
     }
-    
+
     /**
      Number of balls remaining that will fall in current stage.
      */
@@ -595,6 +596,11 @@ class Game {
                 }
             }
 
+            // TODO: Setup number of starting balls invisible mode
+            if _isInvisibleMode {
+            
+            }
+
             let frequency = 4
             let baseAmountToAdd = _stage - 1
             let highestVariableStage = 13
@@ -617,13 +623,15 @@ class Game {
             }
             
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
+
             if _stage < 50{
                 return highestVariableStage + multiplesOfFrequency
-            }else{
+            } else {
                 return 22
             }
         }
     }
+
     // not used
     var shouldUseEscapeBall: Bool {
         get {
@@ -704,38 +712,12 @@ class Game {
                 }else{
                     return 11
                 }
-            
-//                let frequency: Double = 5
-//                let maxBalls = 3
-//                let highestVariableStage: Double = 2
-////
-////                if Double(_stage) < highestVariableStage {
-////                    return 0
-////                } --> if you dont want to start with 1 stage
-//
-//                let elapsed = Double(_stage) - highestVariableStage
-//                let multiples = Int(floor(elapsed / frequency))
-//                return multiples > maxBalls ? maxBalls : multiples
-                /*if _stage == _nextMemoryStage || _nextMemoryStage == 0 {
-                 // set the next nextEscapeStage
-                 let nextMin = _stage + frequencyMin
-                 let nextMax = _stage + frequencyMax
-                 _nextMemoryStage = _stage + randomInteger(lowerBound: nextMin, upperBound: nextMax)
-                 print("next mem stage", _nextMemoryStage)
-                 // yes, we should have an escape ball this stage
-                 if _stage == _nextMemoryStage {
-                 if _lastMemoryCount < maxBalls { _lastMemoryCount += 1 }
-                 return Int(floor(_lastMemoryCount))
-                 }
-                 }
-                 
-                 return Int(floor(_lastMemoryCount))*/
             }
+
             return 0
         }
-        
     }
-    
+
     // getter for private variable for minumum stage for surprise balls
     var minStageForSurprises: Int {
         get {
@@ -745,9 +727,10 @@ class Game {
     
     var numberSurpriseBalls: Int {
         get {
-            if _isEndlessMode{
+            if _isEndlessMode || _isReversedMode {
                 return -1
             }
+
             let frequency = 1
             let maxBalls: Double = 44
             let initialSurpriseCount = 1.0
@@ -755,9 +738,11 @@ class Game {
             if _stage < _minStageForSurprises {
                 return 0
             }
+
             if _stage > 40 {
                 return 53
             }
+
             let stagesEllapsed = _stage - _minStageForSurprises
             // if we've gone 4 stages and frequency is 2,
             // 4 % 2 will give us 0 (the remainder of 4 / 2)
@@ -767,8 +752,10 @@ class Game {
                 if _lastSurpriseCount < maxBalls {
                     _lastSurpriseCount = initialSurpriseCount + (Double(stagesEllapsed) / 2)
                 }
+
                 return Int(floor(_lastSurpriseCount))
             }
+
             return 0
         }
     }
@@ -782,24 +769,26 @@ class Game {
                 if _ballsFallen > 100{
                     return 0.5
                 }
+
                 return 1.0 - (Double(_stage - 1) * _speedMultiplier)
                 
             }
+
             return 1.0 - (Double(_stage - 1) * _speedMultiplier) // 200 * 0.02 = 1. 1-1 = 0.5
         }
     }
+
     var ballzapduration: CGFloat {
         get {
             if isReversedMode{
                 return 0.03
-            }else if isEndlessMode{
+            } else if isEndlessMode{
                 return 0.05
-            }else{
+            } else{
                 return 0.125
             }
         }
     }
-    
     
     /**
      Multiplier for ball falling speed ("gravity") (read-only getter).
@@ -842,6 +831,7 @@ class Game {
             if _isEndlessMode{
                 return 6.0
             }
+
             return 5.0
         }
     }
@@ -861,9 +851,12 @@ class Game {
     var smallDiameter: CGFloat {
         get {
             let newDiameter = ((15 * GameConstants.startingBallScale) / CGFloat(numberStartingBalls)) * UIScreen.main.bounds.size.width
-            if (newDiameter < _smallDiameter) { return newDiameter }
+
+            if (newDiameter < _smallDiameter) {
+                return newDiameter
+            }
+
             return _smallDiameter
-            
         }
     }
     
@@ -873,19 +866,17 @@ class Game {
                 let num = 2
                 _columnHeights.append(num)
             }
-        }else{
+        } else{
             let minVariableStage: Double = 7
             let maxFrequency: Double = 15
             let minFrequency: Double = 25
-            
             let s = Double(_stage)
             var min: Double = 2
             var max: Double = 3
+
             _columnHeights.removeAll() // RESET WHEN WE GENERATE
             
             if s < minVariableStage {
-                print("MINIMUM", min)
-                print("STAGE", s)
                 min = 2
                 max = 2 - 1
             } else {
@@ -902,7 +893,6 @@ class Game {
             
             for _ in 0..<numberStartingBalls {
                 let num = randomInteger(lowerBound: Int(min), upperBound: Int(max))
-                print("num",num)
                 _columnHeights.append(num)
             }
         }
@@ -913,19 +903,15 @@ class Game {
             return _columnHeights
         }
     }
+
     var totalInColumns: Int {
         get {
             var total = 0
             for height in _columnHeights {
                 total += (height - 1)
             }
+
             return total
-            // how many will fall? return this number minus number of starting balls
-//            let inCols = _columnHeights.reduce(0) { result, num in
-//                return result + (num - 1)
-//            }
-//            print(inCols)
-//            return inCols
         }
     }
 
@@ -940,17 +926,10 @@ class Game {
             else if _stage < 59 { return _slotsPerColumn + 2 } // 34-53 = 4
             else if _stage < 79 { return _slotsPerColumn + 3 } // 54-63 = 5
             else if _stage < 99 { return _slotsPerColumn + 4 } // 54-63 = 6
-            else {
-                //                let multiplesOfTwenty = Int(round(Double(_stage - 4) / 50)) // stage 54: 1 = 5
-                //                let newSlots = _slotsPerColumn + 2 + multiplesOfTwenty
-                //                if newSlots > 6 { return 5 }
-                //                return newSlots
-                return 6
-            }
+            else { return 6 }
         }
     }
-    
-    
+
     /**
      One extra chance to beat the level. (read-only getter).
      */
@@ -971,25 +950,25 @@ class Game {
     
     var numberBallColors: Int {
         get {
-            if _isEndlessMode == true{
+            if _isEndlessMode {
                 if _ballsFallen <= 5 { return 4 }
-                else if _ballsFallen <= 15 { return _numberBallColors } // = 5
-                else if _ballsFallen <= 30 { return _numberBallColors + 1} // = 6
-                else if _ballsFallen <= 45 { return _numberBallColors + 2 } // = 7
-                else if _ballsFallen <= 60 { return _numberBallColors + 3 } // = 8
-                else {
-                    return 8
-                }
-            }
-            if _isReversedMode == true{return 8}
-            if _stage <= 18 { return _numberBallColors }
-            else if _stage <= 33 { return _numberBallColors + 1 } // = 5
-            else if _stage <= 48 { return _numberBallColors + 2 } // = 6
-            else if _stage <= 63 { return _numberBallColors + 3 } // 7
-            else if _stage <= 78 { return _numberBallColors + 4 } // 8
-            else {
+                if _ballsFallen <= 15 { return _numberBallColors } // = 5
+                if _ballsFallen <= 30 { return _numberBallColors + 1} // = 6
+                if _ballsFallen <= 45 { return _numberBallColors + 2 } // = 7
+                if _ballsFallen <= 60 { return _numberBallColors + 3 } // = 8
+
                 return 8
             }
+
+            if _isReversedMode { return 8 }
+
+            if _stage <= 18 { return _numberBallColors }
+            if _stage <= 33 { return _numberBallColors + 1 } // = 5
+            if _stage <= 48 { return _numberBallColors + 2 } // = 6
+            if _stage <= 63 { return _numberBallColors + 3 } // 7
+            if _stage <= 78 { return _numberBallColors + 4 } // 8
+
+            return 8
         }
     }
     

@@ -10,7 +10,7 @@ import UIKit
 import StoreKit
 
 enum GameMode: String {
-    case stage = "stage", endless = "endless", memory = "memory", reversed = "reversed"
+    case stage = "stage", endless = "endless", memory = "memory", reversed = "reversed", invisible = "invisible"
   
     func canPurchase() -> Bool {
         switch self {
@@ -19,6 +19,8 @@ enum GameMode: String {
             case .memory:
                 return true
             case .reversed:
+              return true
+            case .invisible:
               return true
             default:
                 return false
@@ -33,6 +35,8 @@ enum GameMode: String {
                 return StageBallsProducts.MemoryModeProductId
             case .reversed:
                 return StageBallsProducts.ReversedModeProductId
+            case .invisible:
+                return StageBallsProducts.InvisibleModeProductId
             default:
                 return nil
         }
@@ -46,11 +50,28 @@ enum GameMode: String {
                 return "Memory Mode"
             case .reversed:
                 return "Reversed Mode"
+            case .invisible:
+                return "Invisible Mode"
             case .stage:
                 return "Stage Mode"
         }
     }
   
+     func modeDefaultsKey() -> String {
+        switch self {
+            case .endless:
+                return Settings.GAME_MODE_ENDLESS
+            case .memory:
+                return Settings.GAME_MODE_MEMORY
+            case .reversed:
+                return Settings.GAME_MODE_REVERSED
+            case .invisible:
+                return Settings.GAME_MODE_INVISIBLE
+            default:
+                return Settings.GAME_MODE_STAGE
+        }
+    }
+
     static func modeForId(id: String) -> GameMode? {
         switch id {
             case StageBallsProducts.EndlessModeProductId:
@@ -59,6 +80,23 @@ enum GameMode: String {
                 return .memory
             case StageBallsProducts.ReversedModeProductId:
                 return .reversed
+            case StageBallsProducts.InvisibleModeProductId:
+                return .invisible
+            default:
+                return nil
+        }
+    }
+  
+    static func modeForDefaultsKey(id: String) -> GameMode? {
+        switch id {
+            case Settings.GAME_MODE_ENDLESS:
+                return .endless
+            case Settings.GAME_MODE_MEMORY:
+                return .memory
+            case Settings.GAME_MODE_REVERSED:
+                return .reversed
+            case Settings.GAME_MODE_INVISIBLE:
+                return .invisible
             default:
                 return nil
         }
@@ -66,10 +104,9 @@ enum GameMode: String {
 }
 
 class ModeViewController: UIViewController{
-
-    @IBOutlet var endlessButton: UIButton!
-    @IBOutlet var memoryButton: UIButton!
-    @IBOutlet var stageButton: UIButton!
+    @IBOutlet weak var endlessButton: UIButton!
+    @IBOutlet weak var memoryButton: UIButton!
+    @IBOutlet weak var stageButton: UIButton!
     @IBOutlet weak var reversedButton: UIButton!
 
     var products = [SKProduct]()
@@ -78,9 +115,12 @@ class ModeViewController: UIViewController{
         super.viewDidLoad()
         toggleModeButtons()
         getProductData()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handlePurchaseNotification),
-                                           name: .IAPHelperPurchaseNotification,
-                                           object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.handlePurchaseNotification),
+            name: .IAPHelperPurchaseNotification,
+            object: nil
+        )
     }
   
     @objc func handlePurchaseNotification(_ notification: Notification) {
@@ -130,7 +170,6 @@ class ModeViewController: UIViewController{
     func productPurchase(identifier: String) {
         for p in products {
             if p.productIdentifier == identifier {
-                print("purchasing product with id \(identifier)")
                 StageBallsProducts.store.buyProduct(p)
             }
         }
@@ -164,6 +203,9 @@ class ModeViewController: UIViewController{
             case .reversed:
               setModeToReversed()
               break
+            case .invisible:
+              setModeToInvisible()
+              break
             case .stage:
               setModeToStage()
               break
@@ -195,45 +237,66 @@ class ModeViewController: UIViewController{
         UserDefaults.standard.set(Settings.TEXTURE_KEY_REVERSED, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
     }
+  
+    // TODO: Connect this action to invisible button
+    @IBAction func invisibleMode(_ sender: Any) {
+        showPurchaseAlertOrSelect(mode: .invisible)
+    }
+
+    func setModeToInvisible() {
+        UserDefaults.standard.set(Settings.GAME_MODE_INVISIBLE, forKey: Settings.GAME_MODE_KEY)
+        UserDefaults.standard.set(Settings.TEXTURE_KEY_INVISIBLE, forKey: Settings.TEXTURE_KEY_MODE)
+        toggleModeButtons()
+    }
 
     func checkForPurchased() {
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) {
             memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
         }
+
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) {
             endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
         }
+
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) {
             reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
+        }
+
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) {
+            // TODO: Set invisible button and image here
+            reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
+        }
+    }
+
+    func setButtonTextures(activeButton: UIButton) {
+        // TODO: Add the invisible button to this array
+        let buttons = [stageButton, endlessButton, reversedButton, memoryButton]
+        for button in buttons {
+            if let button = button {
+                if button == activeButton {
+                    button.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                } else {
+                    button.backgroundColor = UIColor.clear
+                }
+            }
         }
     }
 
     func toggleModeButtons() {
         UserDefaults.standard.synchronize()
-        // question: why are you checking against texture keys here and not game mode keys?
-        // the end result is that it won't toggle the game mode buttons unless a texture key is set...
-        // this seems like a poor choice. ¯\_(ツ)_/¯
+
         if let textureMode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY_MODE) as? String {
             if textureMode == Settings.TEXTURE_KEY_MEMORY {
-                stageButton.backgroundColor = UIColor.clear
-                endlessButton.backgroundColor = UIColor.clear
-                reversedButton.backgroundColor = UIColor.clear
-                memoryButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                setButtonTextures(activeButton: memoryButton)
             } else if textureMode == Settings.TEXTURE_KEY_ENDLESS{
-                stageButton.backgroundColor = UIColor.clear
-                endlessButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-                reversedButton.backgroundColor = UIColor.clear
-                memoryButton.backgroundColor = UIColor.clear
+                setButtonTextures(activeButton: endlessButton)
             } else if textureMode == Settings.TEXTURE_KEY_REVERSED {
-                stageButton.backgroundColor = UIColor.clear
-                endlessButton.backgroundColor = UIColor.clear
-                reversedButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-                memoryButton.backgroundColor = UIColor.clear
+                setButtonTextures(activeButton: reversedButton)
+            } else if textureMode == Settings.TEXTURE_KEY_INVISIBLE {
+                // TODO: Pass in invisible button here
+                setButtonTextures(activeButton: reversedButton)
             } else {
-                stageButton.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
-                endlessButton.backgroundColor = UIColor.clear
-                reversedButton.backgroundColor = UIColor.clear
-                memoryButton.backgroundColor = UIColor.clear
+                setButtonTextures(activeButton: stageButton)
             }
         }
     }
