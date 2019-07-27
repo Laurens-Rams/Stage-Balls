@@ -96,62 +96,77 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     func submitGameCenter(){
         if gameMode == Settings.GAME_MODE_ENDLESS {
             //GC
-            let scoreGameCenterEndless = scoreFormatter(score: endingScore)
-            let bestScoreIntEndless = GKScore(leaderboardIdentifier: LEADERBOARD_ID_ENDLESS)
-            bestScoreIntEndless.value = Int64(scoreGameCenterEndless)!
-            GKScore.report([bestScoreIntEndless]) { (error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    print("Best Score Endless submitted to your Leaderboard!")
+            if let scoreGameCenterEndless = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int64 {
+                let bestScoreIntEndless = GKScore(leaderboardIdentifier: LEADERBOARD_ID_ENDLESS)
+                bestScoreIntEndless.value = scoreGameCenterEndless
+                GKScore.report([bestScoreIntEndless]) { (error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("Best Score Memory submitted to your Leaderboard!")
+                    }
                 }
+            } else {
+              
             }
         } else if gameMode == Settings.GAME_MODE_REVERSED {
             //GC
-            let scoreGameCenterRev = scoreFormatter(score: endingScore)
-            let bestScoreIntRev = GKScore(leaderboardIdentifier: LEADERBOARD_ID_REVERSED)
-            bestScoreIntRev.value = Int64(scoreGameCenterRev)!
-            GKScore.report([bestScoreIntRev]) { (error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    print("Best Score reversed submitted to your Leaderboard!")
+            if let scoreGameCenterRev = defaults.object(forKey: Settings.HIGH_SCORE_KEY_REVERSED) as? Int64 {
+                let bestScoreIntRev = GKScore(leaderboardIdentifier: LEADERBOARD_ID_REVERSED)
+                bestScoreIntRev.value = scoreGameCenterRev
+                GKScore.report([bestScoreIntRev]) { (error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("Best Score Memory submitted to your Leaderboard!")
+                    }
                 }
+            } else {
+            
             }
-        }else if gameMode == Settings.GAME_MODE_MEMORY {
+        } else if gameMode == Settings.GAME_MODE_MEMORY {
             //GC
-            let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY)
-            let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
-            bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
-            GKScore.report([bestScoreIntMemory]) { (error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    print("Best Score Memory submitted to your Leaderboard!")
+            if let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_MEMORY) as? Int64 {
+                let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_MEMORY)
+                bestScoreIntMemory.value = scoreGameCenterMemory
+                GKScore.report([bestScoreIntMemory]) { (error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("Best Score Memory submitted to your Leaderboard!")
+                    }
                 }
+            } else {
+            
             }
         } else if gameMode == Settings.GAME_MODE_INVISIBLE {
             //GC
-            let scoreGameCenterMemory = defaults.object(forKey: Settings.HIGH_SCORE_KEY_INVISIBLE)
-            let bestScoreIntMemory = GKScore(leaderboardIdentifier: LEADERBOARD_ID_INVISIBLE)
-            bestScoreIntMemory.value = scoreGameCenterMemory as! Int64
-            GKScore.report([bestScoreIntMemory]) { (error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    print("Best Score Invisible submitted to your Leaderboard!")
+            if let scoreGameCenterInvisible = defaults.object(forKey: Settings.HIGH_SCORE_KEY_INVISIBLE) as? Int64 {
+                let bestScoreIntInvisible = GKScore(leaderboardIdentifier: LEADERBOARD_ID_INVISIBLE)
+                bestScoreIntInvisible.value = scoreGameCenterInvisible
+                GKScore.report([bestScoreIntInvisible]) { (error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("Best Score Invisible submitted to your Leaderboard!")
+                    }
                 }
+            } else {
+            
             }
-        } else if gameMode == Settings.GAME_MODE_STAGE{
-            let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY)
-            let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
-            bestScoreInt.value = scoreGameCenter as! Int64
-            GKScore.report([bestScoreInt]) { (error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    print("Best Score Stage submitted to your Leaderboard!")
+        } else if gameMode == Settings.GAME_MODE_STAGE {
+            if let scoreGameCenter = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int64 {
+                let bestScoreInt = GKScore(leaderboardIdentifier: LEADERBOARD_ID)
+                bestScoreInt.value = scoreGameCenter
+                GKScore.report([bestScoreInt]) { (error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    } else {
+                        print("Best Score Stage submitted to your Leaderboard!")
+                    }
                 }
+            } else {
+            
             }
         }
     }
