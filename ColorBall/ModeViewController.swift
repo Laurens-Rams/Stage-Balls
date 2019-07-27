@@ -104,7 +104,6 @@ enum GameMode: String {
 }
 
 class ModeViewController: UIViewController{
-
     @IBOutlet weak var endlessButton: UIButton!
     @IBOutlet weak var memoryButton: UIButton!
     @IBOutlet weak var stageButton: UIButton!
@@ -254,12 +253,15 @@ class ModeViewController: UIViewController{
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) {
             memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
         }
+
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) {
             endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
         }
+
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) {
             reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
         }
+
         if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) {
             // TODO: Set invisible button and image here
             reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
