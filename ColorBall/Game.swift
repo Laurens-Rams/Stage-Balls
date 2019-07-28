@@ -509,6 +509,7 @@ class Game {
         }
     }
 
+    
     /**
      The number of balls remaining to fall in the current stage.
      */
@@ -960,7 +961,7 @@ class Game {
                 return 8
             }
 
-            if _isReversedMode { return 8 }
+            if _isReversedMode { return 3 }
 
             if _stage <= 18 { return _numberBallColors }
             if _stage <= 33 { return _numberBallColors + 1 } // = 5
