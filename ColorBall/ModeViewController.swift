@@ -141,7 +141,13 @@ class ModeViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         toggleModeButtons()
-        getProductData()
+        getProductData() { success in
+            if success {
+                self.toggleModeButtons()
+                self.hideTriesLabelsIfNeeded()
+            }
+        }
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.handlePurchaseNotification),
@@ -154,10 +160,6 @@ class ModeViewController: UIViewController{
                 label.configureForMode(mode)
             }
         }
-    }
-  
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
       
         if let savedMode = UserDefaults.standard.object(forKey: Settings.GAME_MODE_KEY) as? String {
             if let gameMode = GameMode.modeForDefaultsKey(id: savedMode) {
@@ -223,13 +225,14 @@ class ModeViewController: UIViewController{
         }
     }
 
-    func getProductData() {
+    func getProductData(completion: @escaping (Bool) -> Void) {
         StageBallsProducts.store.requestProducts() { success, products in
             if success {
                 self.products = products!
             }
             self.checkForPurchased()
             print(success, self.products)
+            completion(success)
         }
     }
 
@@ -266,11 +269,11 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-//        if Settings.DEV_MODE {
-//            // if dev mode is true, select the mode
-//            selectMode(mode: mode)
-//            return
-//        }
+        if Settings.DEV_MODE {
+            // if dev mode is true, select the mode
+            selectMode(mode: mode)
+            return
+        }
 
         if GameMode.allModesWithFreeTries().contains(mode) {
             if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
@@ -383,6 +386,19 @@ class ModeViewController: UIViewController{
                     button.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
                 } else {
                     button.backgroundColor = UIColor.clear
+                }
+            }
+        }
+    }
+  
+    func hideTriesLabelsIfNeeded() {
+        let modes = GameMode.allModesWithFreeTries()
+        for mode in modes {
+            if let triesLabel = triesLabelForGameMode(mode: mode),
+              let productId = mode.productId() {
+                let isPurchased = StageBallsProducts.store.isProductPurchased(productId)
+                if isPurchased {
+                    triesLabel.alpha = 0
                 }
             }
         }

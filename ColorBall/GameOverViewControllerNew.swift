@@ -60,9 +60,9 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
 
     func checkIfModeIsValid() {
-//        if Settings.DEV_MODE {
-//            return
-//        }
+        if Settings.DEV_MODE {
+            return
+        }
 
         if let mode = GameMode.modeForDefaultsKey(id: gameMode) {
             if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
