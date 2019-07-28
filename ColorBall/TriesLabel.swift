@@ -14,7 +14,11 @@ class TriesLabel: UILabel {
   
     private var _numTries = 3 {
         didSet {
-            text = "\(_numTries) Tries"
+            if _numTries > 0 {
+                text = "\(_numTries) Tries"
+            } else {
+                text = "Buy"
+            }
         }
     }
 
