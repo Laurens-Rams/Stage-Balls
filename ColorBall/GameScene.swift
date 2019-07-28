@@ -939,8 +939,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   
     // duration is 1 sec by default; use this param when calling to change
-    func transitionToBgColor(color: UIColor, duration: TimeInterval = 1.1) {
-          run(SKAction.colorize(with: color, colorBlendFactor: 1.0, duration: duration))
+    func transitionToBgColor(ball: SmallBall, duration: TimeInterval = 1.1) {
+        var actionsToRun = [SKAction]()
+
+        let ballColorInventory = game.getCountOfColorTypesRemaining(inSlots: slots)
+        let numTypes = ballColorInventory.count
+        if numTypes == 1 {
+            // if only one color is left, add the flash-to-white actions first
+            actionsToRun.append(SKAction.colorize(with: .white, colorBlendFactor: 1.0, duration: 0.5))
+            actionsToRun.append(SKAction.colorize(with: .white, colorBlendFactor: 1.0, duration: 0.5))
+        }
+      
+        // add the final colorize action last
+        actionsToRun.append(SKAction.colorize(with: ball.fillColor, colorBlendFactor: 1.0, duration: duration))
+
+        let actionSequence = SKAction.sequence(actionsToRun)
+      
+        run(actionSequence)
     }
   
     // duration is 1 sec by default; use this param when calling to change
@@ -1355,7 +1370,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newBall = makeBall()
 
             if game.isInvisibleMode {
-                transitionToBgColor(color: newBall.fillColor)
+                transitionToBgColor(ball: newBall)
             }
 
             var yPos = size.height
