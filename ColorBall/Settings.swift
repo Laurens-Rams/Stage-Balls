@@ -92,14 +92,16 @@ struct Settings {
     }
   
     static func decrementTriesForMode(mode: GameMode) {
-        var nextNumTries = 2
-
         if let triesKey = mode.modeTriesLeftDefaultsKey() {
-            if let numTries = UserDefaults.standard.object(forKey: triesKey) as? Int, numTries > 0 {
-                nextNumTries = numTries - 1
+            if let numTries = UserDefaults.standard.object(forKey: triesKey) as? Int {
+                if numTries > 0 {
+                    UserDefaults.standard.set(numTries - 1, forKey: triesKey)
+                }
+            } else {
+                // if the remaining tries variable does not exist yet, set it to 2, since
+                // we are currently trying to decrement it from 3 -> 2
+                UserDefaults.standard.set(2, forKey: triesKey)
             }
-
-            UserDefaults.standard.set(nextNumTries, forKey: triesKey)
         }
     }
   
