@@ -56,7 +56,11 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         setStageLabel()
         showHideStageButtons()
         // when thie view controller appears on screen, we should check if we're in a valid game mode:
-        checkIfModeIsValid()
+        getProductData() { modeIsPurchased in
+            if !modeIsPurchased {
+                self.checkIfModeIsValid()
+            }
+        }
     }
 
     func checkIfModeIsValid() {
@@ -71,6 +75,18 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                     launchModeViewController()
                 }
             }
+        }
+    }
+  
+    func getProductData(completion: @escaping (Bool) -> Void) {
+        StageBallsProducts.store.requestProducts() { success, products in
+            if let mode = GameMode.modeForDefaultsKey(id: self.gameMode) {
+                if let productId = mode.productId() {
+                    completion(StageBallsProducts.store.isProductPurchased(productId))
+                    return
+                }
+            }
+            completion(true)
         }
     }
 

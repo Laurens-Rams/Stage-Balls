@@ -143,8 +143,7 @@ class ModeViewController: UIViewController{
         toggleModeButtons()
         getProductData() { success in
             if success {
-                self.toggleModeButtons()
-                self.hideTriesLabelsIfNeeded()
+                self.whenReceivedProductDataOrThingsChangedOrLoading()
             }
         }
 
@@ -161,6 +160,13 @@ class ModeViewController: UIViewController{
             }
         }
       
+        whenReceivedProductDataOrThingsChangedOrLoading()
+    }
+  
+    func whenReceivedProductDataOrThingsChangedOrLoading() {
+        self.toggleModeButtons()
+        self.hideTriesLabelsIfNeeded()
+        self.checkForPurchased()
         if let savedMode = UserDefaults.standard.object(forKey: Settings.GAME_MODE_KEY) as? String {
             if let gameMode = GameMode.modeForDefaultsKey(id: savedMode) {
                 let shouldShowAlert = checkIfShouldAutoShowPurchaseAlert(mode: gameMode)
