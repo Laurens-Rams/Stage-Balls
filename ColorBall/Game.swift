@@ -1248,6 +1248,23 @@ class Game {
             return skulls
         }
     }
+
+    func getCountOfColorTypesRemaining(inSlots slots: [Slot]) -> [BallColor: Int] {
+        var counts = [BallColor: Int]()
+
+        for slot in slots {
+            if slot.isStarter, let b = slot.ball {
+                if let countForType = counts[b.colorType] {
+                    counts[b.colorType] = countForType + 1
+                } else {
+                    counts[b.colorType] = 1
+                }
+            }
+        }
+      
+        return counts
+    }
+
     /**
      Reset the count of every ball type (color) to zero, e.g. on a game reset
      */
