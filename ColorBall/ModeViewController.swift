@@ -140,13 +140,6 @@ class ModeViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        toggleModeButtons()
-        getProductData() { success in
-            if success {
-                self.whenReceivedProductDataOrThingsChangedOrLoading()
-            }
-        }
-
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.handlePurchaseNotification),
@@ -159,8 +152,15 @@ class ModeViewController: UIViewController{
                 label.configureForMode(mode)
             }
         }
-      
+
         whenReceivedProductDataOrThingsChangedOrLoading()
+    }
+  
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getProductData() { success in
+            self.whenReceivedProductDataOrThingsChangedOrLoading()
+        }
     }
   
     func whenReceivedProductDataOrThingsChangedOrLoading() {
@@ -185,6 +185,7 @@ class ModeViewController: UIViewController{
         }
 
         checkForPurchased()
+        hideTriesLabelsIfNeeded()
     }
 
     func checkIfShouldAutoShowPurchaseAlert(mode: GameMode) -> Bool {
