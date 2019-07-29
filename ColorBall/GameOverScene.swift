@@ -59,11 +59,11 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         body.pinned = true
         body.isDynamic = false
         Circle.physicsBody = body
-        
-        setupBalls()
-        
+
         addChild(Circle)
-        
+
+        setupBalls()
+
         setVolumeTexture()
     }
     
@@ -72,10 +72,6 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
         NotificationCenter.default.post(notification)
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
-    
     // hit test
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
@@ -114,8 +110,6 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 AudioManager.only.playClickSound()
-            }else{
-                    postRestartNotification()
             }
         }
     }

@@ -57,6 +57,36 @@ enum GameMode: String {
         }
     }
   
+    func highScoreKey() -> String {
+        switch self {
+            case .endless:
+                return Settings.HIGH_SCORE_KEY_ENDLESS
+            case .memory:
+                return Settings.HIGH_SCORE_KEY_MEMORY
+            case .reversed:
+                return Settings.HIGH_SCORE_KEY_REVERSED
+            case .invisible:
+                return Settings.HIGH_SCORE_KEY_INVISIBLE
+            case .stage:
+                return Settings.HIGH_SCORE_KEY
+        }
+    }
+  
+    func currentStageKey() -> String {
+        switch self {
+            case .endless:
+                return Settings.CURRENT_STAGE_KEY_ENDLESS
+            case .memory:
+                return Settings.CURRENT_STAGE_KEY_MEMORY
+            case .reversed:
+                return Settings.CURRENT_STAGE_KEY_REVERSED
+            case .invisible:
+                return Settings.CURRENT_STAGE_KEY_INVISIBLE
+            case .stage:
+                return Settings.CURRENT_STAGE_KEY
+        }
+    }
+  
      func modeDefaultsKey() -> String {
         switch self {
             case .endless:
