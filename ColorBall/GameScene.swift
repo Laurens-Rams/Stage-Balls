@@ -269,26 +269,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     /**
-     Update the position of every ball on the screen that is NOT stuck to a column slot.
-     - parameters:
-        - dt: Last calculated delta time
-     */
-    func setupDirectionTimer() {
-//        if game.isReversedMode {
-//            let _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: {timer in
-//                if self.direction == 1 {
-//                    self.direction = -1
-//                } else {
-//                   self.direction = 1
-//                }
-//                self.getCircleValues()
-//                self.isTouching = true
-//                self.isHolding = true
-//            })
-//        }
-    }
-
-    /**
      Set the timer for dropping the first ball.
      */
     func setupFirstFallTimer() {
@@ -302,7 +282,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
-                self.setupDirectionTimer()
                 //self.moveCircle()
             })
         } else {
@@ -312,20 +291,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
-                self.setupDirectionTimer()
                 //self.moveCircle()
             })
         }
     }
-  
-//    func postFirstFallTimerActions() {
-//        self.allowToMove = true
-//          self.canpresspause = true
-//          self.ballsNeedUpdating = true
-//          self.addBall()
-//          self.gameDelegate?.tapleftright()
-//          self.setupDirectionTimer()
-//    }
   
     func setupSlots() {
         print("gravityMultiplier:" , game.gravityMultiplier)
@@ -1175,12 +1144,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         //fruits
-        setFruits(ball: newBall, rando: rando)
+        setTexture(ball: newBall, rando: rando)
         //checkforMemory(ball: newBall)
         return newBall
     }
 
-    func setFruits(ball: SmallBall, rando: Int){
+    func setTexture(ball: SmallBall, rando: Int){
+        if game.isInvisibleMode {
+            return
+        }
+
         if let mode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String{
             if mode == Settings.TEXTURE_FRUITS{
                 ball.setScale(1.02)
@@ -1319,7 +1292,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
-        setFruits(ball: newBall, rando: rando)
+        setTexture(ball: newBall, rando: rando)
         return newBall
     }
     
