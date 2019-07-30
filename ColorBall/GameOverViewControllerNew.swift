@@ -33,7 +33,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             RemainingBalls.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-            
         }
         stageLabel.textColor = .white
         layoutUI()
@@ -51,6 +50,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        scene.isPaused = false
         checkMode()
         checkIfStageIsValidForMode()
         submitGameCenter()
@@ -62,6 +62,10 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                 self.checkIfModeIsValid()
             }
         }
+    }
+  
+    override func viewWillDisappear(_ animated: Bool) {
+        scene.isPaused = true
     }
 
     func checkIfStageIsValidForMode() {

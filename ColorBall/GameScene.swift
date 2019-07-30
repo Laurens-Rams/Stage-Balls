@@ -89,15 +89,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var nextBall: SmallBall?
     var stopSpinOverride = false
     var reversedModeSpinMultMax: Double = 5
-    
+  
+    var setLastUpdateTime = false
+
     // main update function (game loop)
     override func update(_ currentTime: TimeInterval) {
+        if setLastUpdateTime && lastUpdateTime == 0 { lastUpdateTime = currentTime }
+
+        guard lastUpdateTime > 0 else { return }
+
         let deltaTime = currentTime - lastUpdateTime
         let currentFPS = 1 / deltaTime
 
         dt = 1.0/CGFloat(currentFPS)
         lastUpdateTime = currentTime
-        
+      
+        guard isPaused == false else { return }
+
         if canMove || (game.isReversedMode && !stopSpinOverride) {
             updateCircle(dt: dt)
         }
@@ -311,6 +319,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
         var nums = [1,2,3,4,5,6,7,8,9,10,11,12,13]
 
+        var baseSlotCount = 0
         for i in 0..<game.numberStartingBalls {
             if (game.numberStartingBalls <= 13) {
                 let arrayKey = Int(arc4random_uniform(UInt32(nums.count)))
@@ -363,12 +372,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 slot.columnNumber = i
                 slots.append(slot)
             }
+            baseSlotCount += 1
         }
 
+        var index = 0
         for slot in slots {
             // only animate the slots closest to the circle when starting the scene
             if let slot = slot as? BaseSlot {
-                animateSlotBall(slot: slot)
+                index += 1
+                animateSlotBall(slot: slot, isLast: index == baseSlotCount)
             }
         }
     }
@@ -428,10 +440,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - parameters:
      - ball: A StartingSmallBall object.
      */
-    func animateSlotBall(slot: BaseSlot) {
+    func animateSlotBall(slot: BaseSlot, isLast: Bool) {
         let action = SKAction.move(to: slot.insidePosition, duration: 1.2)
         slot.ball!.run(action, completion: {
             slot.ball!.stuck = true
+            if isLast {
+                self.setLastUpdateTime = true
+            }
         })
         if slot.ball!.isMemoryBall {
             let wait = SKAction.wait(forDuration: 2.0)
