@@ -91,6 +91,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var reversedModeSpinMultMax: Double = 5
   
     var setLastUpdateTime = false
+  
+    var reversedModeStartIndex = 0
+    var reversedColorIndex = 3
+  
+    var revColors = [
+        GameConstants.reversedColors[0],
+        GameConstants.reversedColors[1],
+        GameConstants.reversedColors[2],
+        GameConstants.reversedColors[3]
+    ]
+  
+    var revBallTypes = [
+        BallColor(rawValue: 0),
+        BallColor(rawValue: 1),
+        BallColor(rawValue: 2),
+        BallColor(rawValue: 3)
+    ]
 
     // main update function (game loop)
     override func update(_ currentTime: TimeInterval) {
@@ -868,8 +885,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func addNewBall(toColumn num: Int, isSurprise: Bool = false) -> StartingSmallBall {
         let slot = getFirstSlotInColumn(num: num)
-        let index = randomInteger(upperBound: game.numberBallColors) - 1
-        let newBall = makeStartBall(index: index)
+
+        var overrideIndex = false
+        if game.isReversedMode && game.ballsFallen % 3 == 0 {
+            overrideIndex = true
+            if reversedColorIndex < GameConstants.reversedColors.count - 1 {
+                reversedColorIndex += 1
+            } else {
+                reversedModeStartIndex = 0
+            }
+            if reversedModeStartIndex >= 3 {
+                reversedModeStartIndex = 0
+            } else {
+                reversedModeStartIndex += 1
+            }
+            let newColor = GameConstants.reversedColors[reversedColorIndex]
+            let newType = BallColor(rawValue: reversedColorIndex)
+            revColors[reversedModeStartIndex] = newColor
+            revBallTypes[reversedModeStartIndex] = newType
+        }
+
+        let index = overrideIndex ? reversedModeStartIndex : randomInteger(upperBound: game.numberBallColors) - 1
+        let newBall = makeStartBall(index: index, overrideRandom: overrideIndex)
         newBall.isSurprise = isSurprise
         newBall.insidePos = slot.insidePosition
         newBall.startingPos = slot.startPosition
@@ -1101,7 +1138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         - index: The index of this ball in the array of starting balls.
      - returns: A new StartingSmallBall object.
      */
-    func makeStartBall(index: Int) -> StartingSmallBall {
+    func makeStartBall(index: Int, overrideRandom: Bool = false) -> StartingSmallBall {
         var categories = [
             PhysicsCategory.circleBall,
             PhysicsCategory.blueBall,
@@ -1129,18 +1166,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.n,
             PhysicsCategory.m,
         ]
-        
+      
         // generate a random integer betweeb 0 and 7
-        let rando = index < game.numberBallColors ? index : randomInteger(upperBound: game.numberBallColors) - 1
-        
+        let rando = overrideRandom || index < game.numberBallColors ? index : randomInteger(upperBound: game.numberBallColors) - 1
+      
         // use the random integer to get a ball type and a ball colorr
-        let ballType = BallColor(rawValue: rando)!
+        let ballType = game.isReversedMode ? revBallTypes[rando]! : BallColor(rawValue: rando)!
 
         game.incrementBallType(type: ballType)
 
         let newBall = StartingSmallBall(circleOfRadius: game.smallDiameter / 2)
         // set the fill color to our random color
-        newBall.fillColor = GameConstants.ballColors[rando]
+        if game.isReversedMode {
+            let color = revColors[rando]
+            newBall.strokeColor = color
+            newBall.fillColor = color
+        } else {
+            let color = GameConstants.ballColors[rando]
+            newBall.strokeColor = color
+            newBall.fillColor = color
+        }
+
         // don't fill the outline
         let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2))
         // our physics categories are offset by 1, the first entry in the arryay being the bitmask for the player's circle ball
@@ -1156,7 +1202,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        //Fruits
         newBall.lineWidth = 0.1
         newBall.lineCap = CGLineCap(rawValue: 1)!
-        newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         //fruits
         setTexture(ball: newBall, rando: rando)
@@ -1272,18 +1317,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             PhysicsCategory.n,
             PhysicsCategory.m,
         ]
+
         var rando = randomInteger(upperBound: game.numberBallColors) - 1
-        var ballType = BallColor(rawValue: rando)!
-        
+        var ballType = game.isReversedMode ? revBallTypes[rando]! : BallColor(rawValue: rando)!
+
         while (game.getCountForType(type: ballType) <= 0) {
             rando = randomInteger(upperBound: game.numberBallColors) - 1
-            ballType = BallColor(rawValue: rando)!
+            ballType = game.isReversedMode ? revBallTypes[rando]! : BallColor(rawValue: rando)!
         }
         
         game.incrementBallType(type: ballType)
         
         let newBall = SmallBall(circleOfRadius: game.smallDiameter / 2)
-        newBall.fillColor = GameConstants.ballColors[rando]
+      
+        // set the fill color to our random color
+        if game.isReversedMode {
+            let color = revColors[reversedModeStartIndex]
+            newBall.strokeColor = color
+            newBall.fillColor = color
+        } else {
+            let color = GameConstants.ballColors[rando]
+            newBall.strokeColor = color
+            newBall.fillColor = color
+        }
+
         newBall.isAntialiased = false
         newBall.strokeColor = GameConstants.ballColors[rando]
         let body = SKPhysicsBody(circleOfRadius: (game.smallDiameter / 2))
@@ -1305,7 +1362,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        }
         newBall.lineWidth = 0.1
         newBall.lineCap = CGLineCap(rawValue: 1)!
-        newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         setTexture(ball: newBall, rando: rando)
         return newBall
@@ -1409,11 +1465,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - upperBound: Optional max.
      - returns: A number.
      */
-    func randomInteger(upperBound: Int?) -> Int {
+    func randomInteger(upperBound: Int?, lowerBound: Int = 1) -> Int {
         if let bound = upperBound {
-             return Int(arc4random_uniform(UInt32(bound)) + UInt32(1))
+             return Int(arc4random_uniform(UInt32(bound)) + UInt32(lowerBound))
         }
-        return Int(arc4random_uniform(8) + UInt32(1))
+        return Int(arc4random_uniform(8) + UInt32(lowerBound))
     }
     
     /**

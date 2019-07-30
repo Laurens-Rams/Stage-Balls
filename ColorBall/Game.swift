@@ -33,7 +33,26 @@ struct GameConstants {
     static let startingBallRadiusScale: CGFloat = GameConstants.startingBallScale * 0.5
     static let startingCircleDiameter: CGFloat = GameConstants.screenWidth * GameConstants.startingCircleScale
     static let startingOuterDiameter: CGFloat = GameConstants.startingCircleDiameter + (GameConstants.screenWidth * GameConstants.startingBallRadiusScale)
-    
+  
+    static let reversedColors: [UIColor] = [
+        //1
+        UIColor(red: 255/255, green: 141/255, blue: 193/255, alpha: 1.0),
+        //2
+        UIColor(red: 52/255, green: 171/255, blue: 224/255, alpha: 1.0),
+        //3
+        UIColor(red: 255/255, green: 190/255, blue: 2/255, alpha: 1.0),
+        //4
+        UIColor(red: 5/255, green: 153/255, blue: 149/255, alpha: 1.0),
+        //5
+        UIColor(red: 112/255, green: 32/255, blue: 132/255, alpha: 1.0),
+        //6
+        UIColor(red: 239/255, green: 221/255, blue: 182/255, alpha: 1.0),
+        //7
+        UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0),
+        //8
+        UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0),
+    ]
+
     static let ballColors: [UIColor] = [
         //1
         UIColor(red: 255/255, green: 141/255, blue: 193/255, alpha: 1.0),
@@ -984,7 +1003,8 @@ class Game {
                 if _stage <= 30 { return _numberBallColors + 4 } // 8
                 return 8
             }
-            if _isReversedMode { return 3 }
+
+            if _isReversedMode { return 4 }
             
             if _stage <= 10 { return _numberBallColors }
             if _stage <= 15 { return _numberBallColors + 1 } // = 5
