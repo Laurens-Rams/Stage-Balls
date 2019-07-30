@@ -554,8 +554,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let explosiony = CGPoint(x: ball.position.x, y: ball.position.y)
             thisExplosion.position = explosiony
             //fruit explosion
-            if let mode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String{
-                if mode == Settings.TEXTURE_FRUITS{
+            if let type = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String{
+                if type == Settings.TEXTURE_FRUITS{
                     if ball.colorType.name() == "blue"{
                         let explosionTexture = SKTexture(imageNamed: "Fruit-1")
                         thisExplosion.particleTexture = explosionTexture
@@ -581,7 +581,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let explosionTexture = SKTexture(imageNamed: "Fruit-8")
                         thisExplosion.particleTexture = explosionTexture
                     }
-                }else if mode == Settings.TEXTURE_POOL{
+                }else if type == Settings.TEXTURE_POOL{
                     if ball.colorType.name() == "blue"{
                         let explosionTexture = SKTexture(imageNamed: "Pool-1")
                         thisExplosion.particleTexture = explosionTexture
@@ -607,7 +607,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let explosionTexture = SKTexture(imageNamed: "Pool-8")
                         thisExplosion.particleTexture = explosionTexture
                     }
-                }else if mode == Settings.TEXTURE_BALLS{
+                }else if type == Settings.TEXTURE_BALLS{
                     if ball.colorType.name() == "blue"{
                         let explosionTexture = SKTexture(imageNamed: "ball-1")
                         thisExplosion.particleTexture = explosionTexture

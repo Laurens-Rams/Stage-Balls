@@ -967,11 +967,11 @@ class Game {
     var numberBallColors: Int {
         get {
             if _isEndlessMode {
-                if _ballsFallen <= 5 { return 8 }
-                if _ballsFallen <= 15 { return _numberBallColors } // = 5
-                if _ballsFallen <= 30 { return _numberBallColors + 1} // = 6
-                if _ballsFallen <= 45 { return _numberBallColors + 2 } // = 7
-                if _ballsFallen <= 60 { return _numberBallColors + 3 } // = 8
+                if _ballsFallen <= 10 { return 4 }
+                if _ballsFallen <= 20 { return _numberBallColors } // = 5
+                if _ballsFallen <= 35 { return _numberBallColors + 1} // = 6
+                if _ballsFallen <= 50 { return _numberBallColors + 2 } // = 7
+                if _ballsFallen <= 75 { return _numberBallColors + 3 } // = 8
 
                 return 8
             }
