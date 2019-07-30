@@ -28,12 +28,15 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     var tutorialVC: TutorialViewController?
     var modeVC: ModeViewController?
     var ballVC: BallsViewController?
-    
+    var longGesture = UILongPressGestureRecognizer()
+    var longGesture2 = UILongPressGestureRecognizer()
     @IBOutlet weak var skView: SKView!
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+    
+        
         view.backgroundColor = .white
         listenForNotifications()
         authenticateLocalPlayer()
@@ -44,12 +47,27 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         skView.showsNodeCount = false
         scene.scaleMode = .fill
         skView.presentScene(scene)
+        //unlock modes
+        longGesture = UILongPressGestureRecognizer(target: self, action: #selector(StartViewController.unlockMode(_:)))
+        longGesture.minimumPressDuration = 3
+        //unlock all stages
+        longGesture2 = UILongPressGestureRecognizer(target: self, action: #selector(StartViewController.unlockStage(_:)))
+        longGesture2.minimumPressDuration = 3
+        longGesture2.numberOfTouchesRequired = 2
+        skView.addGestureRecognizer(longGesture)
+        skView.addGestureRecognizer(longGesture2)
     }
+    
 
     func listenForNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchTutorialForGame), name: Settings.PresentGameControllerNotification, object: nil)
     }
-    
+    @objc func unlockMode(_ sender: UILongPressGestureRecognizer) {
+        unlockforfree()
+    }
+    @objc func unlockStage(_ sender: UILongPressGestureRecognizer) {
+        unlockstageforfree()
+    }
     @objc func handleSwitchTutorialForGame() {
         UserDefaults.standard.set(true, forKey: Settings.LAUNCHED_BEFORE_KEY)
         UserDefaults.standard.synchronize()
@@ -57,6 +75,73 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         dismissTutorial {
             self.launchGameViewController()
         }
+    }
+    
+    
+    func unlockstageforfree(){
+        let alert = UIAlertController(title: "Stage Balls",
+                                      message: "Unlock all stages for free.",
+                                      preferredStyle: .alert)
+        
+        let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
+            // Get 1st TextField's text
+            let textField = alert.textFields![0]
+            if textField.text! == "ART" {
+                //EMILY?
+               // UserDefaults.standard.set(true, forKey: Settings.)
+                let alert = UIAlertController(title: "Succesfully unlocked", message: "Have fun!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "START", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }else {
+                let alert = UIAlertController(title: "Wrong password", message: "Try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+        })
+        
+        alert.addTextField { (textField: UITextField) in
+            textField.keyboardAppearance = .dark
+            textField.keyboardType = .default
+            textField.autocorrectionType = .default
+            textField.placeholder = "Type in password"
+            textField.clearButtonMode = .whileEditing
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        alert.addAction(submitAction)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
+    func unlockforfree(){
+            let alert = UIAlertController(title: "Stage Balls",
+                                      message: "Unlock all modes for free.",
+                                      preferredStyle: .alert)
+        
+            let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
+            // Get 1st TextField's text
+            let textField = alert.textFields![0]
+            if textField.text! == "ART" {
+                UserDefaults.standard.set(true, forKey: Settings.UNLOCK_FREE_MODES)
+                let alert = UIAlertController(title: "Succesfully unlocked", message: "Have fun!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "START", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }else {
+                let alert = UIAlertController(title: "Wrong password", message: "Try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+        })
+        
+        alert.addTextField { (textField: UITextField) in
+            textField.keyboardAppearance = .dark
+            textField.keyboardType = .default
+            textField.autocorrectionType = .default
+            textField.placeholder = "Type in password"
+            textField.clearButtonMode = .whileEditing
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        alert.addAction(submitAction)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
     }
     
     func dismissTutorial(completion: @escaping () -> Void) {

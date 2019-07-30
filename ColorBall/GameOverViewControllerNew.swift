@@ -64,30 +64,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                 self.checkIfModeIsValid()
             }
         }
-        
-        let alert = UIAlertController(title: "Unlock all modes free",
-                                      message: "",
-                                      preferredStyle: .alert)
-        
-        let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
-            // Get 1st TextField's text
-            let textField = alert.textFields![0]
-            if textField.text! == "ART" {
-                 UserDefaults.standard.set(true, forKey: Settings.UNLOCK_FREE_MODES)
-            }
-        })
-        
-        alert.addTextField { (textField: UITextField) in
-            textField.keyboardAppearance = .dark
-            textField.keyboardType = .default
-            textField.autocorrectionType = .default
-            textField.placeholder = "Type in password"
-            textField.clearButtonMode = .whileEditing
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        alert.addAction(submitAction)
-        alert.addAction(cancel)
-        present(alert, animated: true, completion: nil)
     }
 
     func AnimateStageOverLabel(){
