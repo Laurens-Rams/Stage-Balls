@@ -14,7 +14,7 @@ struct Settings {
     // 21600 == 6 hours in seconds (6 * 60 * 60)
   
     #if DEBUG
-      static let DEV_MODE = false
+      static let DEV_MODE = true
     #else
       static let DEV_MODE = false
     #endif
@@ -37,7 +37,11 @@ struct Settings {
     static let HIGH_SCORE_KEY_ENDLESS = "HIGH_SCORE_ENDLESS"
     static let HIGH_SCORE_KEY_REVERSED = "HIGH_SCORE_KEY_REVERSED"
     static let HIGH_SCORE_KEY_INVISIBLE = "HIGH_SCORE_KEY_INVISIBLE"
-    
+  
+    static let HIGHEST_STAGE_KEY = "HIGHEST_STAGE"
+    static let HIGHEST_STAGE_KEY_MEMORY = "HIGHEST_STAGE_MEMORY"
+    static let HIGHEST_STAGE_KEY_INVISIBLE = "HIGHEST_STAGE_INVISIBLE"
+  
     static let PLAYS_PER_GAME = "PLAYS_PER_GAME"
     static let LAST_AD_TIME = "LAST_AD_TIME"
     static let VOLUME_ON_KEY = "VOLUME_ON_KEY"

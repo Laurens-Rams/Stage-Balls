@@ -246,27 +246,28 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             nextStageButton.alpha = 0
             lastStageButton.alpha = 0
         } else {
-            if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int, let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
-                if currentStage >= highScore {
+            var keyForCurrentStage = Settings.CURRENT_STAGE_KEY
+            var keyForHighestStage: String? = nil
+          
+            if let mode = GameMode.modeForDefaultsKey(id: gameMode) {
+                keyForCurrentStage = mode.currentStageKey()
+                keyForHighestStage = mode.highestStageKey()
+            }
+
+            if keyForHighestStage != nil {
+                let highestStage = defaults.integer(forKey: keyForHighestStage!)
+                let currentStage = defaults.integer(forKey: keyForCurrentStage)
+                if currentStage >= highestStage {
                     nextStageButton.alpha = 0
                     nextStageButton.isUserInteractionEnabled = false
                     stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
-                    // stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width + 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
                 } else {
                     nextStageButton.alpha = 1
                     nextStageButton.isUserInteractionEnabled = true
                     stageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25).isActive = true
                     //stageLabel.frame = CGRect(x: view.frame.width - stageLabel.frame.width - 50, y: stageLabel.frame.minY, width: stageLabel.frame.width, height: stageLabel.frame.height)
                 }
-                if currentStage <= 1 {
-                    lastStageButton.alpha = 0
-                    lastStageButton.isUserInteractionEnabled = false
-                } else {
-                    lastStageButton.alpha = 1
-                    lastStageButton.isUserInteractionEnabled = true
-                }
-            } else if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int{
-                if currentStage <= 1 {
+                 if currentStage <= 1 {
                     lastStageButton.alpha = 0
                     lastStageButton.isUserInteractionEnabled = false
                 } else {
@@ -278,19 +279,43 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
     
     @IBAction func goToNextStage(_ sender: Any) {
-        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+        var keyForSavedCurrentStage: String? = nil
+
+        // decide if we should use a different key to check the current stage in user defaults
+        if gameMode == Settings.GAME_MODE_MEMORY {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_MEMORY
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_INVISIBLE
+        } else if gameMode == Settings.GAME_MODE_STAGE {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY
+        }
+
+        if keyForSavedCurrentStage != nil, let currentStage = defaults.object(forKey: keyForSavedCurrentStage!) as? Int {
             let nextStage = currentStage + 1
-            defaults.set(nextStage, forKey: Settings.CURRENT_STAGE_KEY)
+            defaults.set(nextStage, forKey: keyForSavedCurrentStage!)
             defaults.synchronize()
+        } else {
+            defaults.set(game.stage + 1, forKey: keyForSavedCurrentStage!)
         }
         showHideStageButtons()
         setStageLabel()
     }
     
     @IBAction func goToLastStage(_ sender: Any) {
-        if let currentStage = defaults.object(forKey: Settings.CURRENT_STAGE_KEY) as? Int {
+        var keyForSavedCurrentStage: String? = nil
+
+        // decide if we should use a different key to check the current stage in user defaults
+        if gameMode == Settings.GAME_MODE_MEMORY {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_MEMORY
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_INVISIBLE
+        } else if gameMode == Settings.GAME_MODE_STAGE {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY
+        }
+
+        if keyForSavedCurrentStage != nil, let currentStage = defaults.object(forKey: keyForSavedCurrentStage!) as? Int {
             let lastStage = currentStage - 1
-            defaults.set(lastStage, forKey: Settings.CURRENT_STAGE_KEY)
+            defaults.set(lastStage, forKey: keyForSavedCurrentStage!)
             defaults.synchronize()
         }
         showHideStageButtons()

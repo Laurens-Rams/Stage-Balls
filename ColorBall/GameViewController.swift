@@ -144,6 +144,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_ENDLESS
         } else if gameMode == Settings.GAME_MODE_MEMORY {
             keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_MEMORY
+        } else if gameMode == Settings.GAME_MODE_REVERSED {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_REVERSED
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_INVISIBLE
         }
 
         if let currentStage = defaults.object(forKey: keyForSavedCurrentStage) as? Int {
@@ -620,7 +624,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         } else if gameMode == Settings.GAME_MODE_INVISIBLE {
             keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY_INVISIBLE
         }
-        
+
         // NOTE: i added a parameter to this analytics call so you can distinguish between modes
         // if this is not desired behavior, just delete that line
         if let stage = defaults.object(forKey: keyForSavedCurrentStage) as? Int {
@@ -628,8 +632,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 AnalyticsParameterCharacter: gameMode,
                 AnalyticsParameterLevel: stage
             ])
-
         }
+
         defaults.set(0, forKey: Settings.PLAYS_PER_GAME)
         UIView.animate(withDuration: 0.2, delay: 0.0, animations: {
             self.scoreLabel.alpha = 1.0
@@ -638,8 +642,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         adsShowNextStage = true
         handleAds()
     }
-    
+
     func showGameOverViewController() {
+        rememberCurrentStage()
         // create and present the game over view controller
         gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
         // set the ending "score" to how many balls you cleared (number fallen)
@@ -655,13 +660,16 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
         present(gameOverController!, animated: false, completion: nil)
     }
-    
-    func startNextStage() {
-        game.increaseStage()
+
+    func rememberCurrentStage() {
         // save the current stage into the correct defaults object
         if gameMode == Settings.GAME_MODE_MEMORY {
             // if we're in memory mode, save stage under the memory key
             defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY_MEMORY)
+            let highestStage = defaults.integer(forKey: Settings.HIGHEST_STAGE_KEY_MEMORY)
+            if (game.stage > highestStage) {
+                defaults.set(game.stage, forKey: Settings.HIGHEST_STAGE_KEY_MEMORY)
+            }
         } else if gameMode == Settings.GAME_MODE_ENDLESS {
             // if we're in endless mode, save stage under the endless key
             defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY_ENDLESS)
@@ -671,10 +679,24 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         } else if gameMode == Settings.GAME_MODE_INVISIBLE {
             // if we're in invisible mode, save stage under the invisible key
             defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY_INVISIBLE)
+            let highestStage = defaults.integer(forKey: Settings.HIGHEST_STAGE_KEY_INVISIBLE)
+            if (game.stage > highestStage) {
+                defaults.set(game.stage, forKey: Settings.HIGHEST_STAGE_KEY_INVISIBLE)
+            }
         } else {
             // if we're in normal stage mode, save under the normal stage key
             defaults.set(game.stage, forKey: Settings.CURRENT_STAGE_KEY)
+            let highestStage = defaults.integer(forKey: Settings.HIGHEST_STAGE_KEY)
+            if (game.stage > highestStage) {
+                defaults.set(game.stage, forKey: Settings.HIGHEST_STAGE_KEY)
+            }
         }
+    }
+
+    func startNextStage() {
+        game.increaseStage()
+
+        rememberCurrentStage()
 
         defaults.synchronize()
         stageLabel.text = "STAGE \(game.stage)"
