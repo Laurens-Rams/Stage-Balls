@@ -23,6 +23,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     @IBOutlet var showpoints: UILabel!
     @IBOutlet weak var lastStageButton: UIButton!
     @IBOutlet weak var nextStageButton: UIButton!
+    @IBOutlet weak var StageOverLabel: UILabel!
     
     var scene: GameOverScene!
 
@@ -35,6 +36,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             RemainingBalls.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             
         }
+        AnimateStageOverLabel()
         stageLabel.textColor = .white
         layoutUI()
         scene = GameOverScene(size: view.bounds.size)
@@ -47,6 +49,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         showpoints.text = scoreFormatter(score: endingScore)
         showpoints.alpha = 0
         setRemainingBalls()
+        setStageOverLabel()
     }
   
     override func viewDidAppear(_ animated: Bool) {
@@ -63,6 +66,14 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         }
     }
 
+    func AnimateStageOverLabel(){
+        UIView.animate(withDuration: 1.5, delay: 0, options: [.repeat, .autoreverse], animations: {
+            self.StageOverLabel.transform = CGAffineTransform(translationX: 0, y: 40)
+        }, completion: nil)
+    }
+    
+
+    
     func checkIfModeIsValid() {
         if Settings.DEV_MODE {
             return
@@ -109,6 +120,12 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         }
     }
 
+    func setStageOverLabel(){
+        if gameMode == Settings.GAME_MODE_ENDLESS || gameMode == Settings.GAME_MODE_REVERSED {
+            StageOverLabel.text = "Game Over"
+        }
+    }
+    
     func submitGameCenter(){
         if gameMode == Settings.GAME_MODE_ENDLESS {
             //GC
