@@ -142,7 +142,7 @@ class Game {
     // surprise stage controls
     // =========
     // minimum stage for surprises
-    private var _minStageForSurprises: Int = 6
+    private var _minStageForSurprises: Int = 4
     // we always add 0.5 to this BEFORE returning it
     // thus, we should start at 0.5, so the first time we hit a surprise stage,
     // it will add and return 1, then increase by 1 every other time after that
@@ -598,7 +598,19 @@ class Game {
 
             // TODO: Setup number of starting balls invisible mode
             if _isInvisibleMode {
-            
+                if _stage == 1{
+                    return 14
+                }else if _stage == 2{
+                    return 15
+                }else if _stage >= 3{
+                    // every 4 balls 1 new ball until stage 35 that makes 8
+                    let multiplesOfFrequency = Int(round(Double((_stage - 2) / 4)))
+                    if _stage < 35{
+                        return 14 + multiplesOfFrequency
+                    } else {
+                        return 22
+                    }
+                }
             }
 
             let frequency = 4
@@ -730,7 +742,10 @@ class Game {
             if _isEndlessMode || _isReversedMode {
                 return -1
             }
-
+            // use same as in stage
+            if isInvisibleMode{
+                
+            }
             let frequency = 1
             let maxBalls: Double = 44
             let initialSurpriseCount = 1.0
@@ -914,11 +929,12 @@ class Game {
             return total
         }
     }
-
+//
 
     /**
      How high the balls should be able to stack (read-only getter).
      */
+    // the height
     var slotsPerColumn: Int {
         get {
             if _stage < 13 { return _slotsPerColumn } // 1-12 = 2
@@ -951,7 +967,7 @@ class Game {
     var numberBallColors: Int {
         get {
             if _isEndlessMode {
-                if _ballsFallen <= 5 { return 4 }
+                if _ballsFallen <= 5 { return 8 }
                 if _ballsFallen <= 15 { return _numberBallColors } // = 5
                 if _ballsFallen <= 30 { return _numberBallColors + 1} // = 6
                 if _ballsFallen <= 45 { return _numberBallColors + 2 } // = 7
@@ -960,14 +976,21 @@ class Game {
                 return 8
             }
 
-            if _isReversedMode { return 8 }
-
-            if _stage <= 18 { return _numberBallColors }
-            if _stage <= 33 { return _numberBallColors + 1 } // = 5
-            if _stage <= 48 { return _numberBallColors + 2 } // = 6
-            if _stage <= 63 { return _numberBallColors + 3 } // 7
-            if _stage <= 78 { return _numberBallColors + 4 } // 8
-
+            if isInvisibleMode{
+                if _stage <= 3 { return _numberBallColors }
+                if _stage <= 8 { return _numberBallColors + 1 } // = 5
+                if _stage <= 15 { return _numberBallColors + 2 } // = 6
+                if _stage <= 22 { return _numberBallColors + 3 } // 7
+                if _stage <= 30 { return _numberBallColors + 4 } // 8
+                return 8
+            }
+            if _isReversedMode { return 3 }
+            
+            if _stage <= 10 { return _numberBallColors }
+            if _stage <= 15 { return _numberBallColors + 1 } // = 5
+            if _stage <= 25 { return _numberBallColors + 2 } // = 6
+            if _stage <= 35 { return _numberBallColors + 3 } // 7
+            if _stage <= 45 { return _numberBallColors + 4 } // 8
             return 8
         }
     }

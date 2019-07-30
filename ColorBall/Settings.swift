@@ -14,7 +14,7 @@ struct Settings {
     // 21600 == 6 hours in seconds (6 * 60 * 60)
   
     #if DEBUG
-      static let DEV_MODE = false
+      static let DEV_MODE = true
     #else
       static let DEV_MODE = false
     #endif

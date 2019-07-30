@@ -67,7 +67,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
 
     func AnimateStageOverLabel(){
-        UIView.animate(withDuration: 2.0, delay: 0, options: [.repeat, .autoreverse], animations: {
+        UIView.animate(withDuration: 1.5, delay: 0, options: [.repeat, .autoreverse], animations: {
             self.StageOverLabel.transform = CGAffineTransform(translationX: 0, y: 40)
         }, completion: nil)
     }
