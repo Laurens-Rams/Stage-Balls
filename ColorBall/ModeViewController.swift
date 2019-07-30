@@ -341,7 +341,8 @@ class ModeViewController: UIViewController{
 
         // first, check if this user has already purchased the product with the given identifier
         if mode.canPurchase() && mode.productId() != nil {
-            if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
+            let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
+            if StageBallsProducts.store.isProductPurchased(mode.productId()!) || freeunlocked {
                 // already purchased? select it
                 selectMode(mode: mode)
             } else {
@@ -411,19 +412,20 @@ class ModeViewController: UIViewController{
     }
 
     func checkForPurchased() {
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) {
+        let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) || freeunlocked{
             memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
         }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) {
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) || freeunlocked {
             endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
         }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) {
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) || freeunlocked {
             reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
         }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) {
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) || freeunlocked {
             invisibleButton.setImage(#imageLiteral(resourceName: "unlockInvisible"), for: .normal)
         }
     }

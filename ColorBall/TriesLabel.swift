@@ -14,7 +14,10 @@ class TriesLabel: UILabel {
   
     private var _numTries = 3 {
         didSet {
-            if _numTries > 0 {
+            let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
+            if freeunlocked{
+                 text = ""
+            }else if _numTries > 0 {
                 text = "\(_numTries) Tries"
             } else {
                 text = "Buy"
