@@ -32,7 +32,6 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     @IBOutlet weak var skView: SKView!
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         view.backgroundColor = .white
         listenForNotifications()
@@ -44,6 +43,16 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         skView.showsNodeCount = false
         scene.scaleMode = .fill
         skView.presentScene(scene)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        scene.isPaused = true
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        scene.isPaused = false
     }
 
     func listenForNotifications() {
