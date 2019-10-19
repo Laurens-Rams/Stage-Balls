@@ -34,7 +34,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             RemainingBalls.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-            
         }
         AnimateStageOverLabel()
         stageLabel.textColor = .white
@@ -53,8 +52,10 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        scene.isPaused = false
         checkMode()
         setStageOverLabel()
+        checkIfStageIsValidForMode()
         submitGameCenter()
         setStageLabel()
         showHideStageButtons()
@@ -62,6 +63,30 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         getProductData() { modeIsPurchased in
             if !modeIsPurchased {
                 self.checkIfModeIsValid()
+            }
+        }
+    }
+  
+    override func viewWillDisappear(_ animated: Bool) {
+        scene.isPaused = true
+    }
+
+    func checkIfStageIsValidForMode() {
+        var keyForHighestStage: String? = nil
+
+        // decide if we should use a different key to check the current stage in user defaults
+        if gameMode == Settings.GAME_MODE_MEMORY {
+            keyForHighestStage = Settings.HIGHEST_STAGE_KEY_MEMORY
+        } else if gameMode == Settings.GAME_MODE_INVISIBLE {
+            keyForHighestStage = Settings.HIGHEST_STAGE_KEY_INVISIBLE
+        } else if gameMode == Settings.GAME_MODE_STAGE {
+            keyForHighestStage = Settings.HIGHEST_STAGE_KEY
+        }
+      
+        if let keyForHighestStage = keyForHighestStage {
+            let highestStage = defaults.integer(forKey: keyForHighestStage)
+            if (game.stage > highestStage) {
+              game.setStage(toStage: highestStage)
             }
         }
     }

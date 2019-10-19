@@ -251,6 +251,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             self.gameOverController?.dismiss(animated: false) {
                 // time to setup the new game
                 self.setupGame(animateBackground: true)
+                self.gameOverController = nil
             }
         })
     }
@@ -647,10 +648,11 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         rememberCurrentStage()
         // create and present the game over view controller
         gameOverController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameOverId2") as? GameOverViewControllerNew
+        gameOverController?.game = scene.game
         // set the ending "score" to how many balls you cleared (number fallen)
-        gameOverController!.endingScore = scene.game.numberBallsInQueue
-        gameOverController!.endingScoreEndless = scene.game.ballsFallen
-        gameOverController!.endingStage = scene.game.stage
+        gameOverController?.endingScore = scene.game.numberBallsInQueue
+        gameOverController?.endingScoreEndless = scene.game.ballsFallen
+        gameOverController?.endingStage = scene.game.stage
 
         if scene.game.isEndlessMode || scene.game.isReversedMode {
             Metadata.shared.trackStageScore(stage: scene.game.stage, score: scene.game.ballsFallen, mode: scene.game.mode)

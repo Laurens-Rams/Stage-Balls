@@ -89,15 +89,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var nextBall: SmallBall?
     var stopSpinOverride = false
     var reversedModeSpinMultMax: Double = 1.3
-    
+    var setLastUpdateTime = false
+
     // main update function (game loop)
     override func update(_ currentTime: TimeInterval) {
+        if setLastUpdateTime && lastUpdateTime == 0 { lastUpdateTime = currentTime }
+
+        guard lastUpdateTime > 0 else { return }
+
         let deltaTime = currentTime - lastUpdateTime
         let currentFPS = 1 / deltaTime
 
         dt = 1.0/CGFloat(currentFPS)
         lastUpdateTime = currentTime
-        
+      
+        guard isPaused == false else { return }
+
         if canMove || (game.isReversedMode && !stopSpinOverride) {
             updateCircle(dt: dt)
         }
@@ -269,26 +276,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     /**
-     Update the position of every ball on the screen that is NOT stuck to a column slot.
-     - parameters:
-        - dt: Last calculated delta time
-     */
-    func setupDirectionTimer() {
-//        if game.isReversedMode {
-//            let _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: {timer in
-//                if self.direction == 1 {
-//                    self.direction = -1
-//                } else {
-//                   self.direction = 1
-//                }
-//                self.getCircleValues()
-//                self.isTouching = true
-//                self.isHolding = true
-//            })
-//        }
-    }
-
-    /**
      Set the timer for dropping the first ball.
      */
     func setupFirstFallTimer() {
@@ -302,7 +289,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
-                self.setupDirectionTimer()
                 //self.moveCircle()
             })
         } else {
@@ -312,20 +298,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.ballsNeedUpdating = true
                 self.addBall()
                 self.gameDelegate?.tapleftright()
-                self.setupDirectionTimer()
                 //self.moveCircle()
             })
         }
     }
-  
-//    func postFirstFallTimerActions() {
-//        self.allowToMove = true
-//          self.canpresspause = true
-//          self.ballsNeedUpdating = true
-//          self.addBall()
-//          self.gameDelegate?.tapleftright()
-//          self.setupDirectionTimer()
-//    }
   
     func setupSlots() {
         print("gravityMultiplier:" , game.gravityMultiplier)
@@ -342,6 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let startDistance = (game.playerDiameter / 2) + (game.smallDiameter / 2)
         var nums = [1,2,3,4,5,6,7,8,9,10,11,12,13]
 
+        var baseSlotCount = 0
         for i in 0..<game.numberStartingBalls {
             if (game.numberStartingBalls <= 13) {
                 let arrayKey = Int(arc4random_uniform(UInt32(nums.count)))
@@ -394,12 +371,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 slot.columnNumber = i
                 slots.append(slot)
             }
+            baseSlotCount += 1
         }
 
+        var index = 0
         for slot in slots {
             // only animate the slots closest to the circle when starting the scene
             if let slot = slot as? BaseSlot {
-                animateSlotBall(slot: slot)
+                index += 1
+                animateSlotBall(slot: slot, isLast: index == baseSlotCount)
             }
         }
     }
@@ -459,10 +439,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      - parameters:
      - ball: A StartingSmallBall object.
      */
-    func animateSlotBall(slot: BaseSlot) {
+    func animateSlotBall(slot: BaseSlot, isLast: Bool) {
         let action = SKAction.move(to: slot.insidePosition, duration: 1.2)
         slot.ball!.run(action, completion: {
             slot.ball!.stuck = true
+            if isLast {
+                self.setLastUpdateTime = true
+            }
         })
         if slot.ball!.isMemoryBall {
             let wait = SKAction.wait(forDuration: 2.0)
@@ -1175,12 +1158,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
         //fruits
-        setFruits(ball: newBall, rando: rando)
+        setTexture(ball: newBall, rando: rando)
         //checkforMemory(ball: newBall)
         return newBall
     }
 
-    func setFruits(ball: SmallBall, rando: Int){
+    func setTexture(ball: SmallBall, rando: Int){
+        if game.isInvisibleMode {
+            return
+        }
+
         if let mode = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String{
             if mode == Settings.TEXTURE_FRUITS{
                 ball.setScale(1.02)
@@ -1319,7 +1306,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newBall.lineCap = CGLineCap(rawValue: 1)!
         newBall.strokeColor = GameConstants.ballColors[rando]
         newBall.isAntialiased = true
-        setFruits(ball: newBall, rando: rando)
+        setTexture(ball: newBall, rando: rando)
         return newBall
     }
     

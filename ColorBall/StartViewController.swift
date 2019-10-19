@@ -32,7 +32,6 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     @IBOutlet weak var skView: SKView!
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
     
         view.backgroundColor = .white
@@ -51,6 +50,16 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         timerGameCenter()
     }
     
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        scene.isPaused = true
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        scene.isPaused = false
+    }
 
     func listenForNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchTutorialForGame), name: Settings.PresentGameControllerNotification, object: nil)

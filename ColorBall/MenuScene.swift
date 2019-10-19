@@ -194,6 +194,8 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
      - dt: Last calculated delta time
      */
     func updateCircle(dt: CGFloat) {
+        guard isPaused == false else { return }
+
         //change animation
         let increment = (((CGFloat(Double.pi) * 0.2) * direction)) * dt
         
@@ -207,6 +209,8 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
      - dt: Last calculated delta time
      */
     func updateBalls(dt: CGFloat) {
+        guard isPaused == false else { return }
+
         // TODO: COMBINE THESE UPDATE METHODS
         for ball in balls {
             var newX: CGFloat
@@ -253,8 +257,10 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
             })
 
     }
-    
+
     func getCircleValues() {
+        guard isPaused == false else { return }
+
         if !canMove || !forceUpdate {
             Circle.lastTickPosition = Circle.zRotation
             Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / 15.0) * direction)
