@@ -74,7 +74,7 @@ class ProductCell: UITableViewCell {
     func newBuyButton() -> UIButton {
         let button = UIButton(type: .system)
         button.setTitleColor(tintColor, for: .normal)
-        button.setTitle("Buy", for: .normal)
+        button.setTitle("0.99$", for: .normal)
         button.addTarget(self, action: #selector(ProductCell.buyButtonTapped(_:)), for: .touchUpInside)
         button.sizeToFit()
         

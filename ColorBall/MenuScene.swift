@@ -85,7 +85,7 @@ class MenuScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = .clear
         isPaused = false
         //changes gravity spped up !!!not gravity//
-        physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.8)
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
         physicsWorld.contactDelegate = self
         
         let startX = CGFloat((size.width / 2))

@@ -984,7 +984,7 @@ class Game {
                 if _stage <= 30 { return _numberBallColors + 4 } // 8
                 return 8
             }
-            if _isReversedMode { return 3 }
+            if _isReversedMode { return 4 }
             
             if _stage <= 10 { return _numberBallColors }
             if _stage <= 15 { return _numberBallColors + 1 } // = 5

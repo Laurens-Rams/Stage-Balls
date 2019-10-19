@@ -28,14 +28,13 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     var tutorialVC: TutorialViewController?
     var modeVC: ModeViewController?
     var ballVC: BallsViewController?
-    
+    var longGesture = UILongPressGestureRecognizer()
     @IBOutlet weak var skView: SKView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         view.backgroundColor = .white
-        listenForNotifications()
-        authenticateLocalPlayer()
         scene = MenuScene(size: view.bounds.size)
 //        scene.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height / 2)
         scene.del = self
@@ -43,7 +42,14 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         skView.showsNodeCount = false
         scene.scaleMode = .fill
         skView.presentScene(scene)
+        //unlock modes
+        longGesture = UILongPressGestureRecognizer(target: self, action: #selector(StartViewController.unlockMode(_:)))
+        longGesture.minimumPressDuration = 3
+        //unlock all stages
+        skView.addGestureRecognizer(longGesture)
+        timerGameCenter()
     }
+    
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -58,7 +64,9 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     func listenForNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchTutorialForGame), name: Settings.PresentGameControllerNotification, object: nil)
     }
-    
+    @objc func unlockMode(_ sender: UILongPressGestureRecognizer) {
+        unlockforfree()
+    }
     @objc func handleSwitchTutorialForGame() {
         UserDefaults.standard.set(true, forKey: Settings.LAUNCHED_BEFORE_KEY)
         UserDefaults.standard.synchronize()
@@ -66,6 +74,45 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         dismissTutorial {
             self.launchGameViewController()
         }
+    }
+    
+    func timerGameCenter(){
+        let _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false, block: { _ in
+            self.listenForNotifications()
+            self.authenticateLocalPlayer()
+
+        })
+    }
+    func unlockforfree(){
+            let alert = UIAlertController(title: "Stage Balls",
+                                      message: "Unlock all modes for free.",
+                                      preferredStyle: .alert)
+        
+            let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
+            let textField = alert.textFields![0]
+            if textField.text! == "ART" {
+                UserDefaults.standard.set(true, forKey: Settings.UNLOCK_FREE_MODES)
+                let alert = UIAlertController(title: "Succesfully unlocked", message: "Have fun!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }else {
+                let alert = UIAlertController(title: "Wrong password", message: "Try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+        })
+        
+        alert.addTextField { (textField: UITextField) in
+            textField.keyboardAppearance = .dark
+            textField.keyboardType = .default
+            textField.autocorrectionType = .default
+            textField.placeholder = "Type in password"
+            textField.clearButtonMode = .whileEditing
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        alert.addAction(submitAction)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
     }
     
     func dismissTutorial(completion: @escaping () -> Void) {
@@ -191,15 +238,18 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     }
 
     func sharePressed() {
-        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
-            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Balls is awesome! I'm at Stage \(highScore) Can you beat my Stage? Get Stage Balls here https://itunes.apple.com/app/stage-balls/id1408563085"], applicationActivities: nil)
+            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Balls is awesome! Can you beat me? Get Stage Balls here https://itunes.apple.com/app/stage-balls/id1408563085"], applicationActivities: nil)
             activityVC.popoverPresentationController?.sourceView = self.view
             self.present(activityVC, animated: true, completion: nil)
-        }
+        
     }
     
     
     func gameCenterPressed() {
+        
+        listenForNotifications()
+        authenticateLocalPlayer()
+        
         let gcVC = GKGameCenterViewController()
         gcVC.gameCenterDelegate = self
         gcVC.viewState = .leaderboards

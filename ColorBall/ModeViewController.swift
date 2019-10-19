@@ -234,10 +234,9 @@ class ModeViewController: UIViewController{
     func checkIfShouldAutoShowPurchaseAlert(mode: GameMode) -> Bool {
         if GameMode.allModesWithFreeTries().contains(mode) {
             if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
-                if triesLeft > 0 {
+                if triesLeft > 0{
                     return false
                 }
-
                 return true
             }
         }
@@ -319,7 +318,8 @@ class ModeViewController: UIViewController{
     }
 
     func showPurchaseAlertOrSelect(mode: GameMode) {
-        if Settings.DEV_MODE {
+        let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
+        if Settings.DEV_MODE || freeunlocked {
             // if dev mode is true, select the mode
             selectMode(mode: mode)
             return
@@ -327,7 +327,7 @@ class ModeViewController: UIViewController{
 
         if GameMode.allModesWithFreeTries().contains(mode) {
             if let triesLeft = Settings.getTriesLeftForMode(mode: mode) {
-                if triesLeft > 0 {
+                if triesLeft > 0{
                     // if we're tracking tries left for this mode, and we have more than 0 left, select it
                     selectMode(mode: mode)
                     return
@@ -341,7 +341,7 @@ class ModeViewController: UIViewController{
 
         // first, check if this user has already purchased the product with the given identifier
         if mode.canPurchase() && mode.productId() != nil {
-            if StageBallsProducts.store.isProductPurchased(mode.productId()!) {
+            if StageBallsProducts.store.isProductPurchased(mode.productId()!){
                 // already purchased? select it
                 selectMode(mode: mode)
             } else {
@@ -411,19 +411,20 @@ class ModeViewController: UIViewController{
     }
 
     func checkForPurchased() {
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) {
+        let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) || freeunlocked{
             memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
         }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) {
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) || freeunlocked {
             endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
         }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) {
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) || freeunlocked {
             reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
         }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) {
+        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) || freeunlocked {
             invisibleButton.setImage(#imageLiteral(resourceName: "unlockInvisible"), for: .normal)
         }
     }
@@ -433,9 +434,14 @@ class ModeViewController: UIViewController{
         for button in buttons {
             if let button = button {
                 if button == activeButton {
+                    if button == invisibleButton {
+                        button.alpha = 0.8
+                    }else{
                     button.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                    }
                 } else {
                     button.backgroundColor = UIColor.clear
+                    button.alpha = 1.0
                 }
             }
         }

@@ -63,7 +63,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wYv-33-toj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2404" y="-137.4384236453202"/>
+            <point key="canvasLocation" x="-2405.625" y="-138.38028169014083"/>
         </scene>
         <!--Tutorial View Controller-->
         <scene sceneID="0FI-We-Q2f">
@@ -570,14 +570,14 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7NX-X8-BdX">
-                                <rect key="frame" x="2" y="142" width="315" height="81"/>
-                                <fontDescription key="fontDescription" name="FaceOffM54-Regular" family="Face Off M54" pointSize="68"/>
+                                <rect key="frame" x="2" y="142" width="315" height="69"/>
+                                <fontDescription key="fontDescription" name="FaceOffM54-Regular" family="Face Off M54" pointSize="58"/>
                                 <color key="textColor" red="0.90113420050761417" green="0.90113420050761417" blue="0.90113420050761417" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="-4" height="3"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STAGE OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ru1-iF-coF">
-                                <rect key="frame" x="6" y="130" width="307" height="66"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ru1-iF-coF">
+                                <rect key="frame" x="6" y="130" width="307" height="0.0"/>
                                 <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="60"/>
                                 <color key="textColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>

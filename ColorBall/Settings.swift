@@ -14,13 +14,17 @@ struct Settings {
     // 21600 == 6 hours in seconds (6 * 60 * 60)
   
     #if DEBUG
-      static let DEV_MODE = true
+      static let DEV_MODE = false 
     #else
       static let DEV_MODE = false
     #endif
   
     static let PRESENT_INTERVAL: Double = 21600
 
+    static let UNLOCK_FREE_MODES = "UNLOCK_FREE_MODES"
+    static let UNLOCK_FREE_STAGES = "UNLOCK_FREE_STAGES"
+    
+    
     static let TRIES_LEFT_KEY_MEMORY = "TRIES_LEFT_KEY_MEMORY"
     static let TRIES_LEFT_KEY_ENDLESS = "TRIES_LEFT_KEY_ENDLESS"
     static let TRIES_LEFT_KEY_REVERSED = "TRIES_LEFT_KEY_REVERSED"
