@@ -35,7 +35,6 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             RemainingBalls.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         }
-        AnimateStageOverLabel()
         stageLabel.textColor = .white
         layoutUI()
         scene = GameOverScene(size: view.bounds.size)
@@ -65,6 +64,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
                 self.checkIfModeIsValid()
             }
         }
+        AnimateStageOverLabel()
     }
   
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,7 +93,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
 
     func AnimateStageOverLabel(){
         UIView.animate(withDuration: 1.5, delay: 0, options: [.repeat, .autoreverse], animations: {
-            self.StageOverLabel.transform = CGAffineTransform(translationX: 0, y: 40)
+            self.StageOverLabel.transform = CGAffineTransform(translationX: 0, y: 30)
         }, completion: nil)
     }
     

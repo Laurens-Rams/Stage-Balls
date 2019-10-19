@@ -142,7 +142,7 @@ class Game {
     // surprise stage controls
     // =========
     // minimum stage for surprises
-    private var _minStageForSurprises: Int = 4
+    private var _minStageForSurprises: Int = 7
     // we always add 0.5 to this BEFORE returning it
     // thus, we should start at 0.5, so the first time we hit a surprise stage,
     // it will add and return 1, then increase by 1 every other time after that
