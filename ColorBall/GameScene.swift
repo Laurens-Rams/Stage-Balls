@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var nextBall: SmallBall?
     var stopSpinOverride = false
-    var reversedModeSpinMultMax: Double = 5
+    var reversedModeSpinMultMax: Double = 1.3
     
     // main update function (game loop)
     override func update(_ currentTime: TimeInterval) {
@@ -123,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func didMove(to view: SKView) {
         if game.isReversedMode {
-            spinMultiplier = 0.6
+            spinMultiplier = 0.7
         } else {
             spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle)))
         }
@@ -1401,7 +1401,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 nextBall = newBall
                 // if multiplier is less than the max allowed
                 if spinMultiplier < reversedModeSpinMultMax {
-                    spinMultiplier += 0.02 // spin the circle faster with each ball dropped
+                    spinMultiplier += 0.01 // spin the circle faster with each ball dropped
+                    print(spinMultiplier)
                 }
           }
         } else {

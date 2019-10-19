@@ -22,6 +22,7 @@ struct Settings {
     static let PRESENT_INTERVAL: Double = 21600
 
     static let UNLOCK_FREE_MODES = "UNLOCK_FREE_MODES"
+    static let UNLOCK_FREE_STAGES = "UNLOCK_FREE_STAGES"
     
     
     static let TRIES_LEFT_KEY_MEMORY = "TRIES_LEFT_KEY_MEMORY"

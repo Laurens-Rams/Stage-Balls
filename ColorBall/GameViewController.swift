@@ -392,10 +392,10 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
         checkscorelabelsize()
     }
-
+    
     func checkscorelabelsize(){
         if game.numberBallsInQueue < 100 {
-            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 140)
+            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 120.0)
         } else if game.numberBallsInQueue < 1000 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 95.0)
         }

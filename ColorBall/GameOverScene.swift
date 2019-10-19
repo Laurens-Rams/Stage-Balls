@@ -79,29 +79,29 @@ class GameOverScene: SKScene, SKPhysicsContactDelegate {
             
             if let node = nodes(at: touch.location(in: self)).first {
                 if node.name == "playButton" {
-                    // print("startgameagain")
+                     print("startgameagain")
                     postRestartNotification()
                     node.removeAllChildren()
                     node.removeFromParent()
 
                 } else if node.name == "gameCenter" {
-                    // print("gameCenter")
+                     print("gameCenter")
                     Metadata.shared.trackUserPressedGameCenterSetting()
                     del?.gameCenterPressed()
                 }else if node.name == "volume" {
-                    // print("volume")
+                     print("volume")
                     AudioManager.only.toggleVolume()
                     setVolumeTexture()
                 }else if node.name == "rate" {
                     Metadata.shared.trackUserPressedRateSetting()
-                    // print("rate")
+                     print("rate")
                     del?.ratePressed()
                 }else if node.name == "share" {
-                    // print("share")
+                     print("share")
                     Metadata.shared.trackUserPressedShareSetting()
                     del?.sharePressed()
                 }else if node.name == "mode" {
-                    // print("no ads")
+                     print("no ads")
                     Metadata.shared.trackUserPressedModesSetting()
                     del?.modePressed()
                 }else if node.name == "balls" {

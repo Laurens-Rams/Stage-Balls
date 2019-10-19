@@ -49,12 +49,12 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
         showpoints.text = scoreFormatter(score: endingScore)
         showpoints.alpha = 0
         setRemainingBalls()
-        setStageOverLabel()
     }
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkMode()
+        setStageOverLabel()
         submitGameCenter()
         setStageLabel()
         showHideStageButtons()
@@ -75,7 +75,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
 
     
     func checkIfModeIsValid() {
-        if Settings.DEV_MODE {
+        let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
+        if Settings.DEV_MODE  || freeunlocked {
             return
         }
 
@@ -123,10 +124,18 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     func setStageOverLabel(){
         if gameMode == Settings.GAME_MODE_ENDLESS || gameMode == Settings.GAME_MODE_REVERSED {
             StageOverLabel.text = "Game Over"
+        }else{
+             StageOverLabel.text = "Stage Over"
         }
+        
     }
     
     func submitGameCenter(){
+        //EMILY?
+        let freeunlockedStages = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
+        if freeunlockedStages{
+            print("not submitted to GameCenter")
+        }else {
         if gameMode == Settings.GAME_MODE_ENDLESS {
             //GC
             if let scoreGameCenterEndless = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int64 {
@@ -202,6 +211,8 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             
             }
         }
+    }
+        
     }
 
     func setStageLabel() {
@@ -385,12 +396,9 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
 
     func sharePressed() {
-        if let highScore = defaults.object(forKey: Settings.HIGH_SCORE_KEY) as? Int {
-            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Balls is awesome! I'm at Stage \(highScore) Can you beat my Stage? Get Stage Balls here https://itunes.apple.com/app/stage-balls/id1408563085"], applicationActivities: nil)
+            let activityVC = UIActivityViewController(activityItems: ["Playing Stage Balls is awesome! Can you beat me? Get Stage Balls here https://itunes.apple.com/app/stage-balls/id1408563085"], applicationActivities: nil)
             activityVC.popoverPresentationController?.sourceView = self.view
             self.present(activityVC, animated: true, completion: nil)
-        }
-        
     }
 
     func gameCenterPressed() {
