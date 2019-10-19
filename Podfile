@@ -7,11 +7,10 @@ target 'ColorBall' do
 
   # Pods for ColorBall
   pod 'RealmSwift'
-  pod 'EFCountingLabel'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Firebase/Core'
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/Auth'
-  pod 'Mixpanel-swift', :git=> 'https://github.com/mixpanel/mixpanel-swift.git', :branch=> 'swift4'
+  pod 'Mixpanel-swift'
 
 end

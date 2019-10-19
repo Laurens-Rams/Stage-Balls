@@ -765,6 +765,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     ball.run(SKAction.wait(forDuration: 1.2)) {
                         for b in zapBalls {
+                            b.fillTexture = nil
                             b.removeFromParent()
                         }
                     }
@@ -779,6 +780,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ball.run(wait) {
                     ball.fillColor = UIColor.clear
                     ball.strokeColor = UIColor.clear
+                    // fixes a bug with endless mode when ball does not disapear
+                    ball.fillTexture = nil
                     if let nextBall = zapBalls.filter({ !$0.falling }).last {
                         nextBall.falling = true
                         AudioManager.only.playZapSound(iterations: self.game.slotsPerColumn - 1)

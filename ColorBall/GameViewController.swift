@@ -9,7 +9,6 @@
 import UIKit
 import SpriteKit
 import GameplayKit
-import EFCountingLabel
 import Firebase
 
 //ADS
@@ -21,7 +20,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     var interstitial: GADInterstitial!
     @IBOutlet var settingButton: UIButton!
 
-    @IBOutlet var scoreLabel: EFCountingLabel!
+    @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var tapRight: UIButton!
     @IBOutlet var tapLeft: UIButton!
     
@@ -30,6 +29,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     @IBOutlet weak var stageLabel: UILabel!
     @IBOutlet weak var menuImage: UIImageView!
   
+    var currentcount = 0
     var scene: GameScene!
     var skView: SKView!
     var camera: SKCameraNode!
@@ -120,8 +120,22 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.synchronize()
         camera = SKCameraNode()
         setupGame(animateBackground: false)
+        starttimer()
     }
 
+    func count(){
+        currentcount += 1
+        scoreLabel.text = String(currentcount)
+        if currentcount < game.numberBallsInQueue {
+            starttimer()
+        }
+    }
+    func starttimer(){
+        let _ = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { timer in
+            self.count()
+        })
+    }
+    
     func checkUserDefaultsValues() {
         // grab the mode we're currently in
         if let savedMode = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
@@ -279,7 +293,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         addPlayedGame()
         layoutAfterSetup()
         checkscorelabelsize()
-        scoreLabel.countFrom(CGFloat(0), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
       
         if let mode = GameMode.modeForDefaultsKey(id: gameMode) {
             Settings.decrementTriesForMode(mode: mode)
@@ -353,8 +366,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func setupScene(setToWhite: Bool) {
-        scoreLabel.format = "%d"
-        scoreLabel.method = .linear
+        //scoreLabel.format = "%d"
+        //scoreLabel.method = .linear
         checkscorelabelsize()
         scene = GameScene(size: view.frame.size)
         if (setToWhite) {
