@@ -167,18 +167,18 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
     // IMPORTANT: replace the red string below with your own Leaderboard ID (the one you've set in iTunes Connect
 
     func launchGameViewController() {
-        if let _ = UserDefaults.standard.object(forKey: Settings.LAUNCHED_BEFORE_KEY) as? Bool {
+//        if let _ = UserDefaults.standard.object(forKey: Settings.LAUNCHED_BEFORE_KEY) as? Bool {
             gameVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "gameVC") as? GameViewController
             scene.isPaused = true
             present(gameVC!, animated: false, completion: nil)
-        } else {
-            tutorialVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tutorialVC") as? TutorialViewController
-            scene.isPaused = true
-            present(tutorialVC!, animated: false){
-                self.skView.alpha = 0
-                self.scene.alpha = 0
-            }
-        }
+//        } else {
+//            tutorialVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tutorialVC") as? TutorialViewController
+//            scene.isPaused = true
+//            present(tutorialVC!, animated: false){
+//                self.skView.alpha = 0
+//                self.scene.alpha = 0
+//            }
+//        }
     }
     
     @IBAction func volumeONOFF(_ sender: AnyObject) {

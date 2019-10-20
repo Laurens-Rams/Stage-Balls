@@ -519,7 +519,6 @@ class Game {
             for type in GameConstants.allBallTypes {
                 total += getCountForType(type: type)
             }
-
             return total
         }
     }

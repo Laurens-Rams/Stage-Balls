@@ -56,11 +56,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func gameoverplayscore(){
         
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //starttimer()
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         scoreLabel.alpha = 1.0
-        scoreLabel.text = String(0)
         rewardLabel.alpha = 0.0
         checkscorelabelsize()
     }
@@ -120,21 +122,20 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         defaults.synchronize()
         camera = SKCameraNode()
         setupGame(animateBackground: false)
-        starttimer()
     }
 
-    func count(){
-        currentcount += 1
-        scoreLabel.text = String(currentcount)
-        if currentcount < game.numberBallsInQueue {
-            starttimer()
-        }
-    }
-    func starttimer(){
-        let _ = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { timer in
-            self.count()
-        })
-    }
+//    func count(){
+//        currentcount += 1
+//        scoreLabel.text = String(currentcount)
+//        if currentcount < game.numberBallsInQueue {
+//            starttimer()
+//        }
+//    }
+//    func starttimer(){
+//        let _ = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { timer in
+//            self.count()
+//        })
+//    }
     
     func checkUserDefaultsValues() {
         // grab the mode we're currently in
@@ -293,7 +294,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         addPlayedGame()
         layoutAfterSetup()
         checkscorelabelsize()
-      
+      scoreLabel.text = scoreFormatter(score: scene.game.numberBallsInQueue)
         if let mode = GameMode.modeForDefaultsKey(id: gameMode) {
             Settings.decrementTriesForMode(mode: mode)
         }
@@ -401,7 +402,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func increaseScore(byValue: Int) {
         scene.game.increaseScore(byValue: byValue)
-        print(game.ballsRemaining)
         scoreLabel.text = scoreFormatter(score: scene.game.numberBallsInQueue)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
         checkscorelabelsize()
@@ -423,7 +423,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let startY = CGFloat((view.frame.height / 2.8) * 2) - (scoreLabel.frame.height / 2)
         let width = UIScreen.main.bounds.width
         scoreLabel.frame = CGRect(x: 0, y: startY, width: width, height: scoreLabel.frame.height)
-
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
