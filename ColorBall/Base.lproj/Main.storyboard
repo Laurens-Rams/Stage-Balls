@@ -532,8 +532,8 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INO-Ra-MFt">
                                 <rect key="frame" x="0.0" y="476" width="375" height="161"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="140"/>
-                                <color key="textColor" red="0.97555762079999997" green="0.97884279819999997" blue="0.95674671889999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Oregon-Regular" family="Oregon" pointSize="120"/>
+                                <color key="textColor" red="0.9999127984046936" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stage 1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCH-hY-IBo">
@@ -1025,7 +1025,7 @@
         <image name="addpicture" width="387" height="256"/>
         <image name="back" width="50" height="50"/>
         <image name="ballColor" width="750.5" height="191.5"/>
-        <image name="circle" width="227.5" height="227.5"/>
+        <image name="circle" width="340.5" height="341"/>
         <image name="home" width="177" height="176"/>
         <image name="item-1" width="412" height="274"/>
         <image name="item-2" width="413" height="273"/>
