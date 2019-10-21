@@ -192,7 +192,6 @@ class TutorialScene: SKScene, SKPhysicsContactDelegate {
         setupSurprises()
         setupMemory()
         setupSlots()
-        
         addChild(Circle)
         addChild(skullCircle)
         addChild(winCircle)

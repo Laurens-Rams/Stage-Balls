@@ -97,7 +97,7 @@ class Game {
     // how often things fall
     private var _speedMultiplier: Double = 0.002
     private var _ballzapduration: CGFloat = 0.0
-    private var _rotationSpeedIncrement = CGFloat(0.1)
+    private var _rotationSpeedIncrement = CGFloat(0.15)
     private var _spinVar = CGFloat(18.0)
 
     // multiplier for gravity
@@ -519,7 +519,6 @@ class Game {
             for type in GameConstants.allBallTypes {
                 total += getCountForType(type: type)
             }
-
             return total
         }
     }
@@ -613,7 +612,7 @@ class Game {
                 }
             }
 
-            let frequency = 4
+            let frequency = 3
             let baseAmountToAdd = _stage - 1
             let highestVariableStage = 13
             
@@ -635,8 +634,8 @@ class Game {
             }
             
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
-
-            if _stage < 50{
+            print("higth", multiplesOfFrequency)
+            if _stage < 40{ // bis 22
                 return highestVariableStage + multiplesOfFrequency
             } else {
                 return 22
@@ -744,37 +743,72 @@ class Game {
             }
             // use same as in stage
             if isInvisibleMode{
-                
+
             }
-            let frequency = 1
-            let maxBalls: Double = 44
-            let initialSurpriseCount = 1.0
-            
-            if _stage < _minStageForSurprises {
+            if _stage < _minStageForSurprises { // 7
                 return 0
             }
 
-            if _stage > 40 {
-                return 53
-            }
-
+            let maxBalls: Double = 49
+            let initialSurpriseCount = 1.0
             let stagesEllapsed = _stage - _minStageForSurprises
+
             // if we've gone 4 stages and frequency is 2,
             // 4 % 2 will give us 0 (the remainder of 4 / 2)
             // similarly, if we've gone 5 stages and frequency is 2,
             // 5 % 2 will give us the remainder 1, so we'll skip that stage
-            if stagesEllapsed % frequency == 0 {
-                if _lastSurpriseCount < maxBalls {
-                    _lastSurpriseCount = initialSurpriseCount + (Double(stagesEllapsed) / 2)
+           // if stagesEllapsed % 1 == 0 {
+                if _lastSurpriseCount <= maxBalls {
+                    if _stage <= 10 {
+                        _lastSurpriseCount = initialSurpriseCount + (Double(stagesEllapsed))
+                    }else if _stage <= 14 {
+                        _lastSurpriseCount = ((Double(stagesEllapsed) * 2) - 2 )
+                    }else if _stage <= 30 {
+                        _lastSurpriseCount = ((Double(stagesEllapsed) * 3) - 10)
+                    }else if _stage <= 49 {
+                        _lastSurpriseCount = ((Double(stagesEllapsed)  * 5) - 55)
+                    }else if _stage > 49 {
+                        _lastSurpriseCount = 160 // end
+                    }
                 }
-
                 return Int(floor(_lastSurpriseCount))
-            }
-
-            return 0
+//}
         }
     }
     
+//    var numberSurpriseBalls: Int {
+//        get {
+//            if _isEndlessMode || _isReversedMode {
+//                return -1
+//            }
+//            // use same as in stage
+//            if isInvisibleMode{
+//
+//            }
+//            let frequency = 1
+//            let maxBalls: Double = 44
+//            let initialSurpriseCount = 1.0
+//
+//            if _stage < _minStageForSurprises {
+//                return 0
+//            }
+//
+//            let stagesEllapsed = _stage - _minStageForSurprises
+//            // if we've gone 4 stages and frequency is 2,
+//            // 4 % 2 will give us 0 (the remainder of 4 / 2)
+//            // similarly, if we've gone 5 stages and frequency is 2,
+//            // 5 % 2 will give us the remainder 1, so we'll skip that stage
+//            if stagesEllapsed  % frequency == 0 {
+//                if _lastSurpriseCount < maxBalls {
+//                    _lastSurpriseCount = initialSurpriseCount + ((Double(stagesEllapsed) * 2))
+//                }
+//
+//                return Int(floor(_lastSurpriseCount))
+//            }
+//
+//            return 0
+//        }
+//    }
     /**
      Multiplier for ball speeds (read-only getter).
      */
@@ -881,34 +915,50 @@ class Game {
                 let num = 2
                 _columnHeights.append(num)
             }
-        } else{
+        } else {
             let minVariableStage: Double = 7
-            let maxFrequency: Double = 15
-            let minFrequency: Double = 25
-            let s = Double(_stage)
-            var min: Double = 2
-            var max: Double = 3
+//            let maxFrequency: Double = 15
+//            let minFrequency: Double = 25
+//            let s = Double(_stage)
+//            var min: Double = 2
+//            var max: Double = 3
+               var height: Int = 2
 
             _columnHeights.removeAll() // RESET WHEN WE GENERATE
             
-            if s < minVariableStage {
-                min = 2
-                max = 2 - 1
-            } else {
-                let multiplesOfMax = floor((s - minVariableStage) / maxFrequency)
-                let multiplesOfMin = floor((s - minVariableStage) / minFrequency)
-                if max > 5{
-                    max = 5
-                    min = 3
-                }else {
-                    min += multiplesOfMin
-                    max += multiplesOfMax - 1
-                }
-            }
+//            if s < minVariableStage {
+//                min = 2
+//                max = 2 - 1
+//            } else {
+//                let multiplesOfMax = floor((s - minVariableStage) / maxFrequency)
+//                let multiplesOfMin = floor((s - minVariableStage) / minFrequency)
+//                if max > 5{
+//                    max = 5
+//                    min = 3
+//                }else {
+//                    min += multiplesOfMin
+//                    max += multiplesOfMax - 1
+//                }
+//            }
+//
             
+            if _stage <= 9 {
+                height = 2
+            }else if _stage <= 19 {
+                height = 3
+            }else if _stage <= 35 {
+                height = 4
+            }else if _stage <= 45 {
+                height = 5
+            }else if _stage > 45 {
+                height = 6
+            }
             for _ in 0..<numberStartingBalls {
-                let num = randomInteger(lowerBound: Int(min), upperBound: Int(max))
+               
+                let num = Int(height)
                 _columnHeights.append(num)
+                print(_columnHeights)
+                
             }
         }
     }

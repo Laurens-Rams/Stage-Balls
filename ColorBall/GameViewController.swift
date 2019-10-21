@@ -9,7 +9,6 @@
 import UIKit
 import SpriteKit
 import GameplayKit
-import EFCountingLabel
 import Firebase
 
 //ADS
@@ -21,7 +20,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     var interstitial: GADInterstitial!
     @IBOutlet var settingButton: UIButton!
 
-    @IBOutlet var scoreLabel: EFCountingLabel!
+    @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var tapRight: UIButton!
     @IBOutlet var tapLeft: UIButton!
     
@@ -30,11 +29,13 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     @IBOutlet weak var stageLabel: UILabel!
     @IBOutlet weak var menuImage: UIImageView!
   
+    var currentcount = 0
     var scene: GameScene!
     var skView: SKView!
     var camera: SKCameraNode!
     var rewardnextstageStrings = ["Good job!", "Well done!", "Fantastic!", "Excellent!"]
-    var rewardclose = ["You'r close", "Almost finished", "Just a few more"]
+    var rewardclose = ["You're close!", "Almost finished!", "So close!"]
+    var rewardnotclose = ["Try again", "You lose", "Not your day?"]
     var game: Game!
     
     var gameOverController: GameOverViewControllerNew?
@@ -56,11 +57,15 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     func gameoverplayscore(){
         
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        starttimer()
+        currentcount = 0
+        scoreLabel.alpha = 1.0
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        scoreLabel.alpha = 1.0
-        scoreLabel.text = String(0)
         rewardLabel.alpha = 0.0
         checkscorelabelsize()
     }
@@ -122,6 +127,24 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         setupGame(animateBackground: false)
     }
 
+    func count(){
+        currentcount += 1
+        scoreLabel.text = String(currentcount)
+        if currentcount < game.numberBallsInQueue {
+            starttimer()
+        }
+    }
+    func starttimer(){
+        if game.numberBallsInQueue < 40 {
+        let interval = (0.05)
+        let _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(interval), repeats: false, block: { timer in
+            self.count()
+        })
+        }else {
+            scoreLabel.text = String(game.numberBallsInQueue)
+        }
+    }
+    
     func checkUserDefaultsValues() {
         // grab the mode we're currently in
         if let savedMode = defaults.object(forKey: Settings.GAME_MODE_KEY) as? String {
@@ -279,8 +302,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         addPlayedGame()
         layoutAfterSetup()
         checkscorelabelsize()
-        scoreLabel.countFrom(CGFloat(0), to: CGFloat(game.numberBallsInQueue), withDuration: 1.5) //TO-DO: make this a % of how many balls
-      
+        starttimer()
         if let mode = GameMode.modeForDefaultsKey(id: gameMode) {
             Settings.decrementTriesForMode(mode: mode)
         }
@@ -293,24 +315,24 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         if (game.stage == 1){
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "Perfect"
-        }else if game.stage == 7{
+        }else if game.stage == 5{
             self.rewardLabel.alpha = 1.0
         self.rewardLabel.text = "You Rock"
-        }else if game.stage == 10{
+        }else if game.stage == 8{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "That's your day"
-        }else if game.stage == 15{
+        }else if game.stage == 10{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "Fantastic"
-        }else if game.stage == 25{
+        }else if game.stage == 13{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "Excellent"
-        }else if game.stage == 30{
+        }else if game.stage == 17{
             self.rewardLabel.alpha = 1.0
             self.rewardLabel.text = "Well done"
-        }else if game.stage > 35{
+        }else if game.stage > 20{
             self.rewardLabel.alpha = 1.0
-            self.rewardLabel.text = randNum
+            self.rewardLabel.text = "Fantastic"
         }else{
             self.rewardLabel.alpha = 0.0
         }
@@ -353,8 +375,8 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func setupScene(setToWhite: Bool) {
-        scoreLabel.format = "%d"
-        scoreLabel.method = .linear
+        //scoreLabel.format = "%d"
+        //scoreLabel.method = .linear
         checkscorelabelsize()
         scene = GameScene(size: view.frame.size)
         if (setToWhite) {
@@ -388,7 +410,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     
     func increaseScore(byValue: Int) {
         scene.game.increaseScore(byValue: byValue)
-        print(game.ballsRemaining)
+        if game.numberBallsInQueue == 0 {
+            scoreLabel.alpha = 0.0
+        }
         scoreLabel.text = scoreFormatter(score: scene.game.numberBallsInQueue)
         // probably a better way to accomplish this, without knowing how high the score could get, is to say, for every multiple of *10, we decrease the font size by x amount, but not smaller than the smallest size you want to use
         checkscorelabelsize()
@@ -410,7 +434,6 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let startY = CGFloat((view.frame.height / 2.8) * 2) - (scoreLabel.frame.height / 2)
         let width = UIScreen.main.bounds.width
         scoreLabel.frame = CGRect(x: 0, y: startY, width: width, height: scoreLabel.frame.height)
-
         if Settings.isIphoneX {
             stageLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
             menuBtn.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
@@ -524,37 +547,47 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func gameover() {
+        scoreLabel.alpha = 0.0
         let playspergame = defaults.integer(forKey: Settings.PLAYS_PER_GAME)
         defaults.set(playspergame + 1, forKey: Settings.PLAYS_PER_GAME)
         print("print", playspergame)
-
         setHighScoreIfNeeded()
-
         adsShowGameOver = true
-
-        handleAds()
-
         defaults.synchronize()
-
         camera.removeFromParent()
+        handleAds()
     }
     
     func handleAds() {
         //ads
         var shouldShowAds = false
+        let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
         
+        if freeunlocked {
+            if adsShowGameOver {
+                AudioManager.only.playGameOverSOund()
+                adsShowGameOver = false
+                showGameOverViewController()
+                
+                
+            } else if adsShowNextStage {
+                AudioManager.only.playNextStageSound()
+                adsShowNextStage = false
+                startNextStage()
+            }
+        }else {
         if let lastAdTime = defaults.object(forKey: Settings.LAST_AD_TIME) as? Double {
             let now = Date().timeIntervalSince1970
             // print("=====> last ad time", now, lastAdTime, now - lastAdTime)
-            if now - lastAdTime >= 180 && scene.game.stage >= 4 && interstitial.isReady {
+            if now - lastAdTime >= 180 && scene.game.stage >= 7 && interstitial.isReady {
                 shouldShowAds = true
             }
-        } else if scene.game.stage >= 4 {
+        } else if scene.game.stage >= 7 {
             // print("====> no last ad time found")
             shouldShowAds = true
         }
-        
-        if interstitial.isReady && shouldShowAds {
+
+        if interstitial.isReady && shouldShowAds{
             interstitial.present(fromRootViewController: self)
             defaults.set(Date().timeIntervalSince1970, forKey: Settings.LAST_AD_TIME)
             defaults.synchronize()
@@ -564,11 +597,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 AudioManager.only.playGameOverSOund()
                 adsShowGameOver = false
                 showGameOverViewController()
+                
+                
             } else if adsShowNextStage {
                 AudioManager.only.playNextStageSound()
                 adsShowNextStage = false
                 startNextStage()
             }
+        }
         }
     }
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
@@ -588,19 +624,58 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func gameoverdesign() {
         // print("gameoverdesin")
-        
+        let number = Int.random(in: 0 ..< 6)
+        if number == 2 {
         UIView.animate(withDuration: 0.4, delay: 0.0, animations: {
             self.stageLabel.textColor = UIColor.white
-            if ((self.game.numberStartingBalls / 10) >= self.game.ballsRemaining){
+            
                 self.rewardLabel.textColor = .white
                 self.rewardLabel.alpha = 1.0
+                // close over 15
+                if self.game.numberBallsInQueue < 15 && self.game.stage > 15 {
                 let randoString = Int(arc4random_uniform(UInt32(self.rewardclose.count)))
                 let randNum = self.rewardclose[randoString]
                 self.rewardLabel.text = randNum
-            }
+                }
+                // not close over 15
+                if self.game.numberBallsInQueue > 15 && self.game.stage > 15 {
+                    let randoString = Int(arc4random_uniform(UInt32(self.rewardnotclose.count)))
+                    let randNum = self.rewardnotclose[randoString]
+                    self.rewardLabel.text = randNum
+                }
+                // close under 15
+                if self.game.numberBallsInQueue < 3 && self.game.stage < 15 {
+                    let randoString = Int(arc4random_uniform(UInt32(self.rewardclose.count)))
+                    let randNum = self.rewardclose[randoString]
+                    self.rewardLabel.text = randNum
+                }
+                // not close under 15
+                if self.game.numberBallsInQueue > 3 && self.game.stage < 15 {
+                    let randoString = Int(arc4random_uniform(UInt32(self.rewardnotclose.count)))
+                    let randNum = self.rewardnotclose[randoString]
+                    self.rewardLabel.text = randNum
+                }
+                
+                // close over 30
+                if self.game.numberBallsInQueue < 20 && self.game.stage > 30 {
+                    let randoString = Int(arc4random_uniform(UInt32(self.rewardclose.count)))
+                    let randNum = self.rewardclose[randoString]
+                    self.rewardLabel.text = randNum
+                }
+                // not close over 30
+                if self.game.numberBallsInQueue > 20 && self.game.stage > 30 {
+                    let randoString = Int(arc4random_uniform(UInt32(self.rewardnotclose.count)))
+                    let randNum = self.rewardnotclose[randoString]
+                    self.rewardLabel.text = randNum
+                }
+                
+            
+            
             
         }, completion: nil)
+        }
     }
+    
     func scorelabelalpha() {
         scoreLabel.alpha = 0.0
         // print("again")
@@ -697,9 +772,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
 
     func startNextStage() {
         game.increaseStage()
-
         rememberCurrentStage()
-
         defaults.synchronize()
         stageLabel.text = "STAGE \(game.stage)"
         camera.removeFromParent()

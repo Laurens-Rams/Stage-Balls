@@ -1,113 +1,163 @@
 PODS:
-  - EFCountingLabel (4.0.1)
-  - Firebase/Auth (5.4.0):
+  - Firebase/Auth (6.10.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.0.2)
-  - Firebase/Core (5.4.0):
+    - FirebaseAuth (~> 6.3.0)
+  - Firebase/Core (6.10.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.0.1)
-  - Firebase/CoreOnly (5.4.0):
-    - FirebaseCore (= 5.0.5)
-  - Firebase/RemoteConfig (5.4.0):
-    - Firebase/Core
-    - FirebaseRemoteConfig (= 3.0.0)
-  - FirebaseABTesting (2.0.0):
-    - FirebaseCore (~> 5.0)
-    - Protobuf (~> 3.5)
-  - FirebaseAnalytics (5.0.1):
-    - FirebaseCore (~> 5.0)
-    - FirebaseInstanceID (~> 3.0)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - nanopb (~> 0.3)
-  - FirebaseAuth (5.0.2):
-    - FirebaseCore (~> 5.0)
+    - FirebaseAnalytics (= 6.1.3)
+  - Firebase/CoreOnly (6.10.0):
+    - FirebaseCore (= 6.3.1)
+  - Firebase/RemoteConfig (6.10.0):
+    - Firebase/CoreOnly
+    - FirebaseRemoteConfig (~> 4.4.2)
+  - FirebaseABTesting (3.1.2):
+    - FirebaseAnalyticsInterop (~> 1.3)
+    - FirebaseCore (~> 6.1)
+    - Protobuf (>= 3.9.2, ~> 3.9)
+  - FirebaseAnalytics (6.1.3):
+    - FirebaseCore (~> 6.3)
+    - FirebaseInstanceID (~> 4.2)
+    - GoogleAppMeasurement (= 6.1.3)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3.901)
+  - FirebaseAnalyticsInterop (1.4.0)
+  - FirebaseAuth (6.3.0):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.2)
+    - GoogleUtilities/Environment (~> 6.2)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (5.0.5):
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseInstanceID (3.1.1):
-    - FirebaseCore (~> 5.0)
-  - FirebaseRemoteConfig (3.0.0):
-    - FirebaseABTesting (~> 2.0)
-    - FirebaseAnalytics (~> 5.0)
-    - FirebaseCore (~> 5.0)
-    - FirebaseInstanceID (~> 3.0)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - Protobuf (~> 3.5)
-  - Google-Mobile-Ads-SDK (7.31.0)
-  - GoogleToolboxForMac/Defines (2.1.4)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
-    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - FirebaseAuthInterop (1.0.0)
+  - FirebaseCore (6.3.1):
+    - FirebaseCoreDiagnostics (~> 1.0)
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.1.1):
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleDataTransportCCTSupport (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+    - nanopb (~> 0.3.901)
+  - FirebaseCoreDiagnosticsInterop (1.0.0)
+  - FirebaseInstanceID (4.2.5):
+    - FirebaseCore (~> 6.0)
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/UserDefaults (~> 6.0)
+  - FirebaseRemoteConfig (4.4.2):
+    - FirebaseABTesting (~> 3.1)
+    - FirebaseAnalyticsInterop (~> 1.4)
+    - FirebaseCore (~> 6.2)
+    - FirebaseInstanceID (~> 4.2)
+    - GoogleUtilities/Environment (~> 6.2)
+    - "GoogleUtilities/NSData+zlib (~> 6.2)"
+    - Protobuf (>= 3.9.2, ~> 3.9)
+  - Google-Mobile-Ads-SDK (7.51.0):
+    - GoogleAppMeasurement (~> 6.0)
+  - GoogleAppMeasurement (6.1.3):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (~> 0.3.901)
+  - GoogleDataTransport (3.0.1)
+  - GoogleDataTransportCCTSupport (1.2.1):
+    - GoogleDataTransport (~> 3.0)
+    - nanopb (~> 0.3.901)
+  - GoogleUtilities/AppDelegateSwizzler (6.3.1):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.3.1)
+  - GoogleUtilities/Logger (6.3.1):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.3.1):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.3.1):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.3.1)"
+  - GoogleUtilities/Reachability (6.3.1):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (6.3.1):
+    - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
-  - Mixpanel-swift (2.2.2):
-    - Mixpanel-swift/Complete (= 2.2.2)
-  - Mixpanel-swift/Complete (2.2.2)
-  - nanopb (0.3.8):
-    - nanopb/decode (= 0.3.8)
-    - nanopb/encode (= 0.3.8)
-  - nanopb/decode (0.3.8)
-  - nanopb/encode (0.3.8)
-  - Protobuf (3.6.0)
-  - Realm (3.0.1):
-    - Realm/Headers (= 3.0.1)
-  - Realm/Headers (3.0.1)
-  - RealmSwift (3.0.1):
-    - Realm (= 3.0.1)
+  - Mixpanel-swift (2.6.6):
+    - Mixpanel-swift/Complete (= 2.6.6)
+  - Mixpanel-swift/Complete (2.6.6)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - Protobuf (3.10.0)
+  - Realm (3.19.1):
+    - Realm/Headers (= 3.19.1)
+  - Realm/Headers (3.19.1)
+  - RealmSwift (3.19.1):
+    - Realm (= 3.19.1)
 
 DEPENDENCIES:
-  - EFCountingLabel
   - Firebase/Auth
   - Firebase/Core
   - Firebase/RemoteConfig
   - Google-Mobile-Ads-SDK
-  - Mixpanel-swift (from `https://github.com/mixpanel/mixpanel-swift.git`, branch `swift4`)
+  - Mixpanel-swift
   - RealmSwift
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - EFCountingLabel
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
     - FirebaseAuth
+    - FirebaseAuthInterop
     - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
     - FirebaseInstanceID
     - FirebaseRemoteConfig
     - Google-Mobile-Ads-SDK
-    - GoogleToolboxForMac
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
+    - GoogleUtilities
     - GTMSessionFetcher
+    - Mixpanel-swift
     - nanopb
     - Protobuf
     - Realm
     - RealmSwift
 
-EXTERNAL SOURCES:
-  Mixpanel-swift:
-    :branch: swift4
-    :git: https://github.com/mixpanel/mixpanel-swift.git
-
-CHECKOUT OPTIONS:
-  Mixpanel-swift:
-    :commit: a057763547eeac578e1effe05a4e26319c8197bd
-    :git: https://github.com/mixpanel/mixpanel-swift.git
-
 SPEC CHECKSUMS:
-  EFCountingLabel: 1beb6707761ad00b97efc8bde5c3fceaa7cb9eec
-  Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
-  FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
-  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
-  FirebaseAuth: 096e457cdd4274412a66c4a35874787e411f5a03
-  FirebaseCore: 42b3267233bd21a5abd54117ccc38ca3dd0f8e83
-  FirebaseInstanceID: f3f0657372592ecdfdfe2cac604a5a75758376a6
-  FirebaseRemoteConfig: 3c57e4644bd6976b671ae0b725cd709f198bd1f5
-  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
-  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  Firebase: 5e6b7b12bf9adb90986688edc06b156c37e109cd
+  FirebaseABTesting: 0d10f3cdc3fa00f3f175b5b56c1003c8e888299f
+  FirebaseAnalytics: 0e3ecff2c5d86070f7d4325e21f1edabfbd558dc
+  FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
+  FirebaseAuth: c66e990f79d1d3429165391f6cd70ace6143c25e
+  FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
+  FirebaseCore: 064c2dd92a8ca5974bbdcb080df9921e46bd34cd
+  FirebaseCoreDiagnostics: af29e43048607588c050889d19204f4d7b758c9f
+  FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
+  FirebaseInstanceID: 550df9be1f99f751d8fcde3ac342a1e21a0e6c42
+  FirebaseRemoteConfig: 03efa57106f9b6f7afe36658de4a9c67c803d3a8
+  Google-Mobile-Ads-SDK: 5c625884f0788d22b48e3bb641e1d65c673dc7a5
+  GoogleAppMeasurement: 434cc7be25e71dc04b8d0e3079125127b330e84a
+  GoogleDataTransport: 166f9b9f82cbf60a204e8fe2daa9db3e3ec1fb15
+  GoogleDataTransportCCTSupport: f6ab1962e9dc05ab1fb938b795e5b310209edeec
+  GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
-  Mixpanel-swift: 2cd7aac92ad4e9ba2957479c6e6db9b9170944bb
-  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
-  Realm: ba6144c74f835f7497791f6599d63a7755377b83
-  RealmSwift: 7d13b1ac4b6022a13f841e3143e7789c9e40ad0d
+  Mixpanel-swift: 39c6c0331336d7d0d5ded8936db7c96955d5c11b
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
+  Realm: fb377747e694c7deb62d402400454134fe321bee
+  RealmSwift: 1302b0ab60f3105a2b214a735eeb0938607cf16b
 
-PODFILE CHECKSUM: a444395695250cf95504286bcd37ca68c2619aba
+PODFILE CHECKSUM: ec303655df14fcff15246e3a2005a919ee9278ed
 
 COCOAPODS: 1.5.3
