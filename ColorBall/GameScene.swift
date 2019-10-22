@@ -130,7 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func didMove(to view: SKView) {
         if game.isReversedMode {
-            spinMultiplier = 0.7
+            spinMultiplier = 0.6
         } else {
             spinMultiplier = Double(CGFloat(game.spinVar / CGFloat(game.slotsOnCircle)))
         }
@@ -167,6 +167,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isHolding = true
 
             let middle = size.width / 2
+        
 
             if let touch = touches.first {
                 let touchX = touch.location(in: view).x
@@ -238,7 +239,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 getCircleValues()
                 if !game.isReversedMode {
                   if (CGFloat(spinMultiplier) < ((game.spinVar + game.rotationSpeedIncrement) / CGFloat(game.slotsOnCircle) * 1.2)) {
-                      spinMultiplier += 0.5 // wie schnell es schneller wird
+                      spinMultiplier += 0.8 // wie schnell es schneller wird
                   }
                 }
             } else {
@@ -402,7 +403,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setupMemory() {
         let numbermemoryBalls = game.numberOfMemoryBalls
         for _ in 0..<numbermemoryBalls {
-            let MemoryIndex = randomInteger(upperBound: game.minStageForSurprises)
+            let MemoryIndex = randomInteger(upperBound: 13)
             if let existingValue = MemoryBallLocations[MemoryIndex] {
                 MemoryBallLocations.updateValue(existingValue + 1, forKey: MemoryIndex)
             } else {
@@ -538,7 +539,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thisExplosion.position = explosiony
             //fruit explosion
             if let type = UserDefaults.standard.object(forKey: Settings.TEXTURE_KEY) as? String{
-                if type == Settings.TEXTURE_FRUITS{
+                if game.isInvisibleMode {
+                    let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
+                    thisExplosion.particleTexture = explosionTexture
+                }else if type == Settings.TEXTURE_FRUITS{
                     if ball.colorType.name() == "blue"{
                         let explosionTexture = SKTexture(imageNamed: "Fruit-1")
                         thisExplosion.particleTexture = explosionTexture
@@ -616,11 +620,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let explosionTexture = SKTexture(imageNamed: "ball-8")
                         thisExplosion.particleTexture = explosionTexture
                     }
-                    
-                }else{
+                }else {
                     let explosionTexture = SKTexture(imageNamed: ball.colorType.name())
                     thisExplosion.particleTexture = explosionTexture
-                    }
+                }
         
         addChild(thisExplosion)
     }
@@ -750,7 +753,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.createExplosion(onBall: ball)
                     colSlots[slotIndex].unsetBall()
                     ball.physicsBody = nil
-                    if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 || self.game.isReversedMode {
+                    if self.numberSurpriseBalls == -1 || currentColumn.numOfSurprises > 0 || self.game.isReversedMode || self.game.isEndlessMode{
                         currentColumn.numOfSurprises -= 1
                         let b = self.addNewBall(toColumn: colNumber, isSurprise: true)
                         self.Circle.addChild(b)
@@ -778,6 +781,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // - 2. remove this ball
                 // - 3. set the next ball's falling property to true
                 ball.run(wait) {
+
                     ball.fillColor = UIColor.clear
                     ball.strokeColor = UIColor.clear
                     // fixes a bug with endless mode when ball does not disapear
@@ -932,12 +936,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let numTypes = ballColorInventory.count
         if numTypes == 1 {
             // if only one color is left, add the flash-to-white actions first
-            actionsToRun.append(SKAction.colorize(with: .white, colorBlendFactor: 1.0, duration: 0.5))
-            actionsToRun.append(SKAction.colorize(with: .white, colorBlendFactor: 1.0, duration: 0.5))
+            actionsToRun.append(SKAction.colorize(with: .white, colorBlendFactor: 1.0, duration: 0.3))
+            actionsToRun.append(SKAction.colorize(with: .white, colorBlendFactor: 1.0, duration: 0.3))
         }
-      
+        if numTypes == 1{
+             actionsToRun.append(SKAction.colorize(with: ball.fillColor, colorBlendFactor: 1.0, duration: 0.4))
+        }else {
+            actionsToRun.append(SKAction.colorize(with: ball.fillColor, colorBlendFactor: 1.0, duration: duration))
+        }
         // add the final colorize action last
-        actionsToRun.append(SKAction.colorize(with: ball.fillColor, colorBlendFactor: 1.0, duration: duration))
+       
 
         let actionSequence = SKAction.sequence(actionsToRun)
       

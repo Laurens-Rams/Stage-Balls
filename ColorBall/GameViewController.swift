@@ -135,7 +135,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
     }
     func starttimer(){
-        if game.numberBallsInQueue < 40 {
+        if game.isEndlessMode || game.isReversedMode{
+            scoreLabel.text = String(game.numberBallsInQueue)
+        }else if game.numberBallsInQueue < 40 {
         let interval = (0.05)
         let _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(interval), repeats: false, block: { timer in
             self.count()
@@ -419,10 +421,12 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
     
     func checkscorelabelsize(){
-        if game.numberBallsInQueue < 100 {
+        if game.numberBallsInQueue < 10 {
+            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 150.0)
+        }else if game.numberBallsInQueue < 100 {
             scoreLabel.font = UIFont(name: "Oregon-Regular", size: 120.0)
         } else if game.numberBallsInQueue < 1000 {
-            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 95.0)
+            scoreLabel.font = UIFont(name: "Oregon-Regular", size: 85.0)
         }
     }
 
@@ -467,6 +471,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let size = UIScreen.main.bounds.size.width * 0.55
         pauseView.playButton.frame = CGRect(x: startX, y: startY, width: size, height: size)
     }
+    
     
     func unpauseGame() {
         scoreLabel.textColor = UIColor.red

@@ -97,8 +97,8 @@ class Game {
     // how often things fall
     private var _speedMultiplier: Double = 0.002
     private var _ballzapduration: CGFloat = 0.0
-    private var _rotationSpeedIncrement = CGFloat(0.15)
-    private var _spinVar = CGFloat(18.0)
+    private var _rotationSpeedIncrement = CGFloat(0.02)
+    private var _spinVar = CGFloat(15.0)
 
     // multiplier for gravity
     // this is the multiplied amount by which things fall faster
@@ -578,7 +578,7 @@ class Game {
             }
 
             if _isMemoryMode {
-                let frequency = 3
+                let frequency = 5
               //  let baseAmountToAdd = _stage - 1
                 let highestVariableStage = 13
                 
@@ -588,10 +588,10 @@ class Game {
                 }
                 
                 let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
-                if _stage < 46{
+                if _stage < 38{
                     return highestVariableStage + multiplesOfFrequency
                 }else{
-                    return 24
+                    return 18
                 }
             }
 
@@ -604,15 +604,15 @@ class Game {
                 }else if _stage >= 3{
                     // every 4 balls 1 new ball until stage 35 that makes 8
                     let multiplesOfFrequency = Int(round(Double((_stage - 2) / 4)))
-                    if _stage < 35{
+                    if _stage < 23{
                         return 14 + multiplesOfFrequency
                     } else {
-                        return 22
+                        return 18
                     }
                 }
             }
 
-            let frequency = 3
+            let frequency = 7
             let baseAmountToAdd = _stage - 1
             let highestVariableStage = 13
             
@@ -634,11 +634,10 @@ class Game {
             }
             
             let multiplesOfFrequency = Int(round(Double((_stage - highestVariableStage) / frequency)))
-            print("higth", multiplesOfFrequency)
-            if _stage < 40{ // bis 22
+            if _stage < 48{ // bis 18
                 return highestVariableStage + multiplesOfFrequency
             } else {
-                return 22
+                return 18
             }
         }
     }
@@ -708,23 +707,26 @@ class Game {
             if _isMemoryMode == true{
                 if _stage == 1{
                     return 2
-                }else if _stage == 2 {
+                }else if _stage <= 3 {
                     return 3
-                }else if _stage <= 3{
+                }else if _stage <= 5{
                     return 4
-                }else if _stage <= 8{
+                }else if _stage <= 15{
+                    return 5
+                }else if _stage <= 20{
                     return 6
-                }else if _stage <= 9{
+                }else if _stage <= 22{
+                    return 7
+                }else if _stage <= 24{
                     return 8
-                }else if _stage <= 10{
+                }else if _stage <= 26{
                     return 9
-                }else if _stage <= 11{
+                }else if _stage <= 28{
                     return 10
                 }else{
                     return 11
                 }
             }
-
             return 0
         }
     }
@@ -742,9 +744,6 @@ class Game {
                 return -1
             }
             // use same as in stage
-            if isInvisibleMode{
-
-            }
             if _stage < _minStageForSurprises { // 7
                 return 0
             }
@@ -832,7 +831,7 @@ class Game {
             if isReversedMode{
                 return 0.03
             } else if isEndlessMode{
-                return 0.05
+                return 0.125
             } else{
                 return 0.125
             }
@@ -985,6 +984,7 @@ class Game {
      How high the balls should be able to stack (read-only getter).
      */
     // the height
+    // not in use
     var slotsPerColumn: Int {
         get {
             if _stage < 13 { return _slotsPerColumn } // 1-12 = 2
