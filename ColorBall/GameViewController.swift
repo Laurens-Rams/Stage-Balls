@@ -68,6 +68,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         super.viewWillAppear(animated)
         rewardLabel.alpha = 0.0
         checkscorelabelsize()
+        firstInstructions()
     }
     
     func getRewardMessages() {
@@ -128,9 +129,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     }
 
     func count(){
-        currentcount += 1
         scoreLabel.text = String(currentcount)
         if currentcount < game.numberBallsInQueue {
+            currentcount += 1
             starttimer()
         }
     }
@@ -694,6 +695,23 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         }
     }
 
+    func firstInstructions(){
+        UIView.animate(withDuration: 0.5, delay: 1.0, options: .curveEaseIn, animations: {
+            if self.game.stage == 1 {
+                self.rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+                self.rewardLabel.alpha = 1.0
+                self.rewardLabel.text = "Tap Left or Right"
+            }else if self.game.stage == 2{
+                self.rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
+                self.rewardLabel.alpha = 1.0
+                self.rewardLabel.text = "Hold to spin"
+                
+            }
+        }) { (finished) in
+           
+        }
+       
+    }
     func handleNextStage() {
         var keyForSavedCurrentStage = Settings.CURRENT_STAGE_KEY
         if gameMode == Settings.GAME_MODE_ENDLESS {
@@ -783,6 +801,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         camera.removeFromParent()
         camera = SKCameraNode()
         setupGame(animateBackground: true)
+        firstInstructions()
     }
 
     func showaltmenu() {
