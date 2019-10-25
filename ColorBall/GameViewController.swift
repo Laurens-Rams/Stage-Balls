@@ -484,7 +484,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
         let _ = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true, block: { timer in
             countdown -= 1
             self.scoreLabel.text = "\(countdown)"
-            if countdown == 0 {
+            if countdown == 1 {
                 timer.invalidate()
                 if let lastBall = self.scene.fallingBalls.last {
                     self.scene.startFallTimer(ball: lastBall)

@@ -156,11 +156,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
     
     func submitGameCenter(){
-        //EMILY?
-        let freeunlockedStages = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
-        if freeunlockedStages{
-            print("not submitted to GameCenter")
-        }else {
+
         if gameMode == Settings.GAME_MODE_ENDLESS {
             //GC
             if let scoreGameCenterEndless = defaults.object(forKey: Settings.HIGH_SCORE_KEY_ENDLESS) as? Int64 {
@@ -237,8 +233,7 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
             }
         }
     }
-        
-    }
+    
 
     func setStageLabel() {
         if gameMode == Settings.GAME_MODE_ENDLESS {
