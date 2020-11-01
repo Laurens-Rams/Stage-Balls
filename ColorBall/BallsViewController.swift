@@ -8,7 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
-import Firebase
+//import Firebase
 
 class BallsViewController: UIViewController, GADInterstitialDelegate {
     @IBOutlet weak var fruitsButton: UIButton!

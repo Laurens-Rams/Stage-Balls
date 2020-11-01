@@ -701,6 +701,9 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
                 self.rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
                 self.rewardLabel.alpha = 1.0
                 self.rewardLabel.text = "Tap Left or Right"
+                if self.gameMode == Settings.GAME_MODE_ENDLESS {
+                    self.rewardLabel.alpha = 0.0
+                }
             }else if self.game.stage == 2{
                 self.rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
                 self.rewardLabel.alpha = 1.0
