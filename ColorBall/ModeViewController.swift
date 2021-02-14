@@ -180,6 +180,7 @@ class ModeViewController: UIViewController{
     @IBOutlet weak var invisibleTriesLabel: TriesLabel!
   
     var products = [SKProduct]()
+    var afterSelection: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -303,6 +304,7 @@ class ModeViewController: UIViewController{
         // are all the modes going to have their own sets of textures? that's cool.
         UserDefaults.standard.set(Settings.TEXTURE_KEY_STAGE, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
+        afterModeSelection()
     }
 
     @IBAction func endlessMode(_ sender: Any) {
@@ -378,6 +380,7 @@ class ModeViewController: UIViewController{
         UserDefaults.standard.set(Settings.GAME_MODE_ENDLESS, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_ENDLESS, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
+        afterModeSelection()
     }
 
     @IBAction func memoryMode(_ sender: Any) {
@@ -388,6 +391,7 @@ class ModeViewController: UIViewController{
         UserDefaults.standard.set(Settings.GAME_MODE_MEMORY, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_MEMORY, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
+        afterModeSelection()
     }
 
     @IBAction func reversedMode(_ sender: Any) {
@@ -398,6 +402,7 @@ class ModeViewController: UIViewController{
         UserDefaults.standard.set(Settings.GAME_MODE_REVERSED, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_REVERSED, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
+        afterModeSelection()
     }
   
     @IBAction func invisibleMode(_ sender: Any) {
@@ -408,24 +413,27 @@ class ModeViewController: UIViewController{
         UserDefaults.standard.set(Settings.GAME_MODE_INVISIBLE, forKey: Settings.GAME_MODE_KEY)
         UserDefaults.standard.set(Settings.TEXTURE_KEY_INVISIBLE, forKey: Settings.TEXTURE_KEY_MODE)
         toggleModeButtons()
+        afterModeSelection()
     }
 
     func checkForPurchased() {
         let freeunlocked = UserDefaults.standard.bool(forKey: Settings.UNLOCK_FREE_MODES)
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) || freeunlocked{
-            memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
-        }
+        DispatchQueue.main.async {
+            if StageBallsProducts.store.isProductPurchased(StageBallsProducts.MemoryModeProductId) || freeunlocked{
+                self.memoryButton.setImage(#imageLiteral(resourceName: "memoryMode"), for: .normal)
+            }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) || freeunlocked {
-            endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
-        }
+            if StageBallsProducts.store.isProductPurchased(StageBallsProducts.EndlessModeProductId) || freeunlocked {
+                self.endlessButton.setImage(#imageLiteral(resourceName: "endlessMode"), for: .normal)
+            }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) || freeunlocked {
-            reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
-        }
+            if StageBallsProducts.store.isProductPurchased(StageBallsProducts.ReversedModeProductId) || freeunlocked {
+                self.reversedButton.setImage(#imageLiteral(resourceName: "unlockReversedunlocked"), for: .normal)
+            }
 
-        if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) || freeunlocked {
-            invisibleButton.setImage(#imageLiteral(resourceName: "unlockInvisible"), for: .normal)
+            if StageBallsProducts.store.isProductPurchased(StageBallsProducts.InvisibleModeProductId) || freeunlocked {
+                self.invisibleButton.setImage(#imageLiteral(resourceName: "unlockInvisible"), for: .normal)
+            }
         }
     }
 
@@ -437,11 +445,15 @@ class ModeViewController: UIViewController{
                     if button == invisibleButton {
                         button.alpha = 0.8
                     }else{
-                    button.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                        DispatchQueue.main.async {
+                            button.backgroundColor = UIColor(red: 225/255, green: 225/255, blue: 225/255, alpha: 1.0)
+                        }
                     }
                 } else {
-                    button.backgroundColor = UIColor.clear
-                    button.alpha = 1.0
+                    DispatchQueue.main.async {
+                        button.backgroundColor = UIColor.clear
+                        button.alpha = 1.0
+                    }
                 }
             }
         }
@@ -474,6 +486,16 @@ class ModeViewController: UIViewController{
                 setButtonTextures(activeButton: invisibleButton)
             } else {
                 setButtonTextures(activeButton: stageButton)
+            }
+        }
+    }
+    
+    func afterModeSelection() {
+        print("~~~~~~~~~~~~~~ mode vc PRE-DISMISS")
+        DispatchQueue.main.async {
+            self.dismiss(animated: true) {
+                print("~~~~~~~~~~~~~~ mode vc CALLING AFTER SELECTION")
+                self.afterSelection?()
             }
         }
     }

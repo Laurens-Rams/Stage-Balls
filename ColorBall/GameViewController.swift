@@ -35,7 +35,7 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
     var camera: SKCameraNode!
     var rewardnextstageStrings = ["Good job!", "Well done!", "Fantastic!", "Excellent!"]
     var rewardclose = ["You're close!", "Almost finished!", "So close!"]
-    var rewardnotclose = ["Try again", "You lose", "Not your day?"]
+    var rewardnotclose = ["Try again", "Try again", "Try again"]
     var game: Game!
     
     var gameOverController: GameOverViewControllerNew?
@@ -700,11 +700,14 @@ class GameViewController: UIViewController, StartGameDelegate, GameScoreDelegate
             if self.game.stage == 1 {
                 self.rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
                 self.rewardLabel.alpha = 1.0
-                self.rewardLabel.text = "Tap Left or Right"
+                self.rewardLabel.text = "" // Tap Left or Right
+                if self.gameMode == Settings.GAME_MODE_ENDLESS {
+                    self.rewardLabel.alpha = 0.0
+                }
             }else if self.game.stage == 2{
                 self.rewardLabel.textColor = UIColor(red: 56/255, green: 56/255, blue: 56/255, alpha: 1.0)
                 self.rewardLabel.alpha = 1.0
-                self.rewardLabel.text = "Hold to spin"
+                self.rewardLabel.text = ""
                 
             }
         }) { (finished) in

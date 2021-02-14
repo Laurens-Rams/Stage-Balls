@@ -274,8 +274,10 @@ class GameOverViewControllerNew: UIViewController, StartSceneDelegate, GKGameCen
     }
     
     func launchModeViewController() {
-        modeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "modeVC") as? ModeViewController
-        present(modeVC!, animated: false, completion: nil)
+        DispatchQueue.main.async {
+            self.modeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "modeVC") as? ModeViewController
+            self.present(self.modeVC!, animated: false, completion: nil)
+        } t
     }
     
     func launchBallsViewController() {

@@ -205,8 +205,15 @@ class StartViewController: UIViewController, StartSceneDelegate, GKGameCenterCon
         launchGameViewController()
     }
     
+    func handleCloseModeVC() {
+        // Routable
+        print("~~~~~~~~~~~~~~ start VC calling launchGame")
+        launchGame()
+    }
+
     func launchModeViewController() {
         modeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "modeVC") as? ModeViewController
+        modeVC?.afterSelection = handleCloseModeVC
         present(modeVC!, animated: false, completion: nil)
     }
     

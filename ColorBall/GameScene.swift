@@ -161,8 +161,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupFirstFallTimer()
     }
     
+    var lastTouchX = CGFloat(0);
+    var lastTouchY = CGFloat(0);
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-       if !game.isReversedMode && allowToMove == true && !isTouching && !isHolding {
+        if let touch = touches.first {
+            lastTouchX = touch.location(in: view).x
+        }
+
+        if !game.isReversedMode && allowToMove == true && !isTouching && !isHolding {
             isTouching = true
             isHolding = true
 
@@ -192,6 +199,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isHolding = false
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let touchX = touch.location(in: view).x
+            // at this point, the lastTouchX is either where thez began swiping, or the last detected swipe location
+            let touchXDifference = touchX - lastTouchX
+
+            // check the touchXDifference-- how far right did they move?
+            // then do math to see how many degrees that should be
+            
+            lastTouchX = touchX
+            print("lastTouchX", lastTouchX)
+        }
+    }
     // MARK: custom update, animation, and movement methods
     
     /**
@@ -487,6 +507,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func getCircleValues() {
         Circle.lastTickPosition = Circle.zRotation
+        // assuming you know the x difference calculated in `touchesMoved`, you can use that distance to determine the next tick position
+        // remember: this also needs to sync up with where the balls are located around the edge of the circle, and they may have only
+        // moved far enough so that it stops moving between two balls
         Circle.nextTickPosition = Circle.lastTickPosition + (((CGFloat(Double.pi) * 2) / CGFloat(game.slotsOnCircle) * direction))
         canMove = true
     }
